@@ -1,0 +1,11 @@
+{
+  "name": "blackjack-trivia",
+  "version": "1.0.0",
+  "description": "A game that combines Blackjack and Trivia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Johnaven Dubose",
+  "license": "ISC"
+}
