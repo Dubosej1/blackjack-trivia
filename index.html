@@ -19,21 +19,34 @@
     <p>Bank: <span class="bank">---</span></p>
 
     <label for="betValue">How much to bet:</label>
-    <input type="text" id="betValue" name="betValue" /><br /><br />
-    <button type="button" class="btn__submitBetValue">Submit</button>
-    <p>Current Bet Amount: <span class="betAmount">---</span></p>
+    <input type="text" id="betValue" name="betValue" />
+    <button type="button" class="btn__submitBetValue">Submit</button
+    ><br /><br />
 
-    <p>Dealer's Cards: <span class="dealerCards">Here</span></p>
-    <p>Dealer's Total: <span class="dealerTotal">Here</span></p>
-    <p>Player's Cards: <span class="playerCards">Here</span></p>
-    <p>Player's Total: <span class="playerTotal">Here</span></p>
+    <label for="insuranceBetValue">Insurance Bet:</label>
+    <input type="text" id="insuranceBetValue" name="insuranceBetValue" />
+    <button type="button" class="btn__submitInsuranceBetValue">Submit</button
+    ><br /><br />
+
+    <p>Current Bet Amount: <span class="betAmount">---</span></p>
+    <p>Split Hand Bet Amount: <span class="splitBetAmount">---</span></p>
+    <p>Current Insurance Amount: <span class="insuranceBetAmount">---</span></p>
+    <br />
+
+    <p>Dealer's Cards: <span class="dealerHand">Here</span></p>
+    <p>Dealer's Total: <span class="dealerHandTotal">Here</span></p>
+    <p>Player's Cards: <span class="playerHand">Here</span></p>
+    <p>Player's Total: <span class="playerHandTotal">Here</span></p>
+    <p>Player's Split Cards: <span class="playerSplitHand">Here</span></p>
+    <p>Player's Split Total: <span class="playerSplitHandTotal">Here</span></p>
 
     <button class="btn btn__dealCards">Deal</button>
     <button class="btn btn__hit">Hit</button>
     <button class="btn btn__stand">Stand</button>
     <button class="btn btn__doubleDown">Double Down</button>
     <button class="btn btn__split">Split</button>
-    <button class="btn btn__insurance">Insurance</button>
+    <button class="btn btn__acceptInsurance">Accept Insurance</button>
+    <button class="btn btn__declineInsurance">Decline Insurance</button>
 
     <script src="index.js" async defer></script>
   </body>

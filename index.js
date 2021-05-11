@@ -1,32 +1,45 @@
 //Selectors
 
-//To Do next: dealerStand.
-
 const newGameBtn = document.querySelector(".btn__newGame");
 const endGameBtn = document.querySelector(".btn__endGame");
 const submitBetBtn = document.querySelector(".btn__submitBetValue");
+const submitInsuranceBetBtn = document.querySelector(
+  ".btn__submitInsuranceBetValue"
+);
 const dealCardsBtn = document.querySelector(".btn__dealCards");
 const hitBtn = document.querySelector(".btn__hit");
 const standBtn = document.querySelector(".btn__stand");
 const doubleDownBtn = document.querySelector(".btn__doubleDown");
 const splitBtn = document.querySelector(".btn__split");
-const insuranceBtn = document.querySelector(".btn__insurance");
+const acceptInsuranceBtn = document.querySelector(".btn__acceptInsurance");
+const declineInsuranceBtn = document.querySelector(".btn__declineInsurance");
 
 const noticeUI = document.querySelector(".notice");
 const scoreUI = document.querySelector(".score");
 const bankUI = document.querySelector(".bank");
 const betAmountUI = document.querySelector(".betAmount");
+const splitBetAmountUI = document.querySelector(".splitBetAmount");
+const insuranceBetAmountUI = document.querySelector(".insuranceBetAmount");
 const betValueField = document.querySelector("#betValue");
-const dealerCardsUI = document.querySelector(".dealerCards");
-const dealerTotalUI = document.querySelector(".dealerTotal");
-const playerCardsUI = document.querySelector(".playerCards");
-const playerTotalUI = document.querySelector(".playerTotal");
+const insuranceBetValueField = document.querySelector("#insuranceBetValue");
+const dealerHandUI = document.querySelector(".dealerHand");
+const dealerHandTotalUI = document.querySelector(".dealerHandTotal");
+const playerHandUI = document.querySelector(".playerHand");
+const playerHandTotalUI = document.querySelector(".playerHandTotal");
+const playerSplitHandUI = document.querySelector(".playerSplitHand");
+const playerSplitHandTotalUI = document.querySelector(".playerSplitHandTotal");
 
-let bank, betAmount, playerCardTotal, dealerCardTotal;
-let deckID;
-let dealerTimer;
-let playerCards = [];
-let dealerCards = [];
+//Variables
+
+let bank, betAmount, playerHandTotal, dealerHandTotal;
+let deckID, insuranceBetPlaced, insuranceStopGameGuard, insuranceAlreadyChecked;
+let playerTimer, dealerTimer, playerCurrentAction;
+let splitMode, splitBetAmount, playerSplitHandTotal, currentPlayerHand;
+let playerHand = [];
+let playerSplitHand = [];
+let dealerHand = [];
+
+//Buttons
 
 newGameBtn.addEventListener("click", startNewGame);
 
@@ -45,7 +58,7 @@ function startNewRound() {
 }
 
 function submitBet() {
-  betAmount = betValueField.value;
+  betAmount = Number(betValueField.value);
   bank = bank - betAmount;
   bankUI.textContent = bank;
   betAmountUI.textContent = betAmount;
@@ -61,119 +74,275 @@ function initialDeal() {
   dealPlayerCards(deckID);
 
   hitBtn.addEventListener("click", function () {
-    playerHit(deckID);
+    playerCurrentAction = "hit";
+    if (!insuranceAlreadyChecked) checkInsurance();
+    if (insuranceStopGameGuard) return;
+    if (splitMode) {
+      if (currentPlayerHand == 1) {
+        playerHit(deckID, playerHand);
+        return;
+      } else {
+        playerHit(deckID, playerSplitHand);
+        return;
+      }
+    }
+    playerHit(deckID, playerHand);
   });
   standBtn.addEventListener("click", function () {
+    playerCurrentAction = "stand";
+    if (!insuranceAlreadyChecked) checkInsurance();
+    if (insuranceStopGameGuard) return;
+    if (splitMode && currentPlayerHand == 1) {
+      currentPlayerHand = 2;
+      noticeUI.textContent = `Please play 2nd split hand`;
+      return;
+    }
     noticeUI.textContent = `Dealer's turn...`;
     dealerTimer = setTimeout(dealerTurn, 3000);
   });
+  doubleDownBtn.addEventListener("click", function () {
+    playerCurrentAction = "doubleDown";
+    if (!insuranceAlreadyChecked) checkInsurance();
+    if (insuranceStopGameGuard) return;
+    bank = bank - betAmount;
+    betAmount = betAmount * 2;
+    bankUI.textContent = bank;
+    betAmountUI.textContent = betAmount;
+    noticeUI.textContent = `Player doubles down...`;
+    playerHit(deckID);
+    dealerTimer = setTimeout(dealerTurn, 3000);
+  });
+  splitBtn.addEventListener("click", function () {
+    playerCurrentAction = "split";
+    if (!insuranceAlreadyChecked) checkInsurance();
+    if (insuranceStopGameGuard) return;
+    noticeUI.textContent = `Player splits hand...`;
+    splitPlayerHand();
+    // dealerTimer = setTimeout(dealerTurn, 3000);
+  });
   //   doubleDownBtn.addEventListener("click", playerDoubleDown);
+}
+
+function splitPlayerHand() {
+  splitMode = true;
+  let poppedCard = playerHand.pop();
+
+  playerSplitHand.push(poppedCard);
+
+  drawCards(deckID, 2)
+    .then(function (cardsObj) {
+      playerHand.push(cardsObj.card1);
+      playerSplitHand.push(cardsObj.card2);
+      console.log(`split`);
+      console.log(playerHand);
+      console.log(playerSplitHand);
+      return playerHand;
+      // updateUI();
+    })
+    .then(function (playerHand) {
+      updatePlayerUI(playerHand, playerSplitHand);
+    });
+
+  splitBetAmount = betAmount;
+  bank = bank - splitBetAmount;
+  bankUI.textContent = bank;
+  splitBetAmountUI.textContent = splitBetAmount;
+
+  currentPlayerHand = 1;
 }
 
 function dealPlayerCards(deckID) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      playerCards.push(cardsObj.card1);
-      playerCards.push(cardsObj.card2);
+      playerHand.push(cardsObj.card1);
+      playerHand.push(cardsObj.card2);
       console.log(`dealPlayerCards`);
-      console.log(playerCards);
-      return playerCards;
+      console.log(playerHand);
+      return playerHand;
       // updateUI();
     })
-    .then(function (playerCards) {
-      updatePlayerUI(playerCards);
+    .then(function (playerHand) {
+      updatePlayerUI(playerHand);
     });
 }
 
 function dealDealerCards(deckID) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      dealerCards.push(cardsObj.card1);
-      dealerCards.push(cardsObj.card2);
+      dealerHand.push(cardsObj.card1);
+      dealerHand.push(cardsObj.card2);
       console.log(`dealDealerCards`);
-      console.log(dealerCards);
-      return dealerCards;
+      console.log(dealerHand);
+      return dealerHand;
     })
-    .then(function (playerCards) {
-      updateDealerUI(playerCards);
+    .then(function (dealerHand) {
+      updateDealerUI(dealerHand);
     });
 }
 
-function playerHit(deckID) {
+function playerHit(deckID, arr) {
   drawSingleCard(deckID)
     .then(function (cardsObj) {
-      playerCards.push(cardsObj);
+      arr.push(cardsObj);
       console.log(`dealPlayerCards`);
-      console.log(playerCards);
-      return playerCards;
+      console.log(arr);
+      return arr;
     })
-    .then(function (playerCards) {
-      updatePlayerUI(playerCards);
+    .then(function (arr) {
+      if (splitMode) {
+        if (currentPlayerHand == 1) updatePlayerUI(arr, playerSplitHand);
+        if (currentPlayerHand == 2) updatePlayerUI(playerHand, arr);
+        return;
+      }
+      updatePlayerUI(arr);
     });
 }
 
 function dealerHit(deckID) {
   drawSingleCard(deckID)
     .then(function (cardsObj) {
-      dealerCards.push(cardsObj);
+      dealerHand.push(cardsObj);
       console.log(`dealDealerCards`);
-      console.log(dealerCards);
-      return dealerCards;
+      console.log(dealerHand);
+      return dealerHand;
     })
-    .then(function (dealerCards) {
-      updateDealerUI(dealerCards);
+    .then(function (dealerHand) {
+      updateDealerUI(dealerHand);
     });
 }
 
 function dealerTurn() {
-  if (dealerCardTotal <= 16) {
+  if (dealerHandTotal <= 16) {
     noticeUI.textContent = `Dealer Hits...`;
     dealerHit(deckID);
     dealerTimer = setTimeout(dealerTurn, 3000);
     return;
   } else {
     noticeUI.textContent = `Dealer's Turn Ends...`;
-    dealerTimer = setTimeout(chooseWinner, 3000);
+    dealerTimer = setTimeout(endRound, 3000);
     return;
   }
 }
 
-function chooseWinner() {
+function endRound() {
+  if (splitMode) {
+    let playerSplitHand1 = chooseWinner(playerHandTotal, betAmount);
+    let playerSplitHand2 = chooseWinner(playerSplitHandTotal, splitBetAmount);
+
+    gameOutcomeUI(playerSplitHand1, playerSplitHand2);
+    return;
+  }
+
+  let playerSplitHand1 = chooseWinner(playerHandTotal, betAmount);
+  gameOutcomeUI(playerSplitHand1);
+}
+
+function chooseWinner(playerHandTotal, betAmount) {
+  let outcomeNoticeText;
+
+  //   switch (true) {
+  //     case playerHandTotal > 21:
+  //       noticeUI.textContent = `Player loses. Bust...`;
+  //       break;
+  //     case dealerHandTotal > 21:
+  //       noticeUI.textContent = `Player Wins!  Dealer busts...`;
+  //       bank = bank + betAmount * 2;
+  //       break;
+  //     case dealerHandTotal == 21 && playerHandTotal == 21 && !insuranceBetPlaced:
+  //       noticeUI.textContent = `Push.  Both players have blackjack`;
+  //       bank = bank + betAmount;
+  //       break;
+  //     case dealerHandTotal == 21 && playerHandTotal == 21 && insuranceBetPlaced:
+  //       noticeUI.textContent = `Push.  Both players have blackjack. Player wins insurance bet.`;
+  //       bank = bank + betAmount;
+  //       break;
+  //     case playerHandTotal == 21:
+  //       noticeUI.textContent = `Player Wins.  Blackjack!`;
+  //       bank = bank + betAmount * 2 + Math.round(betAmount / 2);
+  //       break;
+  //     case dealerHandTotal == 21 && !insuranceBetPlaced:
+  //       noticeUI.textContent = `Player Loses.  Dealer Blackjack.`;
+  //       break;
+  //     case dealerHandTotal == 21 && insuranceBetPlaced:
+  //       noticeUI.textContent = `Dealer Blackjack.  Player wins insurance bet only.`;
+  //       break;
+  //     case dealerHandTotal > playerHandTotal:
+  //       noticeUI.textContent = `Dealer Wins.`;
+  //       break;
+  //     case dealerHandTotal == playerHandTotal:
+  //       noticeUI.textContent = `Push.`;
+  //       bank = bank + betAmount;
+  //       break;
+  //     default:
+  //       noticeUI.textContent = `Player Wins!`;
+  //       bank = bank + betAmount * 2;
+  //       break;
+  //   }
+
   switch (true) {
-    case playerCardTotal > 21:
-      noticeUI.textContent = `Player loses. Bust...`;
+    case playerHandTotal > 21:
+      outcomeNoticeText = `Player loses. Bust...`;
       break;
-    case dealerCardTotal > 21:
-      noticeUI.textContent = `Player Wins!  Dealer busts...`;
+    case dealerHandTotal > 21:
+      outcomeNoticeText = `Player Wins!  Dealer busts...`;
+      bank = bank + betAmount * 2;
       break;
-    case dealerCardTotal == 21 && playerCardTotal == 21:
-      noticeUI.textContent = `Push.  Both players have blackjack`;
+    case dealerHandTotal == 21 && playerHandTotal == 21 && !insuranceBetPlaced:
+      outcomeNoticeText = `Push.  Both players have blackjack`;
+      bank = bank + betAmount;
       break;
-    case playerCardTotal == 21:
-      noticeUI.textContent = `Player Wins.  Blackjack!`;
+    case dealerHandTotal == 21 && playerHandTotal == 21 && insuranceBetPlaced:
+      outcomeNoticeText = `Push.  Both players have blackjack. Player wins insurance bet.`;
+      bank = bank + betAmount;
       break;
-    case dealerCardTotal == 21:
-      noticeUI.textContent = `Player Loses.  Dealer Blackjack.`;
+    case playerHandTotal == 21:
+      outcomeNoticeText = `Player Wins.  Blackjack!`;
+      bank = bank + betAmount * 2 + Math.round(betAmount / 2);
       break;
-    case dealerCardTotal > playerCardTotal:
-      noticeUI.textContent = `Dealer Wins.`;
+    case dealerHandTotal == 21 && !insuranceBetPlaced:
+      outcomeNoticeText = `Player Loses.  Dealer Blackjack.`;
       break;
-    case dealerCardTotal == playerCardTotal:
-      noticeUI.textContent = `Push.`;
+    case dealerHandTotal == 21 && insuranceBetPlaced:
+      outcomeNoticeText = `Dealer Blackjack.  Player wins insurance bet only.`;
+      break;
+    case dealerHandTotal > playerHandTotal:
+      outcomeNoticeText = `Dealer Wins.`;
+      break;
+    case dealerHandTotal == playerHandTotal:
+      outcomeNoticeText = `Push.`;
+      bank = bank + betAmount;
       break;
     default:
-      noticeUI.textContent = `Player Wins!`;
+      outcomeNoticeText = `Player Wins!`;
+      bank = bank + betAmount * 2;
       break;
+  }
+
+  let player = { gameOutcome: outcomeNoticeText, betAmount: betAmount };
+
+  return player;
+}
+
+function gameOutcomeUI(hand1, hand2 = null) {
+  bankUI.textContent = bank;
+
+  if (splitMode) {
+    noticeUI.innerHTML = `Hand 1: ${hand1.gameOutcome}<br>Hand 2: ${hand2.gameOutcome}`;
+    betAmountUI.textContent = hand1.betAmount;
+    splitBetAmountUI.textContent = hand2.betAmount;
+  } else {
+    noticeUI.textContent = hand1.gameOutcome;
+    betAmountUI.textContent = hand1.betAmount;
   }
 }
 
-//       if (dealerCardTotal == 21 && playerCardTotal == 21) {
+//       if (dealerHandTotal == 21 && playerHandTotal == 21) {
 //           noticeUI.textContent = `Push.  Both players have blackjack.`;
-//       } else if (dealerCardTotal == 21) {
+//       } else if (dealerHandTotal == 21) {
 //           noticeUI.textContent = `Player Loses.  Dealer Blackjack.`;
-//       } else if (dealerCardTotal > 21) {
+//       } else if (dealerHandTotal > 21) {
 //           noticeUI.textContent = `Player Wins!  Dealer Busts.`;
-//       } else if (dealerCardTotal > playerCardTotal)
+//       } else if (dealerHandTotal > playerHandTotal)
 //   }
 
 const drawSingleCard = function (deckID) {
@@ -185,7 +354,7 @@ const drawSingleCard = function (deckID) {
     .then(function (data) {
       let cardData = data.cards;
       let card = {
-        value: getCardValue(cardData[0].value),
+        value: cardData[0].value,
         code: cardData[0].code,
         image: cardData[0].image,
         remaining: data.remaining,
@@ -227,60 +396,109 @@ function getCardValue(value) {
   return num;
 }
 
-function updatePlayerUI(playerCards) {
+function updatePlayerUI(arr, arr2 = null) {
   console.log(`Update UI:`);
-  console.log(playerCards);
+  console.log(arr);
 
-  let cardUI = [];
-  let cardsValue = [];
-  let cardNumValue = [];
+  let card1UI = [];
+  let cards1Value = [];
 
-  for (let card of playerCards) {
-    cardUI.push(card.code);
-    cardsValue.push(card.value);
+  let card2UI = [];
+  let cards2Value = [];
+
+  for (let card of arr) {
+    card1UI.push(card.code);
+    cards1Value.push(card.value);
   }
 
-  playerCardTotal = getPlayerValue(cardsValue);
+  if (splitMode) {
+    for (let card of arr2) {
+      card2UI.push(card.code);
+      cards2Value.push(card.value);
+    }
 
-  playerTotalUI.textContent = playerCardTotal;
-  playerCardsUI.textContent = cardUI.join();
+    playerSplitHandTotal = getPlayerValue(cards2Value);
 
-  if (
-    (playerCardTotal == 21 && playerCards.length == 2) ||
-    playerCardTotal > 21
-  ) {
-    chooseWinner();
+    playerSplitHandTotalUI.textContent = playerSplitHandTotal;
+    playerSplitHandUI.textContent = card2UI.join();
   }
 
-  //   if (playerCardTotal = 21 && playerCards.length = 2) {
-  //       playerBlackJackRoutine();
-  //       noticeUI.textContent = `Player Blackjack!  You Win!!!`;
-  //     //   playerWinRoutine();
-  //   }
+  //   if (splitMode && currentPlayerHand == 2) {
+  //     playerSplitHandTotal = getPlayerValue(cardsValue);
 
-  //   if (playerCardTotal > 21) {
-  //       noticeUI.textContent = `Player Bust.  You Lose!`;
-  //       playerBustRoutine();
-  //   }
+  //     playerSplitHandTotalUI.textContent = playerSplitHandTotal;
+  //     playerSplitHandUI = cardUI.join();
+  //   } else {
+  playerHandTotal = getPlayerValue(cards1Value);
+
+  playerHandTotalUI.textContent = playerHandTotal;
+  playerHandUI.textContent = card1UI.join();
+
+  if (playerHand.length == 2 || playerSplitHand.length == 2) {
+    checkNaturalBlackjack();
+  }
+
+  checkBust();
 }
 
-function updateDealerUI(dealerCards) {
+function checkNaturalBlackjack() {
+  //   if (
+  //     (playerHandTotal == 21 && playerHand.length == 2) ||
+  //     playerHandTotal > 21
+  //   ) {
+  //     chooseWinner();
+  //   }
+
+  if (splitMode) {
+    if (currentPlayerHand == 1 && playerHandTotal == 21) {
+      currentPlayerHand = 2;
+    } else if (currentPlayerHand == 2 && playerSplitHandTotal == 21) {
+      dealerTurn();
+    }
+  } else {
+    if (playerHandTotal == 21) endRound();
+  }
+}
+
+function checkBust() {
+  if (splitMode) {
+    if (currentPlayerHand == 1 && playerHandTotal > 21) {
+      currentPlayerHand = 2;
+    } else if (currentPlayerHand == 2 && playerSplitHandTotal > 21) {
+      dealerTurn();
+    }
+  } else {
+    if (playerHandTotal > 21) endRound();
+  }
+}
+
+//   if (playerHandTotal = 21 && playerHand.length = 2) {
+//       playerBlackJackRoutine();
+//       noticeUI.textContent = `Player Blackjack!  You Win!!!`;
+//     //   playerWinRoutine();
+//   }
+
+//   if (playerHandTotal > 21) {
+//       noticeUI.textContent = `Player Bust.  You Lose!`;
+//       playerBustRoutine();
+//   }
+
+function updateDealerUI(dealerHand) {
   console.log(`Update Dealer UI:`);
-  console.log(dealerCards);
+  console.log(dealerHand);
 
   let cardUI = [];
   let cardsValue = [];
-  let cardNumValue = [];
 
-  for (let card of dealerCards) {
+  for (let card of dealerHand) {
     cardUI.push(card.code);
     cardsValue.push(card.value);
   }
 
-  dealerCardTotal = getPlayerValue(cardsValue);
+  dealerHandTotal = getPlayerValue(cardsValue);
 
-  dealerTotalUI.textContent = dealerCardTotal;
-  dealerCardsUI.textContent = cardUI.join();
+  dealerHandTotalUI.textContent = dealerHandTotal;
+  dealerHandUI.textContent = cardUI.join();
 }
 
 function shuffleCards(deckID) {
@@ -376,7 +594,7 @@ const drawCards = function (deckID, count) {
 };
 
 // let playerCards = drawCards(deckID, 2);
-// let dealerCards = drawCards(deckID, 2);
+// let dealerHand = drawCards(deckID, 2);
 
 // playerCards.then(function (playerCards) {});
 
@@ -387,7 +605,7 @@ const drawCards = function (deckID, count) {
 // test2.textContent = pCard2Value;
 
 // function playerBlackJackRoutine () {
-//     if (dealerCardTotal = 21) {
+//     if (dealerHandTotal = 21) {
 //         noticeUI.textContent = `Push.  Both have the same score`;
 //     } else {
 //         noticeUI.textContent = `Player BlackJack!  You Win!!!`
@@ -395,3 +613,74 @@ const drawCards = function (deckID, count) {
 // }
 
 // function playerBustRoutine ()
+
+function checkInsurance() {
+  insuranceAlreadyChecked = true;
+
+  if (!(dealerHand[1].value == "ACE")) return;
+
+  console.log(dealerHand[1].value);
+
+  noticeUI.textContent = `Insurance?`;
+
+  insuranceStopGameGuard = true;
+  acceptInsuranceBtn.addEventListener("click", function () {
+    noticeUI.textContent = `Choose an insurance bet that is half your bet amount`;
+    submitInsuranceBetBtn.addEventListener("click", insuranceLogic);
+  });
+
+  declineInsuranceBtn.addEventListener("click", function () {
+    insuranceStopGameGuard = false;
+    switch (playerCurrentAction) {
+      case "hit":
+        noticeUI.textContent = `Insurance Declined.  Player Hits...`;
+        playerTimer = setTimeout(function () {
+          playerHit(deckID);
+        }, 3000);
+        break;
+      case "doubleDown":
+        noticeUI.textContent = `Insurance Declined.  Player doubles down...`;
+        bank = bank - betAmount;
+        betAmount = betAmount * 2;
+        bankUI.textContent = bank;
+        betAmountUI.textContent = betAmount;
+        playerTimer = setTimeout(function () {
+          playerHit(deckID);
+        }, 3000);
+        break;
+      case "split":
+        noticeUI.textContent = `Insurance Declined.  Player splits hand...`;
+        playerTimer = setTimeout(splitPlayerHand, 3000);
+        break;
+      default:
+        noticeUI.textContent = `Insurance Declined. Player stands...`;
+        playerTimer = setTimeout(dealerTurn, 3000);
+        break;
+    }
+  });
+}
+
+function insuranceLogic() {
+  let insuranceBet = Number(insuranceBetValueField.value);
+
+  if (insuranceBet > Math.round(betAmount / 2)) {
+    insuranceBet = 0;
+    noticeUI.textContent = `Invalid Insurance Bet.  Please try again.`;
+    return;
+  }
+
+  //   dealerHandTotal = 21;
+
+  if (dealerHand[1].value == "ACE" && dealerHandTotal == 21) {
+    insuranceBetPlaced = true;
+    insuranceStopGameGuard = false;
+    bank = bank + insuranceBet * 2;
+    endRound();
+    return;
+  }
+
+  bank = bank - insuranceBet;
+  bankUI.textContent = bank;
+  noticeUI.textContent = `Lost Insurance Bet.  Player's Turn.`;
+  insuranceStopGameGuard = false;
+}
