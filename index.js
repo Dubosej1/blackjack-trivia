@@ -34,7 +34,11 @@ const playerSplitHandTotalUI = document.querySelector(".playerSplitHandTotal");
 let bank, betAmount, playerHandTotal, dealerHandTotal;
 let deckID, insuranceBetPlaced, insuranceStopGameGuard, insuranceAlreadyChecked;
 let playerTimer, dealerTimer, playerCurrentAction;
-let splitMode, splitBetAmount, playerSplitHandTotal, currentPlayerHand;
+let splitMode,
+  splitBetAmount,
+  playerSplitHandTotal,
+  currentPlayerHand,
+  hand2PassNeeded;
 let playerHand = [];
 let playerSplitHand = [];
 let dealerHand = [];
@@ -78,6 +82,7 @@ function initialDeal() {
     if (!insuranceAlreadyChecked) checkInsurance();
     if (insuranceStopGameGuard) return;
     if (splitMode) {
+      hand2PassNeeded = false;
       if (currentPlayerHand == 1) {
         playerHit(deckID, playerHand);
         return;
@@ -124,10 +129,13 @@ function initialDeal() {
 }
 
 function splitPlayerHand() {
-  splitMode = true;
-  let poppedCard = playerHand.pop();
+  let errorState = false;
+  if (!errorState) {
+    splitMode = true;
+    let poppedCard = playerHand.pop();
 
-  playerSplitHand.push(poppedCard);
+    playerSplitHand.push(poppedCard);
+  }
 
   drawCards(deckID, 2)
     .then(function (cardsObj) {
@@ -141,6 +149,10 @@ function splitPlayerHand() {
     })
     .then(function (playerHand) {
       updatePlayerUI(playerHand, playerSplitHand);
+    })
+    .catch((err) => {
+      // errorState = true;
+      splitPlayerHand();
     });
 
   splitBetAmount = betAmount;
@@ -163,7 +175,8 @@ function dealPlayerCards(deckID) {
     })
     .then(function (playerHand) {
       updatePlayerUI(playerHand);
-    });
+    })
+    .catch((err) => dealPlayerCards(deckID));
 }
 
 function dealDealerCards(deckID) {
@@ -177,7 +190,8 @@ function dealDealerCards(deckID) {
     })
     .then(function (dealerHand) {
       updateDealerUI(dealerHand);
-    });
+    })
+    .catch((err) => dealDealerCards(deckID));
 }
 
 function playerHit(deckID, arr) {
@@ -191,11 +205,13 @@ function playerHit(deckID, arr) {
     .then(function (arr) {
       if (splitMode) {
         if (currentPlayerHand == 1) updatePlayerUI(arr, playerSplitHand);
-        if (currentPlayerHand == 2) updatePlayerUI(playerHand, arr);
+        if (currentPlayerHand == 2 && !hand2PassNeeded)
+          updatePlayerUI(playerHand, arr);
         return;
       }
       updatePlayerUI(arr);
-    });
+    })
+    .catch((err) => drawSingleCard(deckID));
 }
 
 function dealerHit(deckID) {
@@ -208,7 +224,8 @@ function dealerHit(deckID) {
     })
     .then(function (dealerHand) {
       updateDealerUI(dealerHand);
-    });
+    })
+    .catch((err) => drawSingleCard(deckID));
 }
 
 function dealerTurn() {
@@ -451,6 +468,7 @@ function checkNaturalBlackjack() {
 
   if (splitMode) {
     if (currentPlayerHand == 1 && playerHandTotal == 21) {
+      hand2PassNeeded = true;
       currentPlayerHand = 2;
     } else if (currentPlayerHand == 2 && playerSplitHandTotal == 21) {
       dealerTurn();
@@ -463,6 +481,7 @@ function checkNaturalBlackjack() {
 function checkBust() {
   if (splitMode) {
     if (currentPlayerHand == 1 && playerHandTotal > 21) {
+      hand2PassNeeded = true;
       currentPlayerHand = 2;
     } else if (currentPlayerHand == 2 && playerSplitHandTotal > 21) {
       dealerTurn();
@@ -510,7 +529,8 @@ function shuffleCards(deckID) {
     })
     .then(function (data) {
       console.log(data);
-    });
+    })
+    .catch((err) => shuffleCards(deckID));
 }
 
 function getPlayerValue(arr) {
@@ -523,8 +543,7 @@ function getPlayerValue(arr) {
   if (total > 21 && arr.includes("ACE")) {
     let index = arr.indexOf("ACE");
     arr[index] = "ACELOW";
-    getPlayerValue(arr);
-    return;
+    total = getPlayerValue(arr);
   }
 
   console.log(total);
@@ -572,10 +591,13 @@ const drawCards = function (deckID, count) {
   return fetch(
     `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${count}`
   )
-    .then(function (response) {
-      //   console.log(response);
-      return response.json();
-    })
+    .then(
+      function (response) {
+        //   console.log(response);
+        return response.json();
+      },
+      (err) => alert(err)
+    )
     .then(function (data) {
       let [card1, card2] = data.cards;
       let playerCards = {
@@ -590,6 +612,9 @@ const drawCards = function (deckID, count) {
       console.log(card1);
 
       return playerCards;
+    })
+    .catch(function (err) {
+      drawCards(deckID, 2);
     });
 };
 
