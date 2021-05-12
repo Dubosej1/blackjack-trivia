@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
     <meta name="description" content="" />
@@ -47,6 +47,32 @@
     <button class="btn btn__split">Split</button>
     <button class="btn btn__acceptInsurance">Accept Insurance</button>
     <button class="btn btn__declineInsurance">Decline Insurance</button>
+
+    <p>Category: <span class="trivia__category"></span></p>
+    <button class="btn btn__easy">Easy</button>
+    <button class="btn btn__medium">Medium</button>
+    <button class="btn btn__hard">Hard</button>
+
+    <p>Difficulty: <span class="trivia__difficulty"></span></p>
+    <p>Question: <span class="trivia__question"></span></p>
+    <p>A: <span class="trivia__answer-a"></span></p>
+    <p>B: <span class="trivia__answer-b"></span></p>
+    <p>C: <span class="trivia__answer-c"></span></p>
+    <p>D: <span class="trivia__answer-d"></span></p>
+
+    <button class="btn btn__answer-multiple btn__answer-a">A</button>
+    <button class="btn btn__answer-multiple btn__answer-b">B</button>
+    <button class="btn btn__answer-multiple btn__answer-c">C</button>
+    <button class="btn btn__answer-multiple btn__answer-d">D</button
+    ><br /><br />
+    <button class="btn btn__answer-boolean btn__answer-true" data-ans="True">
+      True
+    </button>
+    <button class="btn btn__answer-boolean btn__answer-false" data-ans="False">
+      False
+    </button>
+
+    <p>Correct Answer: <span class="trivia__answer-correct"></span></p>
 
     <script src="index.js" async defer></script>
   </body>

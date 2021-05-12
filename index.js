@@ -14,6 +14,22 @@ const splitBtn = document.querySelector(".btn__split");
 const acceptInsuranceBtn = document.querySelector(".btn__acceptInsurance");
 const declineInsuranceBtn = document.querySelector(".btn__declineInsurance");
 
+const easyDifficultyBtn = document.querySelector(".btn__easy");
+const mediumDifficultyBtn = document.querySelector(".btn__medium");
+const hardDifficultyBtn = document.querySelector(".btn__hard");
+const answerABtn = document.querySelector(".btn__answer-a");
+const answerBBtn = document.querySelector(".btn__answer-b");
+const answerCBtn = document.querySelector(".btn__answer-c");
+const answerDBtn = document.querySelector(".btn__answer-d");
+const answerTrueBtn = document.querySelector(".btn__answer-true");
+const answerFalseBtn = document.querySelector(".btn__answer-false");
+const multipleChoiceAnswerBtns = document.querySelectorAll(
+  ".btn__answer-multiple"
+);
+const booleanChoiceAnswerBtns = document.querySelectorAll(
+  ".btn__answer-boolean"
+);
+
 const noticeUI = document.querySelector(".notice");
 const scoreUI = document.querySelector(".score");
 const bankUI = document.querySelector(".bank");
@@ -29,6 +45,15 @@ const playerHandTotalUI = document.querySelector(".playerHandTotal");
 const playerSplitHandUI = document.querySelector(".playerSplitHand");
 const playerSplitHandTotalUI = document.querySelector(".playerSplitHandTotal");
 
+const categoryTriviaUI = document.querySelector(".trivia__category");
+const difficultyTriviaUI = document.querySelector(".trivia__difficulty");
+const questionTriviaUI = document.querySelector(".trivia__question");
+const choiceATriviaUI = document.querySelector(".trivia__answer-a");
+const choiceBTriviaUI = document.querySelector(".trivia__answer-b");
+const choiceCTriviaUI = document.querySelector(".trivia__answer-c");
+const choiceDTriviaUI = document.querySelector(".trivia__answer-d");
+const correctAnswerTriviaUI = document.querySelector(".trivia__answer-correct");
+
 //Variables
 
 let bank, betAmount, playerHandTotal, dealerHandTotal;
@@ -42,6 +67,13 @@ let splitMode,
 let playerHand = [];
 let playerSplitHand = [];
 let dealerHand = [];
+let easyQuestions, mediumQuestions, hardQuestions;
+let easy = `easy`,
+  medium = `medium`,
+  hard = `hard`;
+let easyCurrentIndex = 0,
+  mediumCurrentIndex = 0,
+  hardCurrentIndex = 0;
 
 //Buttons
 
@@ -53,6 +85,16 @@ function startNewGame() {
   bank = 1000;
   bankUI.textContent = bank;
 
+  generateTriviaQuestions(easy).then((questions) => {
+    easyQuestions = questions;
+  });
+  generateTriviaQuestions(medium).then((questions) => {
+    mediumQuestions = questions;
+  });
+  generateTriviaQuestions(hard).then((questions) => {
+    hardQuestions = questions;
+  });
+
   startNewRound();
 }
 
@@ -62,6 +104,8 @@ function startNewRound() {
 }
 
 function submitBet() {
+  //   console.log(easyQuestions);
+  //   console.log(hardQuestions);
   betAmount = Number(betValueField.value);
   bank = bank - betAmount;
   bankUI.textContent = bank;
@@ -71,6 +115,34 @@ function submitBet() {
   dealCardsBtn.addEventListener("click", initialDeal);
 }
 
+const hitAction = function () {
+  playerCurrentAction = "hit";
+  if (splitMode) {
+    hand2PassNeeded = false;
+    if (currentPlayerHand == 1) {
+      playerHit(deckID, playerHand);
+      return;
+    } else {
+      playerHit(deckID, playerSplitHand);
+      return;
+    }
+  }
+  playerHit(deckID, playerHand);
+};
+
+const standAction = function () {
+  playerCurrentAction = "stand";
+  if (!insuranceAlreadyChecked) checkInsurance();
+  if (insuranceStopGameGuard) return;
+  if (splitMode && currentPlayerHand == 1) {
+    currentPlayerHand = 2;
+    noticeUI.textContent = `Please play 2nd split hand`;
+    return;
+  }
+  noticeUI.textContent = `Dealer's turn...`;
+  dealerTimer = setTimeout(dealerTurn, 3000);
+};
+
 function initialDeal() {
   shuffleCards(deckID);
 
@@ -78,33 +150,14 @@ function initialDeal() {
   dealPlayerCards(deckID);
 
   hitBtn.addEventListener("click", function () {
-    playerCurrentAction = "hit";
     if (!insuranceAlreadyChecked) checkInsurance();
     if (insuranceStopGameGuard) return;
-    if (splitMode) {
-      hand2PassNeeded = false;
-      if (currentPlayerHand == 1) {
-        playerHit(deckID, playerHand);
-        return;
-      } else {
-        playerHit(deckID, playerSplitHand);
-        return;
-      }
-    }
-    playerHit(deckID, playerHand);
+
+    selectTriviaQuestion();
   });
-  standBtn.addEventListener("click", function () {
-    playerCurrentAction = "stand";
-    if (!insuranceAlreadyChecked) checkInsurance();
-    if (insuranceStopGameGuard) return;
-    if (splitMode && currentPlayerHand == 1) {
-      currentPlayerHand = 2;
-      noticeUI.textContent = `Please play 2nd split hand`;
-      return;
-    }
-    noticeUI.textContent = `Dealer's turn...`;
-    dealerTimer = setTimeout(dealerTurn, 3000);
-  });
+
+  standBtn.addEventListener("click", standAction);
+
   doubleDownBtn.addEventListener("click", function () {
     playerCurrentAction = "doubleDown";
     if (!insuranceAlreadyChecked) checkInsurance();
@@ -117,15 +170,29 @@ function initialDeal() {
     playerHit(deckID);
     dealerTimer = setTimeout(dealerTurn, 3000);
   });
-  splitBtn.addEventListener("click", function () {
-    playerCurrentAction = "split";
-    if (!insuranceAlreadyChecked) checkInsurance();
-    if (insuranceStopGameGuard) return;
-    noticeUI.textContent = `Player splits hand...`;
+
+  splitBtn.addEventListener("click", splitBtnAction);
+}
+//   doubleDownBtn.addEventListener("click", playerDoubleDown);
+
+function checkValidSplit() {
+  let card1 = playerHand[0].value;
+  let card2 = playerHand[1].value;
+
+  if (card1 == card2) {
+    noticeUI.textContent = `Player splits hand.  Now playing Hand 1...`;
     splitPlayerHand();
-    // dealerTimer = setTimeout(dealerTurn, 3000);
-  });
-  //   doubleDownBtn.addEventListener("click", playerDoubleDown);
+  } else {
+    noticeUI.textContent = `Can't split, not a pair...`;
+  }
+}
+
+function splitBtnAction() {
+  playerCurrentAction = "split";
+  if (!insuranceAlreadyChecked) checkInsurance();
+  if (insuranceStopGameGuard) return;
+
+  checkValidSplit();
 }
 
 function splitPlayerHand() {
@@ -141,9 +208,9 @@ function splitPlayerHand() {
     .then(function (cardsObj) {
       playerHand.push(cardsObj.card1);
       playerSplitHand.push(cardsObj.card2);
-      console.log(`split`);
-      console.log(playerHand);
-      console.log(playerSplitHand);
+      //   console.log(`split`);
+      //   console.log(playerHand);
+      //   console.log(playerSplitHand);
       return playerHand;
       // updateUI();
     })
@@ -168,8 +235,8 @@ function dealPlayerCards(deckID) {
     .then(function (cardsObj) {
       playerHand.push(cardsObj.card1);
       playerHand.push(cardsObj.card2);
-      console.log(`dealPlayerCards`);
-      console.log(playerHand);
+      //   console.log(`dealPlayerCards`);
+      //   console.log(playerHand);
       return playerHand;
       // updateUI();
     })
@@ -184,8 +251,8 @@ function dealDealerCards(deckID) {
     .then(function (cardsObj) {
       dealerHand.push(cardsObj.card1);
       dealerHand.push(cardsObj.card2);
-      console.log(`dealDealerCards`);
-      console.log(dealerHand);
+      //   console.log(`dealDealerCards`);
+      //   console.log(dealerHand);
       return dealerHand;
     })
     .then(function (dealerHand) {
@@ -198,8 +265,8 @@ function playerHit(deckID, arr) {
   drawSingleCard(deckID)
     .then(function (cardsObj) {
       arr.push(cardsObj);
-      console.log(`dealPlayerCards`);
-      console.log(arr);
+      //   console.log(`dealPlayerCards`);
+      //   console.log(arr);
       return arr;
     })
     .then(function (arr) {
@@ -218,8 +285,8 @@ function dealerHit(deckID) {
   drawSingleCard(deckID)
     .then(function (cardsObj) {
       dealerHand.push(cardsObj);
-      console.log(`dealDealerCards`);
-      console.log(dealerHand);
+      //   console.log(`dealDealerCards`);
+      //   console.log(dealerHand);
       return dealerHand;
     })
     .then(function (dealerHand) {
@@ -414,8 +481,8 @@ function getCardValue(value) {
 }
 
 function updatePlayerUI(arr, arr2 = null) {
-  console.log(`Update UI:`);
-  console.log(arr);
+  //   console.log(`Update UI:`);
+  //   console.log(arr);
 
   let card1UI = [];
   let cards1Value = [];
@@ -503,8 +570,8 @@ function checkBust() {
 //   }
 
 function updateDealerUI(dealerHand) {
-  console.log(`Update Dealer UI:`);
-  console.log(dealerHand);
+  //   console.log(`Update Dealer UI:`);
+  //   console.log(dealerHand);
 
   let cardUI = [];
   let cardsValue = [];
@@ -523,20 +590,20 @@ function updateDealerUI(dealerHand) {
 function shuffleCards(deckID) {
   fetch(`https://deckofcardsapi.com/api/deck/${deckID}/shuffle/`)
     .then(function (response) {
-      console.log(`ShuffleCards:`);
-      console.log(response);
+      //   console.log(`ShuffleCards:`);
+      //   console.log(response);
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      //   console.log(data);
     })
     .catch((err) => shuffleCards(deckID));
 }
 
 function getPlayerValue(arr) {
   let numberArr = arr.map(getCardValue);
-  console.log(`getPlayerValue`);
-  console.log(numberArr);
+  //   console.log(`getPlayerValue`);
+  //   console.log(numberArr);
 
   let total = numberArr.reduce((acc, cur) => acc + cur);
 
@@ -546,7 +613,7 @@ function getPlayerValue(arr) {
     total = getPlayerValue(arr);
   }
 
-  console.log(total);
+  //   console.log(total);
 
   return total;
 }
@@ -605,11 +672,11 @@ const drawCards = function (deckID, count) {
         card2: card2,
         remaining: data.remaining,
       };
-      console.log(`Old drawCards function:`);
-      console.log(data.cards);
-      console.log(data.remaining);
-      console.log(playerCards);
-      console.log(card1);
+      //   console.log(`Old drawCards function:`);
+      //   console.log(data.cards);
+      //   console.log(data.remaining);
+      //   console.log(playerCards);
+      //   console.log(card1);
 
       return playerCards;
     })
@@ -644,7 +711,7 @@ function checkInsurance() {
 
   if (!(dealerHand[1].value == "ACE")) return;
 
-  console.log(dealerHand[1].value);
+  //   console.log(dealerHand[1].value);
 
   noticeUI.textContent = `Insurance?`;
 
@@ -658,9 +725,9 @@ function checkInsurance() {
     insuranceStopGameGuard = false;
     switch (playerCurrentAction) {
       case "hit":
-        noticeUI.textContent = `Insurance Declined.  Player Hits...`;
+        noticeUI.textContent = `Insurance Declined.  Hit Trivia Question incoming`;
         playerTimer = setTimeout(function () {
-          playerHit(deckID);
+          selectTriviaQuestion();
         }, 3000);
         break;
       case "doubleDown":
@@ -675,7 +742,7 @@ function checkInsurance() {
         break;
       case "split":
         noticeUI.textContent = `Insurance Declined.  Player splits hand...`;
-        playerTimer = setTimeout(splitPlayerHand, 3000);
+        playerTimer = setTimeout(splitBtnAction, 3000);
         break;
       default:
         noticeUI.textContent = `Insurance Declined. Player stands...`;
@@ -708,4 +775,174 @@ function insuranceLogic() {
   bankUI.textContent = bank;
   noticeUI.textContent = `Lost Insurance Bet.  Player's Turn.`;
   insuranceStopGameGuard = false;
+}
+
+function generateTriviaQuestions(difficulty) {
+  return fetch(`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}`)
+    .then(function (response) {
+      console.log(response);
+      return response.json();
+    })
+    .then(function (data) {
+      let questions = [];
+      console.log(data);
+      let tempArr = data.results;
+      let mapping = {
+        category: `category`,
+        correct_answer: "correctAnswer",
+        difficulty: `difficulty`,
+        incorrect_answers: `incorrectAnswers`,
+        question: `question`,
+        type: `type`,
+      };
+
+      for (let obj of tempArr) {
+        let question = Object.keys(obj).reduce((acc, key) => {
+          acc[mapping[key]] = obj[key];
+          return acc;
+        }, {});
+        questions.push(question);
+      }
+      //   console.log(questions);
+      return questions;
+    })
+    .catch(function (err) {
+      alert(err);
+    });
+}
+
+function selectTriviaQuestion() {
+  noticeUI.textContent = `Select Trivia Question Difficulty`;
+
+  easyDifficultyBtn.addEventListener("click", function () {
+    askTriviaQuestion(easyQuestions, easyCurrentIndex);
+    easyCurrentIndex++;
+  });
+
+  mediumDifficultyBtn.addEventListener("click", function () {
+    askTriviaQuestion(mediumQuestions, mediumCurrentIndex);
+    mediumCurrentIndex++;
+  });
+
+  hardDifficultyBtn.addEventListener("click", function () {
+    askTriviaQuestion(hardQuestions, hardCurrentIndex);
+    hardCurrentIndex++;
+  });
+}
+
+function askTriviaQuestion(questions, questionIndex) {
+  let answers = [];
+  let correctAnswer = questions[questionIndex].correctAnswer;
+  let questionType = questions[questionIndex].type;
+
+  console.log(questionType);
+
+  noticeUI.textContent = `Answer Trivia Question`;
+
+  categoryTriviaUI.textContent = questions[questionIndex].category;
+  difficultyTriviaUI.textContent = questions[questionIndex].difficulty;
+  questionTriviaUI.innerHTML = questions[questionIndex].question;
+
+  if (questionType == `multiple`) {
+    multipleChoiceQuiz(questions, questionIndex);
+  } else {
+    booleanChoiceQuiz(questions, questionIndex);
+  }
+
+  function multipleChoiceQuiz(questions, questionIndex) {
+    questions[questionIndex].incorrectAnswers.forEach((ans) =>
+      answers.push(ans)
+    );
+    answers.push(correctAnswer);
+
+    // console.log(`Before Shuffle: ${answers}`);
+
+    shuffleArray(answers);
+
+    console.log(`After Shuffle: ${answers}`);
+
+    answerABtn.setAttribute(`data-ans`, answers[0]);
+    answerBBtn.setAttribute(`data-ans`, answers[1]);
+    answerCBtn.setAttribute(`data-ans`, answers[2]);
+    answerDBtn.setAttribute(`data-ans`, answers[3]);
+
+    choiceATriviaUI.innerHTML = answers[0];
+    choiceBTriviaUI.innerHTML = answers[1];
+    choiceCTriviaUI.innerHTML = answers[2];
+    choiceDTriviaUI.innerHTML = answers[3];
+
+    multipleChoiceAnswerBtns.forEach(function (btn) {
+      let answer = btn.getAttribute("data-ans");
+      if (answer == correctAnswer) {
+        btn.classList.add("correctAnswer");
+      }
+    });
+
+    answerABtn.addEventListener("click", determineCorrectAnswer);
+    answerBBtn.addEventListener("click", determineCorrectAnswer);
+    answerCBtn.addEventListener("click", determineCorrectAnswer);
+    answerDBtn.addEventListener("click", determineCorrectAnswer);
+  }
+
+  function booleanChoiceQuiz(questions, questionIndex) {
+    if (correctAnswer == `true`) {
+      answerTrueBtn.classList.add("correctAnswer");
+    } else {
+      answerFalseBtn.classList.add("correctAnswer");
+    }
+
+    answerTrueBtn.addEventListener("click", determineCorrectAnswer);
+    answerFalseBtn.addEventListener("click", determineCorrectAnswer);
+  }
+
+  function determineCorrectAnswer(e) {
+    let selectedAnswer = this.getAttribute("data-ans");
+    correctAnswerTriviaUI.innerHTML = correctAnswer;
+
+    if (selectedAnswer == correctAnswer) {
+      let answerCorrectly = true;
+      // document.querySelector(".correctAnswer").style.display = "inline-block";
+      noticeUI.textContent = `Correct Answer!`;
+      bank = bank + betAmount / 2;
+      bankUI.textContent = bank;
+      playerTimer = setTimeout(hitAction, 3000);
+      triviaTimer = setTimeout((answerCorrectly) => {
+        clearTriviaUI(answerCorrectly);
+      }, 4000);
+    } else {
+      let answerCorrectly = false;
+      noticeUI.textContent = `Incorrect Answer...`;
+      playerTimer = setTimeout(standAction, 3000);
+      triviaTimer = setTimeout((answerCorrectly) => {
+        clearTriviaUI(answerCorrectly);
+      }, 4000);
+    }
+  }
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+}
+
+function clearTriviaUI(answerCorrectly) {
+  categoryTriviaUI.textContent = ``;
+  difficultyTriviaUI.textContent = ``;
+  questionTriviaUI.innerHTML = ``;
+  choiceATriviaUI.innerHTML = ``;
+  choiceBTriviaUI.innerHTML = ``;
+  choiceCTriviaUI.innerHTML = ``;
+  choiceDTriviaUI.innerHTML = ``;
+  correctAnswerTriviaUI.innerHTML = ``;
+  answerABtn.removeAttribute(`data-ans`);
+  answerBBtn.removeAttribute(`data-ans`);
+  answerCBtn.removeAttribute(`data-ans`);
+  answerDBtn.removeAttribute(`data-ans`);
+  if (answerCorrectly) {
+    document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
+  }
 }
