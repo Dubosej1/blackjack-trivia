@@ -4,7 +4,7 @@
   "description": "A game that combines Blackjack and Trivia",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile:sass": "sass sass/main.scss style.css"
   },
   "author": "Johnaven Dubose",
   "license": "ISC"

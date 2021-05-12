@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0 10%;
+  font-family: "Tahoma", sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: black;
+  line-height: 1.7;
+}
+
+.info {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.dealer-info {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.player-actions {
+  display: flex;
+  justify-content: center;
+}
+.player-actions__actions-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.player-actions__deal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.player-info {
+  display: flex;
+  justify-content: center;
+}
+
+.split-info {
+  display: flex;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=style.css.map */
