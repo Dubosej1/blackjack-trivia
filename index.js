@@ -58,7 +58,7 @@ const correctAnswerTriviaUI = document.querySelector(".trivia__answer-correct");
 
 let bank, betAmount, playerHandTotal, dealerHandTotal;
 let deckID, insuranceBetPlaced, insuranceStopGameGuard, insuranceAlreadyChecked;
-let playerTimer, dealerTimer, playerCurrentAction;
+let playerTimer, dealerTimer, gameTimer, playerCurrentAction;
 let splitMode,
   splitBetAmount,
   playerSplitHandTotal,
@@ -76,44 +76,6 @@ let easyCurrentIndex = 0,
   hardCurrentIndex = 0;
 
 //Buttons
-
-newGameBtn.addEventListener("click", startNewGame);
-
-deckID = `70u37rzjibvz`;
-
-function startNewGame() {
-  bank = 1000;
-  bankUI.textContent = bank;
-
-  generateTriviaQuestions(easy).then((questions) => {
-    easyQuestions = questions;
-  });
-  generateTriviaQuestions(medium).then((questions) => {
-    mediumQuestions = questions;
-  });
-  generateTriviaQuestions(hard).then((questions) => {
-    hardQuestions = questions;
-  });
-
-  startNewRound();
-}
-
-function startNewRound() {
-  noticeUI.textContent = "Place an amount to bet";
-  submitBetBtn.addEventListener("click", submitBet);
-}
-
-function submitBet() {
-  //   console.log(easyQuestions);
-  //   console.log(hardQuestions);
-  betAmount = Number(betValueField.value);
-  bank = bank - betAmount;
-  bankUI.textContent = bank;
-  betAmountUI.textContent = betAmount;
-
-  //   console.log(betAmount);
-  dealCardsBtn.addEventListener("click", initialDeal);
-}
 
 const hitAction = function () {
   playerCurrentAction = "hit";
@@ -143,37 +105,149 @@ const standAction = function () {
   dealerTimer = setTimeout(dealerTurn, 3000);
 };
 
+newGameBtn.addEventListener("click", startNewGame);
+
+hitBtn.addEventListener("click", function () {
+  if (!insuranceAlreadyChecked) checkInsurance();
+  if (insuranceStopGameGuard) return;
+
+  selectTriviaQuestion();
+});
+
+standBtn.addEventListener("click", standAction);
+
+doubleDownBtn.addEventListener("click", function () {
+  playerCurrentAction = "doubleDown";
+  if (!insuranceAlreadyChecked) checkInsurance();
+  if (insuranceStopGameGuard) return;
+  bank = bank - betAmount;
+  betAmount = betAmount * 2;
+  bankUI.textContent = bank;
+  betAmountUI.textContent = betAmount;
+  noticeUI.textContent = `Player doubles down...`;
+  playerHit(deckID);
+  dealerTimer = setTimeout(dealerTurn, 3000);
+});
+
+splitBtn.addEventListener("click", splitBtnAction);
+
+submitBetBtn.addEventListener("click", submitBet);
+
+dealCardsBtn.addEventListener("click", initialDeal);
+
+acceptInsuranceBtn.addEventListener("click", function () {
+  noticeUI.textContent = `Choose an insurance bet that is half your bet amount`;
+  submitInsuranceBetBtn.addEventListener("click", insuranceLogic);
+});
+
+declineInsuranceBtn.addEventListener("click", function () {
+  insuranceStopGameGuard = false;
+  switch (playerCurrentAction) {
+    case "hit":
+      noticeUI.textContent = `Insurance Declined.  Hit Trivia Question incoming`;
+      playerTimer = setTimeout(function () {
+        selectTriviaQuestion();
+      }, 3000);
+      break;
+    case "doubleDown":
+      noticeUI.textContent = `Insurance Declined.  Player doubles down...`;
+      bank = bank - betAmount;
+      betAmount = betAmount * 2;
+      bankUI.textContent = bank;
+      betAmountUI.textContent = betAmount;
+      playerTimer = setTimeout(function () {
+        playerHit(deckID);
+      }, 3000);
+      break;
+    case "split":
+      noticeUI.textContent = `Insurance Declined.  Player splits hand...`;
+      playerTimer = setTimeout(splitBtnAction, 3000);
+      break;
+    default:
+      noticeUI.textContent = `Insurance Declined. Player stands...`;
+      playerTimer = setTimeout(dealerTurn, 3000);
+      break;
+  }
+});
+
+easyDifficultyBtn.addEventListener("click", function () {
+  if (easyCurrentIndex == 10) {
+    easyCurrentIndex = 0;
+    easyQuestions.splice(0);
+    generateTriviaQuestions(easy).then((questions) => {
+      easyQuestions = questions;
+    });
+  }
+  askTriviaQuestion(easyQuestions, easyCurrentIndex);
+  easyCurrentIndex++;
+});
+
+mediumDifficultyBtn.addEventListener("click", function () {
+  if (mediumCurrentIndex == 10) {
+    mediumCurrentIndex = 0;
+    mediumQuestions.splice(0);
+    generateTriviaQuestions(medium).then((questions) => {
+      mediumQuestions = questions;
+    });
+  }
+  askTriviaQuestion(mediumQuestions, mediumCurrentIndex);
+  mediumCurrentIndex++;
+});
+
+hardDifficultyBtn.addEventListener("click", function () {
+  if (hardCurrentIndex == 10) {
+    hardCurrentIndex = 0;
+    hardQuestions.splice(0);
+    generateTriviaQuestions(hard).then((questions) => {
+      hardQuestions = questions;
+    });
+  }
+  askTriviaQuestion(hardQuestions, hardCurrentIndex);
+  hardCurrentIndex++;
+});
+
+deckID = `70u37rzjibvz`;
+
+function startNewGame() {
+  bank = 1000;
+  bankUI.textContent = bank;
+
+  generateTriviaQuestions(easy).then((questions) => {
+    easyQuestions = questions;
+  });
+  generateTriviaQuestions(medium).then((questions) => {
+    mediumQuestions = questions;
+  });
+  generateTriviaQuestions(hard).then((questions) => {
+    hardQuestions = questions;
+  });
+
+  startNewRound();
+}
+
+function startNewRound() {
+  noticeUI.textContent = "Place an amount to bet";
+  ////////////submitBetBtn////////////////////
+}
+
+function submitBet() {
+  //   console.log(easyQuestions);
+  //   console.log(hardQuestions);
+  betAmount = Number(betValueField.value);
+  bank = bank - betAmount;
+  bankUI.textContent = bank;
+  betAmountUI.textContent = betAmount;
+
+  //   console.log(betAmount);
+  //////////////dealCardsBtn///////////////////////
+}
+
 function initialDeal() {
   shuffleCards(deckID);
 
   dealDealerCards(deckID);
   dealPlayerCards(deckID);
-
-  hitBtn.addEventListener("click", function () {
-    if (!insuranceAlreadyChecked) checkInsurance();
-    if (insuranceStopGameGuard) return;
-
-    selectTriviaQuestion();
-  });
-
-  standBtn.addEventListener("click", standAction);
-
-  doubleDownBtn.addEventListener("click", function () {
-    playerCurrentAction = "doubleDown";
-    if (!insuranceAlreadyChecked) checkInsurance();
-    if (insuranceStopGameGuard) return;
-    bank = bank - betAmount;
-    betAmount = betAmount * 2;
-    bankUI.textContent = bank;
-    betAmountUI.textContent = betAmount;
-    noticeUI.textContent = `Player doubles down...`;
-    playerHit(deckID);
-    dealerTimer = setTimeout(dealerTurn, 3000);
-  });
-
-  splitBtn.addEventListener("click", splitBtnAction);
 }
-//   doubleDownBtn.addEventListener("click", playerDoubleDown);
 
 function checkValidSplit() {
   let card1 = playerHand[0].value;
@@ -281,7 +355,7 @@ function playerHit(deckID, arr) {
     .catch((err) => drawSingleCard(deckID));
 }
 
-function dealerHit(deckID) {
+function dealerHit(deckID, dealerHitErrGuard) {
   drawSingleCard(deckID)
     .then(function (cardsObj) {
       dealerHand.push(cardsObj);
@@ -292,13 +366,21 @@ function dealerHit(deckID) {
     .then(function (dealerHand) {
       updateDealerUI(dealerHand);
     })
-    .catch((err) => drawSingleCard(deckID));
+    .catch((err) => {
+      drawSingleCard(deckID);
+    });
+
+  // if (dealerHand.length > dealerHitErrGuard) {
+  //   dealerHand.splice(dealerHitErrGuard - 1);
+  //   dealerHandUI.textContent = dealerHand.join();
+  // }
 }
 
 function dealerTurn() {
   if (dealerHandTotal <= 16) {
     noticeUI.textContent = `Dealer Hits...`;
-    dealerHit(deckID);
+    let dealerHitErrGuard = dealerHand.length + 1;
+    dealerHit(deckID, dealerHitErrGuard);
     dealerTimer = setTimeout(dealerTurn, 3000);
     return;
   } else {
@@ -314,12 +396,48 @@ function endRound() {
     let playerSplitHand2 = chooseWinner(playerSplitHandTotal, splitBetAmount);
 
     gameOutcomeUI(playerSplitHand1, playerSplitHand2);
+
+    gameTimer = setTimeout(nextRoundClearUI, 5000);
     return;
   }
 
   let playerSplitHand1 = chooseWinner(playerHandTotal, betAmount);
   gameOutcomeUI(playerSplitHand1);
+  gameTimer = setTimeout(nextRoundClearUI, 5000);
 }
+
+function nextRoundClearUI() {
+  noticeUI.textContent = `Please select bet for next round`;
+
+  betAmountUI.textContent = ``;
+  splitBetAmountUI.textContent = `---`;
+  insuranceBetAmountUI.textContent = `---`;
+  dealerHandUI.textContent = `---`;
+  dealerHandTotalUI.textContent = `---`;
+  playerHandUI.textContent = `---`;
+  playerHandTotalUI.textContent = `---`;
+  playerSplitHandUI.textContent = `---`;
+  playerSplitHandTotalUI.textContent = `---`;
+
+  betAmount = 0;
+  playerHandTotal = 0;
+  dealerHandTotal = 0;
+  insuranceBetPlaced = false;
+  insuranceStopGuard = true;
+  insuranceAlreadyChecked = false;
+  playerCurrentAction = ``;
+  splitMode = false;
+  splitBetAmount = 0;
+  playerSplitHandTotal = 0;
+  currentPlayerHand = 1;
+  hand2PassNeeded = false;
+
+  playerHand.splice(0);
+  playerSplitHand.splice(0);
+  dealerHand.splice(0);
+}
+
+function clearHandArray(HandArr) {}
 
 function chooseWinner(playerHandTotal, betAmount) {
   let outcomeNoticeText;
@@ -451,6 +569,11 @@ const drawSingleCard = function (deckID) {
       //   console.log(card.value);
 
       return card;
+    })
+    .catch((err) => {
+      cardData = null;
+      card = null;
+      drawSingleCard(deckID);
     });
 };
 
@@ -716,40 +839,9 @@ function checkInsurance() {
   noticeUI.textContent = `Insurance?`;
 
   insuranceStopGameGuard = true;
-  acceptInsuranceBtn.addEventListener("click", function () {
-    noticeUI.textContent = `Choose an insurance bet that is half your bet amount`;
-    submitInsuranceBetBtn.addEventListener("click", insuranceLogic);
-  });
+  //////////////////acceptInsuranceBtn///////////////////////
 
-  declineInsuranceBtn.addEventListener("click", function () {
-    insuranceStopGameGuard = false;
-    switch (playerCurrentAction) {
-      case "hit":
-        noticeUI.textContent = `Insurance Declined.  Hit Trivia Question incoming`;
-        playerTimer = setTimeout(function () {
-          selectTriviaQuestion();
-        }, 3000);
-        break;
-      case "doubleDown":
-        noticeUI.textContent = `Insurance Declined.  Player doubles down...`;
-        bank = bank - betAmount;
-        betAmount = betAmount * 2;
-        bankUI.textContent = bank;
-        betAmountUI.textContent = betAmount;
-        playerTimer = setTimeout(function () {
-          playerHit(deckID);
-        }, 3000);
-        break;
-      case "split":
-        noticeUI.textContent = `Insurance Declined.  Player splits hand...`;
-        playerTimer = setTimeout(splitBtnAction, 3000);
-        break;
-      default:
-        noticeUI.textContent = `Insurance Declined. Player stands...`;
-        playerTimer = setTimeout(dealerTurn, 3000);
-        break;
-    }
-  });
+  ////////////////////declineInsurance/////////////////////
 }
 
 function insuranceLogic() {
@@ -814,20 +906,7 @@ function generateTriviaQuestions(difficulty) {
 function selectTriviaQuestion() {
   noticeUI.textContent = `Select Trivia Question Difficulty`;
 
-  easyDifficultyBtn.addEventListener("click", function () {
-    askTriviaQuestion(easyQuestions, easyCurrentIndex);
-    easyCurrentIndex++;
-  });
-
-  mediumDifficultyBtn.addEventListener("click", function () {
-    askTriviaQuestion(mediumQuestions, mediumCurrentIndex);
-    mediumCurrentIndex++;
-  });
-
-  hardDifficultyBtn.addEventListener("click", function () {
-    askTriviaQuestion(hardQuestions, hardCurrentIndex);
-    hardCurrentIndex++;
-  });
+  ////////////Easy, Medium and Hard Buttons/////////////////////
 }
 
 function askTriviaQuestion(questions, questionIndex) {
@@ -878,6 +957,7 @@ function askTriviaQuestion(questions, questionIndex) {
       }
     });
 
+    //////////////////answers A - D Buttons///////////////////
     answerABtn.addEventListener("click", determineCorrectAnswer);
     answerBBtn.addEventListener("click", determineCorrectAnswer);
     answerCBtn.addEventListener("click", determineCorrectAnswer);
@@ -891,6 +971,7 @@ function askTriviaQuestion(questions, questionIndex) {
       answerFalseBtn.classList.add("correctAnswer");
     }
 
+    /////////////////True and False Answer Buttons////////////////
     answerTrueBtn.addEventListener("click", determineCorrectAnswer);
     answerFalseBtn.addEventListener("click", determineCorrectAnswer);
   }
@@ -906,14 +987,14 @@ function askTriviaQuestion(questions, questionIndex) {
       bank = bank + betAmount / 2;
       bankUI.textContent = bank;
       playerTimer = setTimeout(hitAction, 3000);
-      triviaTimer = setTimeout((answerCorrectly) => {
+      gameTimer = setTimeout((answerCorrectly) => {
         clearTriviaUI(answerCorrectly);
       }, 4000);
     } else {
       let answerCorrectly = false;
       noticeUI.textContent = `Incorrect Answer...`;
       playerTimer = setTimeout(standAction, 3000);
-      triviaTimer = setTimeout((answerCorrectly) => {
+      gameTimer = setTimeout((answerCorrectly) => {
         clearTriviaUI(answerCorrectly);
       }, 4000);
     }
