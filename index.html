@@ -12,54 +12,114 @@
     <link rel="stylesheet" href="" />
   </head>
   <body>
-    <button class="btn btn__newGame">New Game</button>
-    <button class="btn btn__endGame">End Game</button>
-    <h1 class="notice">Notice</h1>
-    <p>Score: <span class="score">---</span></p>
-    <p>Bank: <span class="bank">---</span></p>
+    <div class="nav">
+      <button class="btn btn__newGame">New Game</button>
+      <button class="btn btn__endGame">End Game</button>
+    </div>
 
-    <label for="betValue">How much to bet:</label>
-    <input type="text" id="betValue" name="betValue" />
-    <button type="button" class="btn__submitBetValue">Submit</button
-    ><br /><br />
+    <div class="info">
+      <div class="info__bank-container">
+        <p>Score: <span class="score">---</span></p>
+        <p>Bank: <span class="bank">---</span></p>
+      </div>
+      <div class="info__notice-container">
+        <h1 class="notice">Notice</h1>
+      </div>
+    </div>
+    <div class="dealer-info">
+      <div class="dealer-info__notice"></div>
+      <div class="dealer-info__card-container">
+        <p>Dealer's Cards: <span class="dealerHand">Here</span></p>
+      </div>
+      <div class="dealer-info__count-container">
+        <p>Dealer's Total: <span class="dealerHandTotal">Here</span></p>
+      </div>
+    </div>
 
-    <label for="insuranceBetValue">Insurance Bet:</label>
-    <input type="text" id="insuranceBetValue" name="insuranceBetValue" />
-    <button type="button" class="btn__submitInsuranceBetValue">Submit</button
-    ><br /><br />
+    <div class="player-actions">
+      <div class="player-actions__actions-container">
+        <button class="btn btn__hit">Hit</button>
 
-    <p>Current Bet Amount: <span class="betAmount">---</span></p>
-    <p>Split Hand Bet Amount: <span class="splitBetAmount">---</span></p>
-    <p>Current Insurance Amount: <span class="insuranceBetAmount">---</span></p>
+        <button class="btn btn__doubleDown">Double Down</button>
+        <button class="btn btn__split">Split</button>
+      </div>
+      <div class="player-actions__bet-container">
+        <p>Current Bet Amount: <span class="betAmount">---</span></p>
+        <p>Current Insurance Amount: <span class="insuranceBetAmount">---</span></p>
+        <label for="betValue">How much to bet:</label>
+        <input type="text" id="betValue" name="betValue" />
+        <button type="button" class="btn__submitBetValue">Submit</button
+        ><br /><br />
+      </div>
+      <div class="player-actions__deal-container">
+        <button class="btn btn__dealCards">Deal</button>
+        <button class="btn btn__stand">Stand</button>
+      </div>
+    </div>
+
+    <div class="player-info">
+      <div class="player-info__notice-container"></div>
+      <div class="player-info__cards-container">
+        <p>Player's Cards: <span class="playerHand">Here</span></p>
+      </div>
+      <div class="player-info__count-container">
+        <p>Player's Total: <span class="playerHandTotal">Here</span></p>
+      </div>
+    </div>
+
+    <div class="split-info">
+      <div class="split-info__card-container">
+        <p>Player's Split Cards: <span class="playerSplitHand">Here</span></p>
+      </div>
+      <div class="split-info__count-container">
+        <p>Split Hand Bet Amount: <span class="splitBetAmount">---</span></p>
+        <p>Player's Split Total: <span class="playerSplitHandTotal">Here</span></p>
+      </div>
+    </div>
+
+    <div class="insurance-modal">
+      <div class="insurance-modal__content">
+        <div class="insurance-modal__choice">
+          <h1 class="insurance-modal__heading">Insurance</h1>
+          <p>Dealer has an ACE showing. Do you want insurance?</p>
+          <button class="btn btn__acceptInsurance">Accept Insurance</button>
+          <button class="btn btn__declineInsurance">Decline Insurance</button>
+        </div>
+        <div class="insurance-modal__bet-container">
+          <h1 class="insurance-modal__heading">Select Amount to Bet</h1>
+          <p>Up to half of your original bet</p>
+          <label for="insuranceBetValue">Insurance Bet:</label>
+          <input type="text" id="insuranceBetValue" name="insuranceBetValue" />
+          <button type="button" class="btn__submitInsuranceBetValue">
+            Submit</button
+          ><br /><br />
+        </div>
+      </div>
+    </div>
+
+    
     <br />
 
-    <p>Dealer's Cards: <span class="dealerHand">Here</span></p>
-    <p>Dealer's Total: <span class="dealerHandTotal">Here</span></p>
-    <p>Player's Cards: <span class="playerHand">Here</span></p>
-    <p>Player's Total: <span class="playerHandTotal">Here</span></p>
-    <p>Player's Split Cards: <span class="playerSplitHand">Here</span></p>
-    <p>Player's Split Total: <span class="playerSplitHandTotal">Here</span></p>
+    
 
-    <button class="btn btn__dealCards">Deal</button>
-    <button class="btn btn__hit">Hit</button>
-    <button class="btn btn__stand">Stand</button>
-    <button class="btn btn__doubleDown">Double Down</button>
-    <button class="btn btn__split">Split</button>
-    <button class="btn btn__acceptInsurance">Accept Insurance</button>
-    <button class="btn btn__declineInsurance">Decline Insurance</button>
-
-    <p>Category: <span class="trivia__category"></span></p>
-    <button class="btn btn__easy">Easy</button>
+    <div class="trivia-modal">
+      <div class="trivia-modal__content">
+        <h1 class="trivia-modal__heading">Hit Trivia Question</h1>
+        <div class="trivia-modal__difficulty">
+          <h2 class="trivia-modal__difficulty-heading">Select question difficulty:</h2>
+          <button class="btn btn__easy">Easy</button>
     <button class="btn btn__medium">Medium</button>
     <button class="btn btn__hard">Hard</button>
-
-    <p>Difficulty: <span class="trivia__difficulty"></span></p>
-    <p>Question: <span class="trivia__question"></span></p>
-    <p>A: <span class="trivia__answer-a"></span></p>
+        </div>
+        <div class="trivia-modal__question">
+          <p>Category: <span class="trivia__category"></span></p>
+          <p>Difficulty: <span class="trivia__difficulty"></span></p>
+          <p>Question: <br>
+            <h2 class="trivia__question"></h2></p>
+            <p>A: <span class="trivia__answer-a"></span></p>
     <p>B: <span class="trivia__answer-b"></span></p>
     <p>C: <span class="trivia__answer-c"></span></p>
     <p>D: <span class="trivia__answer-d"></span></p>
-
     <button class="btn btn__answer-multiple btn__answer-a">A</button>
     <button class="btn btn__answer-multiple btn__answer-b">B</button>
     <button class="btn btn__answer-multiple btn__answer-c">C</button>
@@ -71,8 +131,20 @@
     <button class="btn btn__answer-boolean btn__answer-false" data-ans="False">
       False
     </button>
+    <h2>Correct Answer: <span class="trivia__answer-correct"></span></h2>
+        </div>
+      </div>
+    </div>
+    
+    
 
-    <p>Correct Answer: <span class="trivia__answer-correct"></span></p>
+    
+    
+    
+
+    
+
+    
 
     <script src="index.js" async defer></script>
   </body>
