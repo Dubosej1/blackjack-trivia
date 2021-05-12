@@ -355,7 +355,7 @@ function playerHit(deckID, arr) {
     .catch((err) => drawSingleCard(deckID));
 }
 
-function dealerHit(deckID, dealerHitErrGuard) {
+function dealerHit(deckID) {
   drawSingleCard(deckID)
     .then(function (cardsObj) {
       dealerHand.push(cardsObj);
@@ -379,8 +379,8 @@ function dealerHit(deckID, dealerHitErrGuard) {
 function dealerTurn() {
   if (dealerHandTotal <= 16) {
     noticeUI.textContent = `Dealer Hits...`;
-    let dealerHitErrGuard = dealerHand.length + 1;
-    dealerHit(deckID, dealerHitErrGuard);
+    // let dealerHitErrGuard = dealerHand.length + 1;
+    dealerHit(deckID);
     dealerTimer = setTimeout(dealerTurn, 3000);
     return;
   } else {
@@ -482,6 +482,12 @@ function chooseWinner(playerHandTotal, betAmount) {
   //   }
 
   switch (true) {
+    case playerHandTotal == 100:
+      outcomeNoticeText = `Player Wins!  Five Card Charlie!`;
+      break;
+    case dealerHandTotal == 100:
+      outcomeNoticeText = `Player Loses.  Dealer Five Card Charlie...`;
+      break;
     case playerHandTotal > 21:
       outcomeNoticeText = `Player loses. Bust...`;
       break;
@@ -646,6 +652,8 @@ function updatePlayerUI(arr, arr2 = null) {
   }
 
   checkBust();
+
+  checkFiveCardCharlie();
 }
 
 function checkNaturalBlackjack() {
@@ -676,8 +684,30 @@ function checkBust() {
     } else if (currentPlayerHand == 2 && playerSplitHandTotal > 21) {
       dealerTurn();
     }
-  } else {
-    if (playerHandTotal > 21) endRound();
+  } else if (playerHandTotal > 21) {
+    endRound();
+  }
+}
+
+function checkFiveCardCharlie() {
+  if (splitMode) {
+    if (currentPlayerHand == 1 && playerHand.length == 5) {
+      hand2PassNeeded = true;
+      playerHandTotal = 100;
+      playerHandTotalUI.textContent = ``;
+      currentPlayerHand = 2;
+    } else if (currentPlayerHand == 2 && playerSplitHand.length == 5) {
+      playerSplitHandTotal = 100;
+      playerSplitHandTotalUI.textContent = ``;
+      endRound();
+    }
+  } else if (playerHand.length == 5) {
+    playerHandTotal = 100;
+    playerHandTotalUI.textContent = ``;
+    endRound();
+  } else if (dealerHand.length == 5) {
+    dealerHandTotal = 100;
+    dealerHandTotalUI.textContent = ``;
   }
 }
 
@@ -708,6 +738,8 @@ function updateDealerUI(dealerHand) {
 
   dealerHandTotalUI.textContent = dealerHandTotal;
   dealerHandUI.textContent = cardUI.join();
+
+  checkFiveCardCharlie();
 }
 
 function shuffleCards(deckID) {
