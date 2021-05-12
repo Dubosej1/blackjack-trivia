@@ -1,0 +1,65 @@
+$fontFamily-body: "Tahoma", sans-serif;
+
+$fontSize-default: 1.6rem;
+
+$fontWeight-normal: 400;
+
+$color-body-text: black;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0 10%;
+  font-family: $fontFamily-body;
+  font-weight: $fontWeight-normal;
+  font-size: $fontSize-default;
+  color: $color-body-text;
+  line-height: 1.7;
+  // background-color: $color-body-bg;
+}
+
+.info {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.dealer-info {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.player-actions {
+  display: flex;
+  justify-content: center;
+
+  &__actions-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__deal-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.player-info {
+  display: flex;
+  justify-content: center;
+}
+
+.split-info {
+  display: flex;
+  justify-content: center;
+}
