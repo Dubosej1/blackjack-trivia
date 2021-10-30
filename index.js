@@ -6,11 +6,12 @@ const submitBetBtn = document.querySelector(".btn__submitBetValue");
 const submitInsuranceBetBtn = document.querySelector(
   ".btn__submitInsuranceBetValue"
 );
-const dealCardsBtn = document.querySelector(".btn__dealCards");
+const dealCardsBtn = document.querySelector(".btn__deal-cards");
 const hitBtn = document.querySelector(".btn__hit");
 const standBtn = document.querySelector(".btn__stand");
 const doubleDownBtn = document.querySelector(".btn__doubleDown");
 const splitBtn = document.querySelector(".btn__split");
+const insuranceBtn = document.querySelector(".btn__insurance");
 const acceptInsuranceBtn = document.querySelector(".btn__acceptInsurance");
 const declineInsuranceBtn = document.querySelector(".btn__declineInsurance");
 
@@ -37,6 +38,9 @@ const betAmountUI = document.querySelector(".betAmount");
 const splitBetAmountUI = document.querySelector(".splitBetAmount");
 const insuranceBetAmountUI = document.querySelector(".insuranceBetAmount");
 const betValueField = document.querySelector("#betValue");
+const insuranceBetFieldUI = document.querySelector(
+  ".player-actions__insurance"
+);
 const insuranceBetValueField = document.querySelector("#insuranceBetValue");
 const dealerHandUI = document.querySelector(".dealerHand");
 const dealerHandTotalUI = document.querySelector(".dealerHandTotal");
@@ -57,7 +61,7 @@ const correctAnswerTriviaUI = document.querySelector(".trivia__answer-correct");
 //Variables
 
 let bank, betAmount, playerHandTotal, dealerHandTotal;
-let deckID, insuranceBetPlaced, insuranceStopGameGuard, insuranceAlreadyChecked;
+let insuranceBetPlaced, insuranceStopGameGuard, insuranceAlreadyChecked;
 let playerTimer, dealerTimer, gameTimer, playerCurrentAction;
 let splitMode,
   splitBetAmount,
@@ -67,18 +71,55 @@ let splitMode,
 let playerHand = [];
 let playerSplitHand = [];
 let dealerHand = [];
-let easyQuestions, mediumQuestions, hardQuestions;
+let easyQuestions, mediumQuestions, hardQuestions, correctAnswer;
 let easy = `easy`,
   medium = `medium`,
   hard = `hard`;
+let currentTriviaDifficulty;
 let easyCurrentIndex = 0,
   mediumCurrentIndex = 0,
   hardCurrentIndex = 0;
+let deckID = "0x";
+
+//Test cards
+const dealerInsTestCard = {
+  code: "AH",
+  image: `https://deckofcardsapi.com/static/img/AH.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7H.svg",
+    png: "https://deckofcardsapi.com/static/img/7H.png",
+  },
+  suit: "HEARTS",
+  value: "ACE",
+};
+
+const playerSplitTestCard1 = {
+  code: "7S",
+  image: `https://deckofcardsapi.com/static/img/7S.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7S.svg",
+    png: "https://deckofcardsapi.com/static/img/7S.png",
+  },
+  suit: "SPADES",
+  value: "7",
+};
+
+const playerSplitTestCard2 = {
+  code: "7H",
+  image: `https://deckofcardsapi.com/static/img/7H.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7H.svg",
+    png: "https://deckofcardsapi.com/static/img/7H.png",
+  },
+  suit: "HEARTS",
+  value: "7",
+};
 
 //Buttons
 
 const hitAction = function () {
-  playerCurrentAction = "hit";
+  // playerCurrentAction = "hit";
+
   if (splitMode) {
     hand2PassNeeded = false;
     if (currentPlayerHand == 1) {
@@ -93,14 +134,25 @@ const hitAction = function () {
 };
 
 const standAction = function () {
+  // hitBtn.style.display = "none";
+  // standBtn.style.display = "none";
+  // doubleDownBtn.style.display = "none";
+  // splitBtn.style.display = "none";
   playerCurrentAction = "stand";
-  if (!insuranceAlreadyChecked) checkInsurance();
-  if (insuranceStopGameGuard) return;
+  // if (!insuranceAlreadyChecked) checkInsurance();
+  // if (insuranceStopGameGuard) return;
   if (splitMode && currentPlayerHand == 1) {
     currentPlayerHand = 2;
     noticeUI.textContent = `Please play 2nd split hand`;
+    hitBtn.style.display = "inline-block";
+    standBtn.style.display = "inline-block";
     return;
   }
+  hitBtn.style.display = "none";
+  standBtn.style.display = "none";
+  doubleDownBtn.style.display = "none";
+  splitBtn.style.display = "none";
+  insuranceBtn.style.display = "none";
   noticeUI.textContent = `Dealer's turn...`;
   dealerTimer = setTimeout(dealerTurn, 3000);
 };
@@ -108,8 +160,13 @@ const standAction = function () {
 newGameBtn.addEventListener("click", startNewGame);
 
 hitBtn.addEventListener("click", function () {
-  if (!insuranceAlreadyChecked) checkInsurance();
-  if (insuranceStopGameGuard) return;
+  doubleDownBtn.style.display = "none";
+  hitBtn.style.display = "none";
+  standBtn.style.display = "none";
+  insuranceBtn.style.display = "none";
+  splitBtn.style.display = "none";
+  // if (!insuranceAlreadyChecked) checkInsurance();
+  // if (insuranceStopGameGuard) return;
 
   selectTriviaQuestion();
 });
@@ -118,57 +175,65 @@ standBtn.addEventListener("click", standAction);
 
 doubleDownBtn.addEventListener("click", function () {
   playerCurrentAction = "doubleDown";
-  if (!insuranceAlreadyChecked) checkInsurance();
-  if (insuranceStopGameGuard) return;
+  // if (!insuranceAlreadyChecked) checkInsurance();
+  // if (insuranceStopGameGuard) return;
   bank = bank - betAmount;
   betAmount = betAmount * 2;
   bankUI.textContent = bank;
   betAmountUI.textContent = betAmount;
   noticeUI.textContent = `Player doubles down...`;
-  playerHit(deckID);
-  dealerTimer = setTimeout(dealerTurn, 3000);
+  doubleDownBtn.style.display = "none";
+  hitBtn.style.display = "none";
+  standBtn.style.display = "none";
+  insuranceBtn.style.display = "none";
+  splitBtn.style.display = "none";
+  // playerHit(deckID, playerHand);
+  selectTriviaQuestion();
 });
 
-splitBtn.addEventListener("click", splitBtnAction);
+splitBtn.addEventListener("click", splitPlayerHand);
+
+insuranceBtn.addEventListener("click", insuranceAction);
 
 submitBetBtn.addEventListener("click", submitBet);
+submitBetBtn.style.display = "none";
 
 dealCardsBtn.addEventListener("click", initialDeal);
 
-acceptInsuranceBtn.addEventListener("click", function () {
-  noticeUI.textContent = `Choose an insurance bet that is half your bet amount`;
-  submitInsuranceBetBtn.addEventListener("click", insuranceLogic);
-});
+// acceptInsuranceBtn.addEventListener("click", function () {
+//   noticeUI.textContent = `Choose an insurance bet that is half your bet amount`;
+//   submitInsuranceBetBtn.addEventListener("click", insuranceLogic);
+// });
 
-declineInsuranceBtn.addEventListener("click", function () {
-  insuranceStopGameGuard = false;
-  switch (playerCurrentAction) {
-    case "hit":
-      noticeUI.textContent = `Insurance Declined.  Hit Trivia Question incoming`;
-      playerTimer = setTimeout(function () {
-        selectTriviaQuestion();
-      }, 3000);
-      break;
-    case "doubleDown":
-      noticeUI.textContent = `Insurance Declined.  Player doubles down...`;
-      bank = bank - betAmount;
-      betAmount = betAmount * 2;
-      bankUI.textContent = bank;
-      betAmountUI.textContent = betAmount;
-      playerTimer = setTimeout(function () {
-        playerHit(deckID);
-      }, 3000);
-      break;
-    case "split":
-      noticeUI.textContent = `Insurance Declined.  Player splits hand...`;
-      playerTimer = setTimeout(splitBtnAction, 3000);
-      break;
-    default:
-      noticeUI.textContent = `Insurance Declined. Player stands...`;
-      playerTimer = setTimeout(dealerTurn, 3000);
-      break;
-  }
-});
+// declineInsuranceBtn.addEventListener("click", function () {
+//   insuranceStopGameGuard = false;
+//   switch (playerCurrentAction) {
+//     case "hit":
+//       noticeUI.textContent = `Insurance Declined.  Hit Trivia Question incoming`;
+//       playerTimer = setTimeout(function () {
+//         selectTriviaQuestion();
+//       }, 3000);
+//       break;
+//     case "doubleDown":
+//       noticeUI.textContent = `Insurance Declined.  Player doubles down...`;
+//       bank = bank - betAmount;
+//       betAmount = betAmount * 2;
+//       bankUI.textContent = bank;
+//       betAmountUI.textContent = betAmount;
+//       playerTimer = setTimeout(function () {
+//         playerHit(deckID);
+//       }, 3000);
+//       break;
+//     case "split":
+//       noticeUI.textContent = `Insurance Declined.  Player splits hand...`;
+//       playerTimer = setTimeout(splitBtnAction, 3000);
+//       break;
+//     default:
+//       noticeUI.textContent = `Insurance Declined. Player stands...`;
+//       playerTimer = setTimeout(dealerTurn, 3000);
+//       break;
+//   }
+// });
 
 easyDifficultyBtn.addEventListener("click", function () {
   if (easyCurrentIndex == 10) {
@@ -206,7 +271,17 @@ hardDifficultyBtn.addEventListener("click", function () {
   hardCurrentIndex++;
 });
 
-deckID = `70u37rzjibvz`;
+//////////////////answers A - D Buttons///////////////////
+answerABtn.addEventListener("click", determineCorrectAnswer);
+answerBBtn.addEventListener("click", determineCorrectAnswer);
+answerCBtn.addEventListener("click", determineCorrectAnswer);
+answerDBtn.addEventListener("click", determineCorrectAnswer);
+
+/////////////////True and False Answer Buttons////////////////
+answerTrueBtn.addEventListener("click", determineCorrectAnswer);
+answerFalseBtn.addEventListener("click", determineCorrectAnswer);
+
+deckID = `xpm79z8o4bad`;
 
 function startNewGame() {
   bank = 1000;
@@ -222,57 +297,126 @@ function startNewGame() {
     hardQuestions = questions;
   });
 
+  // if (deckID == "0x") {
+  //   const getNewDeckID = function () {
+  //     return fetch(`https://deckofcardsapi.com/api/deck/new`)
+  //       .then(
+  //         function (response) {
+  //           //   console.log(response);
+  //           return response.json();
+  //         },
+  //         (err) => alert(err)
+  //       )
+  //       .then(function (data) {
+  //         deckID = data.deck_id;
+  //         console.log(deckID);
+  //         return deckID;
+  //       })
+  //       .catch(function (err) {
+  //         alert(err);
+  //       });
+  //   };
+
+  //   deckID = getNewDeckID();
+  // }
+
   startNewRound();
 }
 
 function startNewRound() {
   noticeUI.textContent = "Place an amount to bet";
-  ////////////submitBetBtn////////////////////
+  submitBetBtn.style.display = "inline";
+  ////////////////submitBetBtn////////////////////
 }
 
 function submitBet() {
   //   console.log(easyQuestions);
   //   console.log(hardQuestions);
-  betAmount = Number(betValueField.value);
-  bank = bank - betAmount;
-  bankUI.textContent = bank;
-  betAmountUI.textContent = betAmount;
 
-  //   console.log(betAmount);
-  //////////////dealCardsBtn///////////////////////
+  if (playerCurrentAction == `insurance`) {
+    insuranceBetAmount = Math.round(Number(betValueField.value));
+    if (insuranceBetAmount > betAmount / 2 || insuranceBetAmount > bank) {
+      insuranceBetAmount = 0;
+      noticeUI.textContent = `Invalid Insurance Bet.  Please try again.`;
+      betValueField.value = null;
+      return;
+    }
+    // insuranceBetFieldUI.innerHTML = `Insurance Bet <span class="insuranceBetAmount"> </span>`;
+    submitBetBtn.style.display = "none";
+    insuranceBetAmountUI.textContent = insuranceBetAmount;
+    betValueField.value = null;
+    insuranceLogic(insuranceBetAmount);
+  } else {
+    betAmount = Math.round(Number(betValueField.value));
+
+    if (betAmount > bank) {
+      betAmount = 0;
+      noticeUI.textContent = `Invalid Bet.  Please try again.`;
+      betValueField.value = null;
+      return;
+    }
+    submitBetBtn.style.display = "none";
+    noticeUI.textContent = `Bet Placed.  Deal cards to continue...`;
+
+    betValueField.value = null;
+    bank = bank - betAmount;
+    bankUI.textContent = bank;
+    betAmountUI.textContent = betAmount;
+
+    //   console.log(betAmount);
+    dealCardsBtn.style.display = "inline-block";
+  }
 }
 
 function initialDeal() {
+  dealCardsBtn.style.display = "none";
   shuffleCards(deckID);
 
   dealDealerCards(deckID);
   dealPlayerCards(deckID);
+
+  hitBtn.style.display = "inline-block";
+  standBtn.style.display = "inline-block";
+  doubleDownBtn.style.display = "inline-block";
+
+  noticeUI.textContent = `Player's Turn...`;
+
+  // checkValidSplit();
 }
 
 function checkValidSplit() {
   let card1 = playerHand[0].value;
   let card2 = playerHand[1].value;
 
+  // if (card1 == card2) {
+  //   noticeUI.textContent = `Player splits hand.  Now playing Hand 1...`;
+  //   splitPlayerHand();
+  // } else {
+  //   noticeUI.textContent = `Can't split, not a pair...`;
+  // }
+
   if (card1 == card2) {
-    noticeUI.textContent = `Player splits hand.  Now playing Hand 1...`;
-    splitPlayerHand();
-  } else {
-    noticeUI.textContent = `Can't split, not a pair...`;
+    splitBtn.style.display = "inline-block";
   }
 }
 
-function splitBtnAction() {
-  playerCurrentAction = "split";
-  if (!insuranceAlreadyChecked) checkInsurance();
-  if (insuranceStopGameGuard) return;
+// function splitBtnAction() {
+//   playerCurrentAction = "split";
+//   if (!insuranceAlreadyChecked) checkInsurance();
+//   if (insuranceStopGameGuard) return;
 
-  checkValidSplit();
-}
+//   checkValidSplit();
+// }
 
 function splitPlayerHand() {
   let errorState = false;
   if (!errorState) {
     splitMode = true;
+    splitBtn.style.display = "none";
+    doubleDownBtn.style.display = "none";
+    insuranceBtn.style.display = "none";
+    noticeUI.textContent = `Please play Hand 1`;
+
     let poppedCard = playerHand.pop();
 
     playerSplitHand.push(poppedCard);
@@ -307,30 +451,43 @@ function splitPlayerHand() {
 function dealPlayerCards(deckID) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      playerHand.push(cardsObj.card1);
-      playerHand.push(cardsObj.card2);
-      //   console.log(`dealPlayerCards`);
-      //   console.log(playerHand);
+      // playerHand.push(cardsObj.card1);
+      // playerHand.push(cardsObj.card2);
+
+      //Test Split Cards
+      playerHand.push(playerSplitTestCard1);
+      playerHand.push(playerSplitTestCard2);
+
+      console.log(`dealPlayerCards`);
+      console.log(playerHand);
       return playerHand;
       // updateUI();
     })
     .then(function (playerHand) {
       updatePlayerUI(playerHand);
     })
-    .catch((err) => dealPlayerCards(deckID));
+    .catch((err) => dealPlayerCards(deckID))
+    .finally(function () {
+      checkValidSplit();
+      checkValidInsurance();
+    });
 }
 
 function dealDealerCards(deckID) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       dealerHand.push(cardsObj.card1);
-      dealerHand.push(cardsObj.card2);
+      // dealerHand.push(cardsObj.card2);
+
+      //To test Insurance functionality (substitute card2)
+      dealerHand.push(dealerInsTestCard);
+
       //   console.log(`dealDealerCards`);
       //   console.log(dealerHand);
       return dealerHand;
     })
     .then(function (dealerHand) {
-      updateDealerUI(dealerHand);
+      updateDealerUI(dealerHand, true);
     })
     .catch((err) => dealDealerCards(deckID));
 }
@@ -352,7 +509,16 @@ function playerHit(deckID, arr) {
       }
       updatePlayerUI(arr);
     })
-    .catch((err) => drawSingleCard(deckID));
+    .catch((err) => drawSingleCard(deckID))
+    .finally(() => {
+      if (playerCurrentAction == "doubleDown" && playerHandTotal < 21) {
+        noticeUI.textContent = `Dealer's Turn...`;
+        dealerTimer = setTimeout(dealerTurn, 3000);
+      }
+
+      checkBust();
+      checkFiveCardCharlie();
+    });
 }
 
 function dealerHit(deckID) {
@@ -364,7 +530,7 @@ function dealerHit(deckID) {
       return dealerHand;
     })
     .then(function (dealerHand) {
-      updateDealerUI(dealerHand);
+      updateDealerUI(dealerHand, true);
     })
     .catch((err) => {
       drawSingleCard(deckID);
@@ -377,6 +543,15 @@ function dealerHit(deckID) {
 }
 
 function dealerTurn() {
+  hitBtn.style.display = "none";
+  standBtn.style.display = "none";
+  doubleDownBtn.style.display = "none";
+
+  // if (playerCurrentAction == `doubleDown` && playerHandTotal >= 21) {
+  //   endRound();
+  //   return;
+  // }
+
   if (dealerHandTotal <= 16) {
     noticeUI.textContent = `Dealer Hits...`;
     // let dealerHitErrGuard = dealerHand.length + 1;
@@ -391,33 +566,33 @@ function dealerTurn() {
 }
 
 function endRound() {
+  updateDealerUI(dealerHand, false);
+
   if (splitMode) {
     let playerSplitHand1 = chooseWinner(playerHandTotal, betAmount);
     let playerSplitHand2 = chooseWinner(playerSplitHandTotal, splitBetAmount);
 
     gameOutcomeUI(playerSplitHand1, playerSplitHand2);
 
-    gameTimer = setTimeout(nextRoundClearUI, 5000);
+    gameTimer = setTimeout(endRoundClearUI, 5000);
     return;
   }
 
   let playerSplitHand1 = chooseWinner(playerHandTotal, betAmount);
   gameOutcomeUI(playerSplitHand1);
-  gameTimer = setTimeout(nextRoundClearUI, 5000);
+  gameTimer = setTimeout(endRoundClearUI, 5000);
 }
 
-function nextRoundClearUI() {
-  noticeUI.textContent = `Please select bet for next round`;
-
+function endRoundClearUI() {
   betAmountUI.textContent = ``;
-  splitBetAmountUI.textContent = `---`;
-  insuranceBetAmountUI.textContent = `---`;
-  dealerHandUI.textContent = `---`;
-  dealerHandTotalUI.textContent = `---`;
+  splitBetAmountUI.textContent = ``;
+  insuranceBetAmountUI.textContent = ``;
+  dealerHandUI.textContent = ``;
+  dealerHandTotalUI.textContent = ``;
   playerHandUI.textContent = `---`;
-  playerHandTotalUI.textContent = `---`;
-  playerSplitHandUI.textContent = `---`;
-  playerSplitHandTotalUI.textContent = `---`;
+  playerHandTotalUI.textContent = ``;
+  playerSplitHandUI.textContent = ``;
+  playerSplitHandTotalUI.textContent = ``;
 
   betAmount = 0;
   playerHandTotal = 0;
@@ -435,6 +610,17 @@ function nextRoundClearUI() {
   playerHand.splice(0);
   playerSplitHand.splice(0);
   dealerHand.splice(0);
+
+  startNextRound();
+}
+
+function startNextRound() {
+  if (bank > 0) {
+    noticeUI.textContent = `Please select bet for next round`;
+    submitBetBtn.style.display = "inline";
+  } else {
+    noticeUI.textContent = "Out of money...Game Over";
+  }
 }
 
 function clearHandArray(HandArr) {}
@@ -620,20 +806,24 @@ function updatePlayerUI(arr, arr2 = null) {
   let cards2Value = [];
 
   for (let card of arr) {
-    card1UI.push(card.code);
+    let imgTag = `<img src='${card.image}' class='card'>`;
+
+    card1UI.push(imgTag);
     cards1Value.push(card.value);
   }
 
   if (splitMode) {
     for (let card of arr2) {
-      card2UI.push(card.code);
+      let imgTag = `<img src='${card.image}' class='card'>`;
+
+      card2UI.push(imgTag);
       cards2Value.push(card.value);
     }
 
     playerSplitHandTotal = getPlayerValue(cards2Value);
 
     playerSplitHandTotalUI.textContent = playerSplitHandTotal;
-    playerSplitHandUI.textContent = card2UI.join();
+    playerSplitHandUI.innerHTML = card2UI.join();
   }
 
   //   if (splitMode && currentPlayerHand == 2) {
@@ -645,15 +835,15 @@ function updatePlayerUI(arr, arr2 = null) {
   playerHandTotal = getPlayerValue(cards1Value);
 
   playerHandTotalUI.textContent = playerHandTotal;
-  playerHandUI.textContent = card1UI.join();
+  playerHandUI.innerHTML = card1UI.join();
 
   if (playerHand.length == 2 || playerSplitHand.length == 2) {
     checkNaturalBlackjack();
   }
 
-  checkBust();
+  // checkBust();
 
-  checkFiveCardCharlie();
+  // checkFiveCardCharlie();
 }
 
 function checkNaturalBlackjack() {
@@ -678,18 +868,48 @@ function checkNaturalBlackjack() {
 
 function checkBust() {
   if (splitMode) {
-    if (currentPlayerHand == 1 && playerHandTotal > 21) {
-      hand2PassNeeded = true;
-      currentPlayerHand = 2;
-    } else if (currentPlayerHand == 2 && playerSplitHandTotal > 21) {
-      dealerTurn();
+    switch (true) {
+      case currentPlayerHand == 1 && playerHandTotal > 21:
+        hand2PassNeeded = true;
+        currentPlayerHand = 2;
+        noticeUI.textContent = `Hand 1 busts...Please play Hand 2.`;
+        hitBtn.style.display = "inline-block";
+        standBtn.style.display = "inline-block";
+        break;
+      case currentPlayerHand == 2 &&
+        playerHandTotal > 21 &&
+        playerSplitHandTotal > 21:
+        endRound();
+        break;
+      case currentPlayerHand == 2 && playerSplitHandTotal > 21:
+        noticeUI.textContent = `Dealer's Turn...`;
+        dealerTimer = setTimeout(dealerTurn, 3000);
+        break;
+      default:
+        noticeUI.textContent = `Player's Turn...`;
+        hitBtn.style.display = "inline-block";
+        standBtn.style.display = "inline-block";
     }
+
+    // if (currentPlayerHand == 1 && playerHandTotal > 21) {
+    //   hand2PassNeeded = true;
+    //   currentPlayerHand = 2;
+    // } else if (currentPlayerHand == 2 && playerSplitHandTotal > 21) {
+    //   dealerTurn();
+    // }
   } else if (playerHandTotal > 21) {
+    // hitBtn.style.display = "none";
+    // standBtn.style.display = "none";
     endRound();
+  } else if (playerHandTotal <= 21 || playerSplitHandTotal <= 21) {
+    noticeUI.textContent = `Player's Turn...`;
+    hitBtn.style.display = "inline-block";
+    standBtn.style.display = "inline-block";
   }
 }
 
 function checkFiveCardCharlie() {
+  if (dealerHandTotal > 21 || playerHandTotal > 21) return;
   if (splitMode) {
     if (currentPlayerHand == 1 && playerHand.length == 5) {
       hand2PassNeeded = true;
@@ -722,22 +942,45 @@ function checkFiveCardCharlie() {
 //       playerBustRoutine();
 //   }
 
-function updateDealerUI(dealerHand) {
+function updateDealerUI(dealerHand, gameActive) {
   //   console.log(`Update Dealer UI:`);
   //   console.log(dealerHand);
 
   let cardUI = [];
   let cardsValue = [];
+  let cardsValueUI = [];
+  let visibleDealerHandTotal;
 
-  for (let card of dealerHand) {
-    cardUI.push(card.code);
+  // for (let card of dealerHand) {
+  //   let imgTag = `<img src='${card.image}' class='card'>`;
+
+  //   cardUI.push(imgTag);
+  //   cardsValue.push(card.value);
+  // }
+
+  dealerHand.forEach((card, index) => {
+    let imgTag;
+    if (index == 0) {
+      if (gameActive) {
+        imgTag = `<img src='img/playing-card-back.svg' class='card'>`;
+      } else {
+        imgTag = `<img src='${card.image}' class='card'>`;
+        cardsValueUI.push(card.value);
+      }
+    } else {
+      imgTag = `<img src='${card.image}' class='card'>`;
+      cardsValueUI.push(card.value);
+    }
+
+    cardUI.push(imgTag);
     cardsValue.push(card.value);
-  }
+  });
 
+  visibleDealerHandTotal = getPlayerValue(cardsValueUI);
   dealerHandTotal = getPlayerValue(cardsValue);
 
-  dealerHandTotalUI.textContent = dealerHandTotal;
-  dealerHandUI.textContent = cardUI.join();
+  dealerHandTotalUI.textContent = visibleDealerHandTotal;
+  dealerHandUI.innerHTML = cardUI.join();
 
   checkFiveCardCharlie();
 }
@@ -861,14 +1104,30 @@ const drawCards = function (deckID, count) {
 
 // function playerBustRoutine ()
 
-function checkInsurance() {
+function insuranceAction() {
+  playerCurrentAction = `insurance`;
+  hitBtn.style.display = "none";
+  doubleDownBtn.style.display = "none";
+  standBtn.style.display = "none";
+  splitBtn.style.display = "none";
+  insuranceBtn.style.display = "none";
+  submitBetBtn.style.display = "inline";
+
+  noticeUI.textContent = `Please submit an amount up to half your original bet`;
+}
+
+function checkValidInsurance() {
   insuranceAlreadyChecked = true;
 
-  if (!(dealerHand[1].value == "ACE")) return;
+  if (dealerHand[1].value == "ACE" && bank >= 1 && betAmount >= 2) {
+    insuranceBtn.style.display = "inline-block";
+  }
+
+  // if (!(dealerHand[1].value == "ACE")) return;
 
   //   console.log(dealerHand[1].value);
 
-  noticeUI.textContent = `Insurance?`;
+  // noticeUI.textContent = `Insurance?`;
 
   insuranceStopGameGuard = true;
   //////////////////acceptInsuranceBtn///////////////////////
@@ -876,14 +1135,14 @@ function checkInsurance() {
   ////////////////////declineInsurance/////////////////////
 }
 
-function insuranceLogic() {
-  let insuranceBet = Number(insuranceBetValueField.value);
+function insuranceLogic(insuranceBet) {
+  // let insuranceBet = Number(insuranceBetValueField.value);
 
-  if (insuranceBet > Math.round(betAmount / 2)) {
-    insuranceBet = 0;
-    noticeUI.textContent = `Invalid Insurance Bet.  Please try again.`;
-    return;
-  }
+  // if (insuranceBet > Math.round(betAmount / 2)) {
+  //   insuranceBet = 0;
+  //   noticeUI.textContent = `Invalid Insurance Bet.  Please try again.`;
+  //   return;
+  // }
 
   //   dealerHandTotal = 21;
 
@@ -891,6 +1150,7 @@ function insuranceLogic() {
     insuranceBetPlaced = true;
     insuranceStopGameGuard = false;
     bank = bank + insuranceBet * 2;
+    // bankUI.textContent = bank;
     endRound();
     return;
   }
@@ -898,6 +1158,12 @@ function insuranceLogic() {
   bank = bank - insuranceBet;
   bankUI.textContent = bank;
   noticeUI.textContent = `Lost Insurance Bet.  Player's Turn.`;
+
+  hitBtn.style.display = "inline-block";
+  standBtn.style.display = "inline-block";
+  doubleDownBtn.style.display = "inline-block";
+  checkValidSplit();
+
   insuranceStopGameGuard = false;
 }
 
@@ -943,8 +1209,9 @@ function selectTriviaQuestion() {
 
 function askTriviaQuestion(questions, questionIndex) {
   let answers = [];
-  let correctAnswer = questions[questionIndex].correctAnswer;
+  correctAnswer = questions[questionIndex].correctAnswer;
   let questionType = questions[questionIndex].type;
+  currentTriviaDifficulty = questions[questionIndex].difficulty;
 
   console.log(questionType);
 
@@ -988,12 +1255,6 @@ function askTriviaQuestion(questions, questionIndex) {
         btn.classList.add("correctAnswer");
       }
     });
-
-    //////////////////answers A - D Buttons///////////////////
-    answerABtn.addEventListener("click", determineCorrectAnswer);
-    answerBBtn.addEventListener("click", determineCorrectAnswer);
-    answerCBtn.addEventListener("click", determineCorrectAnswer);
-    answerDBtn.addEventListener("click", determineCorrectAnswer);
   }
 
   function booleanChoiceQuiz(questions, questionIndex) {
@@ -1002,33 +1263,48 @@ function askTriviaQuestion(questions, questionIndex) {
     } else {
       answerFalseBtn.classList.add("correctAnswer");
     }
+  }
+}
 
-    /////////////////True and False Answer Buttons////////////////
-    answerTrueBtn.addEventListener("click", determineCorrectAnswer);
-    answerFalseBtn.addEventListener("click", determineCorrectAnswer);
+function determineCorrectAnswer(e) {
+  let selectedAnswer = this.getAttribute("data-ans");
+  correctAnswerTriviaUI.innerHTML = correctAnswer;
+
+  if (selectedAnswer == correctAnswer) {
+    let answerCorrectly = true;
+    // document.querySelector(".correctAnswer").style.display = "inline-block";
+    if (playerCurrentAction == `doubleDown`)
+      noticeUI.textContent = `Correct Answer! Player Doubles Down`;
+    else noticeUI.textContent = `Correct Answer!`;
+
+    determineTriviaScore();
+    bankUI.textContent = bank;
+    playerTimer = setTimeout(hitAction, 3000);
+    gameTimer = setTimeout((answerCorrectly) => {
+      clearTriviaUI(answerCorrectly);
+    }, 4000);
+  } else {
+    let answerCorrectly = false;
+    noticeUI.textContent = `Incorrect Answer...`;
+    playerTimer = setTimeout(standAction, 3000);
+    gameTimer = setTimeout((answerCorrectly) => {
+      clearTriviaUI(answerCorrectly);
+    }, 4000);
   }
 
-  function determineCorrectAnswer(e) {
-    let selectedAnswer = this.getAttribute("data-ans");
-    correctAnswerTriviaUI.innerHTML = correctAnswer;
-
-    if (selectedAnswer == correctAnswer) {
-      let answerCorrectly = true;
-      // document.querySelector(".correctAnswer").style.display = "inline-block";
-      noticeUI.textContent = `Correct Answer!`;
-      bank = bank + betAmount / 2;
-      bankUI.textContent = bank;
-      playerTimer = setTimeout(hitAction, 3000);
-      gameTimer = setTimeout((answerCorrectly) => {
-        clearTriviaUI(answerCorrectly);
-      }, 4000);
-    } else {
-      let answerCorrectly = false;
-      noticeUI.textContent = `Incorrect Answer...`;
-      playerTimer = setTimeout(standAction, 3000);
-      gameTimer = setTimeout((answerCorrectly) => {
-        clearTriviaUI(answerCorrectly);
-      }, 4000);
+  function determineTriviaScore() {
+    switch (currentTriviaDifficulty) {
+      case `easy`:
+        bank = Math.round(bank + betAmount * 0.25);
+        break;
+      case `medium`:
+        bank = Math.round(bank + betAmount * 0.5);
+        break;
+      case `hard`:
+        bank = Math.round(bank + betAmount * 0.75);
+        break;
+      default:
+        console.log(`invalid trivia difficulty`);
     }
   }
 }
@@ -1051,10 +1327,13 @@ function clearTriviaUI(answerCorrectly) {
   choiceCTriviaUI.innerHTML = ``;
   choiceDTriviaUI.innerHTML = ``;
   correctAnswerTriviaUI.innerHTML = ``;
+
   answerABtn.removeAttribute(`data-ans`);
   answerBBtn.removeAttribute(`data-ans`);
   answerCBtn.removeAttribute(`data-ans`);
   answerDBtn.removeAttribute(`data-ans`);
+  correctAnswer = ``;
+  currentTriviaDifficulty = ``;
   if (answerCorrectly) {
     document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
   }

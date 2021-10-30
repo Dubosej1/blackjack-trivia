@@ -9,71 +9,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- <link rel="icon" href="data:;base64,iVBORw0KGgo=" /> -->
     <!-- <link rel="shortcut icon" href="#" /> -->
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="nav">
-      <button class="btn btn__newGame">New Game</button>
-      <button class="btn btn__endGame">End Game</button>
+      <button class="btn btn__nav btn__newGame">New Game</button>
+      <button class="btn btn__nav btn__endGame">End Game</button>
     </div>
 
     <div class="info">
       <div class="info__bank-container">
-        <p>Score: <span class="score">---</span></p>
-        <p>Bank: <span class="bank">---</span></p>
+        <!-- <p class="info__score">Score <span class="score">---</span></p> -->
+        <p class="info__bank">Bank <span class="bank"></span></p>
       </div>
       <div class="info__notice-container">
         <h1 class="notice">Notice</h1>
       </div>
     </div>
     <div class="dealer-info">
-      <div class="dealer-info__notice"></div>
+      <div class="dealer-info__notice-container"></div>
       <div class="dealer-info__card-container">
-        <p>Dealer's Cards: <span class="dealerHand">Here</span></p>
+        <span class="dealerHand"></span>
       </div>
       <div class="dealer-info__count-container">
-        <p>Dealer's Total: <span class="dealerHandTotal">Here</span></p>
+        <span class="dealer-info__count">Dealer </span><div class="dealer-info__count-background"><span class="dealerHandTotal">  </span></div>
       </div>
     </div>
 
     <div class="player-actions">
       <div class="player-actions__actions-container">
-        <button class="btn btn__hit">Hit</button>
+        <button class="btn btn__action btn__hit">Hit</button>
 
-        <button class="btn btn__doubleDown">Double Down</button>
-        <button class="btn btn__split">Split</button>
+        <button class="btn btn__action btn__doubleDown">Double Down</button>
+        <button class="btn btn__action btn__split">Split</button>
+        <button class="btn btn__action btn__insurance">Insurance</button>
       </div>
       <div class="player-actions__bet-container">
-        <p>Current Bet Amount: <span class="betAmount">---</span></p>
-        <p>Current Insurance Amount: <span class="insuranceBetAmount">---</span></p>
-        <label for="betValue">How much to bet:</label>
+        <p class="player-actions__bet">Current Bet <span class="betAmount"></span></p>
+        <p class="player-actions__insurance">Insurance Bet <span class="insuranceBetAmount"> </span></p>
+        <p class="player-actions__submit-bet"><label for="betValue">How much to bet:</label>
         <input type="text" id="betValue" name="betValue" />
         <button type="button" class="btn__submitBetValue">Submit</button
-        ><br /><br />
+        ></p><br /><br />
       </div>
       <div class="player-actions__deal-container">
-        <button class="btn btn__dealCards">Deal</button>
-        <button class="btn btn__stand">Stand</button>
+        <button class="btn btn__action btn__deal-cards">Deal</button>
+        <button class="btn btn__action btn__stand">Stand</button>
       </div>
     </div>
 
     <div class="player-info">
       <div class="player-info__notice-container"></div>
-      <div class="player-info__cards-container">
-        <p>Player's Cards: <span class="playerHand">Here</span></p>
+      <div class="player-info__card-container">
+      <span class="playerHand"></span>
       </div>
       <div class="player-info__count-container">
-        <p>Player's Total: <span class="playerHandTotal">Here</span></p>
+        <span class="player-info__count">Player </span><div class="player-info__count-background"><span class="playerHandTotal">  </span></div>
       </div>
     </div>
 
     <div class="split-info">
+      <div class="split-info__blank">
+        <p class="split-info__bet">Bet <span class="splitBetAmount">---</span></p>
+      </div>
       <div class="split-info__card-container">
-        <p>Player's Split Cards: <span class="playerSplitHand">Here</span></p>
+        <span class="playerSplitHand"></span>
       </div>
       <div class="split-info__count-container">
-        <p>Split Hand Bet Amount: <span class="splitBetAmount">---</span></p>
-        <p>Player's Split Total: <span class="playerSplitHandTotal">Here</span></p>
+        <span class="split-info__count">Hand 2 </span><div class="split-info__count-background"><span class="playerSplitHandTotal">  </span></div>
       </div>
     </div>
 
@@ -82,8 +85,8 @@
         <div class="insurance-modal__choice">
           <h1 class="insurance-modal__heading">Insurance</h1>
           <p>Dealer has an ACE showing. Do you want insurance?</p>
-          <button class="btn btn__acceptInsurance">Accept Insurance</button>
-          <button class="btn btn__declineInsurance">Decline Insurance</button>
+          <button class="btn btn__action btn__acceptInsurance">Accept Insurance</button>
+          <button class="btn btn__action btn__declineInsurance">Decline Insurance</button>
         </div>
         <div class="insurance-modal__bet-container">
           <h1 class="insurance-modal__heading">Select Amount to Bet</h1>
@@ -135,16 +138,6 @@
         </div>
       </div>
     </div>
-    
-    
-
-    
-    
-    
-
-    
-
-    
 
     <script src="index.js" async defer></script>
   </body>
