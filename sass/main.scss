@@ -1,10 +1,32 @@
 $fontFamily-body: "Tahoma", sans-serif;
 
 $fontSize-default: 1.6rem;
+$fontSize-label: 2.25rem;
+$fontSize-name: 2.5rem;
+$fontSize-hand-totals: 3rem;
 
 $fontWeight-normal: 400;
 
+$padding-general: 20px;
+
 $color-body-text: black;
+$color-body-bg: #02703d;
+$color-text-highlight: #04db77;
+$color-btn-blue: #04727d;
+$color-btn-red: #70370d;
+$color-btn-green: #32bb3e;
+$color-notice-bg: radial-gradient(#ffdbfe, #d9cad8);
+$color-btn-modal: gray;
+
+@mixin flexbox-define($display, $flex-wrap, $justify-content, $align-items) {
+  display: $display;
+  flex-wrap: $flex-wrap;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin modal($text-align: left, $z-index, $bg-color) {
+}
 
 * {
   margin: 0;
@@ -24,17 +46,69 @@ body {
   font-size: $fontSize-default;
   color: $color-body-text;
   line-height: 1.7;
-  // background-color: $color-body-bg;
+  background-color: $color-body-bg;
+}
+
+.nav {
+  text-align: right;
 }
 
 .info {
   display: flex;
   justify-content: flex-start;
+
+  &__score {
+    color: $color-text-highlight;
+    font-size: $fontSize-label;
+  }
+
+  &__bank {
+    color: $color-text-highlight;
+    font-size: $fontSize-label;
+  }
+
+  &__bank-container {
+    padding: $padding-general;
+    min-width: 20%;
+  }
+
+  &__notice-container {
+    padding: $padding-general;
+  }
+}
+
+.score,
+.bank,
+.betAmount,
+.insuranceBetAmount {
+  color: white;
 }
 
 .dealer-info {
   display: flex;
   justify-content: flex-start;
+
+  &__notice-container {
+    min-width: 20%;
+    padding: $padding-general;
+  }
+
+  &__card-container {
+    min-width: 50%;
+    padding: $padding-general;
+  }
+
+  &__count-container {
+    display: flex;
+    align-items: center;
+    min-width: 30%;
+    padding: $padding-general;
+  }
+
+  &__count {
+    color: $color-text-highlight;
+    font-size: $fontSize-name;
+  }
 }
 
 .player-actions {
@@ -44,22 +118,262 @@ body {
   &__actions-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 20%;
+    padding: $padding-general;
+  }
+
+  &__bet-container {
+    min-width: 50%;
+    text-align: center;
+    padding: $padding-general;
   }
 
   &__deal-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 30%;
+    padding: $padding-general;
+  }
+
+  &__bet {
+    color: $color-text-highlight;
+    font-size: $fontSize-label;
+  }
+
+  &__insurance {
+    color: $color-text-highlight;
+    font-size: $fontSize-label;
   }
 }
 
 .player-info {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+
+  &__notice-container {
+    min-width: 20%;
+    padding: $padding-general;
+  }
+
+  &__card-container {
+    min-width: 50%;
+    padding: $padding-general;
+  }
+
+  &__count-container {
+    display: flex;
+    align-items: center;
+    min-width: 30%;
+    padding: $padding-general;
+  }
+
+  &__count {
+    color: $color-text-highlight;
+    font-size: $fontSize-name;
+  }
 }
 
 .split-info {
   display: flex;
   justify-content: center;
+
+  &__blank {
+    min-width: 20%;
+    padding: $padding-general;
+  }
+
+  &__card-container {
+    min-width: 50%;
+    padding: $padding-general;
+  }
+
+  &__count-container {
+    display: flex;
+    align-items: center;
+    min-width: 30%;
+    padding: $padding-general;
+  }
+
+  &__bet {
+    color: $color-text-highlight;
+    font-size: $fontSize-label;
+  }
+
+  &__count {
+    color: $color-text-highlight;
+    font-size: $fontSize-name;
+  }
+}
+
+.btn {
+  color: gray;
+  text-align: center;
+  padding: 5px 5px;
+  text-decoration: none;
+  font-size: 1.6rem;
+  border-radius: 5px;
+
+  &__nav {
+    padding: 5px;
+    margin: 2px;
+  }
+
+  &__action {
+    min-width: 200px;
+    padding: 5px;
+    margin: 2px;
+    font-size: $fontSize-label;
+    display: none;
+  }
+
+  &__deal-cards {
+    background-color: $color-btn-blue;
+    color: white;
+  }
+
+  &__doubleDown {
+    background-color: $color-btn-blue;
+    color: white;
+  }
+
+  &__split {
+    background-color: $color-btn-blue;
+    color: white;
+  }
+
+  &__hit {
+    background-color: $color-btn-red;
+    color: white;
+  }
+
+  &__stand {
+    background-color: $color-btn-green;
+    color: white;
+  }
+
+  &__answer-multiple {
+    background-color: $color-btn-modal;
+    color: white;
+    display: none;
+    margin: 0 5px;
+    width: 10%;
+  }
+
+  &__answer-boolean {
+    background-color: $color-btn-modal;
+    color: white;
+    display: none;
+    margin: 0 5px;
+    width: 10%;
+  }
+
+  &__trivia-difficulty {
+    background-color: $color-btn-modal;
+    color: white;
+    display: inline;
+    margin: 0 5px;
+    width: 10%;
+  }
+
+  // &__notice-pattern-rules {
+  //   background-color: $color-rules-bg;
+  //   color: black;
+  // }
+}
+
+.correctAnswer {
+  background-color: gray;
+}
+
+.incorrectAnswer {
+  background-color: red;
+}
+
+.card {
+  width: 90px;
+}
+
+.dealerHandTotal,
+.playerHandTotal,
+.playerSplitHandTotal {
+  font-size: $fontSize-hand-totals;
+  color: white;
+}
+
+.player-info__count-background,
+.dealer-info__count-background,
+.split-info__count-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  background: rgb(13, 69, 47, 0.5);
+  border-radius: 50%;
+  width: 8rem;
+  height: 8rem;
+}
+
+.trivia {
+  &__modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb (0, 0, 0);
+    background-color: rgb (0, 0, 0, 0.4);
+  }
+
+  &__modal-heading {
+    display: block;
+  }
+
+  &__modal-content {
+    position: relative;
+    background: $color-notice-bg;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    text-align: center;
+    border-radius: 25px;
+  }
+
+  &__modal-content--close {
+    position: absolute;
+    font-size: 3rem;
+    top: 2px;
+    right: 20px;
+  }
+
+  &__modal-label--container {
+    @include flexbox-define(none, nowrap, space-around, center);
+  }
+
+  &__modal-answer-table {
+    @include flexbox-define(none, wrap, space-between, center);
+
+    &--item {
+      text-align: left;
+      display: inline-block;
+      width: 50%;
+      padding: 20px;
+    }
+  }
+
+  &__modal-answer-correct--container {
+    display: none;
+  }
+  // @include modal(center, 1, $color-notice-bg);
+}
+
+.break {
+  width: 100%;
 }

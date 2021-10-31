@@ -23,7 +23,7 @@
         <p class="info__bank">Bank <span class="bank"></span></p>
       </div>
       <div class="info__notice-container">
-        <h1 class="notice">Notice</h1>
+        <h1 class="notice">Welcome to BlackJack Trivia!</h1>
       </div>
     </div>
     <div class="dealer-info">
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div class="insurance-modal">
+    <!-- <div class="insurance-modal">
       <div class="insurance-modal__content">
         <div class="insurance-modal__choice">
           <h1 class="insurance-modal__heading">Insurance</h1>
@@ -98,43 +98,60 @@
           ><br /><br />
         </div>
       </div>
-    </div>
+    </div> -->
 
     
     <br />
 
+    <!-- <div id="notice__modal" class="notice__modal">
+      <div class="notice__modal-content">
+        <h1 class="notice__current-pattern">Bingo</h1>
+        <button class="btn__notice-pattern-rules btn">Rules</button>
+        <button class="btn__startGame btn">Start Game</button>
+        <button class="btn__nextGame btn">Next Round</button>
+      </div>
+    </div> -->
+
     
 
-    <div class="trivia-modal">
-      <div class="trivia-modal__content">
-        <h1 class="trivia-modal__heading">Hit Trivia Question</h1>
-        <div class="trivia-modal__difficulty">
-          <h2 class="trivia-modal__difficulty-heading">Select question difficulty:</h2>
-          <button class="btn btn__easy">Easy</button>
-    <button class="btn btn__medium">Medium</button>
-    <button class="btn btn__hard">Hard</button>
+    <div id="trivia__modal" class="trivia__modal">
+      <div class="trivia__modal-content">
+        <h1 class="trivia__modal-heading">Hit Trivia Question</h1>
+        <div class="trivia__modal-label--container">
+          <div>Category: <span class="trivia__category"></span></div>
+          <div>Difficulty: <span class="trivia__difficulty"></span></div>
         </div>
-        <div class="trivia-modal__question">
-          <p>Category: <span class="trivia__category"></span></p>
-          <p>Difficulty: <span class="trivia__difficulty"></span></p>
-          <p>Question: <br>
-            <h2 class="trivia__question"></h2></p>
-            <p>A: <span class="trivia__answer-a"></span></p>
-    <p>B: <span class="trivia__answer-b"></span></p>
-    <p>C: <span class="trivia__answer-c"></span></p>
-    <p>D: <span class="trivia__answer-d"></span></p>
-    <button class="btn btn__answer-multiple btn__answer-a">A</button>
-    <button class="btn btn__answer-multiple btn__answer-b">B</button>
-    <button class="btn btn__answer-multiple btn__answer-c">C</button>
-    <button class="btn btn__answer-multiple btn__answer-d">D</button
-    ><br /><br />
-    <button class="btn btn__answer-boolean btn__answer-true" data-ans="True">
-      True
-    </button>
-    <button class="btn btn__answer-boolean btn__answer-false" data-ans="False">
-      False
-    </button>
-    <h2>Correct Answer: <span class="trivia__answer-correct"></span></h2>
+        <div><h2 class="trivia__question">Select Trivia Difficulty</h2></div>
+        <div class="trivia__modal-answer-table">
+          <div class="trivia__modal-answer-table--item">A: <span class="trivia__answer-a"></span></div>
+          <div class="trivia__modal-answer-table--item">B: <span class="trivia__answer-b"></span></div><br /></br /><hr>
+          <div class="break"> </div>
+          <div class="trivia__modal-answer-table--item">C: <span class="trivia__answer-c"></span></div>
+          <div class="trivia__modal-answer-table--item">D: <span class="trivia__answer-d"></span></div>
+        </div>
+        <div class="trivia__modal-button-container">
+          <button class="btn btn__answer-multiple btn__answer-a">A</button>
+          <button class="btn btn__answer-multiple btn__answer-b">B</button>
+          <button class="btn btn__answer-multiple btn__answer-c">C</button>
+          <button class="btn btn__answer-multiple btn__answer-d">D</button><br /><br />
+          <button class="btn btn__answer-boolean btn__answer-true" data-ans="True">True</button>
+          <button class="btn btn__answer-boolean btn__answer-false" data-ans="False">False</button><br /><br />
+          <button class="btn btn__trivia-difficulty btn__easy">Easy</button>
+          <button class="btn btn__trivia-difficulty btn__medium">Medium</button>
+          <button class="btn btn__trivia-difficulty btn__hard">Hard</button>
+        </div>
+          <h2 class="trivia__modal-answer-correct--container">Correct Answer: <span class="trivia__answer-correct"></span></h2>
+        <!-- <div class="trivia-modal__difficulty">
+          <h2 class="trivia-modal__difficulty-heading">Select question difficulty:</h2>
+          
+        </div> -->
+        <!-- <div class="trivia-modal__question">
+          
+          
+          <p>Question: <br> -->
+          
+          
+          
         </div>
       </div>
     </div>
