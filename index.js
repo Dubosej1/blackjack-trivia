@@ -24,6 +24,7 @@ const answerCBtn = document.querySelector(".btn__answer-c");
 const answerDBtn = document.querySelector(".btn__answer-d");
 const answerTrueBtn = document.querySelector(".btn__answer-true");
 const answerFalseBtn = document.querySelector(".btn__answer-false");
+const answerBtns = document.querySelectorAll(".btn__answer");
 const multipleChoiceAnswerBtns = document.querySelectorAll(
   ".btn__answer-multiple"
 );
@@ -1329,6 +1330,10 @@ function askTriviaQuestion(questions, questionIndex) {
 }
 
 function determineCorrectAnswer(e) {
+  answerBtns.forEach(function (btn) {
+    btn.disabled = true;
+  });
+
   let selectedAnswer = this.getAttribute("data-ans");
   triviaCorrectAnswerField.style.display = `inline-block`;
   correctAnswerTriviaUI.innerHTML = correctAnswer;
@@ -1420,12 +1425,17 @@ function clearTriviaUI(answerCorrectly) {
     document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
   }
   triviaModal.style.display = `none`;
-  multipleChoiceAnswerBtns.forEach(function (btn) {
+
+  answerBtns.forEach(function (btn) {
+    btn.disabled = false;
     btn.style.display = `none`;
   });
-  booleanChoiceAnswerBtns.forEach(function (btn) {
-    btn.style.display = `none`;
-  });
+  // multipleChoiceAnswerBtns.forEach(function (btn) {
+  //   btn.style.display = `none`;
+  // });
+  // booleanChoiceAnswerBtns.forEach(function (btn) {
+  //   btn.style.display = `none`;
+  // });
   triviaDifficultyBtns.forEach(function (btn) {
     btn.style.display = `inline-block`;
   });
