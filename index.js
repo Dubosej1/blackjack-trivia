@@ -48,6 +48,7 @@ const insuranceBetValueField = document.querySelector("#insuranceBetValue");
 const dealerHandUI = document.querySelector(".dealerHand");
 const dealerHandTotalUI = document.querySelector(".dealerHandTotal");
 const playerHandUI = document.querySelector(".playerHand");
+const playerHandLabel = document.querySelector(`.player-info__count`);
 const playerHandTotalUI = document.querySelector(".playerHandTotal");
 const playerSplitHandUI = document.querySelector(".playerSplitHand");
 const playerSplitHandTotalUI = document.querySelector(".playerSplitHandTotal");
@@ -95,6 +96,7 @@ let easyCurrentIndex = 0,
   mediumCurrentIndex = 0,
   hardCurrentIndex = 0;
 let deckID = "0x";
+let endGameBtnPressed = false;
 
 //Test cards
 const dealerInsTestCard = {
@@ -173,6 +175,12 @@ const standAction = function () {
 };
 
 newGameBtn.addEventListener("click", startNewGame);
+
+endGameBtn.addEventListener("click", function () {
+  endGameBtnPressed = true;
+  endGameBtn.style.display = `none`;
+  endRoundClearUI();
+});
 
 hitBtn.addEventListener("click", function () {
   doubleDownBtn.style.display = "none";
@@ -302,6 +310,9 @@ function startNewGame() {
   bank = 1000;
   bankUI.textContent = bank;
 
+  newGameBtn.style.display = `none`;
+  endGameBtn.style.display = `inline-block`;
+
   generateTriviaQuestions(easy).then((questions) => {
     easyQuestions = questions;
   });
@@ -430,6 +441,7 @@ function splitPlayerHand() {
     splitBtn.style.display = "none";
     doubleDownBtn.style.display = "none";
     insuranceBtn.style.display = "none";
+    playerHandLabel.textContent = `Hand 1 `;
     noticeUI.textContent = `Please play Hand 1`;
 
     let poppedCard = playerHand.pop();
@@ -608,6 +620,7 @@ function endRoundClearUI() {
   playerHandTotalUI.textContent = ``;
   playerSplitHandUI.textContent = ``;
   playerSplitHandTotalUI.textContent = ``;
+  playerHandLabel.textContent = `Player `;
 
   betAmount = 0;
   playerHandTotal = 0;
@@ -626,15 +639,32 @@ function endRoundClearUI() {
   playerSplitHand.splice(0);
   dealerHand.splice(0);
 
-  startNextRound();
+  if (endGameBtnPressed == true) {
+    noticeUI.textContent = `Game Ended.  Select New Game...`;
+
+    newGameBtn.style.display = `inline-block`;
+    dealCardsBtn.style.display = `none`;
+    submitBetBtn.style.display = `none`;
+    hitBtn.style.display = `none`;
+    standBtn.style.display = `none`;
+    doubleDownBtn.style.display = `none`;
+    splitBtn.style.display = `none`;
+    insuranceBtn.style.display = `none`;
+
+    bank = 0;
+    bankUI.textContent = bank;
+    endGameBtnPressed = false;
+  } else startNextRound();
 }
 
 function startNextRound() {
   if (bank > 0) {
-    noticeUI.textContent = `Please select bet for next round`;
+    noticeUI.textContent = "Place an amount to bet";
     submitBetBtn.style.display = "inline";
   } else {
-    noticeUI.textContent = "Out of money...Game Over";
+    noticeUI.textContent = `No more money.  Game Over...`;
+    endGameBtn.style.display = `none`;
+    newGameBtn.style.display = `inline-block`;
   }
 }
 
@@ -1328,7 +1358,7 @@ function determineCorrectAnswer(e) {
     // noticeUI.textContent = `Wrong Answer...`;
 
     document.querySelector(".correctAnswer").style.backgroundColor = `green`;
-    this.classList.add(`incorrectAnswer`);
+    this.id = `incorrectAnswer`;
 
     triviaModalHeading.textContent = `Wrong Answer...`;
     triviaModalHeading.style.color = `red`;
@@ -1382,12 +1412,12 @@ function clearTriviaUI(answerCorrectly) {
   currentTriviaDifficulty = ``;
 
   document.querySelector(".correctAnswer").style.backgroundColor = `grey`;
-  if (answerCorrectly) {
-    document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
-  } else {
-    document
-      .querySelector(`.incorrectAnswer`)
-      .classList.remove(`incorrectAnswer`);
+  document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
+
+  if (!answerCorrectly) {
+    //   document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
+    // } else {
+    document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
   }
   triviaModal.style.display = `none`;
   multipleChoiceAnswerBtns.forEach(function (btn) {
