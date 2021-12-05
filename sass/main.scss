@@ -145,6 +145,7 @@ body {
   }
 
   &__insurance {
+    display: none;
     color: $color-text-highlight;
     font-size: $fontSize-label;
   }
@@ -289,8 +290,8 @@ body {
   background-color: gray;
 }
 
-.incorrectAnswer {
-  background-color: red;
+#incorrectAnswer {
+  background-color: red !important;
 }
 
 .card {

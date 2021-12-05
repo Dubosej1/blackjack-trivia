@@ -103,6 +103,7 @@ body {
   font-size: 2.25rem;
 }
 .player-actions__insurance {
+  display: none;
   color: #04db77;
   font-size: 2.25rem;
 }
@@ -222,8 +223,8 @@ body {
   background-color: gray;
 }
 
-.incorrectAnswer {
-  background-color: red;
+#incorrectAnswer {
+  background-color: red !important;
 }
 
 .card {
