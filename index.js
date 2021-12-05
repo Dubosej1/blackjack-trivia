@@ -203,6 +203,9 @@ insuranceBtn.addEventListener("click", insuranceAction);
 
 // Trivia Difficulty Btns
 easyDifficultyBtn.addEventListener("click", function () {
+  askTriviaQuestion(easyQuestions, easyCurrentIndex);
+  easyCurrentIndex++;
+
   if (easyCurrentIndex == 10) {
     easyCurrentIndex = 0;
     easyQuestions.splice(0);
@@ -210,11 +213,12 @@ easyDifficultyBtn.addEventListener("click", function () {
       easyQuestions = questions;
     });
   }
-  askTriviaQuestion(easyQuestions, easyCurrentIndex);
-  easyCurrentIndex++;
 });
 
 mediumDifficultyBtn.addEventListener("click", function () {
+  askTriviaQuestion(mediumQuestions, mediumCurrentIndex);
+  mediumCurrentIndex++;
+
   if (mediumCurrentIndex == 10) {
     mediumCurrentIndex = 0;
     mediumQuestions.splice(0);
@@ -222,11 +226,12 @@ mediumDifficultyBtn.addEventListener("click", function () {
       mediumQuestions = questions;
     });
   }
-  askTriviaQuestion(mediumQuestions, mediumCurrentIndex);
-  mediumCurrentIndex++;
 });
 
 hardDifficultyBtn.addEventListener("click", function () {
+  askTriviaQuestion(hardQuestions, hardCurrentIndex);
+  hardCurrentIndex++;
+
   if (hardCurrentIndex == 10) {
     hardCurrentIndex = 0;
     hardQuestions.splice(0);
@@ -234,8 +239,6 @@ hardDifficultyBtn.addEventListener("click", function () {
       hardQuestions = questions;
     });
   }
-  askTriviaQuestion(hardQuestions, hardCurrentIndex);
-  hardCurrentIndex++;
 });
 
 // Multiple Choice Answer Btns
@@ -355,12 +358,12 @@ function initialDeal() {
 function dealPlayerCards(deckID) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      playerHand.push(cardsObj.card1);
-      playerHand.push(cardsObj.card2);
+      // playerHand.push(cardsObj.card1);
+      // playerHand.push(cardsObj.card2);
 
       //Test Split Cards
-      // playerHand.push(playerSplitTestCard1);
-      // playerHand.push(playerSplitTestCard2);
+      playerHand.push(playerSplitTestCard1);
+      playerHand.push(playerSplitTestCard2);
 
       console.log(`dealPlayerCards`);
       console.log(playerHand);
