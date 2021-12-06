@@ -1,17 +1,17 @@
 import {
   startNewGame,
-  applyEndGameBtn,
+  //   applyEndGameBtn,
   submitBetValue,
-  applyInitialCards,
-  hitAction,
-  standAction,
-  doubleDownAction,
-  splitAction,
-  insuranceAction,
-  applyEasyQuestionDifficulty,
-  applyMediumQuestionDifficulty,
-  applyHardQuestionDifficulty,
-  collectTriviaAnswer,
+  //   applyInitialCards,
+  //   hitAction,
+  //   standAction,
+  //   doubleDownAction,
+  //   splitAction,
+  //   insuranceAction,
+  //   applyEasyQuestionDifficulty,
+  //   applyMediumQuestionDifficulty,
+  //   applyHardQuestionDifficulty,
+  //   collectTriviaAnswer,
 } from "/controller-2.js";
 /////////////////////////////////////////////
 ////////// Selectors
@@ -118,7 +118,7 @@ const multipleChoiceAnswerField = document.querySelector(
 //   });
 // }
 
-export function addHandlerListeners(handlerMap) {
+export function addHandlerListeners(handlerMap, gameState = null) {
   // handlerMap.forEach(function (item) {
   //   let [class, callback] = item;
 
@@ -135,7 +135,9 @@ export function addHandlerListeners(handlerMap) {
     });
     if (!classCallback) return;
 
-    btn.addEventListener(`click`, classCallback);
+    btn.addEventListener(`click`, function (event) {
+      classCallback(event, gameState);
+    });
   });
 
   //   allBtns.forEach(function (btn) {
@@ -189,4 +191,12 @@ export function renderBetAmount(
   betAmountUI.textContent = betAmount;
   if (splitBetAmount) splitBetAmountUI.textContent = splitBetAmount;
   if (insuranceBetAmount) insuranceBetAmountUI.textContent = insuranceBetAmount;
+}
+
+export function collectBetSubmitted() {
+  return Math.round(Number(betValueField.value));
+}
+
+export function renderBetValueField(value) {
+  betValueField.value = value;
 }

@@ -47,20 +47,27 @@ class State {
     split: false,
     insurance: false,
   };
+  noticeText;
+  betAmount;
+  gameMode;
+  fiveCardCharlie;
+  gameActive;
+  //   test = `testing 1`;
 
   constructor(bank) {
     this.bank = bank;
-    this.noticeText = noticeText;
-    this.betAmount = betAmount;
-    this.navBtnVisible = navBtnVisible;
-    this.gameBtnVisible = gameBtnVisible;
-    this.gameMode = gameMode;
-    this.fiveCardCharlie = fiveCardCharlie;
-    this.gameActive = gameActive;
+    // this.noticeText = noticeText;
+    // this.betAmount = betAmount;
+    // this.navBtnVisible = navBtnVisible;
+    // this.gameBtnVisible = gameBtnVisible;
+    // this.gameMode = gameMode;
+    // this.fiveCardCharlie = fiveCardCharlie;
+    // this.gameActive = gameActive;
   }
 
   toggleGameActive(toggle) {
     toggle ? (this.gameActive = true) : (this.gameActive = false);
+    bjModel.updateGameActive(toggle);
   }
 
   set updateBank(bank) {
@@ -88,17 +95,29 @@ class State {
     this.gameBtnVisible = { ...this.gameBtnVisible, ...obj };
     view.renderBtnVisibility(this.gameBtnVisible);
   }
+
+  set updateVisibleNavBtns(obj) {
+    this.navBtnVisible = { ...this.navBtnVisible, ...obj };
+    view.renderBtnVisibility(this.navBtnVisible);
+  }
+
+  //   set updateTest(str) {
+  //     this.test = str;
+  //   }
 }
 
-export function startNewGame() {
+export function startNewGame(e, gameState) {
   let bank = 1000;
-  triviaModel.generateTriviaQuestions();
-  view.renderBtnVisibility({ newGame: false, endGame: true });
+  //   triviaModel.generateTriviaQuestions();
+  view.renderBtnVisibility({ array: btnsArr, newGame: false, endGame: true });
   startNewRound(bank);
 }
 
 function startNewRound(bank) {
   let gameState = new State(bank);
+  gameState.updateBank = bank;
+
+  view.addHandlerListeners(btnsArr, gameState);
 
   gameState.toggleGameActive(true);
   gameState.updateNoticeText = `Place an amount to bet`;
@@ -107,10 +126,10 @@ function startNewRound(bank) {
   bjModel.initDeck();
 }
 
-export function submitBetValue() {
+export function submitBetValue(e, gameState) {
   let betAmount = view.collectBetSubmitted();
 
-  if (!bjModel.applyInsuranceLogic(betAmount)) return;
+  //   if (!bjModel.applyInsuranceLogic(betAmount)) return;
 
   if (!bjModel.checkValidBet(betAmount)) {
     gameState.updateNoticeText = `Invalid Bet.  Please try again.`;
@@ -118,22 +137,32 @@ export function submitBetValue() {
     return;
   }
 
-  let updatedInfoArr = bjModel.collectBankBetAmount();
-  renderSubmitBet(updatedInfoArr);
+  gameState.updateBetAmount = betAmount;
 
-  bjModel.dealInitialCards();
+  gameState.updateVisibleGameBtns = { submitBet: false, dealCards: true };
+  gameState.updateNoticeText = `Bet Placed. Deal cards to continue...`;
 
-  function renderSubmitBet(arr) {
-    let [bank, betAmount] = arr;
-    gameState.updateBank = bank;
-    gameState.updateBetAmount = betAmount;
-    gameState.updateVisibleGameBtns = { submitBet: false, dealCards: true };
-    gameState.updateNoticeText = `Bet Placed. Deal cards to continue...`;
-  }
+  //   bjModel.dealInitialCards();
 }
 
 function init() {
-  view.addHandlerListeners(btnsArr);
+  let arr = [
+    { name: "newGame", class: "btn__newGame", callback: startNewGame },
+  ];
+  view.addHandlerListeners(arr);
+  console.log(arr);
 }
 
 init();
+
+export function applyInitialCards(event, gameState) {}
+export function hitAction(event, gameState) {}
+export function standAction(event, gameState) {}
+export function splitAction(event, gameState) {}
+export function insuranceAction(event, gameState) {}
+export function doubleDownAction(event, gameState) {}
+export function applyEasyQuestionDifficulty(event, gameState) {}
+export function applyMediumQuestionDifficulty(event, gameState) {}
+export function applyHardQuestionDifficulty(event, gameState) {}
+export function collectTriviaAnswer(event, gameState) {}
+export function applyEndGameBtn(event, gameState) {}
