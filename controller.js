@@ -15,6 +15,7 @@ import {
   changeCurrentSplitHand,
   makeGameInactive,
   calculatePlayerWinnings,
+  collectBankBetAmount,
 } from "./blackjack-model.js";
 import {
   addHandlerListeners,
@@ -36,6 +37,8 @@ import {
   renderInsuranceBetField,
   hideInsuranceBetField,
   renderNoticeText,
+  renderBank,
+  renderBetAmount,
 } from "./view.js";
 import {
   selectTriviaDifficulty,
@@ -76,40 +79,6 @@ const btnsArr = [
     callback: collectTriviaAnswer,
   },
 ];
-
-class State {
-  constructor (bank) {
-    this.bank = bank;
-    this.noticeText = noticeText;
-    this.betAmount = betAmount;
-    this.navBtnVisible = navBtnVisible;
-    this.gameBtnVisible = gameBtnVisible;
-    this.gameMode = gameMode;
-    this.fiveCardCharlie = fiveCardCharlie;
-    this.gameActive = gameActive;
-  }
-
-  toggleGameActive(toggle) {
-    toggle ? this.gameActive = true : this.gameActive = false;
-  }
-  
-
-  set currentBank (bank) {
-    this.bank = bank;
-  }
-
-  set updateNoticeText (str) {
-    this.noticeText = str;
-    renderNoticeText(str);
-  }
-
-  set updateVisibleGameBtns (obj) {
-    this.gameBtnVisible = {...this.gameBtnVisible, ...obj};
-    renderBtnVisibility(this.gameBtnVisible);
-  }
-
-  }
-}
 
 let state = {
   bank: 0,
@@ -158,50 +127,65 @@ function startNewRound() {
   state.gameBtnVisible = { ...state.gameBtnVisible, submitBet: true };
 
   renderUIFields(state);
-  // renderBtnVisibility(state.navBtnVisible);
   renderBtnVisibility(state.gameBtnVisible);
-  initDeck();
-  //////////////////
-
-  startNewRound(bank) {}
-  let gameState = new State (bank);
-
-  gameState.toggleGameActive(true);
-  gameState.updateNoticeText = `Place an amount to bet`;
-  gameState.updateVisibleGameBtns = {submitBet: true};
   initDeck();
 }
 
 export function submitBetValue() {
+  // let betAmount = collectBetSubmitted();
+
+  // if (!applyInsuranceLogic(betAmount)) return;
+
+  // if (!checkValidBet(betAmount)) {
+  //   state.noticeText = `Invalid Bet.  Please try again.`;
+  //   renderUIFields(state, true);
+  //   renderBetValueField(null);
+  //   return;
+  // }
+
+  // let updatedInfoArr = updateBetAmount(betAmount);
+  // renderSubmitBet(updatedInfoArr);
+
+  // dealInitialCards();
+
+  // function renderSubmitBet(arr) {
+  //   let [bank, betAmount] = arr;
+  //   state.bank = bank;
+  //   state.betAmount = betAmount;
+  //   state.gameBtnVisible = {
+  //     ...state.gameBtnVisible,
+  //     submitBet: false,
+  //     dealCards: true,
+  //   };
+  //   state.noticeText = `Bet Placed.  Deal cards to continue...`;
+  //   renderBetValueField(null);
+  //   renderUIFields(state);
+  //   renderBtnVisibility(state.gameBtnVisible);
+  // }
+
+  ///////////////////////////
+
   let betAmount = collectBetSubmitted();
 
   if (!applyInsuranceLogic(betAmount)) return;
 
   if (!checkValidBet(betAmount)) {
-    state.noticeText = `Invalid Bet.  Please try again.`;
-    renderUIFields(state, true);
+    gameState.updateNoticeText = `Invalid Bet.  Please try again.`;
     renderBetValueField(null);
     return;
   }
 
-  let updatedInfoArr = updateBetAmount(betAmount);
+  let updatedInfoArr = collectBankBetAmount();
   renderSubmitBet(updatedInfoArr);
 
   dealInitialCards();
 
   function renderSubmitBet(arr) {
     let [bank, betAmount] = arr;
-    state.bank = bank;
-    state.betAmount = betAmount;
-    state.gameBtnVisible = {
-      ...state.gameBtnVisible,
-      submitBet: false,
-      dealCards: true,
-    };
-    state.noticeText = `Bet Placed.  Deal cards to continue...`;
-    renderBetValueField(null);
-    renderUIFields(state);
-    renderBtnVisibility(state.gameBtnVisible);
+    gameState.updateBank = bank;
+    gameState.updateBetAmount = betAmount;
+    gameState.updateVisibleGameBtns = { submitBet: false, dealCards: true };
+    gameState.updateNoticeText = `Bet Placed. Deal cards to continue...`;
   }
 }
 

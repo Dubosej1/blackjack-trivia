@@ -177,6 +177,20 @@ export function renderNoticeText(str) {
   noticeUI.innerHTML = str;
 }
 
+export function renderBank(bank) {
+  bankUI.textContent = bank;
+}
+
+export function renderBetAmount(
+  betAmount,
+  splitBetAmount = null,
+  insuranceBetAmount = null
+) {
+  betAmountUI.textContent = betAmount;
+  if (splitBetAmount) splitBetAmountUI.textContent = splitBetAmount;
+  if (insuranceBetAmount) insuranceBetAmountUI.textContent = insuranceBetAmount;
+}
+
 export function renderUIFields(state, noticeToken = false) {
   noticeUI.innerHTML = state.noticeText;
   if (noticeToken) return;

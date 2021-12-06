@@ -34,159 +34,6 @@ let specialToken = {
 let splitHandPass = { hand1Bust: false, hand2Charlie: false };
 // let bustSplitHandPass = false;
 
-////////// Test cards //////////
-// Dealer card for testing Insurance mode logic
-const dealerInsTestCard = {
-  code: "AH",
-  image: `https://deckofcardsapi.com/static/img/AH.png`,
-  images: {
-    svg: "https://deckofcardsapi.com/static/img/7H.svg",
-    png: "https://deckofcardsapi.com/static/img/7H.png",
-  },
-  suit: "HEARTS",
-  value: "ACE",
-};
-
-// Player cards for testing Split mode logic
-const playerSplitTestCard1 = {
-  code: "7S",
-  image: `https://deckofcardsapi.com/static/img/7S.png`,
-  images: {
-    svg: "https://deckofcardsapi.com/static/img/7S.svg",
-    png: "https://deckofcardsapi.com/static/img/7S.png",
-  },
-  suit: "SPADES",
-  value: "7",
-};
-
-const playerSplitTestCard2 = {
-  code: "7H",
-  image: `https://deckofcardsapi.com/static/img/7H.png`,
-  images: {
-    svg: "https://deckofcardsapi.com/static/img/7H.svg",
-    png: "https://deckofcardsapi.com/static/img/7H.png",
-  },
-  suit: "HEARTS",
-  value: "7",
-};
-
-function createFiveCardCharlieTestHand(player) {
-  if (player === `dealer`) {
-    dealerHand.push({
-      code: "AH",
-      image: `https://deckofcardsapi.com/static/img/AH.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AH.svg",
-        png: "https://deckofcardsapi.com/static/img/AH.png",
-      },
-      suit: "HEARTS",
-      value: "ACE",
-    });
-    dealerHand.push({
-      code: "AS",
-      image: `https://deckofcardsapi.com/static/img/AS.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AS.svg",
-        png: "https://deckofcardsapi.com/static/img/AS.png",
-      },
-      suit: "SPADES",
-      value: "ACE",
-    });
-    dealerHand.push({
-      code: "2D",
-      image: `https://deckofcardsapi.com/static/img/2D.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/2D.svg",
-        png: "https://deckofcardsapi.com/static/img/2D.png",
-      },
-      suit: "DIAMONDS",
-      value: "2",
-    });
-    dealerHand.push({
-      code: "AC",
-      image: `https://deckofcardsapi.com/static/img/AC.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AC.svg",
-        png: "https://deckofcardsapi.com/static/img/AC.png",
-      },
-      suit: "CLUBS",
-      value: "ACE",
-    });
-  } else if (player == `split`) {
-    playerSplitHand.push({
-      code: "AH",
-      image: `https://deckofcardsapi.com/static/img/AH.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AH.svg",
-        png: "https://deckofcardsapi.com/static/img/AH.png",
-      },
-      suit: "HEARTS",
-      value: "ACE",
-    });
-    playerSplitHand.push({
-      code: "AS",
-      image: `https://deckofcardsapi.com/static/img/AS.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AS.svg",
-        png: "https://deckofcardsapi.com/static/img/AS.png",
-      },
-      suit: "SPADES",
-      value: "ACE",
-    });
-    playerSplitHand.push({
-      code: "AC",
-      image: `https://deckofcardsapi.com/static/img/AC.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AC.svg",
-        png: "https://deckofcardsapi.com/static/img/AC.png",
-      },
-      suit: "CLUBS",
-      value: "ACE",
-    });
-  } else {
-    playerHand.push({
-      code: "AH",
-      image: `https://deckofcardsapi.com/static/img/AH.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AH.svg",
-        png: "https://deckofcardsapi.com/static/img/AH.png",
-      },
-      suit: "HEARTS",
-      value: "ACE",
-    });
-    playerHand.push({
-      code: "AS",
-      image: `https://deckofcardsapi.com/static/img/AS.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AS.svg",
-        png: "https://deckofcardsapi.com/static/img/AS.png",
-      },
-      suit: "SPADES",
-      value: "ACE",
-    });
-    playerHand.push({
-      code: "2D",
-      image: `https://deckofcardsapi.com/static/img/2D.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/2D.svg",
-        png: "https://deckofcardsapi.com/static/img/2D.png",
-      },
-      suit: "DIAMONDS",
-      value: "2",
-    });
-    playerHand.push({
-      code: "AC",
-      image: `https://deckofcardsapi.com/static/img/AC.png`,
-      images: {
-        svg: "https://deckofcardsapi.com/static/img/AC.svg",
-        png: "https://deckofcardsapi.com/static/img/AC.png",
-      },
-      suit: "CLUBS",
-      value: "ACE",
-    });
-  }
-}
-
 export function resetBank() {
   bank = 1000;
   return bank;
@@ -817,4 +664,157 @@ export function clearRoundModelData() {
   playerCardImgs.splice(0);
   playerSplitCardImgs.splice(0);
   dealerCardImgs.splice(0);
+}
+
+////////// Test cards //////////
+// Dealer card for testing Insurance mode logic
+const dealerInsTestCard = {
+  code: "AH",
+  image: `https://deckofcardsapi.com/static/img/AH.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7H.svg",
+    png: "https://deckofcardsapi.com/static/img/7H.png",
+  },
+  suit: "HEARTS",
+  value: "ACE",
+};
+
+// Player cards for testing Split mode logic
+const playerSplitTestCard1 = {
+  code: "7S",
+  image: `https://deckofcardsapi.com/static/img/7S.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7S.svg",
+    png: "https://deckofcardsapi.com/static/img/7S.png",
+  },
+  suit: "SPADES",
+  value: "7",
+};
+
+const playerSplitTestCard2 = {
+  code: "7H",
+  image: `https://deckofcardsapi.com/static/img/7H.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7H.svg",
+    png: "https://deckofcardsapi.com/static/img/7H.png",
+  },
+  suit: "HEARTS",
+  value: "7",
+};
+
+function createFiveCardCharlieTestHand(player) {
+  if (player === `dealer`) {
+    dealerHand.push({
+      code: "AH",
+      image: `https://deckofcardsapi.com/static/img/AH.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AH.svg",
+        png: "https://deckofcardsapi.com/static/img/AH.png",
+      },
+      suit: "HEARTS",
+      value: "ACE",
+    });
+    dealerHand.push({
+      code: "AS",
+      image: `https://deckofcardsapi.com/static/img/AS.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AS.svg",
+        png: "https://deckofcardsapi.com/static/img/AS.png",
+      },
+      suit: "SPADES",
+      value: "ACE",
+    });
+    dealerHand.push({
+      code: "2D",
+      image: `https://deckofcardsapi.com/static/img/2D.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/2D.svg",
+        png: "https://deckofcardsapi.com/static/img/2D.png",
+      },
+      suit: "DIAMONDS",
+      value: "2",
+    });
+    dealerHand.push({
+      code: "AC",
+      image: `https://deckofcardsapi.com/static/img/AC.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AC.svg",
+        png: "https://deckofcardsapi.com/static/img/AC.png",
+      },
+      suit: "CLUBS",
+      value: "ACE",
+    });
+  } else if (player == `split`) {
+    playerSplitHand.push({
+      code: "AH",
+      image: `https://deckofcardsapi.com/static/img/AH.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AH.svg",
+        png: "https://deckofcardsapi.com/static/img/AH.png",
+      },
+      suit: "HEARTS",
+      value: "ACE",
+    });
+    playerSplitHand.push({
+      code: "AS",
+      image: `https://deckofcardsapi.com/static/img/AS.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AS.svg",
+        png: "https://deckofcardsapi.com/static/img/AS.png",
+      },
+      suit: "SPADES",
+      value: "ACE",
+    });
+    playerSplitHand.push({
+      code: "AC",
+      image: `https://deckofcardsapi.com/static/img/AC.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AC.svg",
+        png: "https://deckofcardsapi.com/static/img/AC.png",
+      },
+      suit: "CLUBS",
+      value: "ACE",
+    });
+  } else {
+    playerHand.push({
+      code: "AH",
+      image: `https://deckofcardsapi.com/static/img/AH.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AH.svg",
+        png: "https://deckofcardsapi.com/static/img/AH.png",
+      },
+      suit: "HEARTS",
+      value: "ACE",
+    });
+    playerHand.push({
+      code: "AS",
+      image: `https://deckofcardsapi.com/static/img/AS.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AS.svg",
+        png: "https://deckofcardsapi.com/static/img/AS.png",
+      },
+      suit: "SPADES",
+      value: "ACE",
+    });
+    playerHand.push({
+      code: "2D",
+      image: `https://deckofcardsapi.com/static/img/2D.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/2D.svg",
+        png: "https://deckofcardsapi.com/static/img/2D.png",
+      },
+      suit: "DIAMONDS",
+      value: "2",
+    });
+    playerHand.push({
+      code: "AC",
+      image: `https://deckofcardsapi.com/static/img/AC.png`,
+      images: {
+        svg: "https://deckofcardsapi.com/static/img/AC.svg",
+        png: "https://deckofcardsapi.com/static/img/AC.png",
+      },
+      suit: "CLUBS",
+      value: "ACE",
+    });
+  }
 }
