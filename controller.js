@@ -35,6 +35,7 @@ import {
   displayTriviaCorrectAnswer,
   renderInsuranceBetField,
   hideInsuranceBetField,
+  renderNoticeText,
 } from "./view.js";
 import {
   selectTriviaDifficulty,
@@ -76,26 +77,39 @@ const btnsArr = [
   },
 ];
 
-// const btnsArr = [
-//   { event: "newGameBtn", callback: startNewGame },
-//   { event: "endGameBtn", callback: applyEndGameBtn },
-//   { event: "submitBetBtn", callback: submitBet },
-//   { event: "dealCardsBtn", callback: applyInitialCards },
-//   { event: "hitBtn", callback: hitAction },
-//   { event: "standBtn", callback: standAction },
-//   { event: "doubleDownBtn", callback: doubleDownAction },
-//   { event: "splitBtn", callback: splitAction },
-//   { event: "insuranceBtn", callback: insuranceAction },
-//   { event: "easyDifficultyBtn", callback: applyEasyQuestionDifficulty },
-//   { event: "mediumDifficultyBtn", callback: applyMediumQuestionDifficulty },
-//   { event: "hardDifficultyBtn", callback: applyHardQuestionDifficulty },
-//   { event: "answerABtn", callback: collectTriviaAnswer },
-//   { event: "answerBBtn", callback: collectTriviaAnswer },
-//   { event: "answerCBtn", callback: collectTriviaAnswer },
-//   { event: "answerDBtn", callback: collectTriviaAnswer },
-//   { event: "answerTrueBtn", callback: collectTriviaAnswer },
-//   { event: "answerFalseBtn", callback: collectTriviaAnswer },
-// ];
+class State {
+  constructor (bank) {
+    this.bank = bank;
+    this.noticeText = noticeText;
+    this.betAmount = betAmount;
+    this.navBtnVisible = navBtnVisible;
+    this.gameBtnVisible = gameBtnVisible;
+    this.gameMode = gameMode;
+    this.fiveCardCharlie = fiveCardCharlie;
+    this.gameActive = gameActive;
+  }
+
+  toggleGameActive(toggle) {
+    toggle ? this.gameActive = true : this.gameActive = false;
+  }
+  
+
+  set currentBank (bank) {
+    this.bank = bank;
+  }
+
+  set updateNoticeText (str) {
+    this.noticeText = str;
+    renderNoticeText(str);
+  }
+
+  set updateVisibleGameBtns (obj) {
+    this.gameBtnVisible = {...this.gameBtnVisible, ...obj};
+    renderBtnVisibility(this.gameBtnVisible);
+  }
+
+  }
+}
 
 let state = {
   bank: 0,
@@ -144,8 +158,17 @@ function startNewRound() {
   state.gameBtnVisible = { ...state.gameBtnVisible, submitBet: true };
 
   renderUIFields(state);
-  renderBtnVisibility(state.navBtnVisible);
+  // renderBtnVisibility(state.navBtnVisible);
   renderBtnVisibility(state.gameBtnVisible);
+  initDeck();
+  //////////////////
+
+  startNewRound(bank) {}
+  let gameState = new State (bank);
+
+  gameState.toggleGameActive(true);
+  gameState.updateNoticeText = `Place an amount to bet`;
+  gameState.updateVisibleGameBtns = {submitBet: true};
   initDeck();
 }
 

@@ -173,6 +173,10 @@ export function renderBtnVisibility(btnObj) {
   });
 }
 
+export function renderNoticeText(str) {
+  noticeUI.innerHTML = str;
+}
+
 export function renderUIFields(state, noticeToken = false) {
   noticeUI.innerHTML = state.noticeText;
   if (noticeToken) return;
