@@ -45,7 +45,7 @@
         <p class="player-actions__insurance">Insurance Bet <span class="insuranceBetAmount"> </span></p>
         <p class="player-actions__submit-bet"><label for="betValue">How much to bet:</label>
         <input type="text" id="betValue" name="betValue" />
-        <button type="button" class="btn__submitBetValue">Submit</button
+        <button type="button" class="btn btn__submitBetValue">Submit</button
         ></p><br /><br />
       </div>
       <div class="player-actions__deal-container">
@@ -109,6 +109,10 @@
       </div>
     </div>
 
-    <script src="index.js" async defer></script>
+    <!-- <script src="index.js" async defer></script> -->
+    <script type="module" src="/controller.js" async defer></script>
+    <script type="module" src="/view.js" async defer></script>
+    <script type="module" src="/blackjack-model.js" async defer></script>
+    <script type="module" src="/trivia-model.js" async defer></script>
   </body>
 </html>
