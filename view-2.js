@@ -200,3 +200,8 @@ export function collectBetSubmitted() {
 export function renderBetValueField(value) {
   betValueField.value = value;
 }
+
+export function renderPlayerHand(hand) {
+  playerHandUI.innerHTML = hand.images.join();
+  playerHandTotalUI.textContent = hand.total;
+}

@@ -52,6 +52,9 @@ class State {
   gameMode;
   fiveCardCharlie;
   gameActive;
+  splitIsValid;
+  playerHand = { cards: [], images: [], total: 0 };
+
   //   test = `testing 1`;
 
   constructor(bank) {
@@ -101,6 +104,19 @@ class State {
     view.renderBtnVisibility(this.navBtnVisible);
   }
 
+  set updatePlayerHand(hand) {
+    this.playerHand.cards = [...this.playerHand.cards, ...hand.cards];
+    this.playerHand.images = [...this.playerHand.images, ...hand.images];
+    this.playerHand.total = hand.total;
+    view.renderPlayerHand(hand);
+  }
+
+  set splitIsValid(boolean) {
+    this.splitIsValid = boolean;
+    this.gameBtnVisible = { ...this.gameBtnVisible, ...{ split: boolean } };
+    if (this.splitIsValid) view.renderBtnVisibility(this.gameBtnVisible);
+  }
+
   //   set updateTest(str) {
   //     this.test = str;
   //   }
@@ -139,10 +155,22 @@ export function submitBetValue(e, gameState) {
 
   gameState.updateBetAmount = betAmount;
 
+  let updatedBank = bjModel.applySubmittedBet(betAmount);
+
+  gameState.updateBank = updatedBank;
+
   gameState.updateVisibleGameBtns = { submitBet: false, dealCards: true };
   gameState.updateNoticeText = `Bet Placed. Deal cards to continue...`;
 
-  //   bjModel.dealInitialCards();
+  bjModel.dealInitialCards(gameState);
+}
+
+export function updateStateCardHand(hand, gameState) {
+  gameState.updatePlayerHand = hand;
+}
+
+export function updateSplitToken(boolean, gameState) {
+  gameState.splitIsValid = boolean;
 }
 
 function init() {
