@@ -12,23 +12,12 @@ import {
   //   applyMediumQuestionDifficulty,
   //   applyHardQuestionDifficulty,
   //   collectTriviaAnswer,
-} from "/controller-2.js";
+} from "./controller-2.js";
 /////////////////////////////////////////////
 ////////// Selectors
 ////////////////////////////////////////////
 
 //////////Game Buttons//////////
-
-const allBtns = document.querySelectorAll(`.btn`);
-const btnMap = (function () {
-  let map = new Map();
-
-  allBtns.forEach(function (btn) {
-    let key = convertVarNameToStr({ btn });
-    map.set(key, btn);
-  });
-  return map;
-})();
 
 //Main Game Btns
 const newGameBtn = document.querySelector(".btn__newGame");
@@ -67,8 +56,10 @@ const triviaDifficultyBtns = document.querySelectorAll(
   ".btn__trivia-difficulty"
 );
 
+const allBtns = document.querySelectorAll(`.btn`);
+
 //////////Blackjack Section UI Fields//////////
-const noticeUI = document.querySelector(".notice");
+// const noticeUI = document.querySelector(".notice");
 const scoreUI = document.querySelector(".score");
 const bankUI = document.querySelector(".bank");
 const betAmountUI = document.querySelector(".betAmount");
@@ -117,8 +108,19 @@ const multipleChoiceAnswerField = document.querySelector(
 //       btn.addEventListener(`click`, handlerMap.get(btnName));
 //   });
 // }
+const btnMap = (function () {
+  const allBtns = document.querySelectorAll(`.btn`);
+  let map = new Map();
+
+  allBtns.forEach(function (btn) {
+    let key = convertVarNameToStr({ btn });
+    map.set(key, btn);
+  });
+  return map;
+})();
 
 export function addHandlerListeners(handlerMap, gameState = null) {
+  const allBtns = document.querySelectorAll(`.btn`);
   // handlerMap.forEach(function (item) {
   //   let [class, callback] = item;
 
@@ -153,6 +155,15 @@ function convertVarNameToStr(varObj) {
   return Object.keys(varObj)[0];
 }
 
+// export function renderState (render, gameState = null, changeObj = null) {
+//   if (render == false) return;
+//   if (changeObj.noticeText == true) view.renderNoticeText(gameState.noticeText);
+//   if (changeObj.bank == true) renderBank(gameState.bank);
+//   if (changeObj.betAmount == true) renderBetAmount(gamaeState.betAmount);
+//   if ()
+
+// }
+
 export function renderBtnVisibility(btnObj) {
   // Object.entries(btnObj).forEach(function ([key, value]) {
   //   if (btnMap.has(key))
@@ -168,19 +179,22 @@ export function renderBtnVisibility(btnObj) {
     const foundElement = btnArr.find(function (obj) {
       return obj.name === key;
     });
-    const elementClass = document.querySelector(`.${foundElement.class}`);
+    // let elementClass = document.querySelector(`.${foundElement.class}`);
     value
-      ? (elementClass.style.display = "inline-block")
-      : (elementClass.style.display = `none`);
+      ? (document.querySelector(`.${foundElement.class}`).style.display =
+          "inline-block")
+      : (document.querySelector(
+          `.${foundElement.class}`
+        ).style.display = `none`);
   });
 }
 
 export function renderNoticeText(str) {
-  noticeUI.innerHTML = str;
+  document.querySelector(".notice").innerHTML = str;
 }
 
 export function renderBank(bank) {
-  bankUI.textContent = bank;
+  document.querySelector(".bank").textContent = bank;
 }
 
 export function renderBetAmount(
@@ -188,20 +202,23 @@ export function renderBetAmount(
   splitBetAmount = null,
   insuranceBetAmount = null
 ) {
-  betAmountUI.textContent = betAmount;
-  if (splitBetAmount) splitBetAmountUI.textContent = splitBetAmount;
-  if (insuranceBetAmount) insuranceBetAmountUI.textContent = insuranceBetAmount;
+  document.querySelector(".betAmount").textContent = betAmount;
+  if (splitBetAmount)
+    document.querySelector(".splitBetAmount").textContent = splitBetAmount;
+  if (insuranceBetAmount)
+    document.querySelector(".insuranceBetAmount").textContent =
+      insuranceBetAmount;
 }
 
 export function collectBetSubmitted() {
-  return Math.round(Number(betValueField.value));
+  return Math.round(Number(document.querySelector("#betValue").value));
 }
 
 export function renderBetValueField(value) {
-  betValueField.value = value;
+  document.querySelector("#betValue").value = value;
 }
 
 export function renderPlayerHand(hand) {
-  playerHandUI.innerHTML = hand.images.join();
-  playerHandTotalUI.textContent = hand.total;
+  document.querySelector(".playerHand").innerHTML = hand.images.join();
+  document.querySelector(".playerHandTotal").textContent = hand.total;
 }

@@ -1,6 +1,6 @@
-import * as controller from "/controller-2.js";
+import * as controller from "./controller-2.js";
 
-let player = {
+export let player = {
   bank: 0,
   betAmount: 0,
   hand: { cards: [], images: [], total: 0 },
@@ -24,42 +24,47 @@ let player = {
   },
 
   calculateHandTotal(cards) {
-    let numberArr = cards.map((card) => card.value).map(getCardValue);
+    let handValueArr = cards.map((card) => card.value);
+    // let numberArr = handValue.map(getCardValue);
 
-    let total = numberArr.reduce((acc, cur) => acc + cur);
+    return getHandValue(handValueArr);
 
-    if (total > 21 && arr.includes("ACE")) {
-      let index = arr.indexOf("ACE");
-      arr[index] = "ACELOW";
-      total = getPlayerValue(arr);
-    }
+    function getHandValue(arr) {
+      let total = arr.map(getCardValue).reduce((acc, cur) => acc + cur);
 
-    return total;
-
-    function getCardValue(value) {
-      let num;
-
-      switch (value) {
-        case "JACK":
-          num = 10;
-          break;
-        case "QUEEN":
-          num = 10;
-          break;
-        case "KING":
-          num = 10;
-          break;
-        case "ACE":
-          num = 11;
-          break;
-        case "ACELOW":
-          num = 1;
-          break;
-        default:
-          num = Number(value);
+      if (total > 21 && arr.includes("ACE")) {
+        let index = arr.indexOf("ACE");
+        arr[index] = "ACELOW";
+        total = getHandValue(arr);
       }
 
-      return num;
+      return total;
+
+      function getCardValue(value) {
+        let num;
+
+        switch (value) {
+          case "JACK":
+            num = 10;
+            break;
+          case "QUEEN":
+            num = 10;
+            break;
+          case "KING":
+            num = 10;
+            break;
+          case "ACE":
+            num = 11;
+            break;
+          case "ACELOW":
+            num = 1;
+            break;
+          default:
+            num = Number(value);
+        }
+
+        return num;
+      }
     }
   },
 
@@ -76,12 +81,12 @@ let player = {
 
 let dealer = {};
 
-let gameInfo = {
+export let gameInfo = {
   deckID: `h9j8glyl41fb`,
   gameActive: false,
 
   splitToken(boolean, gameState) {
-    this.splitIsValid = boolean;
+    this.splitAvailable = boolean;
     controller.updateSplitToken(boolean, gameState);
   },
 
@@ -165,6 +170,7 @@ export function shuffleCards(deckID) {
 function dealPlayerCards(deckID, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
+      console.log(cardsObj);
       player.addCardToHand = cardsObj.card1;
       player.addCardToHand = cardsObj.card2;
       //   playerHand.push(cardsObj.card1);

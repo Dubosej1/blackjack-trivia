@@ -1,8 +1,9 @@
-import * as bjModel from "/blackjack-model-2.js";
-import * as triviaModel from "/trivia-model-2.js";
-import * as view from "/view-2.js";
+import * as bjModel from "./blackjack-model-2.js";
+import * as triviaModel from "./trivia-model-2.js";
+import * as view from "./view-2.js";
+import { renderBetAmount } from "./view-2.js";
 
-const btnsArr = [
+export const btnsArr = [
   { name: "newGame", class: "btn__newGame", callback: startNewGame },
   { name: "endGame", class: "btn__endGame", callback: applyEndGameBtn },
   { name: "submitBet", class: "btn__submitBetValue", callback: submitBetValue },
@@ -35,7 +36,7 @@ const btnsArr = [
   },
 ];
 
-class State {
+export default class State {
   navBtnVisible = { array: btnsArr, newGame: true, endGame: false };
   gameBtnVisible = {
     array: btnsArr,
@@ -52,7 +53,7 @@ class State {
   gameMode;
   fiveCardCharlie;
   gameActive;
-  splitIsValid;
+  splitAvailable;
   playerHand = { cards: [], images: [], total: 0 };
 
   //   test = `testing 1`;
@@ -82,7 +83,7 @@ class State {
   set updateBetAmount(betAmount) {
     this.betAmount = betAmount;
     bjModel.updateBetAmount(betAmount);
-    view.renderBetAmount(betAmount);
+    renderBetAmount(betAmount);
   }
 
   set currentBank(bank) {
@@ -111,12 +112,48 @@ class State {
     view.renderPlayerHand(hand);
   }
 
-  set splitIsValid(boolean) {
-    this.splitIsValid = boolean;
-    this.gameBtnVisible = { ...this.gameBtnVisible, ...{ split: boolean } };
-    if (this.splitIsValid) view.renderBtnVisibility(this.gameBtnVisible);
+  set updateSplitAvailable(result) {
+    this.splitAvailable = result;
+    if (this.splitAvailable) {
+      this.gameBtnVisible = { ...this.gameBtnVisible, ...{ split: true } };
+      view.renderBtnVisibility(this.gameBtnVisible);
+    }
   }
 
+  // renderUIFields(on, obj = null) {
+  //   let changeObj = { ...obj };
+
+  //   if (on == false) return;
+  //   if (changeObj.uiAll)
+  //     changeObj = { noticeText: true, bank: true, betAmount: true };
+  //   if (changeObj.all)
+  //     changeObj = {
+  //       noticeText: true,
+  //       bank: true,
+  //       betAmount: true,
+  //       gameBtn: true,
+  //       navBtn: true,
+  //     };
+  //   if (changeObj.noticeText) view.renderNoticeText(this.noticeText);
+  //   if (changeObj.bank) view.renderBank(this.bank);
+  //   if (changeObj.betAmount)
+  //     view.renderBetAmount(
+  //       this.betAmount,
+  //       this.splitBetAmount,
+  //       this.insuranaceBetAmount
+  //     );
+  //   if (changeObj.gameBtn) view.renderBtnVisibility(this.gameBtnVisible);
+  //   if (changeObj.navBtn) view.renderBtnVisibility(this.navBtnVisible);
+  // }
+
+  // renderGameCards(on) {
+  //   if (on == false) return;
+  //   view.renderPlayerHand(this.playerHand);
+  //   view.renderDealerHand(this.dealerHand);
+  //   if (this.splitMode) {
+  //     view.renderSplitHand1(this.splitHand1);
+  //     view.renderSplitHand2(this.splitHand2);
+  //   }
   //   set updateTest(str) {
   //     this.test = str;
   //   }
@@ -129,7 +166,7 @@ export function startNewGame(e, gameState) {
   startNewRound(bank);
 }
 
-function startNewRound(bank) {
+export function startNewRound(bank) {
   let gameState = new State(bank);
   gameState.updateBank = bank;
 
@@ -138,6 +175,7 @@ function startNewRound(bank) {
   gameState.toggleGameActive(true);
   gameState.updateNoticeText = `Place an amount to bet`;
   gameState.updateVisibleGameBtns = { submitBet: true };
+  // gameState.renderUIFields(true, { all: true });
 
   bjModel.initDeck();
 }
@@ -170,7 +208,7 @@ export function updateStateCardHand(hand, gameState) {
 }
 
 export function updateSplitToken(boolean, gameState) {
-  gameState.splitIsValid = boolean;
+  gameState.updateSplitAvailable = boolean;
 }
 
 function init() {
@@ -178,7 +216,7 @@ function init() {
     { name: "newGame", class: "btn__newGame", callback: startNewGame },
   ];
   view.addHandlerListeners(arr);
-  console.log(arr);
+  // console.log(arr);
 }
 
 init();
