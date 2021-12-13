@@ -326,6 +326,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
     .catch((err) => dealDealerCards(deckID))
     .finally(function () {
       controller.updateStatePlayers(currentDealer, gameState);
+      controller.enableBeginRoundBtns(gameState);
       // checkValidInsurance(dealerHand);
       // cardObj = renderCardInfo(specialToken);
     });

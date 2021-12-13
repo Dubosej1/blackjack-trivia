@@ -235,6 +235,16 @@ export function updateStatePlayers(player, gameState) {
   if (player.type == `dealer`) gameState.updateDealer = player;
 }
 
+export function enableBeginRoundBtns(gameState) {
+  gameState.updateNoticeText = `Player's Turn...`;
+  gameState.updateVisibleGameBtns = {
+    dealCards: false,
+    hit: true,
+    stand: true,
+    doubleDown: true,
+  };
+}
+
 export function updateSplitToken(boolean, gameState) {
   gameState.updateSplitAvailable = boolean;
 }
