@@ -222,3 +222,8 @@ export function renderPlayerHand(hand) {
   document.querySelector(".playerHand").innerHTML = hand.images.join();
   document.querySelector(".playerHandTotal").textContent = hand.total;
 }
+
+export function renderDealerHand(hand) {
+  document.querySelector(".dealerHand").innerHTML = hand.images.join();
+  document.querySelector(".dealerHandTotal").textContent = hand.visibleTotal;
+}

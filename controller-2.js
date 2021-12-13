@@ -49,17 +49,17 @@ export default class State {
     insurance: false,
   };
   noticeText;
-  betAmount;
+  // betAmount;
   gameMode;
   fiveCardCharlie;
   gameActive;
   splitAvailable;
-  playerHand = { cards: [], images: [], total: 0 };
+  // playerHand = { cards: [], images: [], total: 0 };
 
   //   test = `testing 1`;
 
-  constructor(bank) {
-    this.bank = bank;
+  constructor() {
+    // this.bank = bank;
     // this.noticeText = noticeText;
     // this.betAmount = betAmount;
     // this.navBtnVisible = navBtnVisible;
@@ -74,21 +74,30 @@ export default class State {
     bjModel.updateGameActive(toggle);
   }
 
+  initialAddPlayers(arr) {
+    let [player, dealer] = arr;
+    this.player = player;
+    this.dealer = dealer;
+  }
+
   set updateBank(bank) {
-    this.bank = bank;
-    bjModel.updateBank(bank);
+    // this.bank = bank;
+    // bjModel.updateBank(bank);
+    this.player.bank = bank;
     view.renderBank(bank);
   }
 
   set updateBetAmount(betAmount) {
-    this.betAmount = betAmount;
-    bjModel.updateBetAmount(betAmount);
+    // this.betAmount = betAmount;
+    // bjModel.updateBetAmount(betAmount);
+    this.player.betAmount = betAmount;
     renderBetAmount(betAmount);
   }
 
-  set currentBank(bank) {
-    this.bank = bank;
-  }
+  // set currentBank(bank) {
+  //   // this.bank = bank;
+  //   this.player.bank = bank;
+  // }
 
   set updateNoticeText(str) {
     this.noticeText = str;
@@ -105,11 +114,21 @@ export default class State {
     view.renderBtnVisibility(this.navBtnVisible);
   }
 
-  set updatePlayerHand(hand) {
-    this.playerHand.cards = [...this.playerHand.cards, ...hand.cards];
-    this.playerHand.images = [...this.playerHand.images, ...hand.images];
-    this.playerHand.total = hand.total;
-    view.renderPlayerHand(hand);
+  // set updatePlayerHand(hand) {
+  //   // this.playerHand.cards = [...this.playerHand.cards, ...hand.cards];
+  //   // this.playerHand.images = [...this.playerHand.images, ...hand.images];
+  //   // this.playerHand.total = hand.total;
+  //   view.renderPlayerHand(hand);
+  // }
+
+  set updatePlayer(player) {
+    this.player = player;
+    view.renderPlayerHand(this.player.hand);
+  }
+
+  set updateDealer(dealer) {
+    this.dealer = dealer;
+    view.renderDealerHand(this.dealer.hand);
   }
 
   set updateSplitAvailable(result) {
@@ -168,7 +187,11 @@ export function startNewGame(e, gameState) {
 
 export function startNewRound(bank) {
   let gameState = new State(bank);
-  gameState.updateBank = bank;
+
+  let players = bjModel.initPlayers(bank);
+
+  gameState.initialAddPlayers(players);
+  // gameState.updateBank = bank;
 
   view.addHandlerListeners(btnsArr, gameState);
 
@@ -182,10 +205,11 @@ export function startNewRound(bank) {
 
 export function submitBetValue(e, gameState) {
   let betAmount = view.collectBetSubmitted();
+  let bank = gameState.player.bank;
 
   //   if (!bjModel.applyInsuranceLogic(betAmount)) return;
 
-  if (!bjModel.checkValidBet(betAmount)) {
+  if (!bjModel.checkValidBet(betAmount, bank)) {
     gameState.updateNoticeText = `Invalid Bet.  Please try again.`;
     view.renderBetValueField(null);
     return;
@@ -193,9 +217,9 @@ export function submitBetValue(e, gameState) {
 
   gameState.updateBetAmount = betAmount;
 
-  let updatedBank = bjModel.applySubmittedBet(betAmount);
+  // let updatedBank = bjModel.applySubmittedBet(betAmount, gameState);
 
-  gameState.updateBank = updatedBank;
+  gameState.updateBank = bank - betAmount;
 
   gameState.updateVisibleGameBtns = { submitBet: false, dealCards: true };
   gameState.updateNoticeText = `Bet Placed. Deal cards to continue...`;
@@ -203,8 +227,12 @@ export function submitBetValue(e, gameState) {
   bjModel.dealInitialCards(gameState);
 }
 
-export function updateStateCardHand(hand, gameState) {
-  gameState.updatePlayerHand = hand;
+export function updateStatePlayers(player, gameState) {
+  // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
+  // if ((hand.type = `dealer`)) gameState.updateDealerHand = hand;
+
+  if (player.type == "player") gameState.updatePlayer = player;
+  if (player.type == `dealer`) gameState.updateDealer = player;
 }
 
 export function updateSplitToken(boolean, gameState) {
