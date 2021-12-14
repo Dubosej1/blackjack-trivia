@@ -139,44 +139,55 @@ export default class State {
     }
   }
 
-  // renderUIFields(on, obj = null) {
-  //   let changeObj = { ...obj };
+  checkValidInsurance() {
+    // if (insuranceAlreadyChecked) return;
+    // insuranceAlreadyChecked = true;
+    let dealerInitialFaceUpCard = this.dealer.hand.cards[1].value;
+    let bank = this.player.bank;
+    let betAmount = this.player.betAmount;
 
-  //   if (on == false) return;
-  //   if (changeObj.uiAll)
-  //     changeObj = { noticeText: true, bank: true, betAmount: true };
-  //   if (changeObj.all)
-  //     changeObj = {
-  //       noticeText: true,
-  //       bank: true,
-  //       betAmount: true,
-  //       gameBtn: true,
-  //       navBtn: true,
-  //     };
-  //   if (changeObj.noticeText) view.renderNoticeText(this.noticeText);
-  //   if (changeObj.bank) view.renderBank(this.bank);
-  //   if (changeObj.betAmount)
-  //     view.renderBetAmount(
-  //       this.betAmount,
-  //       this.splitBetAmount,
-  //       this.insuranaceBetAmount
-  //     );
-  //   if (changeObj.gameBtn) view.renderBtnVisibility(this.gameBtnVisible);
-  //   if (changeObj.navBtn) view.renderBtnVisibility(this.navBtnVisible);
-  // }
-
-  // renderGameCards(on) {
-  //   if (on == false) return;
-  //   view.renderPlayerHand(this.playerHand);
-  //   view.renderDealerHand(this.dealerHand);
-  //   if (this.splitMode) {
-  //     view.renderSplitHand1(this.splitHand1);
-  //     view.renderSplitHand2(this.splitHand2);
-  //   }
-  //   set updateTest(str) {
-  //     this.test = str;
-  //   }
+    if (dealerInitialFaceUpCard == "ACE" && bank >= 1 && betAmount >= 2)
+      this.updateVisibleGameBtns = { insurance: true };
+  }
 }
+
+// renderUIFields(on, obj = null) {
+//   let changeObj = { ...obj };
+
+//   if (on == false) return;
+//   if (changeObj.uiAll)
+//     changeObj = { noticeText: true, bank: true, betAmount: true };
+//   if (changeObj.all)
+//     changeObj = {
+//       noticeText: true,
+//       bank: true,
+//       betAmount: true,
+//       gameBtn: true,
+//       navBtn: true,
+//     };
+//   if (changeObj.noticeText) view.renderNoticeText(this.noticeText);
+//   if (changeObj.bank) view.renderBank(this.bank);
+//   if (changeObj.betAmount)
+//     view.renderBetAmount(
+//       this.betAmount,
+//       this.splitBetAmount,
+//       this.insuranaceBetAmount
+//     );
+//   if (changeObj.gameBtn) view.renderBtnVisibility(this.gameBtnVisible);
+//   if (changeObj.navBtn) view.renderBtnVisibility(this.navBtnVisible);
+// }
+
+// renderGameCards(on) {
+//   if (on == false) return;
+//   view.renderPlayerHand(this.playerHand);
+//   view.renderDealerHand(this.dealerHand);
+//   if (this.splitMode) {
+//     view.renderSplitHand1(this.splitHand1);
+//     view.renderSplitHand2(this.splitHand2);
+//   }
+//   set updateTest(str) {
+//     this.test = str;
+//   }
 
 export function startNewGame(e, gameState) {
   let bank = 1000;
