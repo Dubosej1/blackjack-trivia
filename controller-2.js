@@ -50,7 +50,7 @@ export default class State {
   };
   noticeText;
   // betAmount;
-  gameMode;
+  gameMode = { split: false, doubleDown: false, insurance: false };
   fiveCardCharlie;
   gameActive;
   splitAvailable;
@@ -131,12 +131,28 @@ export default class State {
     view.renderDealerHand(this.dealer.hand);
   }
 
+  set updateSplitHand1(player) {
+    this.player = player;
+    view.renderPlayerHand(this.player.splitHand1);
+  }
+
+  set updateSplitHand2(player) {
+    this.player = player;
+    view.renderPlayerSplitHand(this.player.splitHand2);
+  }
+
   set updateSplitAvailable(result) {
     this.splitAvailable = result;
     if (this.splitAvailable) {
       this.gameBtnVisible = { ...this.gameBtnVisible, ...{ split: true } };
       view.renderBtnVisibility(this.gameBtnVisible);
     }
+  }
+
+  set updateGameMode(mode) {
+    if (mode == `split`) this.gameMode.split = true;
+    if (mode == `doubleDown`) this.gameMode.doubleDown = true;
+    if (mode == `insurance`) this.gameMode.insurance = true;
   }
 
   checkValidInsurance() {
@@ -148,6 +164,12 @@ export default class State {
 
     if (dealerInitialFaceUpCard == "ACE" && bank >= 1 && betAmount >= 2)
       this.updateVisibleGameBtns = { insurance: true };
+  }
+
+  updateInitialSplit(player) {
+    this.updateSplitHand1 = player;
+    this.updateSplitHand2 = player;
+    this.updateVisibleGameBtns = { split: false };
   }
 }
 
@@ -244,6 +266,14 @@ export function updateStatePlayers(player, gameState) {
 
   if (player.type == "player") gameState.updatePlayer = player;
   if (player.type == `dealer`) gameState.updateDealer = player;
+  if (player.type == `split player`) {
+    if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
+    else gameState.updateSplitHand2 = player;
+  }
+}
+
+export function updateStateInitialSplit(player, gameState) {
+  gameState.updateInitialSplit(player);
 }
 
 export function enableBeginRoundBtns(gameState) {
@@ -260,6 +290,10 @@ export function updateSplitToken(boolean, gameState) {
   gameState.updateSplitAvailable = boolean;
 }
 
+export function splitAction(e, gameState) {
+  bjModel.splitPlayerHand(gameState);
+}
+
 function init() {
   let arr = [
     { name: "newGame", class: "btn__newGame", callback: startNewGame },
@@ -273,7 +307,7 @@ init();
 export function applyInitialCards(event, gameState) {}
 export function hitAction(event, gameState) {}
 export function standAction(event, gameState) {}
-export function splitAction(event, gameState) {}
+// export function splitAction(event, gameState) {}
 export function insuranceAction(event, gameState) {}
 export function doubleDownAction(event, gameState) {}
 export function applyEasyQuestionDifficulty(event, gameState) {}

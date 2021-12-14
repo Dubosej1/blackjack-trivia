@@ -1,5 +1,27 @@
 import * as controller from "./controller-2.js";
 
+const playerSplitTestCard1 = {
+  code: "7S",
+  image: `https://deckofcardsapi.com/static/img/7S.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7S.svg",
+    png: "https://deckofcardsapi.com/static/img/7S.png",
+  },
+  suit: "SPADES",
+  value: "7",
+};
+
+const playerSplitTestCard2 = {
+  code: "7H",
+  image: `https://deckofcardsapi.com/static/img/7H.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7H.svg",
+    png: "https://deckofcardsapi.com/static/img/7H.png",
+  },
+  suit: "HEARTS",
+  value: "7",
+};
+
 class CardHolder {
   constructor() {
     this.hand = { cards: [], images: [], total: 0 };
@@ -66,7 +88,9 @@ export class Player extends CardHolder {
   // bank = 0;
   betAmount = 0;
   type = `player`;
-  // hand: { cards: [], images: [], total: 0 },
+  splitHand1 = { cards: [], images: [], total: 0 };
+  splitHand2 = { cards: [], images: [], total: 0 };
+  currentSplitHand = 0;
 
   constructor(bank) {
     super();
@@ -147,6 +171,48 @@ export class Player extends CardHolder {
 
     if (card1 == card2) return true;
     return false;
+  }
+
+  splitHand(newCards) {
+    let [card1, card2] = newCards;
+
+    let [splitCard1, splitCard2] = this.removeSplitCardsFromHand();
+
+    this.addCardToSplitHand1 = splitCard1;
+    this.addCardToSplitHand1 = card1;
+    this.addCardToSplitHand2 = splitCard2;
+    this.addCardToSplitHand2 = card2;
+  }
+
+  removeSplitCardsFromHand() {
+    this.hand.images.length = 0;
+    this.hand.total = 0;
+    let card1 = this.hand.cards.pop();
+    let card2 = this.hand.cards.pop();
+    return [card1, card2];
+  }
+
+  set addCardToSplitHand1(card) {
+    this.splitHand1.cards.push(card);
+    this.splitHand1.images.push(`<img src="${card.image}" class="card">`);
+    this.splitHand1.total = this.calculateHandTotal(this.splitHand1.cards);
+  }
+
+  set addCardToSplitHand2(card) {
+    this.splitHand2.cards.push(card);
+    this.splitHand2.images.push(`<img src="${card.image}" class="card">`);
+    this.splitHand2.total = this.calculateHandTotal(this.splitHand2.cards);
+  }
+
+  set updateType(type) {
+    if (type == `player`) this.type = `player`;
+    if (type == `split player`) this.type = `split player`;
+  }
+
+  set updateCurrentSplitHand(num) {
+    if (num == 0) this.currentSplitHand = 0;
+    if (num == 1) this.currentSplitHand = 1;
+    if (num == 2) this.currentSplitHand = 2;
   }
 }
 
@@ -279,14 +345,12 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       console.log(cardsObj);
-      currentPlayer.addCardToHand = cardsObj.card1;
-      currentPlayer.addCardToHand = cardsObj.card2;
-      //   playerHand.push(cardsObj.card1);
-      //   playerHand.push(cardsObj.card2);
+      // currentPlayer.addCardToHand = cardsObj.card1;
+      // currentPlayer.addCardToHand = cardsObj.card2;
 
       //Test Split Cards (replace original 2 cards) and Test Bust (add to original 2)
-      // playerHand.push(playerSplitTestCard1);
-      // playerHand.push(playerSplitTestCard2);
+      currentPlayer.addCardToHand = playerSplitTestCard1;
+      currentPlayer.addCardToHand = playerSplitTestCard2;
 
       //Test Player 5 Card Charlie (comment out original 2 cards)
       // createFiveCardCharlieTestHand(`player`);
@@ -356,4 +420,59 @@ function drawCards(deckID, count) {
     .catch(function (err) {
       drawCards(deckID, 2);
     });
+}
+
+export function splitPlayerHand(gameState) {
+  // splitMode = true;
+  gameState.updateGameMode = `split`;
+
+  let currentPlayer = gameState.player;
+
+  currentPlayer.updateType = `split player`;
+
+  currentPlayer.updateCurrentSplitHand = 1;
+
+  let newCards = [];
+
+  // let poppedCard = playerHand.pop();
+  // playerSplitHand.push(poppedCard);
+
+  drawCards(gameInfo.deckID, 2)
+    .then(function (cardsObj) {
+      newCards.push(cardsObj.card1);
+      newCards.push(cardsObj.card2);
+      // currentPlayer.splitHand(newCards);
+
+      //To test Split Hand 2 Five Card Charlie (comment out playerSPlitHand)
+      // createFiveCardCharlieTestHand(`split`);
+
+      return newCards;
+    })
+    .then(function (newCards) {
+      currentPlayer.splitHand(newCards);
+    })
+    .catch((err) => {
+      splitPlayerHand();
+    })
+    .finally(() => {
+      controller.updateStateInitialSplit(currentPlayer, gameState);
+      // cardObj = renderCardInfo();
+      // splitBetAmount = betAmount;
+      // bank = bank - splitBetAmount;
+      // currentSplitHand = 1;
+      // let gameInfo = {
+      //   bank: bank,
+      //   splitBetAmount: splitBetAmount,
+      //   currentSplitHand: currentSplitHand,
+      //   gameCards: cardObj,
+      // };
+      // updateControllerSplitCardInfo(gameInfo);
+      // updateControllerCardInfo(cardObj);
+      // checkDoubleDown();
+      // checkBust();
+      // checkFiveCardCharlie();
+    });
+  // let cardInfo = renderCardInfo();
+
+  // return [bank, splitBetAmount, cardInfo];
 }
