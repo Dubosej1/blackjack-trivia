@@ -94,6 +94,13 @@ export default class State {
     renderBetAmount(betAmount);
   }
 
+  updateUI() {
+    let bank = this.player.bank;
+    let betAmount = this.player.betAmount;
+    view.renderBank(bank);
+    view.renderBetAmount(betAmount);
+  }
+
   // set currentBank(bank) {
   //   // this.bank = bank;
   //   this.player.bank = bank;
@@ -272,6 +279,10 @@ export function updateStatePlayers(player, gameState) {
   }
 }
 
+export function updateStateUI(gameState) {
+  gameState.updateUI();
+}
+
 export function updateStateInitialSplit(player, gameState) {
   gameState.updateInitialSplit(player);
 }
@@ -291,7 +302,26 @@ export function updateSplitToken(boolean, gameState) {
 }
 
 export function splitAction(e, gameState) {
+  gameState.updateNoticeText = `Player splits...Please play Hand 1`;
+  gameState.updateVisibleGameBtns = { split: false };
   bjModel.splitPlayerHand(gameState);
+}
+
+export function doubleDownAction(e, gameState) {
+  gameState.gameMode.doubleDown = true;
+  gameState.updateVisibleGameBtns = {
+    doubleDown: false,
+    hit: false,
+    stand: false,
+    insurance: false,
+    split: false,
+  };
+
+  bjModel.applyDoubleDown(gameState);
+
+  bjModel.executePlayerHit(gameState);
+
+  // initTriviaMode();
 }
 
 export function checkPlayerNextAvailableAction(gameState) {
@@ -441,7 +471,7 @@ export function applyInitialCards(event, gameState) {}
 // export function standAction(event, gameState) {}
 // export function splitAction(event, gameState) {}
 export function insuranceAction(event, gameState) {}
-export function doubleDownAction(event, gameState) {}
+// export function doubleDownAction(event, gameState) {}
 export function applyEasyQuestionDifficulty(event, gameState) {}
 export function applyMediumQuestionDifficulty(event, gameState) {}
 export function applyHardQuestionDifficulty(event, gameState) {}

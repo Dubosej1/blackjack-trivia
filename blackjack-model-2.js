@@ -516,6 +516,15 @@ export function splitPlayerHand(gameState) {
   // return [bank, splitBetAmount, cardInfo];
 }
 
+export function applyDoubleDown(gameState) {
+  let player = gameState.player;
+  let updatedBet = player.betAmount * 2;
+  player.updateBank = player.bank - player.betAmount;
+  player.updateBetAmount = updatedBet;
+  controller.updateStatePlayers(player, gameState);
+  controller.updateStateUI(gameState);
+}
+
 export function executePlayerHit(gameState) {
   let player = gameState.player;
 

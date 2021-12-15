@@ -197,17 +197,17 @@ export function renderBank(bank) {
   document.querySelector(".bank").textContent = bank;
 }
 
-export function renderBetAmount(
-  betAmount,
-  splitBetAmount = null,
-  insuranceBetAmount = null
-) {
+export function renderBetAmount(betAmount) {
   document.querySelector(".betAmount").textContent = betAmount;
-  if (splitBetAmount)
-    document.querySelector(".splitBetAmount").textContent = splitBetAmount;
-  if (insuranceBetAmount)
-    document.querySelector(".insuranceBetAmount").textContent =
-      insuranceBetAmount;
+}
+
+export function renderSplitBetAmount(splitBetAmount) {
+  document.querySelector(".splitBetAmount").textContent = splitBetAmount;
+}
+
+export function renderInsuranceBetAmount(insuranceBetAmount) {
+  document.querySelector(".insuranceBetAmount").textContent =
+    insuranceBetAmount;
 }
 
 export function collectBetSubmitted() {
