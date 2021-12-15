@@ -94,11 +94,18 @@ export default class State {
     renderBetAmount(betAmount);
   }
 
+  set updateInsuranceBetAmount(betAmount) {
+    this.player.updateInsuranceBetAmount = betAmount;
+    view.renderInsuranceBetField(betAmount);
+  }
+
   updateUI() {
     let bank = this.player.bank;
     let betAmount = this.player.betAmount;
     view.renderBank(bank);
     view.renderBetAmount(betAmount);
+    if (this.gameMode.split)
+      view.renderSplitBetAmount(this.player.splitBetAmount);
   }
 
   // set currentBank(bank) {
@@ -152,6 +159,14 @@ export default class State {
     this.splitAvailable = result;
     if (this.splitAvailable) {
       this.gameBtnVisible = { ...this.gameBtnVisible, ...{ split: true } };
+      view.renderBtnVisibility(this.gameBtnVisible);
+    }
+  }
+
+  set updateDoubleDownAvailable(result) {
+    this.doubleDownAvailable = result;
+    if (this.doubleDownAvailable) {
+      this.gameBtnVisible = { ...this.gameBtnVisible, ...{ doubleDown: true } };
       view.renderBtnVisibility(this.gameBtnVisible);
     }
   }
@@ -247,13 +262,20 @@ export function submitBetValue(e, gameState) {
   let betAmount = view.collectBetSubmitted();
   let bank = gameState.player.bank;
 
-  //   if (!bjModel.applyInsuranceLogic(betAmount)) return;
+  // if (applyInsuranceLogic(betAmount, gameState)) return;
+
+  if (gameState.gameMode.insurance) {
+    applyInsuranceLogic(betAmount, gameState);
+    return;
+  }
 
   if (!bjModel.checkValidBet(betAmount, bank)) {
     gameState.updateNoticeText = `Invalid Bet.  Please try again.`;
     view.renderBetValueField(null);
     return;
   }
+
+  view.renderBetValueField(null);
 
   gameState.updateBetAmount = betAmount;
 
@@ -266,6 +288,84 @@ export function submitBetValue(e, gameState) {
 
   bjModel.dealInitialCards(gameState);
 }
+
+function applyInsuranceLogic(betAmount, gameState) {
+  let validBet = bjModel.checkValidInsuranceBet(betAmount, gameState);
+
+  if (!validBet) {
+    gameState.updateNoticeText = `Invalid Insurance Bet.  Please try again.`;
+    view.renderBetValueField(null);
+    return;
+  }
+
+  checkInsuranceBetOutcome(betAmount, gameState);
+
+  return;
+
+  function checkInsuranceBetOutcome(betAmount, gameState) {
+    bjModel.insuranceLogic(betAmount, gameState);
+
+    gameState.updateUI();
+
+    if (gameState.player.hand.insuranceOutcome == `win`) endRound(gameState);
+    else applyLosingInsBetSeq(gameState);
+  }
+
+  function applyLosingInsBetSeq(gameState) {
+    gameState.gameMode.insurance = false;
+    gameState.updateNoticeText = `Lost Insurance Bet.  Player's Turn.`;
+    gameState.updateVisibleGameBtns = { hit: true, stand: true };
+
+    if (gameState.splitAvailable)
+      gameState.updateVisibleGameBtns = { split: true };
+    if (gameState.doubleDownAvailable)
+      gameState.updateVisibleGameBtns = { doubleDown: true };
+  }
+}
+
+// function applyInsuranceLogic(betAmount, gameState) {
+//   let player = gameState.player;
+
+//   if (!gameState.gameMode.insurance) return true;
+
+//   if (!checkForInsuranceBet(betAmount, gameState)) return false;
+
+//   checkInsuranceBetOutcome(betAmount, gameState);
+
+//   return false;
+
+//   function checkForInsuranceBet(betAmount, gameState) {
+//     if (!bjModel.checkValidInsuranceBet(betAmount, gameState)) {
+//       gameState.updateNoticeText = `Invalid Insurance Bet.  Please try again.`;
+//       view.renderBetValueField(null);
+//       return false;
+//     } else {
+//       gameState.updateVisibleGameBtns = { submitBet: false };
+//       gameState.updateInsuranceBetAmount = betAmount;
+//       return true;
+//     }
+//   }
+
+//   function checkInsuranceBetOutcome(betAmount, gameState) {
+//     bjModel.insuranceLogic(betAmount, gameState);
+
+//     gameState.updateStateUI();
+
+//     if (gameState.player.hand.insuranceOutcome == `win`) {
+//       endRound(gameState);
+//     } else {
+//       applyLosingInsBetSeq(gameState);
+//     }
+//   }
+
+//   function applyLosingInsBetSeq(gameState) {
+//     gameState.gameMode.insurance = false;
+//     gameState.updateNoticeText = `Lost Insurance Bet.  Player's Turn.`;
+
+//     if (gameState.gameMode.split)
+//       gameState.updateVisibleGameBtns = { split: true };
+//   }
+// }
 
 export function updateStatePlayers(player, gameState) {
   // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
@@ -284,6 +384,7 @@ export function updateStateUI(gameState) {
 }
 
 export function updateStateInitialSplit(player, gameState) {
+  gameState.updateUI();
   gameState.updateInitialSplit(player);
 }
 
@@ -293,12 +394,15 @@ export function enableBeginRoundBtns(gameState) {
     dealCards: false,
     hit: true,
     stand: true,
-    doubleDown: true,
   };
 }
 
 export function updateSplitToken(boolean, gameState) {
   gameState.updateSplitAvailable = boolean;
+}
+
+export function updateDoubleDownToken(boolean, gameState) {
+  gameState.updateDoubleDownAvailable = boolean;
 }
 
 export function splitAction(e, gameState) {
@@ -446,6 +550,21 @@ export function standAction(e, gameState) {
   }
 }
 
+export function insuranceAction(e, gameState) {
+  gameState.gameMode.insurance = true;
+
+  gameState.updateNoticeText = `Please submit an amount up to half your original bet`;
+
+  gameState.updateVisibleGameBtns = {
+    submitBet: true,
+    hit: false,
+    stand: false,
+    doubleDown: false,
+    split: false,
+    insurance: false,
+  };
+}
+
 function endRound(gameState) {
   //reveal dealer cards
   //check special circumstances (bust, charlie, blackjack/insurance)
@@ -470,7 +589,7 @@ export function applyInitialCards(event, gameState) {}
 // export function hitAction(event, gameState) {}
 // export function standAction(event, gameState) {}
 // export function splitAction(event, gameState) {}
-export function insuranceAction(event, gameState) {}
+// export function insuranceAction(event, gameState) {}
 // export function doubleDownAction(event, gameState) {}
 export function applyEasyQuestionDifficulty(event, gameState) {}
 export function applyMediumQuestionDifficulty(event, gameState) {}

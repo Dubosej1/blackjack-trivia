@@ -22,6 +22,17 @@ const playerSplitTestCard2 = {
   value: "7",
 };
 
+const dealerInsTestCard = {
+  code: "AH",
+  image: `https://deckofcardsapi.com/static/img/AH.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/7H.svg",
+    png: "https://deckofcardsapi.com/static/img/7H.png",
+  },
+  suit: "HEARTS",
+  value: "ACE",
+};
+
 class CardHolder {
   constructor() {
     this.hand = { cards: [], images: [], total: 0 };
@@ -104,6 +115,17 @@ export class Player extends CardHolder {
     this.betAmount = betAmount;
   }
 
+  set updateInsuranceBetAmount(betAmount) {
+    this.insuranceBetAmount = betAmount;
+  }
+
+  updateSplitBet() {
+    let betAmount = this.betAmount;
+
+    this.splitBetAmount = betAmount;
+    this.betAmount = betAmount - betAmount;
+  }
+
   set addCardToHand(card) {
     super.addCardToHand = card;
     this.hand.images.push(`<img src="${card.image}" class="card">`);
@@ -158,13 +180,17 @@ export class Player extends CardHolder {
   //   }
   // },
 
+  checkValidSideBet() {
+    return this.bank - this.betAmount >= 0 ? true : false;
+  }
+
   checkValidSplit() {
-    // if (this.mode.split) return;
+    let validBet = this.checkValidSideBet();
 
     let card1 = this.hand.cards[0].value;
     let card2 = this.hand.cards[1].value;
 
-    if (card1 == card2) return true;
+    if (card1 == card2 && validBet) return true;
     return false;
   }
 
@@ -294,6 +320,11 @@ export let gameInfo = {
     controller.updateSplitToken(boolean, gameState);
   },
 
+  doubleDownToken(boolean, gameState) {
+    this.doubleDownAvailable = boolean;
+    controller.updateDoubleDownToken(boolean, gameState);
+  },
+
   set updateDeckID(deckID) {
     this.deckID = deckID;
   },
@@ -402,6 +433,7 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
     .finally(function () {
       controller.updateStatePlayers(currentPlayer, gameState);
       gameInfo.splitToken(currentPlayer.checkValidSplit(), gameState);
+      gameInfo.doubleDownToken(currentPlayer.checkValidSideBet(), gameState);
     });
 }
 
@@ -409,14 +441,14 @@ function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       currentDealer.addCardToHand = cardsObj.card1;
-      currentDealer.addCardToHand = cardsObj.card2;
+      // currentDealer.addCardToHand = cardsObj.card2;
 
       //To test Dealer Bust (keep original 2 cards)
       // dealerHand.push(playerSplitTestCard1);
       // dealerHand.push(playerSplitTestCard2);
 
-      //To test Insurance functionality (substitute card2)
-      // dealerHand.push(dealerInsTestCard);
+      // To test Insurance functionality (substitute card2)
+      currentDealer.addCardToHand = dealerInsTestCard;
 
       //To test 5 Card Charlie (comment out all other dealerHands)
       // createFiveCardCharlieTestHand(`dealer`);
@@ -461,11 +493,36 @@ function drawCards(deckID, count) {
     });
 }
 
+export function insuranceLogic(insuranceBet, gameState) {
+  let dealerHand = gameState.dealer.hand;
+  let player = gameState.player;
+
+  player.updateBank = player.bank - insuranceBet;
+
+  if (dealerHand.cards[1].value == "ACE" && dealerHand.total == 21) {
+    player.updateBank = player.bank + insuranceBet * 2;
+    player.hand.insuranceOutcome = `win`;
+  }
+
+  player.hand.insuranceOutcome = `lose`;
+  controller.updateStatePlayers(player, gameState);
+}
+
+export function checkValidInsuranceBet(submittedBet, gameState) {
+  let betAmount = gameState.player.betAmount;
+  let bank = gameState.player.bank;
+
+  if (submittedBet > betAmount / 2 || submittedBet > bank) return false;
+  else return true;
+}
+
 export function splitPlayerHand(gameState) {
   // splitMode = true;
   gameState.updateGameMode = `split`;
 
   let currentPlayer = gameState.player;
+
+  currentPlayer.updateSplitBet();
 
   currentPlayer.updateType = `split player`;
 

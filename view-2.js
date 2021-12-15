@@ -205,10 +205,18 @@ export function renderSplitBetAmount(splitBetAmount) {
   document.querySelector(".splitBetAmount").textContent = splitBetAmount;
 }
 
-export function renderInsuranceBetAmount(insuranceBetAmount) {
-  document.querySelector(".insuranceBetAmount").textContent =
-    insuranceBetAmount;
+export function renderInsuranceBetField(betAmount) {
+  document.querySelector(".player-actions__insurance").style.display = `block`;
+
+  document.querySelector(".insuranceBetAmount").textContent = betAmount;
+
+  renderBetValueField(null);
 }
+
+// export function renderInsuranceBetAmount(insuranceBetAmount) {
+//   document.querySelector(".insuranceBetAmount").textContent =
+//     insuranceBetAmount;
+// }
 
 export function collectBetSubmitted() {
   return Math.round(Number(document.querySelector("#betValue").value));
