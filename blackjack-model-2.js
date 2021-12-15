@@ -1,4 +1,4 @@
-import * as controller from "./controller-2.js";
+import State, * as controller from "./controller-2.js";
 
 const playerSplitTestCard1 = {
   code: "7S",
@@ -85,7 +85,6 @@ class CardHolder {
 }
 
 export class Player extends CardHolder {
-  // bank = 0;
   betAmount = 0;
   type = `player`;
   splitHand1 = { cards: [], images: [], total: 0 };
@@ -95,7 +94,6 @@ export class Player extends CardHolder {
   constructor(bank) {
     super();
     this.bank = bank;
-    this.hand.type = `player`;
   }
 
   set updateBank(bank) {
@@ -107,11 +105,8 @@ export class Player extends CardHolder {
   }
 
   set addCardToHand(card) {
-    // this.hand.cards.push(card);
     super.addCardToHand = card;
-
     this.hand.images.push(`<img src="${card.image}" class="card">`);
-    // this.hand.total = this.calculateHandTotal(this.hand.cards);
   }
 
   // get getHand() {
@@ -214,6 +209,34 @@ export class Player extends CardHolder {
     if (num == 1) this.currentSplitHand = 1;
     if (num == 2) this.currentSplitHand = 2;
   }
+
+  checkHandForBust(hand) {
+    if (hand.total <= 21) return;
+
+    if (this.currentSplitHand == 0) this.hand.outcome = `bust`;
+    if (this.currentSplitHand == 1) this.splitHand1.outcome = `bust`;
+    if (this.currentSplitHand == 2) this.splitHand2.outcome = `bust`;
+  }
+
+  checkHandForCharlie(hand) {
+    if (hand.total > 21) return;
+    if (hand.cards.length !== 5) return;
+
+    if (this.currentSplitHand == 0) this.hand.outcome = `charlie`;
+    if (this.currentSplitHand == 1) this.splitHand1.outcome = `charlie`;
+    if (this.currentSplitHand == 2) this.splitHand2.outcome = `charlie`;
+  }
+
+  performHandChecks() {
+    let hand;
+
+    if (this.currentSplitHand == 0) hand = this.hand;
+    if (this.currentSplitHand == 1) hand = this.splitHand1;
+    if (this.currentSplitHand == 2) hand = this.splitHand2;
+
+    this.checkHandForBust(hand);
+    this.checkHandForCharlie(hand);
+  }
 }
 
 export class Dealer extends CardHolder {
@@ -228,7 +251,6 @@ export class Dealer extends CardHolder {
   }
 
   set addCardToHand(card) {
-    // this.hand.cards.push(card);
     super.addCardToHand = card;
 
     if (this.hand.cards.length == 1) {
@@ -241,8 +263,25 @@ export class Dealer extends CardHolder {
       this.hand.visibleCards.push(card);
       this.hand.visibleTotal = this.calculateHandTotal(this.hand.visibleCards);
     }
+  }
 
-    // this.hand.total = this.calculateHandTotal(this.hand.cards);
+  checkHandForBust(hand) {
+    if (hand.total <= 21) return;
+    this.hand.outcome = `bust`;
+  }
+
+  checkHandForCharlie(hand) {
+    if (hand.total > 21) return;
+    if (hand.cards.length !== 5) return;
+
+    this.hand.outcome = `charlie`;
+  }
+
+  performHandChecks() {
+    let hand = this.hand;
+
+    this.checkHandForBust(hand);
+    this.checkHandForCharlie(hand);
   }
 }
 
@@ -475,4 +514,88 @@ export function splitPlayerHand(gameState) {
   // let cardInfo = renderCardInfo();
 
   // return [bank, splitBetAmount, cardInfo];
+}
+
+export function executePlayerHit(gameState) {
+  let player = gameState.player;
+
+  drawSingleCard(gameInfo.deckID)
+    .then(function (cardsObj) {
+      if (player.currentSplitHand == 0) player.addCardToHand = cardsObj;
+      if (player.currentSplitHand == 1) player.addCardToSplitHand1 = cardsObj;
+      if (player.currentSplitHand == 2) player.addCardToSplitHand2 = cardsObj;
+    })
+    .catch((err) => alert(`error executePlayerHit`))
+    .finally(function () {
+      player.performHandChecks();
+      controller.updateStatePlayers(player, gameState);
+      controller.checkPlayerNextAvailableAction(gameState);
+    });
+  // player.performHandChecks();
+
+  // controller.updateStatePlayers(player, gameState);
+  // controller.checkPlayerNextAvailableAction(player, gameState);
+}
+
+// function playerHit(deckID, hand) {
+//   drawSingleCard(deckID)
+//     .then(function (cardsObj) {
+//       hand.push(cardsObj);
+//       return arr;
+//     })
+//     .then(function (arr) {
+//       if (splitMode) {
+//         if (currentSplitHand == 1) updatePlayerCards(arr, playerSplitHand);
+//         if (currentSplitHand == 2 && !hand2PassNeeded)
+//           updatePlayerCards(playerHand, arr);
+//         return;
+//       }
+//       updatePlayerCards(arr);
+//     })
+//     .catch((err) => drawSingleCard(deckID))
+//     .finally(() => {
+//       cardObj = renderCardInfo();
+//       updateControllerCardInfo(cardObj);
+//       checkDoubleDown();
+//       checkFiveCardCharlie();
+//       checkBust();
+//     });
+// }
+
+export function executeDealerHit(gameState) {
+  let dealer = gameState.dealer;
+
+  drawSingleCard(gameInfo.deckID)
+    .then(function (cardsObj) {
+      dealer.addCardToHand = cardsObj;
+    })
+    .catch((err) => alert(`error executeDealerHit`))
+    .finally(function () {
+      dealer.performHandChecks();
+      controller.updateStatePlayers(dealer, gameState);
+      controller.checkDealerNextAvailableAction(gameState);
+    });
+}
+
+function drawSingleCard(deckID) {
+  return fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      let cardData = data.cards;
+      let card = {
+        value: cardData[0].value,
+        code: cardData[0].code,
+        image: cardData[0].image,
+        remaining: data.remaining,
+      };
+
+      return card;
+    })
+    .catch((err) => {
+      cardData = null;
+      card = null;
+      drawSingleCard(deckID);
+    });
 }

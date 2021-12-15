@@ -294,6 +294,138 @@ export function splitAction(e, gameState) {
   bjModel.splitPlayerHand(gameState);
 }
 
+export function checkPlayerNextAvailableAction(gameState) {
+  let endHandToken;
+  let changeHandToken;
+  let dealerTurnToken;
+  let gameTimer;
+  let player = gameState.player;
+
+  let handOutcome = player.hand.outcome;
+  let splitHand1Outcome = player.splitHand1.outcome;
+  let splitHand2Outcome = player.splitHand2.outcome;
+
+  if (handOutcome == `bust` || handOutcome == `charlie`) endHandToken = true;
+  if (gameState.gameMode.doubleDown) dealerTurnToken = true;
+
+  if (splitHand1Outcome == `bust` || splitHand1Outcome == `charlie`)
+    changeHandToken = true;
+
+  if (changeHandToken && splitHand2Outcome == `bust`) endHandToken = true;
+  if (changeHandToken && splitHand2Outcome == `charlie`) endHandToken = true;
+  if (splitHand2Outcome == `bust` || splitHand2Outcome == `charlie`)
+    dealerTurnToken = true;
+
+  if (changeHandToken) player.updateCurrentSplitHand = 2;
+  if (endHandToken) {
+    gameTimer = setTimeout(endRound, 5000, gameState);
+    return;
+  } else if (dealerTurnToken) {
+    gameTimer = setTimeout(executeDealerTurn, 5000, gameState);
+    return;
+  }
+
+  continuePlayerTurn(gameState);
+
+  // switch (true) {
+  //   case player.currentSplitHand == 0:
+  //     if (endHandToken) gameTimer = setTimeout(endRound, 5000);
+  //     else if (dealerTurnToken)
+  //       gameTimer = setTimeout(executeDealerTurn, 5000, gameState);
+  //     else continuePlayerTurn(gameState);
+  //     break;
+  //   case player.currentSplitHand == 1:
+  //     if (changeHandToken) player.updateCurrentSplitHand = 2;
+  //     continuePlayerTurn(gameState);
+  //     break;
+  //   case player.currentSplitHand == 2:
+  //     if (endHandToken) gameTimer = setTimeout(endRound, 5000, gameState);
+  //     else if (dealerTurnToken)
+  //       gameTimer = setTimeout(executeDealerTurn, 5000, gameState);
+  //     else continuePlayerTurn(gameState);
+  //     break;
+  //   default:
+  //     continuePlayerTurn(gameState);
+  // }
+}
+
+function continuePlayerTurn(gameState) {
+  let player = gameState.player;
+
+  if (player.currentSplitHand == 0)
+    gameState.updateNoticeText = `Player's Turn...`;
+  if (player.currentSplitHand == 1)
+    gameState.updateNoticeText = `Please play Hand 1...`;
+  if (player.currentSplitHand == 2)
+    gameState.updateNoticeText = `Please play Hand 2...`;
+
+  gameState.updateVisibleGameBtns = { hit: true, stand: true };
+}
+
+function executeDealerTurn(gameState) {
+  gameState.updateNoticeText = `Dealer's Turn...`;
+  gameState.updateVisibleGameBtns = {
+    hit: false,
+    stand: false,
+    doubleDown: false,
+    split: false,
+    insurance: false,
+  };
+  checkDealerNextAvailableAction(gameState);
+}
+
+export function checkDealerNextAvailableAction(gameState) {
+  let endHandToken;
+  let gameTimer;
+  let dealer = gameState.dealer;
+
+  let handOutcome = dealer.hand.outcome;
+
+  // dealer.hand.total = 15;
+
+  if (handOutcome == `bust` || handOutcome == `charlie`) endHandToken = true;
+  if (dealer.hand.total > 16) endHandToken = true;
+
+  if (endHandToken) {
+    gameState.updateNoticeText = `Dealer's Turn ends...`;
+    gameTimer = setTimeout(endRound, 5000, gameState);
+  } else {
+    gameState.updateNoticeText = `Dealer hits...`;
+    gameTimer = setTimeout(bjModel.executeDealerHit, 5000, gameState);
+  }
+}
+
+export function hitAction(e, gameState) {
+  bjModel.executePlayerHit(gameState);
+}
+
+export function standAction(e, gameState) {
+  let player = gameState.player;
+
+  if (player.currentSplitHand == 1) {
+    executeStandForSplitHand1();
+    return;
+  }
+
+  executeDealerTurn(gameState);
+
+  function executeStandForSplitHand1() {
+    player.updateCurrentSplitHand = 2;
+    gameState.updateNoticeText = `Please play 2nd split hand`;
+    gameState.updateVisibleGameBtns = { hit: true, stand: true };
+  }
+}
+
+function endRound(gameState) {
+  //reveal dealer cards
+  //check special circumstances (bust, charlie, blackjack/insurance)
+  //check regular circumstances (whoever has higher total)
+  //calculate new player bank
+  //display winner outcome
+  //clear UI
+  //init next Round
+}
+
 function init() {
   let arr = [
     { name: "newGame", class: "btn__newGame", callback: startNewGame },
@@ -305,8 +437,8 @@ function init() {
 init();
 
 export function applyInitialCards(event, gameState) {}
-export function hitAction(event, gameState) {}
-export function standAction(event, gameState) {}
+// export function hitAction(event, gameState) {}
+// export function standAction(event, gameState) {}
 // export function splitAction(event, gameState) {}
 export function insuranceAction(event, gameState) {}
 export function doubleDownAction(event, gameState) {}
