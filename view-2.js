@@ -119,27 +119,64 @@ const btnMap = (function () {
   return map;
 })();
 
+let listenerFunctionObj = {};
+
 export function addHandlerListeners(handlerMap, gameState = null) {
   const allBtns = document.querySelectorAll(`.btn`);
-  // handlerMap.forEach(function (item) {
-  //   let [class, callback] = item;
 
-  //   if (btn.item(class))
+  // allBtns.forEach(function (btn) {
+  //   // console.log(btn);
+  //   let classCallback;
 
-  // }
+  //   handlerMap.forEach(function (obj) {
+  //     if (btn.classList.contains(obj.class)) classCallback = obj.callback;
+  //   });
+  //   if (!classCallback) return;
+
+  //   btn.addEventListener(`click`, function (event) {
+  //     classCallback(event, gameState);
+  //   });
+  // });
 
   allBtns.forEach(function (btn) {
     // console.log(btn);
     let classCallback;
+    let fnName;
 
     handlerMap.forEach(function (obj) {
-      if (btn.classList.contains(obj.class)) classCallback = obj.callback;
+      if (btn.classList.contains(obj.class)) {
+        classCallback = obj.callback;
+        fnName = obj.name + `callback`;
+      }
     });
     if (!classCallback) return;
 
-    btn.addEventListener(`click`, function (event) {
+    listenerFunctionObj[fnName] = function (event) {
       classCallback(event, gameState);
+    };
+
+    btn.addEventListener(`click`, listenerFunctionObj[fnName]);
+  });
+}
+
+export function removeEventListeners(handlerMap) {
+  const allBtns = document.querySelectorAll(`.btn`);
+
+  allBtns.forEach(function (btn) {
+    // let classCallback;
+    let fnName;
+
+    handlerMap.forEach(function (obj) {
+      if (btn.classList.contains(obj.class)) {
+        // classCallback = obj.callback;
+        fnName = obj.name + `callback`;
+      }
     });
+
+    // if (!classCallback) return;
+    if (!fnName) return;
+
+    btn.removeEventListener(`click`, listenerFunctionObj[fnName]);
   });
 
   //   allBtns.forEach(function (btn) {
@@ -213,6 +250,12 @@ export function renderInsuranceBetField(betAmount) {
   renderBetValueField(null);
 }
 
+export function clearInsuranceBetField() {
+  document.querySelector(".player-actions__insurance").style.display = `none`;
+
+  document.querySelector(".insuranceBetAmount").textContent = ``;
+}
+
 // export function renderInsuranceBetAmount(insuranceBetAmount) {
 //   document.querySelector(".insuranceBetAmount").textContent =
 //     insuranceBetAmount;
@@ -239,4 +282,42 @@ export function renderDealerHand(hand) {
 export function renderPlayerSplitHand(hand) {
   document.querySelector(".playerSplitHand").innerHTML = hand.images.join();
   document.querySelector(".playerSplitHandTotal").textContent = hand.total;
+}
+
+export function displayGameOutcome(gameState) {
+  let playerResult = gameState.player.hand.resultText;
+  let splitHand1Result = gameState.player.splitHand1.resultText;
+  let splitHand2Result = gameState.player.splitHand2.resultText;
+
+  // renderBank(gameState.player.bank);
+
+  if (gameState.gameMode.split) {
+    gameState.updateNoticeText = `Hand 1: ${splitHand1Result}<br>Hand 2: ${splitHand2Result}`;
+    // state.betAmount = hand1.betAmount;
+    // state.splitBetAmount = hand2.betAmount;
+  } else {
+    gameState.updateNoticeText = playerResult;
+    // state.betAmount = hand1.betAmount;
+  }
+  // renderUIFields(state);
+}
+
+export function clearGameCards() {
+  playerHandUI.innerHTML = ``;
+  playerSplitHandUI.innerHTML = ``;
+  dealerHandUI.innerHTML = ``;
+
+  playerHandTotalUI.textContent = ``;
+  playerSplitHandTotalUI.textContent = ``;
+  dealerHandTotalUI.textContent = ``;
+}
+
+export function clearUI() {
+  betAmountUI.textContent = ``;
+  splitBetAmountUI.textContent = ``;
+  clearInsuranceBetField();
+}
+
+export function clearBankField() {
+  bankUI.textContent = ``;
 }

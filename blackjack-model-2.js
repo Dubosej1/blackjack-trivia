@@ -123,7 +123,7 @@ export class Player extends CardHolder {
     let betAmount = this.betAmount;
 
     this.splitBetAmount = betAmount;
-    this.betAmount = betAmount - betAmount;
+    this.bank = this.bank - this.betAmount;
   }
 
   set addCardToHand(card) {
@@ -199,10 +199,19 @@ export class Player extends CardHolder {
 
     let [splitCard1, splitCard2] = this.removeSplitCardsFromHand();
 
+    this.checkForSplitAces(splitCard1, splitCard2);
+
     this.addCardToSplitHand1 = splitCard1;
     this.addCardToSplitHand1 = card1;
     this.addCardToSplitHand2 = splitCard2;
     this.addCardToSplitHand2 = card2;
+  }
+
+  checkForSplitAces(splitCard1, splitCard2) {
+    if (splitCard1.value == "ACE" && splitCard2.value == "ACE") {
+      this.splitHand1.splitAces = true;
+      this.splitHand2.splitAces = true;
+    }
   }
 
   removeSplitCardsFromHand() {
@@ -253,6 +262,15 @@ export class Player extends CardHolder {
     if (this.currentSplitHand == 2) this.splitHand2.outcome = `charlie`;
   }
 
+  checkHandForNatural(hand) {
+    if (hand.cards.length !== 2) return;
+    if (hand.total != 21) return;
+
+    if (this.currentSplitHand == 0) this.hand.outcome = `natural`;
+    // if (this.currentSplitHand == 1) this.splitHand1.outcome = `natural`;
+    // if (this.currentSplitHand == 2) this.splitHand2.outcome = `natural`;
+  }
+
   performHandChecks() {
     let hand;
 
@@ -260,6 +278,7 @@ export class Player extends CardHolder {
     if (this.currentSplitHand == 1) hand = this.splitHand1;
     if (this.currentSplitHand == 2) hand = this.splitHand2;
 
+    this.checkHandForNatural(hand);
     this.checkHandForBust(hand);
     this.checkHandForCharlie(hand);
   }
@@ -291,6 +310,11 @@ export class Dealer extends CardHolder {
     }
   }
 
+  revealFaceDownCard() {
+    this.hand.images[0] = this.hand.unrevealedCard;
+    this.hand.visibleTotal = this.hand.total;
+  }
+
   checkHandForBust(hand) {
     if (hand.total <= 21) return;
     this.hand.outcome = `bust`;
@@ -303,9 +327,17 @@ export class Dealer extends CardHolder {
     this.hand.outcome = `charlie`;
   }
 
+  checkHandForNatural(hand) {
+    if (hand.cards.length !== 2) return;
+    if (hand.total != 21) return;
+
+    this.hand.outcome = `natural`;
+  }
+
   performHandChecks() {
     let hand = this.hand;
 
+    this.checkHandForNatural(hand);
     this.checkHandForBust(hand);
     this.checkHandForCharlie(hand);
   }
@@ -314,6 +346,12 @@ export class Dealer extends CardHolder {
 export let gameInfo = {
   deckID: `zkz7lu7uf81p`,
   gameActive: false,
+  roundCount: 1,
+  log: [],
+
+  updateRoundCount() {
+    this.roundCount++;
+  },
 
   splitToken(boolean, gameState) {
     this.splitAvailable = boolean;
@@ -323,6 +361,11 @@ export let gameInfo = {
   doubleDownToken(boolean, gameState) {
     this.doubleDownAvailable = boolean;
     controller.updateDoubleDownToken(boolean, gameState);
+  },
+
+  resetGameInfo() {
+    this.splitAvailable = false;
+    this.doubleDownAvailable = false;
   },
 
   set updateDeckID(deckID) {
@@ -501,10 +544,10 @@ export function insuranceLogic(insuranceBet, gameState) {
 
   if (dealerHand.cards[1].value == "ACE" && dealerHand.total == 21) {
     player.updateBank = player.bank + insuranceBet * 2;
-    player.hand.insuranceOutcome = `win`;
+    player.hand.insuranceWon = true;
   }
 
-  player.hand.insuranceOutcome = `lose`;
+  player.hand.insuranceWon = false;
   controller.updateStatePlayers(player, gameState);
 }
 
@@ -518,7 +561,6 @@ export function checkValidInsuranceBet(submittedBet, gameState) {
 
 export function splitPlayerHand(gameState) {
   // splitMode = true;
-  gameState.updateGameMode = `split`;
 
   let currentPlayer = gameState.player;
 
@@ -664,4 +706,33 @@ function drawSingleCard(deckID) {
       card = null;
       drawSingleCard(deckID);
     });
+}
+
+export function calculatePlayerWinnings(result, gameState) {
+  let betAmount = gameState.player.betAmount;
+  let bank = gameState.player.bank;
+
+  switch (result) {
+    case `win`:
+      bank = bank + betAmount * 2;
+      return bank;
+    case `push`:
+      bank = bank + betAmount;
+      return bank;
+    case `blackjack`:
+      bank = bank + betAmount * 2 + Math.round(betAmount / 2);
+      return bank;
+    default:
+      return bank;
+  }
+}
+
+export function addStateToLog(gameState) {
+  gameState.addRoundNumber = gameInfo.roundCount;
+  gameInfo.log.push(gameState);
+  gameInfo.updateRoundCount();
+}
+
+export function resetGameInfo() {
+  gameInfo.resetGameInfo();
 }

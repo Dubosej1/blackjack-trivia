@@ -49,6 +49,7 @@ export default class State {
     insurance: false,
   };
   noticeText;
+  round;
   // betAmount;
   gameMode = { split: false, doubleDown: false, insurance: false };
   fiveCardCharlie;
@@ -78,6 +79,10 @@ export default class State {
     let [player, dealer] = arr;
     this.player = player;
     this.dealer = dealer;
+  }
+
+  set addRoundNumber(num) {
+    this.round = num;
   }
 
   set updateBank(bank) {
@@ -157,24 +162,47 @@ export default class State {
 
   set updateSplitAvailable(result) {
     this.splitAvailable = result;
-    if (this.splitAvailable) {
+
+    if (this.splitAvailable)
       this.gameBtnVisible = { ...this.gameBtnVisible, ...{ split: true } };
-      view.renderBtnVisibility(this.gameBtnVisible);
-    }
+    else this.gameBtnVisible = { ...this.gameBtnVisible, ...{ split: false } };
+
+    view.renderBtnVisibility(this.gameBtnVisible);
   }
 
   set updateDoubleDownAvailable(result) {
     this.doubleDownAvailable = result;
-    if (this.doubleDownAvailable) {
+
+    if (this.doubleDownAvailable)
       this.gameBtnVisible = { ...this.gameBtnVisible, ...{ doubleDown: true } };
-      view.renderBtnVisibility(this.gameBtnVisible);
-    }
+    else
+      this.gameBtnVisible = {
+        ...this.gameBtnVisible,
+        ...{ doubleDown: false },
+      };
+
+    view.renderBtnVisibility(this.gameBtnVisible);
+  }
+
+  set updateInsuranceAvailable(result) {
+    this.insuranceAvailable = result;
+
+    if (this.insuranceAvailable)
+      this.gameBtnVisible = { ...this.gameBtnVisible, ...{ insurance: true } };
+    else
+      this.gameBtnVisible = { ...this.gameBtnVisible, ...{ insurance: false } };
+
+    view.renderBtnVisibility(this.gameBtnVisible);
   }
 
   set updateGameMode(mode) {
     if (mode == `split`) this.gameMode.split = true;
     if (mode == `doubleDown`) this.gameMode.doubleDown = true;
     if (mode == `insurance`) this.gameMode.insurance = true;
+  }
+
+  updateNaturalChecked() {
+    this.naturalChecked = true;
   }
 
   checkValidInsurance() {
@@ -185,7 +213,7 @@ export default class State {
     let betAmount = this.player.betAmount;
 
     if (dealerInitialFaceUpCard == "ACE" && bank >= 1 && betAmount >= 2)
-      this.updateVisibleGameBtns = { insurance: true };
+      this.updateInsuranceAvailable = true;
   }
 
   updateInitialSplit(player) {
@@ -298,6 +326,8 @@ function applyInsuranceLogic(betAmount, gameState) {
     return;
   }
 
+  gameState.updateInsuranceBetAmount = betAmount;
+
   checkInsuranceBetOutcome(betAmount, gameState);
 
   return;
@@ -307,13 +337,14 @@ function applyInsuranceLogic(betAmount, gameState) {
 
     gameState.updateUI();
 
-    if (gameState.player.hand.insuranceOutcome == `win`) endRound(gameState);
+    if (gameState.player.hand.insuranceWon) endRound(gameState);
     else applyLosingInsBetSeq(gameState);
   }
 
   function applyLosingInsBetSeq(gameState) {
     gameState.gameMode.insurance = false;
     gameState.updateNoticeText = `Lost Insurance Bet.  Player's Turn.`;
+    gameState.updateNaturalChecked();
     gameState.updateVisibleGameBtns = { hit: true, stand: true };
 
     if (gameState.splitAvailable)
@@ -406,24 +437,33 @@ export function updateDoubleDownToken(boolean, gameState) {
 }
 
 export function splitAction(e, gameState) {
+  if (checkDealerForNatural(gameState)) return;
+  gameState.updateSplitAvailable = false;
+  if (gameState.insuranceAvailable) gameState.updateInsuranceAvailable = false;
+  if (gameState.doubleDownAvailable)
+    gameState.updateDoubleDownAvailable = false;
+
   gameState.updateNoticeText = `Player splits...Please play Hand 1`;
-  gameState.updateVisibleGameBtns = { split: false };
+  gameState.updateGameMode = `split`;
   bjModel.splitPlayerHand(gameState);
 }
 
 export function doubleDownAction(e, gameState) {
+  if (checkDealerForNatural(gameState)) return;
+  if (gameState.splitAvailable) gameState.updateSplitAvailable = false;
+  if (gameState.insuranceAvailable) gameState.updateInsuranceAvailable = false;
+  gameState.updateDoubleDownAvailable = false;
+
   gameState.gameMode.doubleDown = true;
   gameState.updateVisibleGameBtns = {
-    doubleDown: false,
     hit: false,
     stand: false,
-    insurance: false,
-    split: false,
   };
 
   bjModel.applyDoubleDown(gameState);
 
-  bjModel.executePlayerHit(gameState);
+  gameState.updateNoticeText = `Player doubles down...`;
+  let gameTimer = setTimeout(bjModel.executePlayerHit, 3000, gameState);
 
   // initTriviaMode();
 }
@@ -439,8 +479,16 @@ export function checkPlayerNextAvailableAction(gameState) {
   let splitHand1Outcome = player.splitHand1.outcome;
   let splitHand2Outcome = player.splitHand2.outcome;
 
-  if (handOutcome == `bust` || handOutcome == `charlie`) endHandToken = true;
+  if (
+    handOutcome == `bust` ||
+    handOutcome == `charlie` ||
+    handOutcome == `natural`
+  )
+    endHandToken = true;
   if (gameState.gameMode.doubleDown) dealerTurnToken = true;
+
+  if (gameState.player.splitHand1.splitAces) changeHandToken = true;
+  if (gameState.player.splitHand2.splitAces) endHandToken = true;
 
   if (splitHand1Outcome == `bust` || splitHand1Outcome == `charlie`)
     changeHandToken = true;
@@ -452,6 +500,7 @@ export function checkPlayerNextAvailableAction(gameState) {
 
   if (changeHandToken) player.updateCurrentSplitHand = 2;
   if (endHandToken) {
+    gameState.updateNoticeText = `Round ends...`;
     gameTimer = setTimeout(endRound, 5000, gameState);
     return;
   } else if (dealerTurnToken) {
@@ -530,10 +579,27 @@ export function checkDealerNextAvailableAction(gameState) {
 }
 
 export function hitAction(e, gameState) {
-  bjModel.executePlayerHit(gameState);
+  if (checkDealerForNatural(gameState)) return;
+  if (gameState.splitAvailable) gameState.updateSplitAvailable = false;
+  if (gameState.insuranceAvailable) gameState.updateInsuranceAvailable = false;
+  if (gameState.doubleDownAvailable)
+    gameState.updateDoubleDownAvailable = false;
+
+  if (gameState.player.currentSplitHand == 0)
+    gameState.updateNoticeText = `Player hits...`;
+  if (gameState.player.currentSplitHand == 1)
+    gameState.updateNoticeText = `Hand 1 hits...`;
+  if (gameState.player.currentSplitHand == 1)
+    gameState.updateNoticeText = `Hand 1 hits...`;
+
+  let gameTimer = setTimeout(bjModel.executePlayerHit, 3000, gameState);
 }
 
 export function standAction(e, gameState) {
+  if (checkDealerForNatural(gameState)) return;
+  if (gameState.splitAvailable) gameState.updateSplitAvailable = false;
+  if (gameState.insuranceAvailable) gameState.updateInsuranceAvailable = false;
+
   let player = gameState.player;
 
   if (player.currentSplitHand == 1) {
@@ -550,8 +616,32 @@ export function standAction(e, gameState) {
   }
 }
 
+function checkDealerForNatural(gameState) {
+  if (gameState.naturalChecked) return false;
+
+  gameState.updateNaturalChecked();
+
+  let dealer = gameState.dealer;
+
+  dealer.checkHandForNatural(dealer.hand);
+
+  // let dealerHand = gameState.dealer.hand;
+  // let faceUpCard = [dealerHand.cards[1]];
+
+  // let faceUpCardValue = gameState.dealer.calculateHandTotal(faceUpCard);
+
+  // if (faceUpCardValue >= 10) endRound(gameState);
+  if (dealer.hand.outcome == `natural`) {
+    endRound(gameState);
+    return true;
+  }
+  return false;
+}
+
 export function insuranceAction(e, gameState) {
   gameState.gameMode.insurance = true;
+  if (gameState.insuranceAvailable)
+    gameState.updateVisibleGameBtns = { insurance: false };
 
   gameState.updateNoticeText = `Please submit an amount up to half your original bet`;
 
@@ -565,14 +655,152 @@ export function insuranceAction(e, gameState) {
   };
 }
 
+// function endRound(gameState) {
+//   //reveal dealer cards
+//   //check special circumstances (bust, charlie, blackjack/insurance)
+//   //check regular circumstances (whoever has higher total)
+//   //calculate new player bank
+//   //display winner outcome
+//   //clear UI
+//   //init next Round
+// }
+
 function endRound(gameState) {
-  //reveal dealer cards
-  //check special circumstances (bust, charlie, blackjack/insurance)
-  //check regular circumstances (whoever has higher total)
-  //calculate new player bank
-  //display winner outcome
-  //clear UI
-  //init next Round
+  let playerHand = gameState.player.hand;
+  let dealer = gameState.dealer;
+  let dealerHand = dealer.hand;
+  let splitHand1 = gameState.player.splitHand1;
+  let splitHand2 = gameState.player.splitHand2;
+
+  gameState.updateVisibleGameBtns = {
+    hit: false,
+    stand: false,
+    split: false,
+    insurance: false,
+  };
+
+  gameState.gameActive = false;
+
+  dealer.revealFaceDownCard();
+
+  gameState.updateDealer = dealer;
+
+  if (gameState.gameMode.split) {
+    determineWinner(splitHand1, gameState);
+    determineWinner(splitHand2, gameState);
+  } else determineWinner(playerHand, gameState);
+
+  view.displayGameOutcome(gameState);
+
+  let gameTimer = setTimeout(clearRoundData, 5000, gameState);
+  return;
+
+  // if (state.gameMode.split) {
+  //   let playerSplitHand1 = chooseWinner(
+  //     state.playerHandTotal,
+  //     state.betAmount,
+  //     `hand1`
+  //   );
+  //   let playerSplitHand2 = chooseWinner(
+  //     state.playerSplitHandTotal,
+  //     state.splitBetAmount,
+  //     `hand2`
+  //   );
+
+  displayGameOutcome(state, playerSplitHand1, playerSplitHand2);
+
+  // }
+
+  // let playerSplitHand1 = chooseWinner(state.playerHandTotal, state.betAmount);
+  // displayGameOutcome(state, playerSplitHand1);
+  // gameTimer = setTimeout(clearRoundData, 5000);
+}
+
+function determineWinner(hand, gameState) {
+  //natural, charlie, bust, regular
+  let handOutcome = hand.outcome;
+  let dealerHand = gameState.dealer.hand;
+  let dealerOutcome = dealerHand.outcome;
+
+  switch (true) {
+    case handOutcome == `natural` && dealerOutcome == `natural`:
+      hand.result = `push`;
+      hand.resultText = `Push.  Both Players have natural blackjack...`;
+      break;
+    case handOutcome == `natural`:
+      hand.result = `blackjack`;
+      hand.resultText = `Blackjack!!! Payout doubled!`;
+      break;
+    case dealerOutcome == `natural`:
+      hand.result = `lose`;
+      hand.resultText = `Lose...  Dealer has blackjack...`;
+      break;
+    case dealerOutcome == `natural`: //insurancebet
+      hand.result = `lose`;
+      hand.resultText = `Dealer has blackjack.  Player wins insurance bet only.`;
+      break;
+    case handOutcome == `charlie`:
+      hand.result = `win`;
+      hand.resultText = `Win! 5 Card Charlie!`;
+      break;
+    case dealerOutcome == `charlie`:
+      hand.result = `lose`;
+      hand.resultText = `Lose... Dealer has 5 Card Charlie...`;
+      break;
+    case dealerOutcome == `bust`:
+      hand.result = `win`;
+      hand.resultText = `Win!  Dealer busts.`;
+      break;
+    case handOutcome == `bust`:
+      hand.result = `lose`;
+      hand.resultText = `Lose... Hand busts.`;
+      break;
+    case dealerHand.total > hand.total:
+      hand.result = `lose`;
+      hand.resultText = `Dealer Wins...`;
+      break;
+    case hand.total == dealerHand.total:
+      hand.result = `push`;
+      hand.resultText = `Push.`;
+      break;
+    case hand.total > dealerHand.total:
+      hand.result = `win`;
+      hand.resultText = `Hand Wins!`;
+      break;
+  }
+
+  gameState.updateBank = bjModel.calculatePlayerWinnings(
+    hand.result,
+    gameState
+  );
+}
+
+function clearRoundData(gameState) {
+  view.clearGameCards();
+  view.clearUI();
+  bjModel.resetGameInfo();
+  bjModel.addStateToLog(gameState);
+  view.removeEventListeners(btnsArr);
+
+  if (gameState.endGameBtnPressed == true) {
+    view.renderNoticeText(`Game Ended.  Select New Game...`);
+    let bank = 0;
+    view.renderBank(bank);
+    gameState.updateVisibleNavBtns = {
+      newGame: true,
+      endGame: false,
+    };
+    gameState.updateVisibleGameBtns = {
+      submitBet: false,
+      dealCards: false,
+      hit: false,
+      stand: false,
+      doubleDown: false,
+      split: false,
+      insurance: false,
+    };
+    // endGameBtnPressed = false;
+  } else startNewRound(gameState.player.bank);
 }
 
 function init() {
