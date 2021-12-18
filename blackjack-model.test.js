@@ -109,3 +109,97 @@ describe(`Testing calculating a card's value`, () => {
     expect(player.calculateHandTotal(hand)).toBe(12);
   });
 });
+
+describe(`Testing add a card to a player's hand and calculating hand's total`, () => {
+  test(`Adding a card`, () => {
+    let testPlayer = player;
+
+    let card = {
+      code: "AC",
+      image: "https://deckofcardsapi.com/static/img/AC.png",
+      suit: `CLUBS`,
+      value: `ACE`,
+    };
+
+    let image = `<img src="https://deckofcardsapi.com/static/img/AC.png" class="card">`;
+
+    let cardsArr = [];
+    let imagesArr = [];
+    cardsArr.push(card);
+    imagesArr.push(image);
+
+    testPlayer.addCardToHand = card;
+
+    expect(testPlayer.hand.cards).toContain(card);
+    expect(testPlayer.hand.images).toEqual(expect.arrayContaining(imagesArr));
+    expect(testPlayer.hand.total).toBe(11);
+  });
+
+  test(`Adding 5 cards`, () => {
+    let testPlayer = player;
+
+    let card1 = {
+      code: "AC",
+      image: "https://deckofcardsapi.com/static/img/AC.png",
+      suit: `CLUBS`,
+      value: `ACE`,
+    };
+
+    let card2 = {
+      code: "2C",
+      image: "https://deckofcardsapi.com/static/img/2C.png",
+      suit: `CLUBS`,
+      value: `2`,
+    };
+
+    let card3 = {
+      code: "2S",
+      image: "https://deckofcardsapi.com/static/img/2S.png",
+      suit: `SPADES`,
+      value: `2`,
+    };
+
+    let card4 = {
+      code: "2H",
+      image: "https://deckofcardsapi.com/static/img/2H.png",
+      suit: `HEARTS`,
+      value: `2`,
+    };
+
+    let card5 = {
+      code: "AD",
+      image: "https://deckofcardsapi.com/static/img/AD.png",
+      suit: `DIAMONDS`,
+      value: `ACE`,
+    };
+
+    let image1 = `<img src="https://deckofcardsapi.com/static/img/AC.png" class="card">`;
+    let image2 = `<img src="https://deckofcardsapi.com/static/img/2C.png" class="card">`;
+    let image3 = `<img src="https://deckofcardsapi.com/static/img/2S.png" class="card">`;
+    let image4 = `<img src="https://deckofcardsapi.com/static/img/2H.png" class="card">`;
+    let image5 = `<img src="https://deckofcardsapi.com/static/img/AD.png" class="card">`;
+
+    let cardsArr = [];
+    let imagesArr = [];
+
+    cardsArr.push(card1);
+    cardsArr.push(card2);
+    cardsArr.push(card3);
+    cardsArr.push(card4);
+    cardsArr.push(card5);
+    imagesArr.push(image1);
+    imagesArr.push(image2);
+    imagesArr.push(image3);
+    imagesArr.push(image4);
+    imagesArr.push(image5);
+    testPlayer.addCardToHand = card1;
+    testPlayer.addCardToHand = card2;
+    testPlayer.addCardToHand = card3;
+    testPlayer.addCardToHand = card4;
+    testPlayer.addCardToHand = card5;
+
+    expect(testPlayer.hand.cards).toEqual(expect.arrayContaining(cardsArr));
+    expect(testPlayer.hand.images).toEqual(expect.arrayContaining(imagesArr));
+    expect(testPlayer.hand.total).toBe(18);
+  });
+});
