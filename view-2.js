@@ -34,6 +34,8 @@ const standBtn = document.querySelector(".btn__stand");
 const doubleDownBtn = document.querySelector(".btn__doubleDown");
 const splitBtn = document.querySelector(".btn__split");
 const insuranceBtn = document.querySelector(".btn__insurance");
+const EvenMoneyBtn = document.querySelector(".btn__evenMoney");
+const surrenderBtn = document.querySelector(".btn__surrender");
 
 //Trivia Section Btns
 const easyDifficultyBtn = document.querySelector(".btn__easy");
@@ -108,18 +110,23 @@ const multipleChoiceAnswerField = document.querySelector(
 //       btn.addEventListener(`click`, handlerMap.get(btnName));
 //   });
 // }
-const btnMap = (function () {
-  const allBtns = document.querySelectorAll(`.btn`);
-  let map = new Map();
+// const btnMap = (function () {
+//   const allBtns = document.querySelectorAll(`.btn`);
+//   let map = new Map();
 
-  allBtns.forEach(function (btn) {
-    let key = convertVarNameToStr({ btn });
-    map.set(key, btn);
-  });
-  return map;
-})();
+//   allBtns.forEach(function (btn) {
+
+//     let key = convertVarNameToStr({ btn });
+//     map.set(key, btn);
+//   });
+//   return map;
+// })();
 
 let listenerFunctionObj = {};
+
+export function addNewGameHandler(func) {
+  newGameBtn.addEventListener(`click`, func);
+}
 
 export function addHandlerListeners(handlerMap, gameState = null) {
   const allBtns = document.querySelectorAll(`.btn`);
@@ -139,7 +146,8 @@ export function addHandlerListeners(handlerMap, gameState = null) {
   // });
 
   allBtns.forEach(function (btn) {
-    // console.log(btn);
+    if (btn.classList.contains("btn__newGame")) return;
+
     let classCallback;
     let fnName;
 
@@ -163,7 +171,7 @@ export function removeEventListeners(handlerMap) {
   const allBtns = document.querySelectorAll(`.btn`);
 
   allBtns.forEach(function (btn) {
-    // let classCallback;
+    if (btn.classList.contains("btn__newGame")) return;
     let fnName;
 
     handlerMap.forEach(function (obj) {

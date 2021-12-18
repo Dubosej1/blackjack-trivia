@@ -33,6 +33,17 @@ const dealerInsTestCard = {
   value: "ACE",
 };
 
+const playerBlackjackCard = {
+  code: "KD",
+  image: `https://deckofcardsapi.com/static/img/KD.png`,
+  images: {
+    svg: "https://deckofcardsapi.com/static/img/KD.svg",
+    png: "https://deckofcardsapi.com/static/img/KD.png",
+  },
+  suit: "DIAMONDS",
+  value: "KING",
+};
+
 class CardHolder {
   constructor() {
     this.hand = { cards: [], images: [], total: 0 };
@@ -263,12 +274,13 @@ export class Player extends CardHolder {
   }
 
   checkHandForNatural(hand) {
-    if (hand.cards.length !== 2) return;
-    if (hand.total != 21) return;
+    if (hand.cards.length !== 2) return false;
+    if (hand.total != 21) return false;
 
-    if (this.currentSplitHand == 0) this.hand.outcome = `natural`;
+    this.hand.outcome = `natural`;
     // if (this.currentSplitHand == 1) this.splitHand1.outcome = `natural`;
     // if (this.currentSplitHand == 2) this.splitHand2.outcome = `natural`;
+    return true;
   }
 
   performHandChecks() {
@@ -278,7 +290,7 @@ export class Player extends CardHolder {
     if (this.currentSplitHand == 1) hand = this.splitHand1;
     if (this.currentSplitHand == 2) hand = this.splitHand2;
 
-    this.checkHandForNatural(hand);
+    // if (this.currentSplitHand !== 0)this.checkHandForNatural(hand);
     this.checkHandForBust(hand);
     this.checkHandForCharlie(hand);
   }
@@ -337,7 +349,7 @@ export class Dealer extends CardHolder {
   performHandChecks() {
     let hand = this.hand;
 
-    this.checkHandForNatural(hand);
+    // this.checkHandForNatural(hand);
     this.checkHandForBust(hand);
     this.checkHandForCharlie(hand);
   }
@@ -461,9 +473,13 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.addCardToHand = cardsObj.card1;
       // currentPlayer.addCardToHand = cardsObj.card2;
 
+      //Test Player Blackjack/Even Money (replace original 2)
+      currentPlayer.addCardToHand = dealerInsTestCard;
+      currentPlayer.addCardToHand = playerBlackjackCard;
+
       //Test Split Cards (replace original 2 cards) and Test Bust (add to original 2)
-      currentPlayer.addCardToHand = playerSplitTestCard1;
-      currentPlayer.addCardToHand = playerSplitTestCard2;
+      // currentPlayer.addCardToHand = playerSplitTestCard1;
+      // currentPlayer.addCardToHand = playerSplitTestCard2;
 
       //Test Player 5 Card Charlie (comment out original 2 cards)
       // createFiveCardCharlieTestHand(`player`);
@@ -474,6 +490,7 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
     })
     .catch((err) => dealPlayerCards(deckID))
     .finally(function () {
+      currentPlayer.checkHandForNatural(currentPlayer.hand);
       controller.updateStatePlayers(currentPlayer, gameState);
       gameInfo.splitToken(currentPlayer.checkValidSplit(), gameState);
       gameInfo.doubleDownToken(currentPlayer.checkValidSideBet(), gameState);
@@ -503,7 +520,9 @@ function dealDealerCards(deckID, currentDealer, gameState) {
     // })
     .catch((err) => dealDealerCards(deckID))
     .finally(function () {
+      currentDealer.checkHandForNatural(currentDealer.hand);
       controller.updateStatePlayers(currentDealer, gameState);
+      gameState.checkValidEvenMoney();
       gameState.checkValidInsurance();
       controller.enableBeginRoundBtns(gameState);
       // checkValidInsurance(dealerHand);
@@ -545,9 +564,8 @@ export function insuranceLogic(insuranceBet, gameState) {
   if (dealerHand.cards[1].value == "ACE" && dealerHand.total == 21) {
     player.updateBank = player.bank + insuranceBet * 2;
     player.hand.insuranceWon = true;
-  }
+  } else player.hand.insuranceWon = false;
 
-  player.hand.insuranceWon = false;
   controller.updateStatePlayers(player, gameState);
 }
 
@@ -721,6 +739,9 @@ export function calculatePlayerWinnings(result, gameState) {
       return bank;
     case `blackjack`:
       bank = bank + betAmount * 2 + Math.round(betAmount / 2);
+      return bank;
+    case `even money`:
+      bank = bank + betAmount;
       return bank;
     default:
       return bank;
