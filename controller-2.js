@@ -49,6 +49,8 @@ export default class State {
     doubleDown: false,
     split: false,
     insurance: false,
+    evenMoney: false,
+    surrender: false,
   };
   noticeText;
   round;
@@ -195,6 +197,20 @@ export default class State {
       this.gameBtnVisible = {
         ...this.gameBtnVisible,
         ...{ evenMoney: false },
+      };
+
+    view.renderBtnVisibility(this.gameBtnVisible);
+  }
+
+  set updateSurrenderAvailable(result) {
+    this.surrenderAvailable = result;
+
+    if (this.surrenderAvailable)
+      this.gameBtnVisible = { ...this.gameBtnVisible, ...{ surrender: true } };
+    else
+      this.gameBtnVisible = {
+        ...this.gameBtnVisible,
+        ...{ surrender: false },
       };
 
     view.renderBtnVisibility(this.gameBtnVisible);
@@ -458,6 +474,7 @@ export function enableBeginRoundBtns(gameState) {
     hit: true,
     stand: true,
   };
+  if (!gameState.evenMoneyAvailable) gameState.updateSurrenderAvailable = true;
 }
 
 export function updateSplitToken(boolean, gameState) {
@@ -479,9 +496,7 @@ export function splitAction(e, gameState) {
 
 export function doubleDownAction(e, gameState) {
   if (checkForNaturals(gameState)) return;
-  if (gameState.splitAvailable) gameState.updateSplitAvailable = false;
-  if (gameState.insuranceAvailable) gameState.updateInsuranceAvailable = false;
-  gameState.updateDoubleDownAvailable = false;
+  changeBtnsAvailable(gameState);
 
   gameState.gameMode.doubleDown = true;
   gameState.updateVisibleGameBtns = {
@@ -669,13 +684,16 @@ function changeBtnsAvailable(gameState) {
   if (gameState.insuranceAvailable) gameState.updateInsuranceAvailable = false;
   if (gameState.doubleDownAvailable)
     gameState.updateDoubleDownAvailable = false;
+
   if (gameState.evenMoneyAvailable) gameState.updateEvenMoneyAvailable = false;
+  else gameState.updateSurrenderAvailable = false;
 }
 
 export function insuranceAction(e, gameState) {
   gameState.gameMode.insurance = true;
   if (gameState.insuranceAvailable)
     gameState.updateVisibleGameBtns = { insurance: false };
+  gameState.updateSurrenderAvailable = false;
 
   gameState.updateNoticeText = `Please submit an amount up to half your original bet`;
 
@@ -716,8 +734,26 @@ export function evenMoneyAction(event, gameState) {
 
   gameState.updateNoticeText = `Player takes Even Money option...`;
 
-  if (dealerOutcome == `natural`) player.hand.outcome = `even money win`;
-  else player.hand.outcome = `even money lose`;
+  if (dealerOutcome == `natural`) player.applyEvenMoneyOutcome = `win`;
+  else player.applyEvenMoneyOutcome = `lose`;
+
+  gameTimer = setTimeout(endRound, 3000, gameState);
+}
+
+export function surrenderAction(event, gameState) {
+  gameState.updateVisibleGameBtns = { hit: false, stand: false };
+  changeBtnsAvailable(gameState);
+
+  let dealer = gameState.dealer;
+  let player = gameState.player;
+  let gameTimer;
+
+  gameState.updateNoticeText = `Player has surrendered hand...`;
+
+  // dealer.checkHandForNatural();
+
+  if (dealer.hand.outcome == `natural`) player.applySurrenderOutcome = `fail`;
+  else player.applySurrenderOutcome = `pass`;
 
   gameTimer = setTimeout(endRound, 3000, gameState);
 }
@@ -781,61 +817,69 @@ function determineWinner(hand, gameState) {
 
   switch (true) {
     case handOutcome == `even money win`:
-      hand.result = `even money`;
+      hand.payoutResult = `blackjack`;
       hand.resultText = `Dealer Blackjack.  Player wins Even Money Bet.`;
       break;
     case handOutcome == `even money lose`:
-      hand.result = `blackjack`;
+      hand.payoutResult = `blackjack`;
       hand.resultText = `Player Blackjack!!! Player loses Even Money Bet.`;
       break;
+    case handOutcome == `surrender`:
+      hand.payoutResult = `surrender`;
+      hand.resultText = `Surrender passed.  Player receives half bet back.`;
+      break;
+    case handOutcome == `surrender failed`:
+      hand.payoutResult = `lose`;
+      hand.resultText = `Dealer Blackjack.  Surrender failed...`;
+      break;
     case handOutcome == `natural` && dealerOutcome == `natural`:
-      hand.result = `push`;
+      hand.payoutResult = `push`;
       hand.resultText = `Push.  Both Players have natural blackjack...`;
       break;
     case handOutcome == `natural`:
-      hand.result = `blackjack`;
+      hand.payoutResult = `blackjack`;
       hand.resultText = `Blackjack!!! Payout doubled!`;
       break;
     case dealerOutcome == `natural`:
-      hand.result = `lose`;
+      hand.payoutResult = `lose`;
       hand.resultText = `Lose...  Dealer has blackjack...`;
       break;
     case dealerOutcome == `natural`: //insurancebet
-      hand.result = `lose`;
+      hand.payoutResult = `lose`;
       hand.resultText = `Dealer has blackjack.  Player wins insurance bet only.`;
       break;
     case handOutcome == `charlie`:
-      hand.result = `win`;
+      hand.payoutResult = `win`;
       hand.resultText = `Win! 5 Card Charlie!`;
       break;
     case dealerOutcome == `charlie`:
-      hand.result = `lose`;
+      hand.payoutResult = `lose`;
       hand.resultText = `Lose... Dealer has 5 Card Charlie...`;
       break;
     case dealerOutcome == `bust`:
-      hand.result = `win`;
+      hand.payoutResult = `win`;
       hand.resultText = `Win!  Dealer busts.`;
       break;
     case handOutcome == `bust`:
-      hand.result = `lose`;
+      hand.payoutResult = `lose`;
       hand.resultText = `Lose... Hand busts.`;
       break;
     case dealerHand.total > hand.total:
-      hand.result = `lose`;
+      hand.payoutResult = `lose`;
       hand.resultText = `Dealer Wins...`;
       break;
     case hand.total == dealerHand.total:
-      hand.result = `push`;
+      hand.payoutResult = `push`;
       hand.resultText = `Push.`;
       break;
     case hand.total > dealerHand.total:
-      hand.result = `win`;
+      hand.payoutResult = `win`;
       hand.resultText = `Hand Wins!`;
       break;
   }
 
   gameState.updateBank = bjModel.calculatePlayerWinnings(
-    hand.result,
+    hand.payoutResult,
     gameState
   );
 }
@@ -887,7 +931,7 @@ export function applyInitialCards(event, gameState) {}
 // export function insuranceAction(event, gameState) {}
 // export function doubleDownAction(event, gameState) {}
 // export function evenMoneyAction(event, gameState) {}
-export function surrenderAction(event, gameState) {}
+// export function surrenderAction(event, gameState) {}
 export function applyEasyQuestionDifficulty(event, gameState) {}
 export function applyMediumQuestionDifficulty(event, gameState) {}
 export function applyHardQuestionDifficulty(event, gameState) {}

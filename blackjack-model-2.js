@@ -256,6 +256,24 @@ export class Player extends CardHolder {
     if (num == 2) this.currentSplitHand = 2;
   }
 
+  set applyEvenMoneyOutcome(outcome) {
+    if (outcome == `win`) this.hand.outcome = `even money win`;
+    else this.hand.outcome = `even money lose`;
+  }
+
+  set applySurrenderOutcome(outcome) {
+    if (outcome == `pass`) this.hand.outcome = `surrender`;
+    else this.hand.outcome = `surrender failed`;
+  }
+
+  // set applyRoundResultText(message) {
+  //   this.hand.resultText = message;
+  // }
+
+  // set applyPayoutResult(result) {
+  //   this.hand.payoutResult = result;
+  // }
+
   checkHandForBust(hand) {
     if (hand.total <= 21) return;
 
@@ -474,12 +492,12 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.addCardToHand = cardsObj.card2;
 
       //Test Player Blackjack/Even Money (replace original 2)
-      currentPlayer.addCardToHand = dealerInsTestCard;
-      currentPlayer.addCardToHand = playerBlackjackCard;
+      // currentPlayer.addCardToHand = dealerInsTestCard;
+      // currentPlayer.addCardToHand = playerBlackjackCard;
 
       //Test Split Cards (replace original 2 cards) and Test Bust (add to original 2)
-      // currentPlayer.addCardToHand = playerSplitTestCard1;
-      // currentPlayer.addCardToHand = playerSplitTestCard2;
+      currentPlayer.addCardToHand = playerSplitTestCard1;
+      currentPlayer.addCardToHand = playerSplitTestCard2;
 
       //Test Player 5 Card Charlie (comment out original 2 cards)
       // createFiveCardCharlieTestHand(`player`);
@@ -732,16 +750,19 @@ export function calculatePlayerWinnings(result, gameState) {
 
   switch (result) {
     case `win`:
-      bank = bank + betAmount * 2;
+      bank = bank + betAmount * 2; //1:1 payout
       return bank;
     case `push`:
-      bank = bank + betAmount;
+      bank = bank + betAmount; //returned bet
       return bank;
-    case `blackjack`:
+    case `blackjack`: //3:2 payout
       bank = bank + betAmount * 2 + Math.round(betAmount / 2);
       return bank;
     case `even money`:
-      bank = bank + betAmount;
+      bank = bank + betAmount * 3;
+      return bank;
+    case `surrender`:
+      bank = bank + Math.round(betAmount / 2);
       return bank;
     default:
       return bank;

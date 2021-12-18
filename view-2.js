@@ -34,7 +34,7 @@ const standBtn = document.querySelector(".btn__stand");
 const doubleDownBtn = document.querySelector(".btn__doubleDown");
 const splitBtn = document.querySelector(".btn__split");
 const insuranceBtn = document.querySelector(".btn__insurance");
-const EvenMoneyBtn = document.querySelector(".btn__evenMoney");
+const evenMoneyBtn = document.querySelector(".btn__evenMoney");
 const surrenderBtn = document.querySelector(".btn__surrender");
 
 //Trivia Section Btns
@@ -125,6 +125,7 @@ const multipleChoiceAnswerField = document.querySelector(
 let listenerFunctionObj = {};
 
 export function addNewGameHandler(func) {
+  const newGameBtn = document.querySelector(".btn__newGame");
   newGameBtn.addEventListener(`click`, func);
 }
 
