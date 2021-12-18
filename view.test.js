@@ -4,8 +4,8 @@ import {
   renderBtnVisibility,
   renderBank,
   renderBetAmount,
-} from "./view-2.js";
-import State, { btnsArr } from "./controller-2.js";
+} from "./view.js";
+import State, { btnsArr } from "./controller.js";
 
 document.body.innerHTML = `
 <h1 class="notice">hello</h1>

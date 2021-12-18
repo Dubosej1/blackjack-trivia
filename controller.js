@@ -1,7 +1,6 @@
-import * as bjModel from "./blackjack-model-2.js";
-import * as triviaModel from "./trivia-model-2.js";
-import * as view from "./view-2.js";
-import { renderBetAmount } from "./view-2.js";
+import * as bjModel from "./blackjack-model.js";
+import * as triviaModel from "./trivia-model.js";
+import * as view from "./view.js";
 
 export const btnsArr = [
   { name: "newGame", class: "btn__newGame", callback: startNewGame },
@@ -100,7 +99,7 @@ export default class State {
     // this.betAmount = betAmount;
     // bjModel.updateBetAmount(betAmount);
     this.player.betAmount = betAmount;
-    renderBetAmount(betAmount);
+    view.renderBetAmount(betAmount);
   }
 
   set updateInsuranceBetAmount(betAmount) {

@@ -1,6 +1,6 @@
 import { jest } from "@jest/globals";
-import State from "./controller-2.js";
-import { player, gameInfo } from "./blackjack-model-2.js";
+import State from "./controller.js";
+import { player, gameInfo } from "./blackjack-model.js";
 
 describe(`Testing calculating a card's value`, () => {
   test(`Testing 2 regular cards`, () => {

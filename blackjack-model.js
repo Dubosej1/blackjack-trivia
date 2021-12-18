@@ -1,4 +1,4 @@
-import State, * as controller from "./controller-2.js";
+import State, * as controller from "./controller.js";
 
 const playerSplitTestCard1 = {
   code: "7S",

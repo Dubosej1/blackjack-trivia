@@ -1,7 +1,7 @@
 import { jest } from "@jest/globals";
-import State, { startNewRound, btnsArr } from "./controller-2.js";
-import { renderNoticeText, renderBetAmount } from "./view-2.js";
-import { player, gameInfo, updateGameActive } from "./blackjack-model-2.js";
+import State, { startNewRound, btnsArr } from "./controller.js";
+import { renderNoticeText, renderBetAmount } from "./view.js";
+import { player, gameInfo, updateGameActive } from "./blackjack-model.js";
 
 // jest.mock("./controller-2.js");
 

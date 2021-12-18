@@ -12,7 +12,7 @@ import {
   //   applyMediumQuestionDifficulty,
   //   applyHardQuestionDifficulty,
   //   collectTriviaAnswer,
-} from "./controller-2.js";
+} from "./controller.js";
 /////////////////////////////////////////////
 ////////// Selectors
 ////////////////////////////////////////////
