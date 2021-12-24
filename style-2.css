@@ -1,0 +1,798 @@
+@font-face {
+  font-family: "dPad";
+  src: url(./TrulyMadlyDpad-a72o.ttf);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  max-height: 100vh;
+  font-size: 37.5%;
+}
+
+body {
+  margin: 2% 5%;
+  font-family: "dPad";
+  font-weight: 400;
+  font-size: 2rem;
+  color: white;
+  line-height: 1.7;
+  background-color: black;
+}
+
+.grid-container {
+  margin: auto auto;
+  display: grid;
+  grid-template-columns: 10% 10% 40% 30%;
+  grid-template-rows: auto auto auto 0.25fr auto auto auto 0.5fr;
+  grid-gap: 7px;
+  max-width: 90vw;
+  max-height: 100vh;
+}
+
+.nav {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn__system {
+  margin: 0% 1%;
+}
+
+.label {
+  font-size: 2.5rem;
+  color: purple;
+}
+
+.value {
+  color: white;
+}
+
+.playerInfoArea {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+
+.dealerLabel {
+  color: green;
+  font-size: 2.5rem;
+  margin-right: 1rem;
+}
+
+.dealerField {
+  grid-column-start: 3;
+  grid-column-end: -1;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  max-width: 50%;
+}
+
+.dealerHandInfo {
+  grid-column-start: 3;
+  grid-column-end: -1;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dealerTotalField {
+  color: yellow;
+  margin: 0% 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dealerTotal {
+  font-size: 3rem;
+}
+
+.dealerMessageField {
+  display: inline-block;
+  background: red;
+  padding: 0.25rem 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.middleArea {
+  display: flex;
+  justify-content: space-around;
+  background: linear-gradient(45deg, transparent 25%, gray 50%, transparent 75%);
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 4;
+  grid-row-end: 5;
+}
+
+.btn__sideBetDecide {
+  font-family: dPad;
+  color: white;
+  font-weight: 700;
+  padding: 1rem;
+}
+
+.btn__acceptSideBet {
+  background-color: green;
+}
+
+.btn__declineSideBet {
+  background-color: red;
+}
+
+.playerCurrentHandArea {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 6;
+  grid-row-end: 7;
+}
+
+.playerField {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 6;
+  grid-row-end: 7;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 50% 50%;
+}
+
+.player h1 {
+  display: inline-block;
+}
+
+.dealerCardArea {
+  position: relative;
+  left: 0rem;
+}
+
+.playerCardArea {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: -1;
+  position: relative;
+  left: 0rem;
+}
+
+.playerTotalField {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  text-align: right;
+  margin: 0% 10%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playerLabel {
+  font-size: 2.5rem;
+  color: blue;
+  margin-right: 1rem;
+}
+
+.playerHandNum {
+  color: yellow;
+  margin-right: 2rem;
+  font-size: 2.5rem;
+}
+
+.playerTotal {
+  font-size: 3rem;
+}
+
+.playerMessageField {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 2;
+  grid-row-end: -1;
+  background: yellow;
+  padding: 0.25rem 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.playerMessageText {
+  color: black;
+}
+
+.playerSplitArea {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 5;
+  grid-row-end: 6;
+  display: flex;
+  justify-content: space-between;
+  border-color: purple;
+}
+
+.playerHandInfo {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 7;
+  grid-row-end: 8;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.playerActionArea {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 8;
+  grid-row-end: -1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.surrenderBtnContainer {
+  grid-column-start: 4;
+  grid-column-end: -1;
+  grid-row-start: 6;
+  grid-row-end: 7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.splitStageField {
+  display: inline-block;
+  border-width: 2px;
+  border-style: double;
+  border-color: purple;
+  padding: 1rem;
+  text-align: center;
+}
+
+.splitStageLabel {
+  font-weight: 700;
+  color: orange;
+  text-decoration: underline;
+}
+
+.splitStageHandNum {
+  color: yellow;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.splitStageCards {
+  border-width: 2px;
+  border-color: blue;
+  border-style: double;
+  padding: 0rem 1rem;
+}
+
+.splitStageTotal {
+  color: yellow;
+}
+
+.splitStage1Result {
+  text-align: center;
+  padding: 0rem 1rem;
+  background-color: red;
+}
+
+.splitStage2Result {
+  text-align: center;
+  padding: 0rem 1rem;
+  background-color: orange;
+}
+
+.splitStage3Result {
+  text-align: center;
+  padding: 0rem 1rem;
+  background-color: yellow;
+  color: black;
+}
+
+.btn {
+  display: inline-block;
+}
+
+.btn__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border-width: 5px;
+  border-color: blue;
+  border-style: double;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+.btn__doubleDown {
+  border-color: orange;
+  color: orange;
+}
+
+.btn__hit {
+  border-color: red;
+  color: red;
+}
+
+.btn__stand {
+  border-color: green;
+  color: green;
+  font-size: 40px;
+}
+
+.btn__split {
+  border-color: blue;
+  color: blue;
+}
+
+.btn__surrender {
+  border-color: gray;
+  color: gray;
+}
+
+ul ul {
+  position: absolute;
+  top: 0rem;
+  left: 2.5rem;
+}
+
+ul {
+  max-width: 75%;
+  list-style-type: none;
+}
+
+li {
+  max-width: 75%;
+}
+
+.card {
+  display: inline-block;
+  width: 10rem;
+}
+
+@media screen and (min-width: 700px) {
+  html {
+    font-size: 8px;
+  }
+
+  body {
+    margin: 1% auto;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    color: white;
+    line-height: 1.7;
+  }
+
+  .grid-container {
+    padding: 0px 10px;
+    grid-template-columns: 180px 300px 120px;
+    grid-template-rows: 40px 135px 55px 135px 65px 155px;
+    grid-gap: 7px;
+    width: 600px;
+    height: 605px;
+  }
+
+  .btn__system {
+    font-size: 16px;
+    padding: 2px;
+  }
+
+  .playerInfoArea {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    border-width: 2px;
+    border-style: double;
+    border-color: purple;
+    padding-left: 5px;
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  .dealerField {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+
+  .dealerHandInfo {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .dealerTotalField {
+    flex-direction: row;
+  }
+
+  .dealerTotal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: green;
+    font-size: 30px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .dealerMessageField {
+    padding: 2px 10px;
+  }
+
+  .middleArea {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+
+  .btn__sideBetDecide {
+    font-size: 30px;
+    min-width: 70px;
+  }
+
+  .playerCurrentHandArea {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 4;
+    grid-row-end: 4;
+  }
+
+  .playerHandNum {
+    font-size: 20px;
+  }
+
+  .playerField {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 5;
+  }
+
+  .playerHandInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .playerTotal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: blue;
+    font-size: 30px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .playerMessageField {
+    text-align: right;
+    display: inline-block;
+    padding: 2px 10px;
+  }
+
+  .playerActionArea {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    grid-row-start: 5;
+    grid-row-end: 6;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .surrenderBtnContainer {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 4;
+    grid-row-end: 5;
+  }
+
+  .btn__action {
+    padding: 10px;
+    font-size: 30px;
+    min-width: 140px;
+    color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn__surrender {
+    width: 140px;
+    height: 65px;
+  }
+
+  .playerHandInfo {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 4;
+    grid-row-end: 5;
+  }
+
+  .playerSplitArea {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .splitStageHandNum {
+    font-size: 20px;
+    color: yellow;
+    text-decoration: none;
+    margin-left: 1px;
+  }
+
+  .splitStageCards {
+    border-width: 2px;
+    border-color: blue;
+    border-style: double;
+    padding: 0px 5px;
+  }
+
+  .splitStageTotal {
+    color: yellow;
+  }
+
+  .splitStage1Result {
+    text-align: center;
+    padding: 0px 1px;
+    background-color: red;
+  }
+
+  .splitStage2Result {
+    text-align: center;
+    padding: 0px 1px;
+    background-color: orange;
+  }
+
+  .splitStage3Result {
+    text-align: center;
+    padding: 0px 1px;
+    background-color: yellow;
+    color: black;
+  }
+
+  .card {
+    display: inline-block;
+    width: 90px;
+  }
+}
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 11px;
+    display: flex;
+  }
+
+  body {
+    margin: 1% auto;
+    font-weight: 400;
+    color: white;
+    line-height: 1.7;
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .grid-container {
+    padding: 0px 10px;
+    grid-template-columns: 180px 300px 120px;
+    grid-template-rows: 40px 135px 65px 135px 65px 205px;
+    grid-gap: 7px;
+    width: 600px;
+    height: 705px;
+  }
+
+  .btn__surrender {
+    width: 140px;
+    height: 65px;
+  }
+
+  .card {
+    display: inline-block;
+    width: 90px;
+  }
+}
+@media screen and (min-width: 480px) and (max-height: 420px) {
+  html {
+    font-size: 37.5%;
+    scroll-behavior: smooth;
+    max-height: 100vh;
+  }
+
+  body {
+    margin: 2% 2%;
+  }
+
+  .grid-container {
+    grid-template-columns: auto auto 0.5fr auto 5%;
+    grid-template-rows: 7% 7% auto auto auto;
+    grid-gap: 7px;
+    max-height: 95vh;
+  }
+
+  .nav {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .playerInfoArea {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .bankArea {
+    margin-right: 1.5rem;
+  }
+
+  .dealerField {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+
+  .dealerHandInfo {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .middleArea {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 5;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .playerHandInfo {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .playerField {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 5;
+    grid-row-end: -1;
+  }
+
+  .playerMessageField {
+    margin-right: 1rem;
+  }
+
+  .playerSplitArea {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: -1;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+  }
+
+  .playerActionArea {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .surrenderBtnContainer {
+    grid-column-start: 5;
+    grid-column-end: -1;
+    grid-row-start: 1;
+    grid-row-end: -1;
+  }
+
+  .btn__action {
+    width: 20rem;
+    padding: 2rem 2rem;
+  }
+
+  .btn__surrender {
+    width: 3rem;
+    height: 100%;
+    overflow-wrap: break-word;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 700px) and (max-height: 420px) {
+  .grid-container {
+    min-width: 650px;
+    grid-template-columns: auto auto auto auto 5%;
+    grid-template-rows: 7% 7% 100px 75px 100px;
+  }
+
+  .card {
+    width: 8rem;
+  }
+
+  .btn__action {
+    font-size: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .surrenderBtnContainer {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 5;
+    grid-row-end: 6;
+  }
+
+  .btn__surrender {
+    width: 20rem;
+    height: 50%;
+  }
+
+  .playerSplitArea {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 5;
+  }
+
+  .splitStageField {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+/*# sourceMappingURL=style-2.css.map */
