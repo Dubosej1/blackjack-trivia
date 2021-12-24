@@ -1,34 +1,23 @@
 import {
   startNewGame,
-  applyEndGameBtn,
+  //   applyEndGameBtn,
   submitBetValue,
-  applyInitialCards,
-  hitAction,
-  standAction,
-  doubleDownAction,
-  splitAction,
-  insuranceAction,
-  applyEasyQuestionDifficulty,
-  applyMediumQuestionDifficulty,
-  applyHardQuestionDifficulty,
-  collectTriviaAnswer,
-} from "/controller.js";
+  //   applyInitialCards,
+  //   hitAction,
+  //   standAction,
+  //   doubleDownAction,
+  //   splitAction,
+  //   insuranceAction,
+  //   applyEasyQuestionDifficulty,
+  //   applyMediumQuestionDifficulty,
+  //   applyHardQuestionDifficulty,
+  //   collectTriviaAnswer,
+} from "./controller.js";
 /////////////////////////////////////////////
 ////////// Selectors
 ////////////////////////////////////////////
 
 //////////Game Buttons//////////
-
-const allBtns = document.querySelectorAll(`.btn`);
-const btnMap = (function () {
-  let map = new Map();
-
-  allBtns.forEach(function (btn) {
-    let key = convertVarNameToStr({ btn });
-    map.set(key, btn);
-  });
-  return map;
-})();
 
 //Main Game Btns
 const newGameBtn = document.querySelector(".btn__newGame");
@@ -45,6 +34,8 @@ const standBtn = document.querySelector(".btn__stand");
 const doubleDownBtn = document.querySelector(".btn__doubleDown");
 const splitBtn = document.querySelector(".btn__split");
 const insuranceBtn = document.querySelector(".btn__insurance");
+const evenMoneyBtn = document.querySelector(".btn__evenMoney");
+const surrenderBtn = document.querySelector(".btn__surrender");
 
 //Trivia Section Btns
 const easyDifficultyBtn = document.querySelector(".btn__easy");
@@ -67,8 +58,10 @@ const triviaDifficultyBtns = document.querySelectorAll(
   ".btn__trivia-difficulty"
 );
 
+const allBtns = document.querySelectorAll(`.btn`);
+
 //////////Blackjack Section UI Fields//////////
-const noticeUI = document.querySelector(".notice");
+// const noticeUI = document.querySelector(".notice");
 const scoreUI = document.querySelector(".score");
 const bankUI = document.querySelector(".bank");
 const betAmountUI = document.querySelector(".betAmount");
@@ -117,25 +110,82 @@ const multipleChoiceAnswerField = document.querySelector(
 //       btn.addEventListener(`click`, handlerMap.get(btnName));
 //   });
 // }
+// const btnMap = (function () {
+//   const allBtns = document.querySelectorAll(`.btn`);
+//   let map = new Map();
 
-export function addHandlerListeners(handlerMap) {
-  // handlerMap.forEach(function (item) {
-  //   let [class, callback] = item;
+//   allBtns.forEach(function (btn) {
 
-  //   if (btn.item(class))
+//     let key = convertVarNameToStr({ btn });
+//     map.set(key, btn);
+//   });
+//   return map;
+// })();
 
-  // }
+let listenerFunctionObj = {};
+
+export function addNewGameHandler(func) {
+  const newGameBtn = document.querySelector(".btn__newGame");
+  newGameBtn.addEventListener(`click`, func);
+}
+
+export function addHandlerListeners(handlerMap, gameState = null) {
+  const allBtns = document.querySelectorAll(`.btn`);
+
+  // allBtns.forEach(function (btn) {
+  //   // console.log(btn);
+  //   let classCallback;
+
+  //   handlerMap.forEach(function (obj) {
+  //     if (btn.classList.contains(obj.class)) classCallback = obj.callback;
+  //   });
+  //   if (!classCallback) return;
+
+  //   btn.addEventListener(`click`, function (event) {
+  //     classCallback(event, gameState);
+  //   });
+  // });
 
   allBtns.forEach(function (btn) {
-    // console.log(btn);
+    if (btn.classList.contains("btn__newGame")) return;
+
     let classCallback;
+    let fnName;
 
     handlerMap.forEach(function (obj) {
-      if (btn.classList.contains(obj.class)) classCallback = obj.callback;
+      if (btn.classList.contains(obj.class)) {
+        classCallback = obj.callback;
+        fnName = obj.name + `callback`;
+      }
     });
     if (!classCallback) return;
 
-    btn.addEventListener(`click`, classCallback);
+    listenerFunctionObj[fnName] = function (event) {
+      classCallback(event, gameState);
+    };
+
+    btn.addEventListener(`click`, listenerFunctionObj[fnName]);
+  });
+}
+
+export function removeEventListeners(handlerMap) {
+  const allBtns = document.querySelectorAll(`.btn`);
+
+  allBtns.forEach(function (btn) {
+    if (btn.classList.contains("btn__newGame")) return;
+    let fnName;
+
+    handlerMap.forEach(function (obj) {
+      if (btn.classList.contains(obj.class)) {
+        // classCallback = obj.callback;
+        fnName = obj.name + `callback`;
+      }
+    });
+
+    // if (!classCallback) return;
+    if (!fnName) return;
+
+    btn.removeEventListener(`click`, listenerFunctionObj[fnName]);
   });
 
   //   allBtns.forEach(function (btn) {
@@ -150,6 +200,15 @@ export function addHandlerListeners(handlerMap) {
 function convertVarNameToStr(varObj) {
   return Object.keys(varObj)[0];
 }
+
+// export function renderState (render, gameState = null, changeObj = null) {
+//   if (render == false) return;
+//   if (changeObj.noticeText == true) view.renderNoticeText(gameState.noticeText);
+//   if (changeObj.bank == true) renderBank(gameState.bank);
+//   if (changeObj.betAmount == true) renderBetAmount(gamaeState.betAmount);
+//   if ()
+
+// }
 
 export function renderBtnVisibility(btnObj) {
   // Object.entries(btnObj).forEach(function ([key, value]) {
@@ -166,235 +225,108 @@ export function renderBtnVisibility(btnObj) {
     const foundElement = btnArr.find(function (obj) {
       return obj.name === key;
     });
-    const elementClass = document.querySelector(`.${foundElement.class}`);
+    // let elementClass = document.querySelector(`.${foundElement.class}`);
     value
-      ? (elementClass.style.display = "inline-block")
-      : (elementClass.style.display = `none`);
+      ? (document.querySelector(`.${foundElement.class}`).style.display =
+          "inline-block")
+      : (document.querySelector(
+          `.${foundElement.class}`
+        ).style.display = `none`);
   });
 }
 
-export function renderUIFields(state, noticeToken = false) {
-  noticeUI.innerHTML = state.noticeText;
-  if (noticeToken) return;
-  bankUI.textContent = state.bank;
-  betAmountUI.textContent = state.betAmount;
-  splitBetAmountUI.textContent = state.splitBetAmount;
-  insuranceBetAmountUI.textContent = state.insuranceBetAmount;
+export function renderNoticeText(str) {
+  document.querySelector(".notice").innerHTML = str;
 }
 
-export function collectBetSubmitted() {
-  return Math.round(Number(betValueField.value));
+export function renderBank(bank) {
+  document.querySelector(".bank").textContent = bank;
 }
 
-export function renderBetValueField(value) {
-  betValueField.value = value;
+export function renderBetAmount(betAmount) {
+  document.querySelector(".betAmount").textContent = betAmount;
 }
 
-export function renderInsuranceBetField(betAmount, btnObj) {
-  renderBtnVisibility(btnObj);
-  insuranceBetFieldUI.style.display = `block`;
-  insuranceBetAmountUI.textContent = betAmount;
+export function renderSplitBetAmount(splitBetAmount) {
+  document.querySelector(".splitBetAmount").textContent = splitBetAmount;
+}
+
+export function renderInsuranceBetField(betAmount) {
+  document.querySelector(".player-actions__insurance").style.display = `block`;
+
+  document.querySelector(".insuranceBetAmount").textContent = betAmount;
+
   renderBetValueField(null);
 }
 
-export function hideInsuranceBetField(betAmount) {
-  insuranceBetFieldUI.style.display = `none`;
-  insuranceBetAmountUI.textContent = betAmount;
+export function clearInsuranceBetField() {
+  document.querySelector(".player-actions__insurance").style.display = `none`;
+
+  document.querySelector(".insuranceBetAmount").textContent = ``;
 }
 
-export function renderGameCards(state) {
-  playerHandUI.innerHTML = state.playerCardImgs.join();
-  playerSplitHandUI.innerHTML = state.playerSplitCardImgs.join();
-  dealerHandUI.innerHTML = state.dealerCardImgs.join();
+// export function renderInsuranceBetAmount(insuranceBetAmount) {
+//   document.querySelector(".insuranceBetAmount").textContent =
+//     insuranceBetAmount;
+// }
 
-  playerHandTotalUI.textContent = state.playerHandTotal;
-  playerSplitHandTotalUI.textContent = state.playerSplitHandTotal;
-  dealerHandTotalUI.textContent = state.visibleDealerHandTotal;
+export function collectBetSubmitted() {
+  return Math.round(Number(document.querySelector("#betValue").value));
 }
 
-export function clearGameCards(state) {
+export function renderBetValueField(value) {
+  document.querySelector("#betValue").value = value;
+}
+
+export function renderPlayerHand(hand) {
+  document.querySelector(".playerHand").innerHTML = hand.images.join();
+  document.querySelector(".playerHandTotal").textContent = hand.total;
+}
+
+export function renderDealerHand(hand) {
+  document.querySelector(".dealerHand").innerHTML = hand.images.join();
+  document.querySelector(".dealerHandTotal").textContent = hand.visibleTotal;
+}
+
+export function renderPlayerSplitHand(hand) {
+  document.querySelector(".playerSplitHand").innerHTML = hand.images.join();
+  document.querySelector(".playerSplitHandTotal").textContent = hand.total;
+}
+
+export function displayGameOutcome(gameState) {
+  let playerResult = gameState.player.hand.resultText;
+  let splitHand1Result = gameState.player.splitHand1.resultText;
+  let splitHand2Result = gameState.player.splitHand2.resultText;
+
+  // renderBank(gameState.player.bank);
+
+  if (gameState.gameMode.split) {
+    gameState.updateNoticeText = `Hand 1: ${splitHand1Result}<br>Hand 2: ${splitHand2Result}`;
+    // state.betAmount = hand1.betAmount;
+    // state.splitBetAmount = hand2.betAmount;
+  } else {
+    gameState.updateNoticeText = playerResult;
+    // state.betAmount = hand1.betAmount;
+  }
+  // renderUIFields(state);
+}
+
+export function clearGameCards() {
   playerHandUI.innerHTML = ``;
   playerSplitHandUI.innerHTML = ``;
   dealerHandUI.innerHTML = ``;
 
-  playerHandTotalUI.textContent = state.playerHandTotal;
-  playerSplitHandTotalUI.textContent = state.playerSplitHandTotal;
-  dealerHandTotalUI.textContent = state.visibleDealerHandTotal;
+  playerHandTotalUI.textContent = ``;
+  playerSplitHandTotalUI.textContent = ``;
+  dealerHandTotalUI.textContent = ``;
 }
 
-export function toggleSplitHandLabel(toggle) {
-  toggle
-    ? (playerHandLabel.textContent = `Hand 1 `)
-    : (playerHandLabel.textContent = `Player `);
+export function clearUI() {
+  betAmountUI.textContent = ``;
+  splitBetAmountUI.textContent = ``;
+  clearInsuranceBetField();
 }
 
-export function displayGameOutcome(state, hand1, hand2 = null) {
-  if (hand2) {
-    state.noticeText = `Hand 1: ${hand1.gameOutcome}<br>Hand 2: ${hand2.gameOutcome}`;
-    state.betAmount = hand1.betAmount;
-    state.splitBetAmount = hand2.betAmount;
-  } else {
-    state.noticeText = hand1.gameOutcome;
-    state.betAmount = hand1.betAmount;
-  }
-  renderUIFields(state);
-}
-
-export function toggleTriviaModal(toggle) {
-  toggle
-    ? (triviaModal.style.display = `block`)
-    : (triviaModal.style.display = `none`);
-}
-
-function toggleTriviaDifficultyBtns(toggle) {
-  if (toggle) {
-    triviaDifficultyBtns.forEach(function (btn) {
-      btn.style.display = `inline-block`;
-    });
-  } else {
-    triviaDifficultyBtns.forEach(function (btn) {
-      btn.style.display = "none";
-    });
-  }
-}
-
-export function disableTriviaAnswerBtns() {
-  answerBtns.forEach(function (btn) {
-    btn.disabled = true;
-  });
-}
-
-export function displayTriviaCorrectAnswer(state) {
-  triviaCorrectAnswerField.style.display = `inline-block`;
-  correctAnswerTriviaUI.innerHTML = state.triviaData.correctAnswer;
-}
-
-export function renderTriviaQuestionUI(questionObj) {
-  console.log(questionObj);
-  toggleTriviaDifficultyBtns(false);
-
-  triviaLabelContainer.style.display = `flex`;
-
-  categoryTriviaUI.textContent = questionObj.category;
-  difficultyTriviaUI.textContent = questionObj.difficulty;
-  questionTriviaUI.innerHTML = questionObj.question;
-
-  if (questionObj.type == `multiple`) {
-    renderMultipleChoiceAnswers(questionObj.answers);
-  } else {
-    renderBooleanChoiceAnswers(questionObj.correctAnswer);
-  }
-
-  function renderMultipleChoiceAnswers(answers) {
-    answerABtn.setAttribute(
-      `data-ans`,
-      questionObj.multipleChoiceAnswersArr[0]
-    );
-    answerBBtn.setAttribute(
-      `data-ans`,
-      questionObj.multipleChoiceAnswersArr[1]
-    );
-    answerCBtn.setAttribute(
-      `data-ans`,
-      questionObj.multipleChoiceAnswersArr[2]
-    );
-    answerDBtn.setAttribute(
-      `data-ans`,
-      questionObj.multipleChoiceAnswersArr[3]
-    );
-
-    choiceATriviaUI.innerHTML = questionObj.multipleChoiceAnswersArr[0];
-    choiceBTriviaUI.innerHTML = questionObj.multipleChoiceAnswersArr[1];
-    choiceCTriviaUI.innerHTML = questionObj.multipleChoiceAnswersArr[2];
-    choiceDTriviaUI.innerHTML = questionObj.multipleChoiceAnswersArr[3];
-
-    multipleChoiceAnswerBtns.forEach(function (btn) {
-      let answer = btn.getAttribute("data-ans");
-      if (answer == questionObj.correctAnswer) {
-        btn.classList.add("correctAnswer");
-      }
-
-      btn.style.display = `inline-block`;
-    });
-
-    multipleChoiceAnswerField.style.display = `flex`;
-  }
-
-  function renderBooleanChoiceAnswers(correctAnswer) {
-    if (questionObj.correctAnswer == `True`) {
-      answerTrueBtn.classList.add("correctAnswer");
-      answerTrueBtn.setAttribute(`data-ans`, `True`);
-    } else {
-      answerFalseBtn.classList.add("correctAnswer");
-      answerFalseBtn.setAttribute(`data-ans`, "False");
-    }
-
-    booleanChoiceAnswerBtns.forEach(function (btn) {
-      btn.style.display = `inline-block`;
-    });
-  }
-}
-
-export function resetTriviaMode(answerCorrectly) {
-  triviaModal.style.display = `none`;
-
-  clearTriviaUI();
-  clearAnswerBtnData(answerCorrectly);
-  resetTriviaBtns();
-}
-
-function clearTriviaUI() {
-  categoryTriviaUI.textContent = ``;
-  difficultyTriviaUI.textContent = ``;
-  questionTriviaUI.innerHTML = ``;
-  choiceATriviaUI.innerHTML = ``;
-  choiceBTriviaUI.innerHTML = ``;
-  choiceCTriviaUI.innerHTML = ``;
-  choiceDTriviaUI.innerHTML = ``;
-  correctAnswerTriviaUI.innerHTML = ` `;
-  triviaLabelContainer.style.display = `none`;
-  triviaCorrectAnswerField.style.display = `none`;
-  multipleChoiceAnswerField.style.display = `none`;
-  triviaModalHeading.textContent = `Hit Trivia Question`;
-  triviaModalHeading.style.color = `black`;
-  questionTriviaUI.textContent = `Select Trivia Difficulty`;
-}
-
-function clearAnswerBtnData(answerCorrectly) {
-  answerABtn.removeAttribute(`data-ans`);
-  answerBBtn.removeAttribute(`data-ans`);
-  answerCBtn.removeAttribute(`data-ans`);
-  answerDBtn.removeAttribute(`data-ans`);
-  // correctAnswer = ``;
-  // currentTriviaDifficulty = ``;
-
-  document.querySelector(".correctAnswer").style.backgroundColor = `grey`;
-  document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
-
-  if (!answerCorrectly) {
-    document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
-  }
-}
-
-function resetTriviaBtns() {
-  answerBtns.forEach(function (btn) {
-    btn.disabled = false;
-    btn.style.display = `none`;
-  });
-
-  toggleTriviaDifficultyBtns(true);
-}
-
-export function renderTriviaCorrectAnswer() {
-  document.querySelector(".correctAnswer").style.backgroundColor = `green`;
-  triviaModalHeading.textContent = `Correct Answer!`;
-  triviaModalHeading.style.color = `green`;
-}
-
-export function renderTriviaIncorrectAnswer(event) {
-  document.querySelector(".correctAnswer").style.backgroundColor = `green`;
-  event.target.id = `incorrectAnswer`;
-
-  triviaModalHeading.textContent = `Wrong Answer...`;
-  triviaModalHeading.style.color = `red`;
+export function clearBankField() {
+  bankUI.textContent = ``;
 }

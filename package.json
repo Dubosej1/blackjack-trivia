@@ -2,10 +2,20 @@
   "name": "blackjack-trivia",
   "version": "1.0.0",
   "description": "A game that combines Blackjack and Trivia",
-  "main": "index.js",
+  "main": "controller-2.js",
   "scripts": {
-    "compile:sass": "sass sass/main.scss style.css"
+    "compile:sass": "sass sass/main.scss style.css",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "Johnaven Dubose",
-  "license": "ISC"
+  "license": "ISC",
+  "type": "module",
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {}
+  },
+  "devDependencies": {
+    "jest": "^27.4.3",
+    "jest-environment-jsdom-sixteen": "^1.0.3"
+  }
 }
