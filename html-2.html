@@ -11,63 +11,71 @@
   </head>
   <body>
     <div class="grid-container">
-      <div class="nav">
-        <button class="btn btn__system btn__endGame">End Game</button>
-        <button class="btn btn__system btn__settings">Settings</button>
-        <button class="btn btn__system btn__log">Log</button>
+      <div class="nav grid__system-btn-cont">
+        <button class="btn btn__system btn__endGame btn-end-game">
+          End Game
+        </button>
+        <button class="btn btn__system btn__settings btn-settings">
+          Settings
+        </button>
+        <button class="btn btn__system btn__log btn-log">Log</button>
       </div>
       <!-- <div class="topArea"> -->
-      <div class="playerInfoArea">
-        <div class="label bankArea">
-          Bank: <span class="value bank">1000</span>
+      <div class="playerInfoArea grid__round-info">
+        <div class="label bankArea bank__container">
+          Bank: <span class="value bank bank__value">1000</span>
         </div>
-        <div class="label baseBetArea">
-          Bet: <span class="value baseBet">100</span>
+        <div class="label baseBetArea bet__container">
+          Bet: <span class="value baseBet bet__value">100</span>
         </div>
         <!--- Programmatically add current info here like streak counts, jackpots, view Jackpot btn, view side bet btn, etc-->
       </div>
-      <div class="dealerField">
-        <div class="dealerCardArea">
+      <div class="dealerField grid__dealer-cards">
+        <div class="dealerCardArea dealer-cards__container">
           <ul>
-            <li class="dealerCardPos">
+            <li class="dealerCardPos dealer-cards__li">
               <img
-                class="card dealerCard"
+                class="card dealerCard dealer-cards__card"
                 src="https://deckofcardsapi.com/static/img/7S.png"
               />
               <ul>
-                <li class="dealerCardPos">
+                <li class="dealerCardPos dealer-cards__li">
                   <img
-                    class="card dealerCard"
+                    class="card dealerCard dealer-cards__card"
                     src="https://deckofcardsapi.com/static/img/7S.png"
                   />
                   <ul>
-                    <li class="dealerCardPos">
+                    <li class="dealerCardPos dealer-cards__li">
                       <img
-                        class="card dealerCard"
+                        class="card dealerCard dealer-cards__card"
                         src="https://deckofcardsapi.com/static/img/7S.png"
                       />
                       <ul>
-                        <li class="dealerCardPos">
+                        <li class="dealerCardPos dealer-cards__li">
                           <img
-                            class="card dealerCard"
+                            class="card dealerCard dealer-cards__card"
                             src="https://deckofcardsapi.com/static/img/7S.png"
                           />
                           <ul>
-                            <li class="dealerCardPos">
+                            <li class="dealerCardPos dealer-cards__li">
                               <img
-                                class="card dealerCard"
+                                class="card dealerCard dealer-cards__card"
                                 src="https://deckofcardsapi.com/static/img/7S.png"
                               />
                               <ul>
-                                <li class="dealerCardPos">
+                                <li class="dealerCardPos dealer-cards__li">
                                   <img
-                                    class="card dealerCard"
+                                    class="card dealerCard dealer-cards__card"
                                     src="https://deckofcardsapi.com/static/img/7S.png"
                                   />
                                   <ul>
-                                    <li class="dealerCardPos">
+                                    <li class="dealerCardPos dealer-cards__li">
                                       <img
-                                        class="card dealerCard"
+                                        class="
+                                          card
+                                          dealerCard
+                                          dealer-cards__card
+                                        "
                                         src="https://deckofcardsapi.com/static/img/7S.png"
                                       />
                                     </li>
@@ -86,13 +94,13 @@
           </ul>
         </div>
       </div>
-      <div class="dealerHandInfo">
-        <div class="dealerTotalField">
-          <span class="dealerLabel">Dealer</span>
-          <span class="dealerTotal"> 27</span>
+      <div class="dealerHandInfo grid__dealer-hand-info">
+        <div class="dealerTotalField dealer-total__container">
+          <span class="dealerLabel dealer-total__label">Dealer</span>
+          <span class="dealerTotal dealer-total__value"> 27</span>
         </div>
-        <div class="dealerMessageField">
-          <span class="dealerMessageText">Bust</span>
+        <div class="dealerMessageField dealer-message__container">
+          <span class="dealerMessageText dealer-message__text">Bust</span>
         </div>
       </div>
       <!-- <div class="dealerResultArea">
@@ -100,87 +108,145 @@
 
         </div> -->
       <!-- </div> -->
-      <div class="middleArea">
+      <div class="middleArea grid__game-message">
         <!--Programmatically add Win status and total won, and the pregame actions (Even Money, Insurance, etc)-->
-        <button class="btn__sideBetDecide btn__acceptSideBet">Yes</button>
-        <div class="sideBetPrompt"><h1>Even Money?</h1></div>
-        <button class="btn__sideBetDecide btn__declineSideBet">No</button>
+        <button
+          class="btn__sideBetDecide btn__acceptSideBet btn-even-money-accept"
+        >
+          Yes
+        </button>
+        <div class="sideBetPrompt game-message__container">
+          <h1 class="game-message__text">Even Money?</h1>
+        </div>
+        <button
+          class="btn__sideBetDecide btn__declineSideBet btn-even-money-decline"
+        >
+          No
+        </button>
       </div>
-      <div class="playerSplitArea">
-        <div class="splitStageField splitStage1Field">
-          <div class="splitStageLabel">
-            Hand <span class="splitStageHandNum splitStage1HandNum">2</span>
+      <div class="playerSplitArea grid__split-stages-area">
+        <div class="splitStageField splitStage1Field split-stage-1__container">
+          <div class="splitStageLabel split-stage__label">
+            Hand
+            <span
+              class="
+                splitStageHandNum
+                splitStage1HandNum
+                split-stage-2__hand-num
+              "
+              >2</span
+            >
           </div>
-          <div class="splitStageCards splitStage1Cards">AD KH KS 5D</div>
-          <div class="splitStageTotal splitStage1Total">26</div>
-          <div class="splitStage1Result">Bust</div>
+          <div class="splitStageCards splitStage1Cards split-stage-1__cards">
+            AD KH KS 5D
+          </div>
+          <div class="splitStageTotal splitStage1Total split-stage-1__total">
+            26
+          </div>
+          <div class="splitStage1Result split-stage-1__result">Bust</div>
           <!-- <span class="splitStage2Hand">Hand 3:</span><span class="splitStage2Cards">[AD, AH, 2S, AS, AC, 2C, KD]</span><span class="splitStage2Total">Total: 17</span><span class="splitStage2Result">7 Card Charlie</span><br>
             <span class="splitStage3Hand">Hand 4:</span><span class="splitStage3Cards">[AH, KD]</span><span class="splitStage3Total">Total: 19</span><span class="splitStage3Result">Blackjack</span> -->
         </div>
-        <div class="splitStageField splitStage2Field">
-          <div class="splitStageLabel">
-            Hand <span class="splitStageHandNum splitStage2HandNum">3</span>
+        <div class="splitStageField splitStage2Field split-stage-2__container">
+          <div class="splitStageLabel split-stage__label">
+            Hand
+            <span
+              class="
+                splitStageHandNum
+                splitStage2HandNum
+                split-stage-2__hand-num
+              "
+              >3</span
+            >
           </div>
-          <div class="splitStageCards splitStage2Cards">AD AH 2S AS AC</div>
-          <div class="splitStageCards splitStage2Cards2">2C KD</div>
-          <div class="splitStageTotal splitStage2Total">17</div>
-          <div class="splitStage2Result">7 Card Charlie</div>
+          <div
+            class="splitStageCards splitStage2Cards split-stage-2__cards-row-1"
+          >
+            AD AH 2S AS AC
+          </div>
+          <div
+            class="splitStageCards splitStage2Cards2 split-stage-2__cards-row-2"
+          >
+            2C KD
+          </div>
+          <div class="splitStageTotal splitStage2Total split-stage-2__total">
+            17
+          </div>
+          <div class="splitStage2Result split-stage-2__result">
+            7 Card Charlie
+          </div>
         </div>
-        <div class="splitStageField splitStage4Field">
-          <div class="splitStageLabel">
-            Hand <span class="splitStageHandNum splitStage3HandNum">4</span>
+        <div class="splitStageField splitStage4Field split-stage-3__container">
+          <div class="splitStageLabel split-stage__label">
+            Hand
+            <span
+              class="
+                splitStageHandNum
+                splitStage3HandNum
+                split-stage-3__hand-num
+              "
+              >4</span
+            >
           </div>
-          <div class="splitStageCards splitStage3Cards">AH KD</div>
-          <div class="splitStageTotal splitStage3Total">21</div>
-          <div class="splitStage3Result">Blackjack!</div>
+          <div class="splitStageCards splitStage3Cards split-stage-3__cards">
+            AH KD
+          </div>
+          <div class="splitStageTotal splitStage3Total split-stage-3__total">
+            21
+          </div>
+          <div class="splitStage3Result split-stage-3__result">Blackjack!</div>
         </div>
       </div>
       <!-- <div class="playerArea"> -->
       <!-- <div class="playerCurrentHandArea">
               <span class="playerCurrentHandField">Hand <span class="playerCurrentHand">1</span></span>
           </div> -->
-      <div class="playerField">
-        <div class="playerCardArea">
+      <div class="playerField grid__player-cards">
+        <div class="playerCardArea player-cards__container">
           <ul>
-            <li class="playerCardPos">
+            <li class="playerCardPos player-cards__li">
               <img
-                class="card playerCard"
+                class="card playerCard player-cards__card"
                 src="https://deckofcardsapi.com/static/img/7S.png"
               />
               <ul>
-                <li class="playerCardPos">
+                <li class="playerCardPos player-cards__li">
                   <img
-                    class="card playerCard"
+                    class="card playerCard player-cards__card"
                     src="https://deckofcardsapi.com/static/img/7S.png"
                   />
                   <ul>
-                    <li class="playerCardPos">
+                    <li class="playerCardPos player-cards__li">
                       <img
-                        class="card playerCard"
+                        class="card playerCard player-cards__card"
                         src="https://deckofcardsapi.com/static/img/7S.png"
                       />
                       <ul>
-                        <li class="playerCardPos">
+                        <li class="playerCardPos player-cards__li">
                           <img
-                            class="card playerCard"
+                            class="card playerCard player-cards__card"
                             src="https://deckofcardsapi.com/static/img/7S.png"
                           />
                           <ul>
-                            <li class="playerCardPos">
+                            <li class="playerCardPos player-cards__li">
                               <img
-                                class="card playerCard"
+                                class="card playerCard player-cards__card"
                                 src="https://deckofcardsapi.com/static/img/7S.png"
                               />
                               <ul>
-                                <li class="playerCardPos">
+                                <li class="playerCardPos player-cards__li">
                                   <img
-                                    class="card playerCard"
+                                    class="card playerCard player-cards__card"
                                     src="https://deckofcardsapi.com/static/img/7S.png"
                                   />
                                   <ul>
-                                    <li class="playerCardPos">
+                                    <li class="playerCardPos player-cards__li">
                                       <img
-                                        class="card playerCard"
+                                        class="
+                                          card
+                                          playerCard
+                                          player-cards__card
+                                        "
                                         src="https://deckofcardsapi.com/static/img/7S.png"
                                       />
                                     </li>
@@ -199,26 +265,28 @@
           </ul>
         </div>
       </div>
-      <div class="playerHandInfo">
-        <div class="playerTotalField">
-          <span class="playerLabel">Hand </span
-          ><span class="playerHandNum">1</span>
-          <span class="playerTotal">21</span>
+      <div class="playerHandInfo grid__player-hand-info">
+        <div class="playerTotalField player-total__container">
+          <span class="playerLabel player-total__label">Hand </span
+          ><span class="playerHandNum player-total__hand-num">1</span>
+          <span class="playerTotal player-total__value">21</span>
         </div>
-        <div class="playerMessageField">
-          <span class="playerMessageText">Blackjack!</span>
+        <div class="playerMessageField player-message__container">
+          <span class="playerMessageText player-message__text">Blackjack!</span>
         </div>
       </div>
       <!-- </div> -->
 
-      <div class="playerActionArea">
-        <button class="btn btn__action btn__doubleDown">X2</button>
-        <button class="btn btn__action btn__hit">+</button>
-        <button class="btn btn__action btn__stand">-</button>
-        <button class="btn btn__action btn__split">/</button>
+      <div class="playerActionArea grid__player-actions">
+        <button class="btn btn__action btn__doubleDown btn-double-down">
+          X2
+        </button>
+        <button class="btn btn__action btn__hit btn-hit">+</button>
+        <button class="btn btn__action btn__stand btn-stand">-</button>
+        <button class="btn btn__action btn__split btn-split">/</button>
       </div>
-      <div class="surrenderBtnContainer">
-        <button class="btn btn__action btn__surrender">⚑</button>
+      <div class="surrenderBtnContainer grid__surrender">
+        <button class="btn btn__action btn__surrender btn-surrender">⚑</button>
       </div>
     </div>
 
