@@ -11,27 +11,23 @@
   </head>
   <body>
     <div class="grid-container">
-      <div class="nav grid__system-btn-cont">
-        <button class="btn btn__system btn__endGame btn-end-game">
-          End Game
-        </button>
-        <button class="btn btn__system btn__settings btn-settings">
-          Settings
-        </button>
-        <button class="btn btn__system btn__log btn-log">Log</button>
+      <div class="grid__system-btn-container">
+        <button class="btn btn-system btn-system__endGame">End Game</button>
+        <button class="btn btn-system btn-system__settings">Settings</button>
+        <button class="btn btn-system btn-system__log">Log</button>
       </div>
       <!-- <div class="topArea"> -->
-      <div class="playerInfoArea grid__round-info">
-        <div class="label bankArea bank__container">
-          Bank: <span class="value bank bank__value">1000</span>
+      <div class="grid__round-info">
+        <div class="round-info__label bank__label">
+          Bank: <span class="round-info__value bank__value">1000</span>
         </div>
-        <div class="label baseBetArea bet__container">
-          Bet: <span class="value baseBet bet__value">100</span>
+        <div class="round-info__label bet__label">
+          Bet: <span class="round-info__value bet__value">100</span>
         </div>
         <!--- Programmatically add current info here like streak counts, jackpots, view Jackpot btn, view side bet btn, etc-->
       </div>
-      <div class="dealerField grid__dealer-cards">
-        <div class="dealerCardArea dealer-cards__container">
+      <div class="grid__dealer-cards">
+        <div class="dealer-cards__container">
           <ul>
             <li class="dealerCardPos dealer-cards__li">
               <img
@@ -108,101 +104,52 @@
 
         </div> -->
       <!-- </div> -->
-      <div class="middleArea grid__game-message">
+      <div class="grid__game-message">
         <!--Programmatically add Win status and total won, and the pregame actions (Even Money, Insurance, etc)-->
-        <button
-          class="btn__sideBetDecide btn__acceptSideBet btn-even-money-accept"
-        >
+        <button class="btn-side-bet btn-side-bet__even-money-accept">
           Yes
         </button>
-        <div class="sideBetPrompt game-message__container">
+        <div class="game-message__container">
           <h1 class="game-message__text">Even Money?</h1>
         </div>
-        <button
-          class="btn__sideBetDecide btn__declineSideBet btn-even-money-decline"
-        >
+        <button class="btn-side-bet btn-side-bet__even-money-decline">
           No
         </button>
       </div>
-      <div class="playerSplitArea grid__split-stages-area">
-        <div class="splitStageField splitStage1Field split-stage-1__container">
-          <div class="splitStageLabel split-stage__label">
+      <div class="grid__split-stages-container">
+        <div class="split-stage split-stage-1__container">
+          <div class="split-stage__label">
             Hand
-            <span
-              class="
-                splitStageHandNum
-                splitStage1HandNum
-                split-stage-2__hand-num
-              "
-              >2</span
-            >
+            <span class="split-stage__hand-num split-stage-2__hand-num">2</span>
           </div>
-          <div class="splitStageCards splitStage1Cards split-stage-1__cards">
-            AD KH KS 5D
-          </div>
-          <div class="splitStageTotal splitStage1Total split-stage-1__total">
-            26
-          </div>
-          <div
-            class="splitStage1Result split-stage__result split-stage-1__result"
-          >
-            Bust
-          </div>
+          <div class="split-stage__cards split-stage-1__cards">AD KH KS 5D</div>
+          <div class="split-stage__total split-stage-1__total">26</div>
+          <div class="split-stage__result split-stage-1__result">Bust</div>
           <!-- <span class="splitStage2Hand">Hand 3:</span><span class="splitStage2Cards">[AD, AH, 2S, AS, AC, 2C, KD]</span><span class="splitStage2Total">Total: 17</span><span class="splitStage2Result">7 Card Charlie</span><br>
             <span class="splitStage3Hand">Hand 4:</span><span class="splitStage3Cards">[AH, KD]</span><span class="splitStage3Total">Total: 19</span><span class="splitStage3Result">Blackjack</span> -->
         </div>
-        <div class="splitStageField splitStage2Field split-stage-2__container">
-          <div class="splitStageLabel split-stage__label">
+        <div class="split-stage split-stage-2__container">
+          <div class="split-stage__label">
             Hand
-            <span
-              class="
-                splitStageHandNum
-                splitStage2HandNum
-                split-stage-2__hand-num
-              "
-              >3</span
-            >
+            <span class="split-stage__hand-num split-stage-2__hand-num">3</span>
           </div>
-          <div
-            class="splitStageCards splitStage2Cards split-stage-2__cards-row-1"
-          >
+          <div class="split-stage__cards split-stage-2__cards-row-1">
             AD AH 2S AS AC
           </div>
-          <div
-            class="splitStageCards splitStage2Cards2 split-stage-2__cards-row-2"
-          >
-            2C KD
-          </div>
-          <div class="splitStageTotal splitStage2Total split-stage-2__total">
-            17
-          </div>
-          <div
-            class="splitStage2Result split-stage__result split-stage-2__result"
-          >
+          <div class="split-stage__cards split-stage-2__cards-row-2">2C KD</div>
+          <div class="split-stage__total split-stage-2__total">17</div>
+          <div class="split-stage__result split-stage-2__result">
             7 Card Charlie
           </div>
         </div>
-        <div class="splitStageField splitStage4Field split-stage-3__container">
-          <div class="splitStageLabel split-stage__label">
+        <div class="split-stage split-stage-3__container">
+          <div class="split-stage__label">
             Hand
-            <span
-              class="
-                splitStageHandNum
-                splitStage3HandNum
-                split-stage-3__hand-num
-              "
-              >4</span
-            >
+            <span class="split-stage__hand-num split-stage-3__hand-num">4</span>
           </div>
-          <div class="splitStageCards splitStage3Cards split-stage-3__cards">
-            AH KD
-          </div>
-          <div class="splitStageTotal splitStage3Total split-stage-3__total">
-            21
-          </div>
-          <div
-            class="splitStage3Result split-stage__result split-stage-3__result"
-          >
+          <div class="split-stage__cards split-stage-3__cards">AH KD</div>
+          <div class="split-stage__total split-stage-3__total">21</div>
+          <div class="split-stage__result split-stage-3__result">
             Blackjack!
           </div>
         </div>
@@ -211,8 +158,8 @@
       <!-- <div class="playerCurrentHandArea">
               <span class="playerCurrentHandField">Hand <span class="playerCurrentHand">1</span></span>
           </div> -->
-      <div class="playerField grid__player-cards">
-        <div class="playerCardArea player-cards__container">
+      <div class="grid__player-cards">
+        <div class="player-cards__container">
           <ul>
             <li class="playerCardPos player-cards__li">
               <img
@@ -275,28 +222,26 @@
           </ul>
         </div>
       </div>
-      <div class="playerHandInfo grid__player-hand-info">
-        <div class="playerTotalField player-total__container">
-          <span class="playerLabel player-total__label">Hand </span
-          ><span class="playerHandNum player-total__hand-num">1</span>
-          <span class="playerTotal player-total__value">21</span>
+      <div class="grid__player-hand-info">
+        <div class="player-total__container">
+          <span class="player-total__label">Hand </span
+          ><span class="player-total__hand-num">1</span>
+          <span class="player-total__value">21</span>
         </div>
-        <div class="playerMessageField player-message__container">
-          <span class="playerMessageText player-message__text">Blackjack!</span>
+        <div class="player-message__container">
+          <span class="player-message__text">Blackjack!</span>
         </div>
       </div>
       <!-- </div> -->
 
-      <div class="playerActionArea grid__player-actions">
-        <button class="btn btn__action btn__doubleDown btn-double-down">
-          X2
-        </button>
-        <button class="btn btn__action btn__hit btn-hit">+</button>
-        <button class="btn btn__action btn__stand btn-stand">-</button>
-        <button class="btn btn__action btn__split btn-split">/</button>
+      <div class="grid__player-actions">
+        <button class="btn btn-action btn-action__doubleDown">X2</button>
+        <button class="btn btn-action btn-action__hit">+</button>
+        <button class="btn btn-action btn-action__stand">-</button>
+        <button class="btn btn-action btn-action__split">/</button>
       </div>
-      <div class="surrenderBtnContainer grid__surrender">
-        <button class="btn btn__action btn__surrender btn-surrender">⚑</button>
+      <div class="grid__surrender-container">
+        <button class="btn btn-action btn-action__surrender">⚑</button>
       </div>
     </div>
 

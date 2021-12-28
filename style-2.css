@@ -33,40 +33,40 @@ body {
   max-height: 100vh;
 }
 
-.nav {
+.grid__system-btn-container {
   grid-column-start: 1;
   grid-column-end: -1;
   display: flex;
   justify-content: flex-end;
 }
 
-.btn__system {
+.btn-system {
   margin: 0% 1%;
 }
 
-.label {
+.round-info__label {
   font-size: 2.5rem;
   color: purple;
 }
 
-.value {
+.round-info__value {
   color: white;
 }
 
-.playerInfoArea {
+.grid__round-info {
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 4;
 }
 
-.dealerLabel {
+.dealer-total__label {
   color: green;
   font-size: 2.5rem;
   margin-right: 1rem;
 }
 
-.dealerField {
+.grid__dealer-cards {
   grid-column-start: 3;
   grid-column-end: -1;
   grid-row-start: 2;
@@ -74,7 +74,7 @@ body {
   max-width: 50%;
 }
 
-.dealerHandInfo {
+.grid__dealer-hand-info {
   grid-column-start: 3;
   grid-column-end: -1;
   grid-row-start: 3;
@@ -84,7 +84,7 @@ body {
   align-items: center;
 }
 
-.dealerTotalField {
+.dealer-total__container {
   color: yellow;
   margin: 0% 10%;
   display: inline-flex;
@@ -92,18 +92,18 @@ body {
   align-items: center;
 }
 
-.dealerTotal {
+.dealer-total__value {
   font-size: 3rem;
 }
 
-.dealerMessageField {
+.dealer-message__container {
   background: red;
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
 }
 
-.middleArea {
+.grid__game-message {
   display: flex;
   justify-content: space-around;
   background: linear-gradient(45deg, transparent 25%, gray 50%, transparent 75%);
@@ -113,39 +113,39 @@ body {
   grid-row-end: 5;
 }
 
-.btn__sideBetDecide {
+.btn-side-bet {
   font-family: dPad;
   color: white;
   font-weight: 700;
   padding: 1rem;
 }
 
-.btn__acceptSideBet {
+.btn-side-bet__even-money-accept {
   background-color: green;
 }
 
-.btn__declineSideBet {
+.btn-side-bet__even-money-decline {
   background-color: red;
 }
 
-.playerField {
+.grid__player-cards {
   grid-column-start: 2;
   grid-column-end: -1;
   grid-row-start: 6;
   grid-row-end: 7;
 }
 
-.player h1 {
+.game-message__text {
   display: inline-block;
 }
 
-.dealerCardArea,
-.playerCardArea {
+.dealer-cards__container,
+.player-cards__container {
   position: relative;
   left: 0rem;
 }
 
-.playerTotalField {
+.player-total__container {
   grid-column-start: 2;
   grid-column-end: -1;
   grid-row-start: 1;
@@ -157,23 +157,23 @@ body {
   align-items: center;
 }
 
-.playerLabel {
+.player-total__label {
   font-size: 2.5rem;
   color: blue;
   margin-right: 1rem;
 }
 
-.playerHandNum {
+.player-total__hand-num {
   color: yellow;
   margin-right: 2rem;
   font-size: 2.5rem;
 }
 
-.playerTotal {
+.player-total__value {
   font-size: 3rem;
 }
 
-.playerMessageField {
+.player-message__container {
   grid-column-start: 2;
   grid-column-end: -1;
   grid-row-start: 2;
@@ -184,11 +184,11 @@ body {
   align-items: center;
 }
 
-.playerMessageText {
+.player-message__text {
   color: black;
 }
 
-.playerSplitArea {
+.grid__split-stages-container {
   grid-column-start: 1;
   grid-column-end: -1;
   grid-row-start: 5;
@@ -198,7 +198,7 @@ body {
   border-color: purple;
 }
 
-.playerHandInfo {
+.grid__player-hand-info {
   grid-column-start: 2;
   grid-column-end: -1;
   grid-row-start: 7;
@@ -207,7 +207,7 @@ body {
   justify-content: flex-start;
 }
 
-.playerActionArea {
+.grid__player-actions {
   grid-column-start: 1;
   grid-column-end: -1;
   grid-row-start: 8;
@@ -216,7 +216,7 @@ body {
   justify-content: space-between;
 }
 
-.surrenderBtnContainer {
+.grid__surrender-container {
   grid-column-start: 4;
   grid-column-end: -1;
   grid-row-start: 6;
@@ -226,7 +226,7 @@ body {
   justify-content: center;
 }
 
-.splitStageField {
+.split-stage {
   display: inline-block;
   border-width: 2px;
   border-style: double;
@@ -235,26 +235,26 @@ body {
   text-align: center;
 }
 
-.splitStageLabel {
+.split-stage__label {
   font-weight: 700;
   color: orange;
   text-decoration: underline;
 }
 
-.splitStageHandNum {
+.split-stage__hand-num {
   color: yellow;
   text-decoration: none;
   margin-left: 1rem;
 }
 
-.splitStageCards {
+.split-stage__cards {
   border-width: 2px;
   border-color: blue;
   border-style: double;
   padding: 0rem 1rem;
 }
 
-.splitStageTotal {
+.split-stage__total {
   color: yellow;
 }
 
@@ -263,15 +263,15 @@ body {
   padding: 0rem 1rem;
 }
 
-.splitStage1Result {
+.split-stage-1__result {
   background-color: red;
 }
 
-.splitStage2Result {
+.split-stage-2__result {
   background-color: orange;
 }
 
-.splitStage3Result {
+.split-stage-3__result {
   background-color: yellow;
   color: black;
 }
@@ -280,7 +280,7 @@ body {
   display: inline-block;
 }
 
-.btn__action {
+.btn-action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
@@ -297,28 +297,28 @@ body {
   outline: none;
 }
 
-.btn__doubleDown {
+.btn-action__doubleDown {
   border-color: orange;
   color: orange;
 }
 
-.btn__hit {
+.btn-action__hit {
   border-color: red;
   color: red;
 }
 
-.btn__stand {
+.btn-action__stand {
   border-color: green;
   color: green;
   font-size: 40px;
 }
 
-.btn__split {
+.btn-action__split {
   border-color: blue;
   color: blue;
 }
 
-.btn__surrender {
+.btn-action__surrender {
   border-color: gray;
   color: gray;
   text-align: center;
@@ -365,12 +365,12 @@ li {
     height: 605px;
   }
 
-  .btn__system {
+  .btn-system {
     font-size: 16px;
     padding: 2px;
   }
 
-  .playerInfoArea {
+  .grid__round-info {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 2;
@@ -381,19 +381,19 @@ li {
     padding-left: 5px;
   }
 
-  .label {
+  .round-info__label {
     font-weight: 700;
     font-size: 20px;
   }
 
-  .dealerField {
+  .grid__dealer-cards {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 3;
   }
 
-  .dealerHandInfo {
+  .grid__dealer-hand-info {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 2;
@@ -402,7 +402,7 @@ li {
     justify-content: space-around;
   }
 
-  .dealerTotal {
+  .dealer-total__value {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -413,34 +413,34 @@ li {
     height: 40px;
   }
 
-  .dealerMessageField {
+  .dealer-message__container {
     padding: 2px 10px;
   }
 
-  .middleArea {
+  .grid__game-message {
     grid-column-start: 1;
     grid-column-end: -1;
     grid-row-start: 3;
     grid-row-end: 4;
   }
 
-  .btn__sideBetDecide {
+  .btn-side-bet {
     font-size: 30px;
     min-width: 70px;
   }
 
-  .playerHandNum {
+  .player-total__hand-num {
     font-size: 20px;
   }
 
-  .playerField {
+  .grid__player-cards {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 4;
     grid-row-end: 5;
   }
 
-  .playerHandInfo {
+  .grid__player-hand-info {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 4;
@@ -450,7 +450,7 @@ li {
     align-items: center;
   }
 
-  .playerTotal {
+  .player-total__value {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -461,13 +461,13 @@ li {
     height: 40px;
   }
 
-  .playerMessageField {
+  .player-message__container {
     text-align: right;
     display: inline-block;
     padding: 2px 10px;
   }
 
-  .playerActionArea {
+  .grid__player-actions {
     grid-column-start: 1;
     grid-column-end: -1;
     grid-row-start: 5;
@@ -476,26 +476,26 @@ li {
     justify-content: space-around;
   }
 
-  .surrenderBtnContainer {
+  .grid__surrender-container {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 4;
     grid-row-end: 5;
   }
 
-  .btn__action {
+  .btn-action {
     padding: 10px;
     font-size: 30px;
     min-width: 140px;
     color: white;
   }
 
-  .btn__surrender {
+  .btn-action__surrender {
     width: 140px;
     height: 65px;
   }
 
-  .playerSplitArea {
+  .grid__split-stages-container {
     grid-column-start: 1;
     grid-column-end: -1;
     grid-row-start: 6;
@@ -504,24 +504,24 @@ li {
     justify-content: space-around;
   }
 
-  .splitStageHandNum {
+  .split-stage__hand-num {
     font-size: 20px;
     margin-left: 1px;
   }
 
-  .splitStageCards {
+  .split-stage__cards {
     padding: 0px 5px;
   }
 
-  .splitStage1Result {
+  .split-stage-1__result {
     padding: 0px 1px;
   }
 
-  .splitStage2Result {
+  .split-stage-2__result {
     padding: 0px 1px;
   }
 
-  .splitStage3Result {
+  .split-stage-3__result {
     padding: 0px 1px;
   }
 
@@ -554,7 +554,7 @@ li {
     grid-template-rows: 7% 7% auto auto auto;
   }
 
-  .nav {
+  .grid__system-btn-container {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
@@ -562,7 +562,7 @@ li {
     justify-content: flex-start;
   }
 
-  .playerInfoArea {
+  .grid__round-info {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 2;
@@ -573,18 +573,18 @@ li {
     align-items: center;
   }
 
-  .bankArea {
+  .bank__label {
     margin-right: 1.5rem;
   }
 
-  .dealerField {
+  .grid__dealer-cards {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 3;
     grid-row-end: 4;
   }
 
-  .dealerHandInfo {
+  .grid__dealer-hand-info {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 3;
@@ -592,7 +592,7 @@ li {
     flex-direction: column;
   }
 
-  .middleArea {
+  .grid__game-message {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 4;
@@ -601,7 +601,7 @@ li {
     margin-bottom: 1.5rem;
   }
 
-  .playerHandInfo {
+  .grid__player-hand-info {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 5;
@@ -610,18 +610,18 @@ li {
     align-items: center;
   }
 
-  .playerField {
+  .grid__player-cards {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 5;
     grid-row-end: -1;
   }
 
-  .playerMessageField {
+  .player-message__container {
     margin-right: 1rem;
   }
 
-  .playerSplitArea {
+  .grid__split-stages-container {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 1;
@@ -629,7 +629,7 @@ li {
     flex-direction: column-reverse;
   }
 
-  .playerActionArea {
+  .grid__player-actions {
     grid-column-start: 4;
     grid-column-end: 5;
     grid-row-start: 1;
@@ -638,19 +638,19 @@ li {
     justify-content: space-between;
   }
 
-  .surrenderBtnContainer {
+  .grid__surrender-container {
     grid-column-start: 5;
     grid-column-end: -1;
     grid-row-start: 1;
     grid-row-end: -1;
   }
 
-  .btn__action {
+  .btn-action {
     width: 20rem;
     padding: 2rem 2rem;
   }
 
-  .btn__surrender {
+  .btn-action__surrender {
     width: 3rem;
     height: 100%;
   }
@@ -666,30 +666,30 @@ li {
     width: 8rem;
   }
 
-  .btn__action {
+  .btn-action {
     font-size: 30px;
   }
 
-  .surrenderBtnContainer {
+  .grid__surrender-container {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 5;
     grid-row-end: 6;
   }
 
-  .btn__surrender {
+  .btn-action__surrender {
     width: 20rem;
     height: 50%;
   }
 
-  .playerSplitArea {
+  .grid__split-stages-container {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 1;
     grid-row-end: 5;
   }
 
-  .splitStageField {
+  .split-stage {
     display: flex;
     justify-content: space-between;
     align-items: center;
