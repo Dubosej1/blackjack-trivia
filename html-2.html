@@ -246,6 +246,202 @@
       </div>
     </div>
 
+    <!-- <div data-popbox-id="basic-bet-modal" class="popbox"> -->
+    <div class="basic-bet-modal">
+      <div class="basic-bet-modal__container">
+        <div class="basic-bet-modal__header">
+          <h1 class="basic-bet-modal__title">Place Your Bets!</h1>
+        </div>
+        <div class="basic-bet-modal__main">
+          <div class="basic-bet-modal__info-container">
+            <div class="basic-bet-modal__bank-container">
+              <span class="basic-bet-modal__bank-label">Bank</span><br />
+              <span class="basic-bet-modal__bank-value">1000</span>
+            </div>
+            <div class="basic-bet-modal__bet-container">
+              <span class="basic-bet-modal__bet-value">100</span>
+            </div>
+            <div class="basic-bet-modal__side-bet-placed-container">
+              <button
+                class="
+                  btn btn-basic-bet-modal btn-basic-bet-modal__side-bet-placed
+                "
+              >
+                Side Bets Placed $500
+              </button>
+            </div>
+          </div>
+          <div class="basic-bet-modal__bet-btn-container">
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__1
+              "
+            >
+              $1
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__5
+              "
+            >
+              $5
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__10
+              "
+            >
+              $10
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__25
+              "
+            >
+              $25
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__100
+              "
+            >
+              $100
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__500
+              "
+            >
+              $500
+            </button>
+          </div>
+          <div class="basic-bet-modal__action-btn-container">
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__clear-bet
+              "
+            >
+              Clear Bet
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__place-side-bets
+              "
+            >
+              Place Side Bets
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__clear-side-bets
+              "
+            >
+              Clear Side Bets
+            </button>
+            <button data-popbox-close="basic-bet-modal"
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__deal-cards
+              "
+            >
+              Deal Cards
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div data-popbox-id="side-bet-modal" class="popbox"> -->
+    <div class="side-bet-modal">
+      <div class="side-bet-modal__container">
+        <div class="side-bet-modal__header">
+          <h1 class="side-bet-modal__title">Place Side Bets</h1>
+          <div class="side-bet-modal__info-container">
+            <div class="side-bet-modal__bank-container">
+              <span class="side-bet-modal__bank-label">Bank</div><br>
+              <span class="side-bet-modal__bank-value">1000</span>
+            </div>
+            <div class="side-bet-modal__total-container">
+              <span class="side-bet-modal__total-value">100</span>
+            </div>
+            <div class="side-bet-modal__rules-btn-container">
+              <button class="btn btn-side-bet-modal btn-side-bet-modal__action btn-side-bet-modal__rules">Rules</button>
+            </div>
+          </div>
+        </div>
+        <div class="side-bet-modal__main">
+          <div class="side-bet-modal__directions-container">
+            <h2 class="side-bet-modal__directions-text">Click on the side bet and press chip buttons to add money to it</h2>
+          </div>
+          <div class="side-bet-modal__side-bet-container">
+            <form>
+              <div class="side-bet-modal__side-bet-div perfect-pair__container">
+                <div class="side-bet-modal__side-bet-input-container">
+                  <input type="checkbox" id="perfect-pair" name="perfect-pair" value="perfect-pair">
+                  <label for="perfect-pair">Perfect Pair</label>
+                </div>
+                <div class="side-bet-modal__side-bet-container">
+                  <span class="side-bet-modal__side-bet-value perfect-pair__value">0</span>
+                </div>
+
+                <div class="side-bet-modal__side-bet-div 21-plus-3__container">
+                  <div class="side-bet-modal__side-bet-input-container">
+                    <input type="checkbox" id="21-plus-3" name="21-plus-3" value="21-plus-3">
+                    <label for="21-plus-3">21 + 3</label>
+                  </div>
+                  <div class="side-bet-modal__side-bet-container">
+                    <span class="side-bet-modal__side-bet-value 21-plus-3__value">0</span>
+                  </div>
+            </form>
+          </div>
+        </div>
+        <div class="side-bet-modal__footer">
+          <div class="side-bet-modal__chip-container">
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__1">$1</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__5">$5</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__10">$10</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__25">$25</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__1">$100</button>
+          </div>
+          <div class="side-bet-modal__action-btn-container">
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-bet">Clear</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-all">Clear All</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__place-bets" data-popbox-close="side-bet-modal">Place Bets</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__exit" data-popbox-close="side-bet-modal">Back</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
     <script type="module" src="/controller.js" async defer></script>
     <script type="module" src="/view.js" async defer></script>
     <script type="module" src="/blackjack-model.js" async defer></script>
