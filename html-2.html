@@ -8,6 +8,7 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style-2.css" />
+    <link rel="stylesheet" href="popbox/popbox.css" />
   </head>
   <body>
     <div class="grid-container">
@@ -249,5 +250,12 @@
     <script type="module" src="/view.js" async defer></script>
     <script type="module" src="/blackjack-model.js" async defer></script>
     <script type="module" src="/trivia-model.js" async defer></script>
+    <script type="module" src="/popbox/popbox.js" async defer></script>
+    <script type="text/javascript">
+      var popbox = new Popbox({
+        blur: true,
+        overlay: true,
+      });
+    </script>
   </body>
 </html>
