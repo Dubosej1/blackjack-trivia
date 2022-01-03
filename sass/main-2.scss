@@ -339,6 +339,28 @@ li {
   width: 10rem;
 }
 
+// .modal {
+//   position: absolute;
+//   float: left;
+//   left: 50%;
+//   top: 50%;
+//   transform: translate(-50%, -50%);
+// }
+
+.two-section-modal {
+  display: grid;
+  grid-template-rows: 100px auto;
+}
+
+.three-section-modal {
+  display: grid;
+  grid-template-rows: 100px auto 100px;
+}
+
+.modal__main {
+  overflow-y: auto;
+}
+
 @media screen and (min-width: 700px) {
   html {
     font-size: 8px;
@@ -349,7 +371,7 @@ li {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    width: 100vh;
+    width: 100vw;
   }
 
   .grid-container {
