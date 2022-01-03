@@ -14,7 +14,7 @@
     <div class="grid-container">
       <div class="grid__system-btn-container">
         <button class="btn btn-system btn-system__endGame">End Game</button>
-        <button class="btn btn-system btn-system__settings">Settings</button>
+        <button class="btn btn-system btn-system__settings" data-popbox-target="options-modal">Options</button>
         <button class="btn btn-system btn-system__log">Log</button>
       </div>
       <!-- <div class="topArea"> -->
@@ -111,8 +111,9 @@
           Yes
         </button>
         <div class="game-message__container">
-          <h1 class="game-message__text">Even Money?</h1>
+          <h1 class="game-message__text">Blackjack Trivia </h1>
         </div>
+        <button class="btn btn-system btn-system__new-game">Start New Game</button>
         <button class="btn-side-bet btn-side-bet__even-money-decline">
           No
         </button>
@@ -279,6 +280,7 @@
                 btn-basic-bet-modal__chip
                 btn-basic-bet-modal__1
               "
+              data-value="1"
             >
               $1
             </button>
@@ -289,6 +291,7 @@
                 btn-basic-bet-modal__chip
                 btn-basic-bet-modal__5
               "
+              data-value="5"
             >
               $5
             </button>
@@ -299,6 +302,7 @@
                 btn-basic-bet-modal__chip
                 btn-basic-bet-modal__10
               "
+              data-value="10"
             >
               $10
             </button>
@@ -309,6 +313,7 @@
                 btn-basic-bet-modal__chip
                 btn-basic-bet-modal__25
               "
+              data-value="25"
             >
               $25
             </button>
@@ -319,6 +324,7 @@
                 btn-basic-bet-modal__chip
                 btn-basic-bet-modal__100
               "
+              data-value="100"
             >
               $100
             </button>
@@ -329,6 +335,7 @@
                 btn-basic-bet-modal__chip
                 btn-basic-bet-modal__500
               "
+              data-value="500"
             >
               $500
             </button>
@@ -351,6 +358,7 @@
                 btn-basic-bet-modal__action
                 btn-basic-bet-modal__place-side-bets
               "
+              data-popbox-target="side-bet-modal"
             >
               Place Side Bets
             </button>
@@ -703,21 +711,21 @@
             <label for="dealer-hard-17">Hard 17</label><br>
 
             <span class="options-modal__form-label">Number of Decks Used:</span><br>
-            <input type="radio" id="one-deck" name="deck-count" value="one-deck">
+            <input type="radio" id="one-deck" name="deck-count" value="1">
             <label for="one-deck">1</label>
-            <input type="radio" id="two-deck" name="deck-count" value="two-deck">
+            <input type="radio" id="two-deck" name="deck-count" value="2">
             <label for="two-deck">2</label>
-            <input type="radio" id="three-deck" name="deck-count" value="three-deck">
+            <input type="radio" id="three-deck" name="deck-count" value="3">
             <label for="three-deck">3</label>
-            <input type="radio" id="four-deck" name="deck-count" value="four-deck">
+            <input type="radio" id="four-deck" name="deck-count" value="4">
             <label for="four-deck">4</label>
-            <input type="radio" id="five-deck" name="deck-count" value="five-deck">
+            <input type="radio" id="five-deck" name="deck-count" value="5">
             <label for="five-deck">5</label>
-            <input type="radio" id="six-deck" name="deck-count" value="six-deck">
+            <input type="radio" id="six-deck" name="deck-count" value="6">
             <label for="six-deck">6 (default)</label>
-            <input type="radio" id="seven-deck" name="deck-count" value="seven-deck">
+            <input type="radio" id="seven-deck" name="deck-count" value="7">
             <label for="seven-deck">7</label>
-            <input type="radio" id="eight-deck" name="deck-count" value="eight-deck">
+            <input type="radio" id="eight-deck" name="deck-count" value="8">
             <label for="eight-deck">8</label><br>
 
             <span class="options-modal__form-label">5 Card Charlie:</span><br>
@@ -727,7 +735,7 @@
             <span class="options-modal__form-label">Split Options:</span><br>
             <input type="checkbox" id="split-any-ten" name="split-any-ten" value="true">
             <label for="split-any-ten">Splitting ANY 10 pt value card allowed</label><br>
-            <input type="checkbox" id="double-after-split" name="double-after-split" value="double-after-split">
+            <input type="checkbox" id="double-after-split" name="double-after-split" value="true">
             <label for="double-after-split">Double Down after Split allowed</label><br>
             <input type="checkbox" id="resplit-on" name="resplit-on" value="true">
             <label for="resplit-on">Re-splitting allowed (up to 4 hands)</label><br>
