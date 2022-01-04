@@ -1,4 +1,5 @@
-import * as controller from "./controller.js";
+import * as controller from "./controller-3.js";
+import { globalState } from "./state.js";
 
 export function addNewGameBtnListener() {
   const newGameBtn = document.querySelector(`.btn-system__new-game`);
@@ -6,24 +7,23 @@ export function addNewGameBtnListener() {
   newGameBtn.addEventListener("click", controller.startNewGame);
 }
 
-export function addOptionsBtnListener(gameState = null) {
+export function addBeginGameOptionsBtnListener(gameState = null) {
   const optionsBtn = document.querySelector(`.btn-system__settings`);
 
-  if (gameState) {
-    optionsBtn.addEventListener(
-      `click`,
-      function optionsListenerCallback(event) {
-        controller.submitOptions(gameState);
-      }
-    );
-  } else {
-    optionsBtn.addEventListener(
-      `click`,
-      function optionsListenerCallback(event) {
-        controller.submitOptions();
-      }
-    );
-  }
+  optionsBtn.addEventListener(`click`, beginGameOptionsListenerCallback);
+}
+
+export function addOptionsBtnListener(gameState) {
+  const optionsBtn = document.querySelector(`.btn-system__settings`);
+
+  optionsBtn.addEventListener(`click`, optionsListenerCallback);
+}
+
+export function addNewRoundEventListeners(gameState) {
+  addOptionsBtnListener(gameState);
+  addBaseBetChipBtnListeners(gameState);
+  addSideBetChipBtnListeners(gameState);
+  addSideBetContainerListener(gameState);
 }
 
 export function addBaseBetChipBtnListeners(gameState) {
@@ -35,20 +35,10 @@ export function addBaseBetChipBtnListeners(gameState) {
   );
 
   baseBetChipBtns.forEach(function (elem) {
-    elem.addEventListener(
-      "click",
-      function updateBaseBetChipBtnCallback(event) {
-        controller.updateBaseBetChips(event, gameState);
-      }
-    );
+    elem.addEventListener("click", updateBaseBetChipBtnCallback);
   });
 
-  baseBetClearBtn.addEventListener(
-    "click",
-    function clearBaseBetChipAmountCallback(event) {
-      controller.clearBaseBetChips(event, gameState);
-    }
-  );
+  baseBetClearBtn.addEventListener("click", clearBaseBetChipAmountCallback);
 }
 
 export function addSideBetContainerListener() {
@@ -57,12 +47,7 @@ export function addSideBetContainerListener() {
   );
 
   sideBetContainers.forEach(function (elem) {
-    elem.addEventListener(
-      `click`,
-      function sideBetContainerListenerCallback(event) {
-        controller.updateSideBetContainer(event, gameState);
-      }
-    );
+    elem.addEventListener(`click`, sideBetContainerListenerCallback);
   });
 }
 
@@ -75,18 +60,42 @@ export function addSideBetChipBtnListeners() {
   );
 
   sideBetChipBtns.forEach(function (elem) {
-    elem.addEventListener(
-      "click",
-      function updateSideBetChipBtnCallback(event) {
-        controller.updateSideBetChips(event, gameState);
-      }
-    );
+    elem.addEventListener("click", updateSideBetChipBtnCallback);
   });
 
-  sideBetClearBtn.addEventListener(
-    "click",
-    function clearSideBetChipAmountCallback(event) {
-      controller.clearSideBetChips(event, gameState);
-    }
-  );
+  sideBetClearBtn.addEventListener("click", clearSideBetChipAmountCallback);
+}
+
+export function removeBeginGameOptionsBtnListener() {
+  const optionsBtn = document.querySelector(`.btn-system__settings`);
+
+  optionsBtn.removeEventListener(`click`, beginGameOptionsListenerCallback);
+}
+
+function beginGameOptionsListenerCallback(event) {
+  controller.submitOptions();
+}
+
+function optionsListenerCallback(event) {
+  controller.submitOptions(globalState);
+}
+
+function updateBaseBetChipBtnCallback(event) {
+  controller.updateBaseBetChips(event, globalState);
+}
+
+function clearBaseBetChipAmountCallback(event) {
+  controller.clearBaseBetChips(event, globalState);
+}
+
+function sideBetContainerListenerCallback(event) {
+  controller.updateSideBetContainer(event, globalState);
+}
+
+function updateSideBetChipBtnCallback(event) {
+  controller.updateSideBetChips(event, globalState);
+}
+
+function clearSideBetChipAmountCallback(event) {
+  controller.clearSideBetChips(event, globalState);
 }

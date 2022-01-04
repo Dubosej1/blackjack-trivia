@@ -1,36 +1,11 @@
 import * as bjModel from "./blackjack-model-3.js";
-import * as triviaModel from "./trivia-model-3.js";
+import * as triviaModel from "./trivia-model.js";
 import * as view from "./view-3.js";
 import * as listeners from "./listeners.js";
+import * as betModel from "./bet-model.js";
+import * as state from "./state.js";
 
 let optionsPlaceholder;
-
-class State {
-  betObj;
-  player;
-  dealer;
-
-  constructor(bank) {
-    this.bank = bank;
-  }
-
-  initialAddPlayers(arr) {
-    let [player, dealer] = arr;
-    this.player = player;
-    this.dealer = dealer;
-  }
-
-  addBetObj(betObj) {
-    this.betObj = betObj;
-  }
-}
-
-function init() {
-  listeners.addNewGameBtnListener();
-  listeners.addBasicBetChipBtnListeners();
-  listeners.addOptionsBtnListener();
-  submitOptions();
-}
 
 export function startNewGame(e) {
   let bank = 1000;
@@ -40,8 +15,8 @@ export function startNewGame(e) {
   startNewRound(bank, options);
 }
 
-export function startNewRound(bank) {
-  let gameState = new State(bank);
+export function startNewRound(bank, options) {
+  let gameState = state.initNewState(bank, options);
 
   let players = bjModel.initPlayers(bank);
 
@@ -51,7 +26,10 @@ export function startNewRound(bank) {
 
   gameState.initialAddPlayers(players);
 
-  view.addHandlerListeners(btnsArr, gameState);
+  listeners.removeBeginGameOptionsBtnListener();
+  listeners.addNewRoundEventListeners(gameState);
+
+  //   view.addHandlerListeners(btnsArr, gameState);
 
   gameState.toggleGameActive(true);
 
@@ -92,7 +70,7 @@ export function updateSideBetChips(event, gameState) {
   view.updateSideBetModalTotals(sideBet, gameState);
 }
 
-export function submitOptions(event = null, gameState = null) {
+export function submitOptions(event, gameState = null) {
   let options = view.collectOptions();
 
   if (!gameState) optionsPlaceholder = options;
@@ -106,3 +84,11 @@ export function clearSideBetChips(event, gameState) {
   betObj.clearTempSideBetAmount(sideBet);
   view.updateSideBetModalTotals(sideBet, gameState);
 }
+
+function init() {
+  listeners.addNewGameBtnListener();
+  listeners.addOptionsBtnListener();
+  submitOptions();
+}
+
+init();

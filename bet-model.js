@@ -1,10 +1,10 @@
 class Bet {
   bank;
   tempBank;
-  baseBet;
-  tempBaseBet;
-  sideBetTotal;
-  tempSideBetTotal;
+  baseBet = 0;
+  tempBaseBet = 0;
+  sideBetTotal = 0;
+  tempSideBetTotal = 0;
   sideBet = [];
 
   constructor(bank) {
@@ -12,14 +12,14 @@ class Bet {
     this.tempBank = bank;
   }
 
-  updateTempBaseBetTotal(addend) {
+  updateTempBaseBet(addend) {
     this.tempBaseBet = this.tempBaseBet + addend;
     this.tempBank = this.tempBank - addend;
   }
 
   clearTempBaseBet() {
     this.tempBaseBet = 0;
-    this.bank = this.bank;
+    this.tempBank = this.bank;
   }
 
   addSideBetObj(sideBetObj) {
@@ -40,28 +40,28 @@ class Bet {
   }
 
   clearTempSideBetAmount(sideBet) {
-      let sideBetObj = getSideBet(sideBet);
+    let sideBetObj = getSideBet(sideBet);
 
-      let sideBetIndvTotal = sideBetObj.getTempTotal();
+    let sideBetIndvTotal = sideBetObj.getTempTotal();
 
-      this.tempSideBetTotal = this.tempSideBetTotal - sideBetIndvTotal;
-      this.tempBank = this.tempBank + sideBetIndvTotal;
+    this.tempSideBetTotal = this.tempSideBetTotal - sideBetIndvTotal;
+    this.tempBank = this.tempBank + sideBetIndvTotal;
 
-      sideBetObj.clearTempBet();
+    sideBetObj.clearTempBet();
   }
 
-  get getSideBet (sideBet) {
-      return this.sideBet.find((obj) => obj.key === sideBet);
+  getSideBet(sideBet) {
+    return this.sideBet.find((obj) => obj.key === sideBet);
   }
 
-  get getTempSideBetTotalValue () {
-      return this.tempSideBetTotal
+  getTempSideBetTotalValue() {
+    return this.tempSideBetTotal;
   }
 }
 
 class SideBet extends Bet {
-  total;
-  tempTotal;
+  total = 0;
+  tempTotal = 0;
 
   constructor(obj) {
     let [rules, payout] = obj;
@@ -74,11 +74,11 @@ class SideBet extends Bet {
   }
 
   clearTempBet() {
-      this.tempTotal = 0;
+    this.tempTotal = 0;
   }
 
-  getTempTotal () {
-      return this.tempTotal;
+  getTempTotal() {
+    return this.tempTotal;
   }
 }
 
