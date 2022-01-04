@@ -78,13 +78,32 @@ export function updateSideBetModalTotals(sideBet, gameState) {
   checkSideBetChipBtnsValid(bank);
 }
 
-export function toggleSideBetPlacedBtn(boolean, gameState) {
+export function resetSideBetModal(gameState) {
+  const sideBetTotalField = document.querySelector(
+    `.side-bet-modal__total-value`
+  );
+
+  const sideBetBankField = document.querySelector(
+    `.side-bet-modal__bank-value`
+  );
+  const sideBetValueFields = document.querySelectorAll(
+    `.side-bet-modal__side-bet-value`
+  );
+  const bank = gameState.betObj.getTempBank();
+
+  sideBetTotalField.textContent = 0;
+  sideBetBankField.textContent = bank;
+  sideBetValueFields.forEach(function (elem) {
+    elem.textContent = 0;
+  });
+}
+
+export function toggleSideBetPlacedBtn(boolean, gameState = null) {
   const sideBetPlacedBtn = document.querySelector(
     `.btn-basic-bet-modal__side-bet-placed`
   );
-  const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-
   if (boolean) {
+    const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
     sideBetPlacedBtn.style.display = `inline-block`;
     sideBetPlacedBtn.textContent = `Side Bets Placed $${sideBetTotal}`;
   } else {
@@ -104,6 +123,19 @@ export function activateSideBetsPlacedModal(gameState) {
   modalTextField.innerHTML = modalText;
 
   modalNextBtn.style.display = `none`;
+  modalCloseBtn.style.display = `inline-block`;
+}
+
+export function deactivateSideBetsPlacedModal() {
+  const modalTitleField = document.querySelector(`.generic-modal__title`);
+  const modalTextField = document.querySelector(`.generic-modal__main`);
+  const modalNextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const modalCloseBtn = document.querySelector(`.btn-generic-modal__close`);
+  modalTitleField.textContent = `Generic Modal`;
+
+  modalTextField.innerHTML = ` `;
+
+  modalNextBtn.style.display = "inline-block";
   modalCloseBtn.style.display = `inline-block`;
 }
 

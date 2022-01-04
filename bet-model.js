@@ -6,6 +6,7 @@ class Bet {
   sideBetTotal = 0;
   tempSideBetTotal = 0;
   sideBet = [];
+  sideBetPlacedModalActive;
 
   constructor(bank) {
     this.bank = bank;
@@ -68,6 +69,21 @@ class Bet {
       modalText.push(obj.getSideBetAmountInfoText());
     });
     return modalText.join();
+  }
+
+  clearSideBets() {
+    //   let length = this.sideBet.length;
+
+    for (let i = 0; i <= this.sideBet.length; i++) {
+      this.sideBet.pop();
+    }
+    this.tempBank = this.tempBank + this.tempSideBetTotal;
+    this.tempSideBetTotal = 0;
+  }
+
+  toggleSideBetPlacedModalActive(boolean) {
+    if (boolean) this.sideBetPlacedModalActive = true;
+    else this.sideBetPlacedModalActive = false;
   }
 }
 

@@ -93,8 +93,22 @@ export function placeSideBets(event, gameState) {
 
   //add "view side bets btn and side bet field"
 
+  gameState.betObj.toggleSideBetPlacedModalActive(true);
   view.toggleSideBetPlacedBtn(true, gameState);
   view.activateSideBetsPlacedModal(gameState);
+}
+
+export function clearAllSideBets(event, gameState) {
+  let modalActive = gameState.betObj.sideBetPlacedModalActive;
+
+  gameState.betObj.clearSideBets();
+  view.resetSideBetModal(gameState);
+
+  if (modalActive) {
+    view.toggleSideBetPlacedBtn(false);
+    view.deactivateSideBetsPlacedModal();
+    gameState.betObj.toggleSideBetPlacedModalActive(false);
+  }
 }
 
 function init() {

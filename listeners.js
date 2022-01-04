@@ -66,6 +66,9 @@ export function addSideBetChipBtnListeners() {
   const placeSideBetsBtn = document.querySelector(
     `.btn-side-bet-modal__place-bets`
   );
+  const sideBetClearAllBtn = document.querySelector(
+    `.btn-side-bet-modal__clear-all`
+  );
 
   sideBetChipBtns.forEach(function (elem) {
     elem.addEventListener("click", updateSideBetChipBtnCallback);
@@ -74,6 +77,8 @@ export function addSideBetChipBtnListeners() {
   sideBetClearBtn.addEventListener("click", clearSideBetChipAmountCallback);
 
   placeSideBetsBtn.addEventListener(`click`, placeSideBetsBtnCallback);
+
+  sideBetClearAllBtn.addEventListener(`click`, clearAllSideBetsBtnCallback);
 }
 
 export function removeBeginGameOptionsBtnListener() {
@@ -112,4 +117,8 @@ function clearSideBetChipAmountCallback(event) {
 
 function placeSideBetsBtnCallback(event) {
   controller.placeSideBets(event, globalState);
+}
+
+function clearAllSideBetsBtnCallback(event) {
+  controller.clearAllSideBets(event, globalState);
 }
