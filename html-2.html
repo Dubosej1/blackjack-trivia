@@ -782,9 +782,9 @@
 
 
 
-    <!-- <div data-popbox-id="side-bet-modal" class="popbox modal"> -->
-    <div class="side-bet-modal modal">
-      <div class="side-bet-modal__container 3 section modal">
+    <div data-popbox-id="side-bet-modal" class="popbox modal">
+    <!-- <div class="side-bet-modal modal"> -->
+      <div class="side-bet-modal__container three-section-modal">
         <div class="side-bet-modal__header modal__header">
           <h1 class="side-bet-modal__title">Place Side Bets</h1>
           <div class="side-bet-modal__info-container">
@@ -806,14 +806,15 @@
           </div>
           <div class="side-bet-modal__side-bet-container">
             <form>
-              <div class="side-bet-modal__side-bet-div perfect-pair__container" data-sideBet="perfectPair">
+              <div class="side-bet-modal__side-bet-div perfect-pair__container side-bet-modal__active-bet" data-sideBet="perfectPair">
                 <div class="side-bet-modal__side-bet-input-container">
                   <input type="checkbox" id="perfect-pair" name="perfect-pair" value="perfect-pair">
                   <label for="perfect-pair">Perfect Pair</label>
                 </div>
                 <div class="side-bet-modal__side-bet-container">
-                  <span class="side-bet-modal__side-bet-value perfect-pair__value">0</span>
+                  <span class="side-bet-modal__side-bet-value perfect-pair__value side-bet-modal__active-value">0</span>
                 </div>
+              </div>
 
                 <div class="side-bet-modal__side-bet-div 21-plus-3__container" data-sideBet="21Plus3">
                   <div class="side-bet-modal__side-bet-input-container">
@@ -823,6 +824,7 @@
                   <div class="side-bet-modal__side-bet-container">
                     <span class="side-bet-modal__side-bet-value 21-plus-3__value">0</span>
                   </div>
+                </div>
             </form>
           </div>
         </div>
@@ -832,7 +834,7 @@
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__5" data-value="5">$5</button>
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__10" data-value="10">$10</button>
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__25" data-value="25">$25</button>
-            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__1" data-value="100">$100</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__100" data-value="100">$100</button>
           </div>
           <div class="side-bet-modal__action-btn-container">
             <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-bet">Clear</button>

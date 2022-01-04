@@ -32,23 +32,27 @@ export function updateBaseBetModalTotal(gameState) {
 export function collectSideBet() {
   const elem = document.querySelector(`.side-bet-modal__active-bet`);
 
-  const sideBet = elem.dataset.sideBet;
+  const sideBet = elem.dataset.sidebet;
   return sideBet;
 }
 
 export function addActiveElementToBetContainer(event) {
-  document
-    .querySelector(`.side-bet-modal__active-bet`)
-    .classList.remove(`.side-bet-modal__active-bet`);
-  document
-    .querySelector(`.side-bet-modal__active-value`)
-    .classList.remove(`.side-bet-modal__active-value`);
+  const activeBetElem = document.querySelector(`.side-bet-modal__active-bet`);
 
-  const elem = event.target;
+  activeBetElem.classList.remove(`side-bet-modal__active-bet`);
+
+  const activeValueElem = document.querySelector(
+    `.side-bet-modal__active-value`
+  );
+
+  activeValueElem.classList.remove(`side-bet-modal__active-value`);
+
+  //   const elem = event.target;
+  const elem = event.target.closest(`.side-bet-modal__side-bet-div`);
   const elemBetField = elem.querySelector(`.side-bet-modal__side-bet-value`);
 
-  elem.classList.add(`.side-bet-modal__active-bet`);
-  elemBetField.classList.add(`.side-bet-modal__active-value`);
+  elem.classList.add(`side-bet-modal__active-bet`);
+  elemBetField.classList.add(`side-bet-modal__active-value`);
 }
 
 export function updateSideBetModalTotals(sideBet, gameState) {
@@ -59,6 +63,10 @@ export function updateSideBetModalTotals(sideBet, gameState) {
     `.side-bet-modal__total-value`
   );
 
+  const sideBetBankField = document.querySelector(
+    `.side-bet-modal__bank-value`
+  );
+
   let sideBetObj = gameState.betObj.getSideBet(sideBet);
   let sideBetValue = sideBetObj.getTempTotal();
   let sideBetTotalValue = gameState.betObj.getTempSideBetTotalValue();
@@ -66,6 +74,7 @@ export function updateSideBetModalTotals(sideBet, gameState) {
 
   activeSideBetValueField.textContent = sideBetValue;
   sideBetTotalField.textContent = sideBetTotalValue;
+  sideBetBankField.textContent = bank;
   checkSideBetChipBtnsValid(bank);
 }
 

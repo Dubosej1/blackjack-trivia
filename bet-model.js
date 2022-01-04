@@ -40,7 +40,7 @@ class Bet {
   }
 
   clearTempSideBetAmount(sideBet) {
-    let sideBetObj = getSideBet(sideBet);
+    let sideBetObj = this.getSideBet(sideBet);
 
     let sideBetIndvTotal = sideBetObj.getTempTotal();
 
@@ -62,9 +62,16 @@ class Bet {
 class SideBet extends Bet {
   total = 0;
   tempTotal = 0;
+  name;
+  key;
+  rules;
+  payout;
 
   constructor(obj) {
-    let [rules, payout] = obj;
+    let { name, key, rules, payout } = obj;
+    super();
+    this.name = name;
+    this.key = key;
     this.rules = rules;
     this.payout = payout;
   }
@@ -89,6 +96,13 @@ const perfectPair = {
   payout: `payout`,
 };
 
+const twentyOnePlusThree = {
+  name: `21 + 3`,
+  key: `21Plus3`,
+  rules: `rules`,
+  payout: `payout`,
+};
+
 export function initBaseBet(bank) {
   let bet = new Bet(bank);
   return bet;
@@ -102,7 +116,7 @@ export function generateSideBetObj(name) {
       sideBet = new SideBet(perfectPair);
       break;
     case `21Plus3`:
-      sideBet = new SideBet(TwentyOnePlusThree);
+      sideBet = new SideBet(twentyOnePlusThree);
       break;
     default:
       console.log(`no side bet`);

@@ -345,6 +345,15 @@ li {
   width: 10rem;
 }
 
+.side-bet-modal__active-bet {
+  background-color: blue;
+}
+
+.base-bet-modal__container,
+.side-bet-modal__container {
+  background-color: black;
+}
+
 // .modal {
 //   position: absolute;
 //   float: left;
