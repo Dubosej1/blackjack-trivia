@@ -105,6 +105,7 @@ export function clearAllSideBets(event, gameState) {
   view.resetSideBetModal(gameState);
 
   if (modalActive) {
+    view.updateBaseBetModalTotal(gameState);
     view.toggleSideBetPlacedBtn(false);
     view.deactivateSideBetsPlacedModal();
     gameState.betObj.toggleSideBetPlacedModalActive(false);
