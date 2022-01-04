@@ -35,6 +35,7 @@ export function startNewRound(bank, options) {
 
   //make submit bet modal visible
   view.openBaseBetModal(gameState);
+  bjModel.initDeck(gameState);
 }
 
 export function updateBaseBetChips(event, gameState) {
