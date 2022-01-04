@@ -26,20 +26,67 @@ export function addOptionsBtnListener(gameState = null) {
   }
 }
 
-export function addBasicBetChipBtnListeners() {
-  const basicBetChipBtns = document.querySelectorAll(
+export function addBaseBetChipBtnListeners(gameState) {
+  const baseBetChipBtns = document.querySelectorAll(
     `.btn-basic-bet-modal__chip`
   );
-  const basicBetClearBtn = document.querySelector(
+  const baseBetClearBtn = document.querySelector(
     `.btn-basic-bet-modal__clear-bet`
   );
 
-  basicBetChipBtns.forEach(function (elem) {
-    elem.addEventListener("click", controller.updateBasicBetChipBtnCallback);
+  baseBetChipBtns.forEach(function (elem) {
+    elem.addEventListener(
+      "click",
+      function updateBaseBetChipBtnCallback(event) {
+        controller.updateBaseBetChips(event, gameState);
+      }
+    );
   });
 
-  basicBetClearBtn.addEventListener(
+  baseBetClearBtn.addEventListener(
     "click",
-    controller.clearBasicBetChipAmountCallback
+    function clearBaseBetChipAmountCallback(event) {
+      controller.clearBaseBetChips(event, gameState);
+    }
+  );
+}
+
+export function addSideBetContainerListener() {
+  const sideBetContainers = document.querySelectorAll(
+    `.side-bet-modal__side-bet-div`
+  );
+
+  sideBetContainers.forEach(function (elem) {
+    elem.addEventListener(
+      `click`,
+      function sideBetContainerListenerCallback(event) {
+        controller.updateSideBetContainer(event, gameState);
+      }
+    );
+  });
+}
+
+export function addSideBetChipBtnListeners() {
+  const sideBetChipBtns = document.querySelectorAll(
+    `.btn-side-bet-modal__chip`
+  );
+  const sideBetClearBtn = document.querySelector(
+    `.btn-side-bet-modal__clear-bet`
+  );
+
+  sideBetChipBtns.forEach(function (elem) {
+    elem.addEventListener(
+      "click",
+      function updateSideBetChipBtnCallback(event) {
+        controller.updateSideBetChips(event, gameState);
+      }
+    );
+  });
+
+  sideBetClearBtn.addEventListener(
+    "click",
+    function clearSideBetChipAmountCallback(event) {
+      controller.clearSideBetChips(event, gameState);
+    }
   );
 }

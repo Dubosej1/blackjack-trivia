@@ -131,10 +131,12 @@ body {
 }
 
 .btn-side-bet__even-money-accept {
+  display: none;
   background-color: green;
 }
 
 .btn-side-bet__even-money-decline {
+  display: none;
   background-color: red;
 }
 
@@ -267,6 +269,10 @@ body {
 }
 
 .btn {
+  display: inline-block;
+}
+
+.btn-system__new-game {
   display: inline-block;
 }
 
