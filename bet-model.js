@@ -57,6 +57,18 @@ class Bet {
   getTempSideBetTotalValue() {
     return this.tempSideBetTotal;
   }
+
+  getTempBank() {
+    return this.tempBank;
+  }
+
+  getSideBetsPlacedModalText() {
+    let modalText = [];
+    this.sideBet.forEach(function (obj) {
+      modalText.push(obj.getSideBetAmountInfoText());
+    });
+    return modalText.join();
+  }
 }
 
 class SideBet extends Bet {
@@ -86,6 +98,11 @@ class SideBet extends Bet {
 
   getTempTotal() {
     return this.tempTotal;
+  }
+
+  getSideBetAmountInfoText() {
+    let text = `${this.name} : $${this.tempTotal} Bet <br>`;
+    return text;
   }
 }
 

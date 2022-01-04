@@ -85,6 +85,18 @@ export function clearSideBetChips(event, gameState) {
   view.updateSideBetModalTotals(sideBet, gameState);
 }
 
+export function placeSideBets(event, gameState) {
+  let sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
+  let bank = gameState.betObj.getTempBank();
+
+  view.updateBaseBetModalTotal(gameState);
+
+  //add "view side bets btn and side bet field"
+
+  view.toggleSideBetPlacedBtn(true, gameState);
+  view.activateSideBetsPlacedModal(gameState);
+}
+
 function init() {
   listeners.addNewGameBtnListener();
   listeners.addOptionsBtnListener();

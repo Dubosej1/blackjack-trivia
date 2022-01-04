@@ -78,6 +78,35 @@ export function updateSideBetModalTotals(sideBet, gameState) {
   checkSideBetChipBtnsValid(bank);
 }
 
+export function toggleSideBetPlacedBtn(boolean, gameState) {
+  const sideBetPlacedBtn = document.querySelector(
+    `.btn-basic-bet-modal__side-bet-placed`
+  );
+  const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
+
+  if (boolean) {
+    sideBetPlacedBtn.style.display = `inline-block`;
+    sideBetPlacedBtn.textContent = `Side Bets Placed $${sideBetTotal}`;
+  } else {
+    sideBetPlacedBtn.style.display = `none`;
+    sideBetPlacedBtn.textContent = `Side Bets Placed`;
+  }
+}
+
+export function activateSideBetsPlacedModal(gameState) {
+  const modalTitleField = document.querySelector(`.generic-modal__title`);
+  const modalTextField = document.querySelector(`.generic-modal__main`);
+  const modalNextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const modalCloseBtn = document.querySelector(`.btn-generic-modal__close`);
+  modalTitleField.textContent = `Side Bets Placed`;
+
+  let modalText = gameState.betObj.getSideBetsPlacedModalText();
+  modalTextField.innerHTML = modalText;
+
+  modalNextBtn.style.display = `none`;
+  modalCloseBtn.style.display = `inline-block`;
+}
+
 // export function updateBasicBetChipAmount(event) {
 //   const basicBetModal__BankValue = document.querySelector(
 //     ".basic-bet-modal__bank-value"
