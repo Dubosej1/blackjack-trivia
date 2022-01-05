@@ -85,6 +85,22 @@ class Bet {
     if (boolean) this.sideBetPlacedModalActive = true;
     else this.sideBetPlacedModalActive = false;
   }
+
+  lockInBets() {
+    this.bank = this.tempBank;
+    this.baseBet = this.tempBaseBet;
+    this.sideBetTotal = this.tempSideBetTotal;
+
+    if (this.sideBet) {
+      this.sideBet.forEach(function (obj) {
+        obj.lockInSideBet();
+      });
+    }
+
+    this.tempBank = 0;
+    this.tempBaseBet = 0;
+    this.tempSideBetTotal = 0;
+  }
 }
 
 class SideBet extends Bet {
@@ -119,6 +135,11 @@ class SideBet extends Bet {
   getSideBetAmountInfoText() {
     let text = `${this.name} : $${this.tempTotal} Bet <br>`;
     return text;
+  }
+
+  lockInSideBet() {
+    this.total = this.tempTotal;
+    this.tempTotal = 0;
   }
 }
 

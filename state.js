@@ -51,6 +51,54 @@ class State {
     this.dealer = dealer;
     view.renderDealerField(this.dealer.hand);
   }
+
+  checkSplitAvailable() {
+    if (this.player.checkValidSplit(this.options)) this.splitAvailable = true;
+    if (this.bank - this.betObj.baseBet > 0) this.splitAvailable = true;
+    else this.splitAvailable = false;
+  }
+
+  checkDoubleDownAvailable() {
+    if (this.bank - this.betObj.baseBet < 0) this.doubleDownAvailable = false;
+    else this.doubleDownAvailable = true;
+  }
+
+  checkValidInsurance() {
+    // if (insuranceAlreadyChecked) return;
+    // insuranceAlreadyChecked = true;
+    let dealerInitialFaceUpCard = this.dealer.hand.cards[1].value;
+    let bank = this.player.bank;
+    let betAmount = this.player.betObj.baseBet;
+
+    // if (this.evenMoneyAvailable == true) return;
+    if (this.evenMoneyAvailable || !this.options.insuranceEnabled) {
+      this.insuranceAvailable = false;
+      return;
+    }
+
+    if (dealerInitialFaceUpCard == "ACE" && bank >= 1 && betAmount >= 2) {
+      this.insuranceAvailable = true;
+      return;
+    }
+
+    this.insuranceAvailable = false;
+  }
+
+  checkValidEvenMoney() {
+    // if (insuranceAlreadyChecked) return;
+    // insuranceAlreadyChecked = true;
+    let dealerInitialFaceUpCard = this.dealer.hand.cards[1].value;
+    let playerHandOutcome = this.player.hand.outcome;
+
+    if (this.options.evenMoneyEnabled) {
+      if (dealerInitialFaceUpCard == "ACE" && playerHandOutcome == `natural`) {
+        this.evenMoneyAvailable = true;
+        return;
+      }
+    }
+
+    this.evenMoneyAvailable = false;
+  }
 }
 
 export function initNewState(bank, options) {

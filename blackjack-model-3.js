@@ -85,6 +85,7 @@ class Player extends Cardholder {
       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
     );
     this.hand.endTags.push(`</li></ul>`);
+    console.log(this.hand);
   }
 
   checkHandForNatural(hand) {
@@ -99,14 +100,29 @@ class Player extends Cardholder {
   //     return this.bank - this.betAmount >= 0 ? true : false;
   //   }
 
-  checkValidSplit() {
-    // let validBet = this.checkValidSideBet();
-
+  checkValidSplit(options) {
     let card1 = this.hand.cards[0].value;
     let card2 = this.hand.cards[1].value;
 
-    if (card1 == card2 && validBet) return true;
+    if (options.splitAnyTens) {
+      card1 = convertTenValueCard(card1);
+      card2 = convertTenValueCard(card2);
+    }
+
+    if (!options.splitAces) {
+      if (card1 == "ACE") return false;
+    }
+
+    if (card1 == card2) return true;
     return false;
+
+    function convertTenValueCard(value) {
+      let faceCards = ["JACK", "QUEEN", "KING"];
+      let result = faceCards.some((face) => face == value);
+
+      if (result) value = "10";
+      return value;
+    }
   }
 }
 

@@ -130,8 +130,13 @@ export function clearAllSideBets(event, gameState) {
 }
 
 export function startDealCardsRoutine(event, gameState) {
+  gameState.betObj.lockInBets();
   gameState.updatePlayer = gameState.player;
   gameState.updateDealer = gameState.dealer;
+  gameState.checkSplitAvailable();
+  gameState.checkDoubleDownAvailable();
+  gameState.checkValidInsurance();
+  gameState.checkValidEvenMoney();
 }
 
 function init() {
