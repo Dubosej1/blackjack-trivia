@@ -5,6 +5,8 @@ class State {
   player;
   dealer;
   gameActive;
+  cardsDealt;
+  remainingCards;
 
   constructor(bank, options) {
     this.bank = bank;
@@ -28,6 +30,15 @@ class State {
 
   updateOptions(optionsObj) {
     this.options = optionsObj;
+  }
+
+  updateCardsDealt(boolean) {
+    if (boolean) this.cardsDealt = true;
+    else this.cardsDealt = false;
+  }
+  set updateRemainingCards(num) {
+    this.remainingCards = num;
+    if (this.remainingCards <= 2) bjModel.shuffleCards(this.options.deckCount);
   }
 }
 

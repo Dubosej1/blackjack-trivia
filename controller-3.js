@@ -38,7 +38,21 @@ export function startNewRound(bank, options) {
   bjModel.initDeck(gameState);
 }
 
+export function updateStatePlayers(player, gameState) {
+  // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
+  // if ((hand.type = `dealer`)) gameState.updateDealerHand = hand;
+
+  if (player.type == "player") gameState.updatePlayer = player;
+  if (player.type == `dealer`) gameState.updateDealer = player;
+  if (player.type == `split player`) {
+    if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
+    else gameState.updateSplitHand2 = player;
+  }
+}
+
 export function updateBaseBetChips(event, gameState) {
+  if (!gameState.cardsDealt) bjModel.dealInitialCards(gameState);
+
   let addend = parseInt(event.target.dataset.value, 10);
 
   gameState.betObj.updateTempBaseBet(addend);
