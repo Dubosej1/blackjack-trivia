@@ -266,12 +266,11 @@ export function collectOptions() {
   let form = document.querySelector(`.options-modal__form`);
   let formData = new FormData(form);
 
-  if (formData.get(`toggle-trivia`) == `trivia-off`)
-    options.triviaModeEnabled = true;
+  if (formData.get(`toggle-trivia`) == `trivia-off`) options.triviaMode = false;
   else options.triviaMode = true;
 
   if (formData.get(`toggle-side-bets`) == `side-bets-off`)
-    options.sideBetsEnabled = false;
+    options.sideBets = false;
   else options.sideBets = true;
 
   if (formData.get(`blackjack-payout`) == `blackjack-2-to-1`)
@@ -280,28 +279,27 @@ export function collectOptions() {
     options.blackjackPayout = `6:5`;
   else options.blackjackPayout = `3:2`;
 
-  if (formData.get(`dealer-stands`) == `soft16`)
+  if (formData.get(`dealer-stands`) == `soft-16`)
     options.dealerStandsOn = `soft16`;
-  else if (formData.get(`dealer-stands`) == `hard16`)
+  else if (formData.get(`dealer-stands`) == `hard-16`)
     options.dealerStandsOn = `hard16`;
-  else if (formData.get(`dealer-stands`) == `soft17`)
-    options.dealerStandsOn = `soft17`;
-  else options.dealerStandsOn = `hard17`;
+  else if (formData.get(`dealer-stands`) == `hard-17`)
+    options.dealerStandsOn = `hard17`;
+  else options.dealerStandsOn = `soft17`;
 
   let deckCount = formData.get(`deck-count`);
   if (deckCount) options.deckCount = deckCount;
   else options.deckCount = 6;
 
   if (formData.get(`disable-five-card-charlie`) == `true`)
-    options.fiveCardCharlieEnabled = true;
-  else options.fiveCardCharlie = false;
+    options.fiveCardCharlie = false;
+  else options.fiveCardCharlie = true;
 
-  if (formData.get(`split-any-ten`) == `true`)
-    options.splitAnyTensEnabled = true;
+  if (formData.get(`split-any-ten`) == `true`) options.splitAnyTens = true;
   else options.splitAnyTens = false;
 
   if (formData.get(`double-after-split`) == `true`)
-    options.doubleAfterSplitEnabled = true;
+    options.doubleAfterSplit = true;
   else options.doubleAfterSplit = false;
 
   if (formData.get(`resplit-on`) == `true`) options.resplitting = true;
@@ -342,31 +340,139 @@ export function collectOptions() {
   else options.evenMoneyEnabled = true;
 
   return options;
-
-  // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
-  // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
-  // if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;
-  // if (document.querySelector(`#side-bet-off`).value == true) options.sideBetsEnabled = false;
-  // if (document.querySelector(`#blackjack-2-to-1`).value == true) options.blackjackPayout = `2:1`;
-  // if (document.querySelector(`#blackjack-2-to-1`).value == true) options.blackjackPayout = `2:1`;
-
-  // options.triviaModeEnabled = document.querySelector(`#trivia-on`).value;
-  // options.sideBetsEnabled = document.querySelector(`#trivia-on`).value;
-  // blackjackWinnings: `3:2`,
-  // dealerStandsOn: `hard17`,
-  // deckCount: 6,
-  // fiveCardCharlieEnabled: true,
-  // doubleAfterSplitEnabled: false,
-  // splitAnyTensEnabled: false,
-  // resplittingEnabled: false,
-  // resplittingAcesEnabled: false,
-  // draw1AfterSplitAceEnabled: false,
-  // redoubleAfterSplitAcesEnabled: false,
-  // resplitAfterSplitAcesEnabled: false,
-  // surrenderEnabled: true,
-  // earlySurrenderEnabled: false,
-  // lateSurrenderEnabled: true,
-  // evenMoneyEnabled: true,
-
-  // options.
 }
+
+export function doubleAfterSplitAcesHandler(event) {
+  const doubleAfterSplitBox = document.querySelector(`#double-after-split`);
+  const splitAcesBox = document.querySelector(`#split-aces-on`);
+
+  if (event.target.checked) {
+    doubleAfterSplitBox.checked = true;
+    splitAcesBox.checked = true;
+  }
+}
+
+export function draw1AfterSplitAcesHandler(event) {
+  const splitAcesBox = document.querySelector(`#split-aces-on`);
+
+  if (event.target.checked) {
+    splitAcesBox.checked = true;
+  }
+}
+
+export function resplitAcesHandler(event) {
+  const resplitBox = document.querySelector(`#resplit-on`);
+  const splitAcesBox = document.querySelector(`#split-aces-on`);
+
+  if (event.target.checked) {
+    resplitBox.checked = true;
+    splitAcesBox.checked = true;
+  }
+}
+
+export function resplitAfterSplitAcesHandler(event) {
+  const resplitBox = document.querySelector(`#resplit-on`);
+  const splitAcesBox = document.querySelector(`#split-aces-on`);
+
+  if (event.target.checked) {
+    resplitBox.checked = true;
+    splitAcesBox.checked = true;
+  }
+}
+
+export function disableSurrenderHandler(event) {
+  const earlySurrenderRadio = document.querySelector(`#early-surrender`);
+  const lateSurrenderRadio = document.querySelector(`#late-surrender`);
+
+  if (event.target.checked) {
+    earlySurrenderRadio.disabled = true;
+    lateSurrenderRadio.disabled = true;
+  } else {
+    earlySurrenderRadio.disabled = false;
+    lateSurrenderRadio.disabled = false;
+  }
+}
+
+export function resetOptionsMenuInputs(event) {
+  const triviaOnRadio = document.querySelector(`#trivia-on`);
+  const sideBetsOnRadio = document.querySelector(`#side-bets-on`);
+  const blackjack3To2Radio = document.querySelector(`#blackjack-3-to-2`);
+  const dealerSoft17Radio = document.querySelector(`#soft-17`);
+  const sixDeckRadio = document.querySelector(`#six-deck`);
+  const disableFiveCharlieBox = document.querySelector(
+    `#disable-five-card-charlie`
+  );
+
+  const splitAnyTenBox = document.querySelector(`#split-any-ten`);
+
+  const doubleAfterSplitBox = document.querySelector(`#double-after-split`);
+  const resplitBox = document.querySelector(`#resplit-on`);
+  const splitAcesBox = document.querySelector(`#split-aces-on`);
+  const doubleAfterSplitAcesBox = document.querySelector(
+    `#double-after-split-ace`
+  );
+  const draw1AfterSplitAcesBox = document.querySelector(
+    `#split-ace-draw-limit-on`
+  );
+  const resplitAcesBox = document.querySelector(`#resplit-aces-on`);
+  const resplitAfterSplitAcesBox = document.querySelector(
+    `#resplit-after-split-aces`
+  );
+  const disableSurrenderBox = document.querySelector(`#disable-surrender`);
+  const earlySurrenderRadio = document.querySelector(`#early-surrender`);
+  const lateSurrenderRadio = document.querySelector(`#late-surrender`);
+  const disableInsuranceBox = document.querySelector(`#disable-insurance`);
+  const disableEvenMoneyBox = document.querySelector(`#disable-even-money`);
+
+  triviaOnRadio.checked = true;
+  sideBetsOnRadio.checked = true;
+  blackjack3To2Radio.checked = true;
+  dealerSoft17Radio.checked = true;
+  sixDeckRadio.checked = true;
+  disableFiveCharlieBox.checked = false;
+  splitAnyTenBox.checked = false;
+  doubleAfterSplitBox.checked = false;
+  resplitBox.checked = false;
+  splitAcesBox.checked = false;
+  doubleAfterSplitAcesBox.checked = false;
+  draw1AfterSplitAcesBox.checked = false;
+  resplitAcesBox.checked = false;
+  resplitAfterSplitAcesBox.checked = false;
+  disableInsuranceBox.checked = false;
+  disableEvenMoneyBox.checked = false;
+
+  if (disableSurrenderBox.checked) {
+    disableSurrenderBox.checked = false;
+    earlySurrenderRadio.disabled = false;
+    lateSurrenderRadio.disabled = false;
+  }
+
+  lateSurrenderRadio.checked = true;
+}
+
+// if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
+// if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
+// if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;
+// if (document.querySelector(`#side-bet-off`).value == true) options.sideBetsEnabled = false;
+// if (document.querySelector(`#blackjack-2-to-1`).value == true) options.blackjackPayout = `2:1`;
+// if (document.querySelector(`#blackjack-2-to-1`).value == true) options.blackjackPayout = `2:1`;
+
+// options.triviaModeEnabled = document.querySelector(`#trivia-on`).value;
+// options.sideBetsEnabled = document.querySelector(`#trivia-on`).value;
+// blackjackWinnings: `3:2`,
+// dealerStandsOn: `hard17`,
+// deckCount: 6,
+// fiveCardCharlieEnabled: true,
+// doubleAfterSplitEnabled: false,
+// splitAnyTensEnabled: false,
+// resplittingEnabled: false,
+// resplittingAcesEnabled: false,
+// draw1AfterSplitAceEnabled: false,
+// redoubleAfterSplitAcesEnabled: false,
+// resplitAfterSplitAcesEnabled: false,
+// surrenderEnabled: true,
+// earlySurrenderEnabled: false,
+// lateSurrenderEnabled: true,
+// evenMoneyEnabled: true,
+
+// options.

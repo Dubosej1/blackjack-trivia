@@ -25,6 +25,10 @@ class State {
     toggle ? (this.gameActive = true) : (this.gameActive = false);
     // bjModel.updateGameActive(toggle);
   }
+
+  updateOptions(optionsObj) {
+    this.options = optionsObj;
+  }
 }
 
 export function initNewState(bank, options) {

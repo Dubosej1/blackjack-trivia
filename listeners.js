@@ -1,4 +1,5 @@
 import * as controller from "./controller-3.js";
+import * as view from "./view-3.js";
 import { globalState } from "./state.js";
 
 export function addNewGameBtnListener() {
@@ -8,15 +9,19 @@ export function addNewGameBtnListener() {
 }
 
 export function addBeginGameOptionsBtnListener(gameState = null) {
-  const optionsBtn = document.querySelector(`.btn-system__settings`);
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
 
-  optionsBtn.addEventListener(`click`, beginGameOptionsListenerCallback);
+  applyOptionsBtn.addEventListener(`click`, beginGameOptionsListenerCallback);
 }
 
 export function addOptionsBtnListener(gameState) {
-  const optionsBtn = document.querySelector(`.btn-system__settings`);
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
 
-  optionsBtn.addEventListener(`click`, optionsListenerCallback);
+  applyOptionsBtn.addEventListener(`click`, optionsListenerCallback);
 }
 
 export function addNewRoundEventListeners(gameState) {
@@ -81,18 +86,56 @@ export function addSideBetChipBtnListeners() {
   sideBetClearAllBtn.addEventListener(`click`, clearAllSideBetsBtnCallback);
 }
 
-export function removeBeginGameOptionsBtnListener() {
-  const optionsBtn = document.querySelector(`.btn-system__settings`);
+export function addOptionsMenuInputListeners() {
+  const doubleAfterSplitAcesBox = document.querySelector(
+    `#double-after-split-ace`
+  );
+  const draw1AfterSplitAcesBox = document.querySelector(
+    `#split-ace-draw-limit-on`
+  );
+  const resplitAcesBox = document.querySelector(`#resplit-aces-on`);
+  const resplitAfterSplitAcesBox = document.querySelector(
+    `#resplit-after-split-aces`
+  );
+  const disableSurrenderBox = document.querySelector(`#disable-surrender`);
+  const resetDefaultOptionsBtn = document.querySelector(
+    `.btn-options-modal__reset-default`
+  );
 
-  optionsBtn.removeEventListener(`click`, beginGameOptionsListenerCallback);
+  doubleAfterSplitAcesBox.addEventListener(
+    `click`,
+    view.doubleAfterSplitAcesHandler
+  );
+  draw1AfterSplitAcesBox.addEventListener(
+    `click`,
+    view.draw1AfterSplitAcesHandler
+  );
+  resplitAcesBox.addEventListener("click", view.resplitAcesHandler);
+  resplitAfterSplitAcesBox.addEventListener(
+    `click`,
+    view.resplitAfterSplitAcesHandler
+  );
+  disableSurrenderBox.addEventListener(`click`, view.disableSurrenderHandler);
+  resetDefaultOptionsBtn.addEventListener(`click`, view.resetOptionsMenuInputs);
+}
+
+export function removeBeginGameOptionsBtnListener() {
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
+
+  applyOptionsBtn.removeEventListener(
+    `click`,
+    beginGameOptionsListenerCallback
+  );
 }
 
 function beginGameOptionsListenerCallback(event) {
-  controller.submitOptions();
+  controller.submitOptions(event);
 }
 
 function optionsListenerCallback(event) {
-  controller.submitOptions(globalState);
+  controller.submitOptions(event, globalState);
 }
 
 function updateBaseBetChipBtnCallback(event) {

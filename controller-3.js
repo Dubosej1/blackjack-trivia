@@ -76,6 +76,8 @@ export function submitOptions(event, gameState = null) {
 
   if (!gameState) optionsPlaceholder = options;
   else gameState.updateOptions(options);
+  console.log(options);
+  console.log(optionsPlaceholder);
 }
 
 export function clearSideBetChips(event, gameState) {
@@ -115,7 +117,8 @@ export function clearAllSideBets(event, gameState) {
 
 function init() {
   listeners.addNewGameBtnListener();
-  listeners.addOptionsBtnListener();
+  listeners.addBeginGameOptionsBtnListener();
+  listeners.addOptionsMenuInputListeners();
   submitOptions();
 }
 

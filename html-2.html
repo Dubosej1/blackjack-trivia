@@ -673,8 +673,8 @@
         </div>
       </div>
 
-    <!-- <div data-popbox-id="options-modal" class="popbox modal"-->
-    <div class="options-modal modal">
+    <div data-popbox-id="options-modal" class="popbox modal">
+    <!-- <div class="options-modal modal"> -->
       <div class="options-modal__container three-section-modal">
         <div class="options-modal__header modal__header">
           <h1 class="options-modal__title">Options Menu</h1>
@@ -682,13 +682,13 @@
         <div class="options-modal__main modal__main">
           <form class="options-modal__form">
             <span class="options-modal__form-label">Trivia Mode:</span><br>
-            <input type="radio" id="trivia-on" name="toggle-trivia" value="trivia-on">
+            <input type="radio" checked="checked" id="trivia-on" name="toggle-trivia" value="trivia-on">
             <label for="trivia-on">On (default)</label>
             <input type="radio" id="trivia-off" name="toggle-trivia" value="trivia-off">
             <label for="trivia-off">Off</label><br>
 
             <span class="options-modal__form-label">Side Bets:</span><br>
-            <input type="radio" id="side-bets-on" name="toggle-side-bets" value="side-bets-on">
+            <input type="radio" checked="checked" id="side-bets-on" name="toggle-side-bets" value="side-bets-on">
             <label for="side-bets-on">On (default)</label>
             <input type="radio" id="side-bets-off" name="toggle-side-bets" value="side-bets-off">
             <label for="side-bets-off">Off</label><br>
@@ -696,20 +696,20 @@
             <span class="options-modal__form-label">Blackjack Payout:</span><br>
             <input type="radio" id="blackjack-2-to-1" name="blackjack-payout" value="blackjack-2-to-1">
             <label for="blackjack-2-to-1">2:1</label>
-            <input type="radio" id="blackjack-3-to-2" name="blackjack-payout" value="blackjack-3-to-2">
+            <input type="radio" checked="checked" id="blackjack-3-to-2" name="blackjack-payout" value="blackjack-3-to-2">
             <label for="blackjack-3-to-2">3:2 (default)</label>
             <input type="radio" id="blackjack-6-to-5" name="blackjack-payout" value="blackjack-6-to-5">
             <label for="blackjack-6-to-5">6:5</label><br>
 
             <span class="options-modal__form-label">Dealer Stands On:</span><br>
-            <input type="radio" id="dealer-soft-16" name="blackjack-stands" value="dealer-soft-16">
-            <label for="dealer-soft-16">Soft 16</label>
-            <input type="radio" id="dealer-hard-16" name="blackjack-stands" value="dealer-hard-16">
-            <label for="dealer-hard-16">Hard 16</label>
-            <input type="radio" id="dealer-soft-17" name="blackjack-stands" value="dealer-soft-17">
-            <label for="dealer-soft-17">Soft 17 (default)</label>
-            <input type="radio" id="dealer-hard-17" name="blackjack-stands" value="dealer-hard-17">
-            <label for="dealer-hard-17">Hard 17</label><br>
+            <input type="radio" id="soft-16" name="dealer-stands" value="soft-16">
+            <label for="soft-16">Soft 16</label>
+            <input type="radio" id="hard-16" name="dealer-stands" value="hard-16">
+            <label for="hard-16">Hard 16</label>
+            <input type="radio" checked="checked" id="soft-17" name="dealer-stands" value="soft-17">
+            <label for="soft-17">Soft 17 (default)</label>
+            <input type="radio" id="hard-17" name="dealer-stands" value="hard-17">
+            <label for="hard-17">Hard 17</label><br>
 
             <span class="options-modal__form-label">Number of Decks Used:</span><br>
             <input type="radio" id="one-deck" name="deck-count" value="1">
@@ -722,7 +722,7 @@
             <label for="four-deck">4</label>
             <input type="radio" id="five-deck" name="deck-count" value="5">
             <label for="five-deck">5</label>
-            <input type="radio" id="six-deck" name="deck-count" value="6">
+            <input type="radio" checked="checked" id="six-deck" name="deck-count" value="6">
             <label for="six-deck">6 (default)</label>
             <input type="radio" id="seven-deck" name="deck-count" value="7">
             <label for="seven-deck">7</label>
@@ -730,24 +730,24 @@
             <label for="eight-deck">8</label><br>
 
             <span class="options-modal__form-label">5 Card Charlie:</span><br>
-            <input type="checkbox" id="disable-five-charlie" name="disable-five-charlie" value="true">
-            <label for="disable-five-charlie">Disable Five Card Charlie</label><br>
+            <input type="checkbox" id="disable-five-card-charlie" name="disable-five-card-charlie" value="true">
+            <label for="disable-five-card-charlie">Disable Five Card Charlie</label><br>
 
             <span class="options-modal__form-label">Split Options:</span><br>
             <input type="checkbox" id="split-any-ten" name="split-any-ten" value="true">
             <label for="split-any-ten">Splitting ANY 10 pt value card allowed</label><br>
             <input type="checkbox" id="double-after-split" name="double-after-split" value="true">
             <label for="double-after-split">Double Down after Split allowed</label><br>
-            <input type="checkbox" id="resplit-on" name="resplit-on" value="true">
-            <label for="resplit-on">Re-splitting allowed (up to 4 hands)</label><br>
             <input type="checkbox" id="split-aces-on" name="split-aces-on" value="true">
             <label for="split-aces-on">Splitting Aces allowed</label><br>
-            <input type="checkbox" id="resplit-aces-on" name="resplit-aces-on" value="true">
-            <label for="resplit-aces-on">Re-splitting aces allowed</label><br>
-            <input type="checkbox" id="split-ace-draw-limit-on" name="split-ace-draw-limit-on" value="true">
-            <label for="split-ace-draw-limit-on">Draw only 1 card after each split Ace</label><br>
             <input type="checkbox" id="double-after-split-ace" name="double-after-split-ace" value="true">
             <label for="double-after-split-ace">Double Down allowed after splitting Aces</label><br>
+            <input type="checkbox" id="split-ace-draw-limit-on" name="split-ace-draw-limit-on" value="true">
+            <label for="split-ace-draw-limit-on">Draw only 1 card after each split Ace</label><br>
+            <input type="checkbox" id="resplit-on" name="resplit-on" value="true">
+            <label for="resplit-on">Re-splitting allowed (up to 4 hands)</label><br>
+            <input type="checkbox" id="resplit-aces-on" name="resplit-aces-on" value="true">
+            <label for="resplit-aces-on">Re-splitting aces allowed</label><br>
             <input type="checkbox" id="resplit-after-split-aces" name="resplit-after-split-aces" value="true">
             <label for="resplit-after-split-aces">Re-splitting after split Aces allowed</label><br>
 
@@ -756,7 +756,7 @@
             <label for="disable-surrender">Disable Surrender</label><br>
             <input type="radio" id="early-surrender" name="surrender-options" value="early-surrender">
             <label for="early-surrender">Early Surrender</label>
-            <input type="radio" id="late-surrender" name="surrender-options" value="late-surrender">
+            <input type="radio" checked="checked" id="late-surrender" name="surrender-options" value="late-surrender">
             <label for="late-surrender">Late Surrender (default)</label><br>
 
             <span class="options-modal__form-label">Insurance Side Bet:</span><br>

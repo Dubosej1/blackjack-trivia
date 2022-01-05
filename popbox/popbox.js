@@ -51,7 +51,7 @@ class Popbox {
         popboxs[i].addEventListener(
           "click",
           function (e) {
-            e.preventDefault();
+            // e.preventDefault();
             var popbox_id = e.target.getAttribute("data-popbox-id");
             if (popbox_id) {
               self.close(popbox_id);
