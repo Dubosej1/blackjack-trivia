@@ -450,6 +450,23 @@ export function resetOptionsMenuInputs(event) {
   lateSurrenderRadio.checked = true;
 }
 
+export function renderPlayerField(hand) {
+  let finalImages = [...hand.images, ...hand.endTags];
+
+  document.querySelector(".player-cards__container").innerHTML =
+    finalImages.join();
+  document.querySelector(".player-total__value").textContent = hand.total;
+}
+
+export function renderDealerField(hand) {
+  let finalImages = [...hand.images, ...hand.endTags];
+  //   document.querySelector(".dealer-cards__container").innerHTML = hand.images.join();
+  document.querySelector(".dealer-cards__container").innerHTML =
+    finalImages.join();
+  document.querySelector(".dealer-total__value").textContent =
+    hand.visibleTotal;
+}
+
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
 // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
 // if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;

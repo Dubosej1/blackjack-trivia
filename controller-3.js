@@ -129,6 +129,11 @@ export function clearAllSideBets(event, gameState) {
   }
 }
 
+export function startDealCardsRoutine(event, gameState) {
+  gameState.updatePlayer = gameState.player;
+  gameState.updateDealer = gameState.dealer;
+}
+
 function init() {
   listeners.addNewGameBtnListener();
   listeners.addBeginGameOptionsBtnListener();

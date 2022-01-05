@@ -26,17 +26,20 @@ export function addOptionsBtnListener(gameState) {
 
 export function addNewRoundEventListeners(gameState) {
   addOptionsBtnListener(gameState);
-  addBaseBetChipBtnListeners(gameState);
+  addBaseBetModalBtnListeners(gameState);
   addSideBetChipBtnListeners(gameState);
   addSideBetContainerListener(gameState);
 }
 
-export function addBaseBetChipBtnListeners(gameState) {
+export function addBaseBetModalBtnListeners(gameState) {
   const baseBetChipBtns = document.querySelectorAll(
     `.btn-basic-bet-modal__chip`
   );
   const baseBetClearBtn = document.querySelector(
     `.btn-basic-bet-modal__clear-bet`
+  );
+  const baseBetDealCardsBtn = document.querySelector(
+    `.btn-basic-bet-modal__deal-cards`
   );
   // const checkSideBetsBtn = document.querySelector(
   //   `.btn-basic-bet-modal__check-side-bets`
@@ -47,6 +50,8 @@ export function addBaseBetChipBtnListeners(gameState) {
   });
 
   baseBetClearBtn.addEventListener("click", clearBaseBetChipAmountCallback);
+
+  baseBetDealCardsBtn.addEventListener(`click`, dealCardsBtnListenerCallback);
 
   // checkSideBetsBtn.addEventListener(`click`, checkSideBetsBtnListenerCallback);
 }
@@ -164,4 +169,8 @@ function placeSideBetsBtnCallback(event) {
 
 function clearAllSideBetsBtnCallback(event) {
   controller.clearAllSideBets(event, globalState);
+}
+
+function dealCardsBtnListenerCallback(event) {
+  controller.startDealCardsRoutine(event, globalState);
 }

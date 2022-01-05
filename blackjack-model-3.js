@@ -1,6 +1,6 @@
 class Cardholder {
   constructor() {
-    this.hand = { cards: [], images: [], total: 0 };
+    this.hand = { cards: [], images: [], endTags: [], total: 0 };
   }
 
   set addCardToHand(card) {
@@ -58,6 +58,13 @@ class Cardholder {
       }
     }
   }
+
+  addEndingCardTags(imageArr) {
+    let cardCount = this.hand.cards.length;
+    let endTags = `<li><ul>`;
+    let repeatedTags = endTags.repeat(cardCount);
+    this.hand.images.push(repeatedTags);
+  }
 }
 
 class Player extends Cardholder {
@@ -72,10 +79,13 @@ class Player extends Cardholder {
     this.bank = bank;
   }
 
-  //   set addCardToHand(card) {
-  //     super.addCardToHand = card;
-  //     this.hand.images.push(`<img src="${card.image}" class="card">`);
-  //   }
+  set addCardToHand(card) {
+    super.addCardToHand = card;
+    this.hand.images.push(
+      `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+    );
+    this.hand.endTags.push(`</li></ul>`);
+  }
 
   checkHandForNatural(hand) {
     if (hand.cards.length !== 2) return false;
@@ -111,20 +121,23 @@ class Dealer extends Cardholder {
     this.hand.unrevealedCard;
   }
 
-  //   set addCardToHand(card) {
-  //     super.addCardToHand = card;
+  set addCardToHand(card) {
+    super.addCardToHand = card;
 
-  //     if (this.hand.cards.length == 1) {
-  //       this.hand.unrevealedCard = `<img src="${card.image}" class="card">`;
-  //       this.hand.images.push(
-  //         `<img src='img/playing-card-back.svg' class='card'>`
-  //       );
-  //     } else {
-  //       this.hand.images.push(`<img src="${card.image}" class="card">`);
-  //       this.hand.visibleCards.push(card);
-  //       this.hand.visibleTotal = this.calculateHandTotal(this.hand.visibleCards);
-  //     }
-  //   }
+    if (this.hand.cards.length == 1) {
+      this.hand.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`;
+      this.hand.images.push(
+        `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg"/>`
+      );
+    } else {
+      this.hand.images.push(
+        `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`
+      );
+      this.hand.visibleCards.push(card);
+      this.hand.visibleTotal = this.calculateHandTotal(this.hand.visibleCards);
+    }
+    this.hand.endTags.push(`</li></ul>`);
+  }
 
   checkHandForNatural(hand) {
     if (hand.cards.length !== 2) return;
@@ -151,9 +164,11 @@ export function initPlayers(bank) {
 }
 
 export function initDeck(gameState) {
-  //   let deckCount = gameState.options.deckCount;
-  //   shuffleCards(deckCount);
-  if (gameInfo.deckID) return;
+  if (gameInfo.deckID) {
+    if (gameState.remainingCards <= 2 || !gameState.remainingCards)
+      shuffleCards(gameState.options.deckCount);
+    return;
+  }
 
   (function () {
     const getNewDeckID = function () {
@@ -201,7 +216,6 @@ export function dealInitialCards(gameState) {
   let currentDealer = gameState.dealer;
   gameState.updateCardsDealt(true);
 
-  //   shuffleCards();
   dealPlayerCards(gameInfo.deckID, currentPlayer, gameState);
   dealDealerCards(gameInfo.deckID, currentDealer, gameState);
 }

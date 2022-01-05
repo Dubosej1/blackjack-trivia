@@ -1,3 +1,4 @@
+import * as view from "./view-3.js";
 export let globalState;
 
 class State {
@@ -39,6 +40,16 @@ class State {
   set updateRemainingCards(num) {
     this.remainingCards = num;
     if (this.remainingCards <= 2) bjModel.shuffleCards(this.options.deckCount);
+  }
+
+  set updatePlayer(player) {
+    this.player = player;
+    view.renderPlayerField(this.player.hand);
+  }
+
+  set updateDealer(dealer) {
+    this.dealer = dealer;
+    view.renderDealerField(this.dealer.hand);
   }
 }
 
