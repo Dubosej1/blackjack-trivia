@@ -68,7 +68,7 @@ class State {
     // insuranceAlreadyChecked = true;
     let dealerInitialFaceUpCard = this.dealer.hand.cards[1].value;
     let bank = this.player.bank;
-    let betAmount = this.player.betObj.baseBet;
+    let betAmount = this.betObj.baseBet;
 
     // if (this.evenMoneyAvailable == true) return;
     if (this.evenMoneyAvailable || !this.options.insuranceEnabled) {
