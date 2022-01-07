@@ -184,6 +184,66 @@ class SideBet extends Bet {
     this.checkCardPropMatch(colorArr);
   }
 
+  checkStraightSequence(cardArr) {
+    let straightMatch;
+    let aceInHand = cardArr.some((obj) => obj.value == "ACE");
+
+    if (aceInHand) {
+      let valueArrAceLow = cardArr.map((obj) =>
+        this.convertCardValue(obj.value, `acelow`)
+      );
+      let valueArrAceHigh = cardArr.map((obj) =>
+        this.convertCardValue(obj.value, `acehigh`)
+      );
+      this.checkOrder(valueArrAceLow)
+        ? (straightMatch = true)
+        : (straightMatch = false);
+      this.checkOrder(valueArrAceHigh)
+        ? (straightMatch = true)
+        : (straightMatch = false);
+    }
+
+    let valueArr = cardArr.map((obj) => this.convertCardValue(obj.value));
+    this.checkOrder(valueArr)
+      ? (straightMatch = true)
+      : (straightMatch = false);
+    return straightMatch;
+  }
+
+  checkOrder(valueArr) {
+    valueArr.sort(function (a, b) {
+      return a - b;
+    });
+    let result = valueArr.every(function (value, index, array) {
+      if (index == array.length - 1) return true;
+      let nextValue = value + 1;
+      return array[index + 1] == nextValue;
+    });
+
+    return result;
+  }
+
+  convertCardValue(value, aceLevel = null) {
+    switch (value) {
+      case "JACK":
+        value = 11;
+        break;
+      case `QUEEN`:
+        value = 12;
+        break;
+      case `KING`:
+        value = 13;
+        break;
+      case `ACE`:
+        if (aceLevel == `acelow`) value = 1;
+        if (aceLevel == `acehigh`) value = 14;
+        break;
+      default:
+        value = parseInt(value, 10);
+    }
+    return value;
+  }
+
   //   checkSuitMatch(card1, card2) {
   //       return card1.suit == card2.suit ? true : false;
   //   }
@@ -230,6 +290,11 @@ class SideBet extends Bet {
   }
 
   getWinnings() {
+    if (this.winPayout == "jackpot") {
+      this.winnings = 1000000;
+      return;
+    }
+
     let num = this.winPayout.split(`:`).map((num) => parseInt(num, 10));
     let multiplier = num[0];
     let divider = num[1];
@@ -286,7 +351,7 @@ const perfectPair = {
     red_black_pair: { payout: `5:1`, text: `Red/Black Pair` },
     lose: { payout: `n/a`, text: `Lose: No Pairs...` },
   },
-  initSideBet: initPerfectPair,
+  initSideBet: initBaseSideBetSequence,
   calcSideBet: calcPerfectPair,
 };
 
@@ -294,10 +359,21 @@ const twentyOnePlusThree = {
   name: `21 + 3`,
   key: `21Plus3`,
   rules: `rules`,
-  payout: `payout`,
+  sequencePlacement: `initial`,
+  outcomeTable: {
+    jackpot_3_kind: { payout: `jackpot`, text: `Suited 3 of a Kind (Q - A)` },
+    suited_3_kind: { payout: `100:1`, text: `Suited 3 of a Kind (2 - Jack)` },
+    kind_3: { payout: `33:1`, text: `3 of a Kind` },
+    straight_flush: { payout: `35:1`, text: `Straight Flush` },
+    straight: { payout: `10:1`, text: `Straight` },
+    flush: { payout: `5:1`, text: `Flush` },
+    lose: { payout: `n/a`, text: `Lose` },
+  },
+  initSideBet: initBaseSideBetSequence,
+  calcSideBet: calc21Plus3,
 };
 
-function initPerfectPair(obj) {
+function initBaseSideBetSequence(obj) {
   this.baseBet = obj.baseBet;
   this.calcSideBet(obj.playerHand, obj.dealerHand);
   this.calcPayout();
@@ -368,6 +444,66 @@ function calcPerfectPair(playerHand, dealerHand) {
     this.generateWinHand(winHand, cardsArr);
   }
   this.winKey = winKey;
+}
+
+function calc21Plus3(playerHand, dealerHand) {
+  playerHand.playerType = `player`;
+  dealerHand.playerType = `dealer`;
+  let cardsArr = [playerHand, dealerHand];
+  let targetArr = [playerHand[0], playerHand[1], dealerHand[1]];
+
+  //   let dealerCard2 = dealerHand.cards[1];
+  let flush = false;
+  let straight = false;
+  let threeKind = false;
+  let suitedThreeKind = false;
+  let jackpotThreeKind = false;
+  let winKey;
+  let winHand;
+
+  this.checkSuitMatch(targetArr) ? (flush = true) : (flush = false);
+  this.checkStraightSequence(targetArr)
+    ? (straight = true)
+    : (straight = false);
+  this.checkRankMatch(targetArr) ? (threeKind = true) : (threeKind = false);
+
+  if (threeKind && flush) {
+    let jackpotSuits = [`QUEEN`, `KING`, `ACE`];
+    jackpotSuits.includes(playerHand[0].value)
+      ? (jackpotThreeKind = true)
+      : (suitedThreeKind = true);
+  }
+
+  switch (true) {
+    case jackpotThreeKind:
+      winKey = `jackpot_3_kind`;
+      break;
+    case suitedThreeKind:
+      winKey = `suited_3_kind`;
+      break;
+    case threeKind:
+      winKey = `kind_3`;
+    case flush && straight:
+      winKey = `straight_flush`;
+      break;
+    case straight:
+      winKey = `straight`;
+      break;
+    case flush:
+      winKey = `flush`;
+      break;
+    default:
+      winKey = "lose";
+      this.outcome = `lose`;
+  }
+
+  this.winKey = winKey;
+
+  if (winKey == `lose`) return;
+
+  this.outcome = `win`;
+  winHand = [`player`, `dealer`];
+  this.generateWinHand(winHand, cardsArr);
 }
 
 export function initBaseBet(bank) {
