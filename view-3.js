@@ -1,3 +1,5 @@
+import * as listeners from "./listeners.js";
+
 export function openBaseBetModal(gameState) {
   const basicBetModal__BankValue = document.querySelector(
     ".basic-bet-modal__bank-value"
@@ -465,6 +467,174 @@ export function renderDealerField(hand) {
     finalImages.join();
   document.querySelector(".dealer-total__value").textContent =
     hand.visibleTotal;
+}
+
+export function toggleCheckSideBetBtn(toggle) {
+  const checkSideBetBtn = document.querySelector(
+    `.btn-system__check-side-bet-outcome`
+  );
+
+  toggle
+    ? (checkSideBetBtn.style.display = `inline-block`)
+    : (checkSideBetBtn.style.display = `none`);
+}
+
+export function displayInitialSideBetOutcome(gameState) {
+  const summaryField = document.querySelector(`.summary-modal__main`);
+  const summaryTitle = document.querySelector(`.summary-modal__title`);
+  //   let buttonCountArr = [];
+
+  summaryTitle.textContent = `Side Bet Outcome`;
+
+  let outcomeArr = gameState.betObj.initialOutcomePackages;
+
+  outcomeArr.forEach(function (obj) {
+    let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
+
+    //   buttonCountArr.push(buttonCount);
+
+    summaryField.appendChild(outcomeElem);
+  });
+
+  listeners.addSummaryModalDisplayHandListener(gameState);
+  popbox.open(`summary-modal`);
+}
+
+function createSummaryFieldElements(outcomeObj) {
+  const summaryField = document.querySelector(`.summary-modal__main`);
+  let buttonCount;
+
+  let { name, outcome, winCondition } = outcomeObj;
+
+  const newDiv = document.createElement(`div`);
+
+  const nameSpan = document.createElement(`span`);
+  let nameSpanContent = document.createTextNode(`${name} `);
+  nameSpan.appendChild(nameSpanContent);
+
+  const outcomeDiv = document.createElement(`div`);
+  outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
+  let outcomeDivContent = document.createTextNode(`${outcome} `);
+  outcomeDiv.appendChild(outcomeDivContent);
+
+  const winConditionSpan = document.createElement(`span`);
+  const winConditionSpanContent = document.createTextNode(`${winCondition}`);
+  winConditionSpan.appendChild(winConditionSpanContent);
+
+  // summaryField.appendChild(newDiv);
+  newDiv.appendChild(nameSpan);
+  newDiv.appendChild(outcomeDiv);
+  newDiv.appendChild(outcomeDivContent);
+  // newDiv.insertAdjacentHTML(`afterend` `<br>`);
+
+  if (outcome == `lose`) {
+    let { sideBetKey } = outcomeObj;
+
+    const checkHandBtn = document.createElement(`button`);
+    checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
+    checkHandBtn.dataset.sideBet = sideBetKey;
+    checkHandBtn.dataset.popboxTarget = `winning-hand-modal`;
+    let checkHandBtnContent = document.createTextNode(`Check Hand`);
+    checkHandBtn.appendChild(checkHandBtnContent);
+
+    newDiv.appendChild(winConditionSpan);
+    newDiv.appendChild(checkHandBtn);
+    winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+
+    buttonCount = 0;
+
+    return [newDiv, buttonCount];
+  }
+
+  let { winnings, sideBetKey } = outcomeObj;
+
+  const checkHandBtn = document.createElement(`button`);
+  checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
+  //   checkHandBtn.classList.add(`${sideBetKey}`);
+  checkHandBtn.dataset.sideBet = sideBetKey;
+  //   checkHandBtn.dataset.popboxTarget = `winning-hand-modal`;
+  let checkHandBtnContent = document.createTextNode(`Check Hand`);
+  checkHandBtn.appendChild(checkHandBtnContent);
+
+  //summary-modal__winnings-value
+  const winningsSpan = document.createElement(`span`);
+  winningsSpan.classList.add(`summary-modal__winnings-value`);
+  let winningsSpanContent = document.createTextNode(`${winnings}`);
+  winningsSpan.appendChild(winningsSpanContent);
+
+  newDiv.appendChild(checkHandBtn);
+  newDiv.appendChild(winConditionSpan);
+  winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+  newDiv.appendChild(winningsSpan);
+
+  buttonCount = 1;
+
+  return [newDiv, buttonCount];
+}
+
+// let str;
+// let { name, outcome, winCondition } = obj;
+
+// if (outcome == `lose`) {
+//   str = `<span>${name}  <div class="summary-modal__outcome--lose"> ${outcome} </div><br><span>"${winCondition}"</span><br>`;
+// } else {
+//   let { winnings } = obj;
+//   str = `<span>${name} </span><div class="summary-modal__outcome--${outcome}"> ${outcome} </div><button class="btn-summary-modal__display-hand" data-sideBet="${sideBetKey}" data-popbox-target="winning-hand-modal">Hand / Payout</button><br><span>${winCondition} </span><span class="summary-modal__winnings-value"> ${winnings}</span><br>`;
+// }
+// contentStr.push(str);
+
+export function displayInitialSideBetOutcomeWinHand(event, gameState) {
+  //   const displayHandBtn = document.querySelector(
+  //     `.btn-summary-modal__display-hand`
+  //   );
+  const titleField = document.querySelector(`.winning-hand-modal__title`);
+  const sideBetNameField = document.querySelector(
+    `.winning-hand-modal__side-bet-name`
+  );
+  const dealerCardsContainer = document.querySelector(
+    `.winning-hand-modal__dealer-cards-container`
+  );
+  const playerCardsContainer = document.querySelector(
+    `.winning-hand-modal__player-cards-container`
+  );
+  const dealerCardsField = document.querySelector(
+    `.winning-hand-modal__dealer-cards`
+  );
+  const playerCardsField = document.querySelector(
+    `.winning-hand-modal__player-cards`
+  );
+  const payoutField = document.querySelector(`.winning-hand-modal__payout`);
+  const winConditionField = document.querySelector(
+    `.winning-hand-modal__winning-hand-name`
+  );
+
+  let outcomeArr = gameState.betObj.initialOutcomePackages;
+  let key = event.target.dataset.sideBet;
+
+  let [outcomeObj] = outcomeArr.filter((obj) => obj.sideBetKey == key);
+
+  titleField.textContent = `Winning Hand Info`;
+  sideBetNameField.textContent = outcomeObj.name;
+
+  //   outcomeObj.winHand.dealer
+  //     ? (dealerCardsContainer.style.display = `block`)
+  //     : (dealerCardsContainer.style.display = `none`);
+  //   outcomeObj.winHand.player
+  //     ? (playerCardsContainer.style.display = `block`)
+  //     : (playerCardsContainer.style.display = `none`);
+
+  //   if (outcomeObj.winHand.player) {
+  //     playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
+  //   }
+
+  //   if (outcomeObj.winHand.dealer) {
+  //     dealerCardsField.innerHTML = gameState.dealer.hand.simpleImages.join();
+  //   }
+
+  payoutField.textContent = outcomeObj.payout;
+  winConditionField.textContent = outcomeObj.winCondition;
+
+  popbox.open(`winning-hand-modal`);
 }
 
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;

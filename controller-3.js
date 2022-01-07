@@ -133,17 +133,24 @@ export function startDealCardsRoutine(event, gameState) {
   gameState.betObj.lockInBets();
   gameState.updatePlayer = gameState.player;
   gameState.updateDealer = gameState.dealer;
+
+  gameState.checkSplitAvailable();
+  gameState.checkDoubleDownAvailable();
+  gameState.checkValidEvenMoney();
+  gameState.checkValidInsurance();
+
   let sideBetPackage = {
     baseBet: gameState.betObj.baseBet,
     playerHand: gameState.player.hand.cards,
     dealerHand: gameState.dealer.hand.cards,
   };
-  gameState.betObj.initInitialSideBetSequence(sideBetPackage);
-  //   betModel.startSideBetInitialCardsRoutine(gameState);
-  gameState.checkSplitAvailable();
-  gameState.checkDoubleDownAvailable();
-  gameState.checkValidEvenMoney();
-  gameState.checkValidInsurance();
+  if (gameState.betObj.initInitialSideBetSequence(sideBetPackage))
+    view.toggleCheckSideBetBtn(true);
+  //else start round as normal
+}
+
+export function initDisplayInitialSideBetOutcome(event, gameState) {
+  view.displayInitialSideBetOutcome(gameState);
 }
 
 function init() {

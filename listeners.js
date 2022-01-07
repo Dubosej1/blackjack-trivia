@@ -29,6 +29,8 @@ export function addNewRoundEventListeners(gameState) {
   addBaseBetModalBtnListeners(gameState);
   addSideBetChipBtnListeners(gameState);
   addSideBetContainerListener(gameState);
+  addSystemBtnListeners(gameState);
+  // addModalListeners(gameState);
 }
 
 export function addBaseBetModalBtnListeners(gameState) {
@@ -124,6 +126,24 @@ export function addOptionsMenuInputListeners() {
   resetDefaultOptionsBtn.addEventListener(`click`, view.resetOptionsMenuInputs);
 }
 
+export function addSystemBtnListeners(gameState) {
+  const checkSideBetBtn = document.querySelector(
+    `.btn-system__check-side-bet-outcome`
+  );
+
+  checkSideBetBtn.addEventListener(`click`, checkSideBetBtnListenerCallback);
+}
+
+export function addSummaryModalDisplayHandListener(gameState) {
+  const displayHandBtns = document.getElementsByClassName(
+    `btn-summary-modal__display-hand`
+  );
+
+  Array.from(displayHandBtns).forEach(function (elem) {
+    elem.addEventListener(`click`, initialSideBetOutcomeWinHandCallback);
+  });
+}
+
 export function removeBeginGameOptionsBtnListener() {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
@@ -173,4 +193,12 @@ function clearAllSideBetsBtnCallback(event) {
 
 function dealCardsBtnListenerCallback(event) {
   controller.startDealCardsRoutine(event, globalState);
+}
+
+function checkSideBetBtnListenerCallback(event) {
+  controller.initDisplayInitialSideBetOutcome(event, globalState);
+}
+
+function initialSideBetOutcomeWinHandCallback(event) {
+  view.displayInitialSideBetOutcomeWinHand(event, globalState);
 }

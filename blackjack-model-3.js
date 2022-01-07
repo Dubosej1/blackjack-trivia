@@ -1,6 +1,12 @@
 class Cardholder {
   constructor() {
-    this.hand = { cards: [], images: [], endTags: [], total: 0 };
+    this.hand = {
+      cards: [],
+      images: [],
+      simpleImages: [],
+      endTags: [],
+      total: 0,
+    };
   }
 
   set addCardToHand(card) {
@@ -85,6 +91,7 @@ class Player extends Cardholder {
       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
     );
     this.hand.endTags.push(`</li></ul>`);
+    this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
     console.log(this.hand);
   }
 
@@ -135,6 +142,7 @@ class Dealer extends Cardholder {
     this.hand.visibleCards = [];
     this.hand.visibleTotal = 0;
     this.hand.unrevealedCard;
+    this.hand.simpleUnrevealedCard;
   }
 
   set addCardToHand(card) {
@@ -142,13 +150,18 @@ class Dealer extends Cardholder {
 
     if (this.hand.cards.length == 1) {
       this.hand.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`;
+      this.hand.simpleUnrevealedCard = `<img src="${card.image}" class="card">`;
       this.hand.images.push(
         `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg"/>`
+      );
+      this.hand.simpleImages.push(
+        `<img src='img/playing-card-back.svg' class='card'>`
       );
     } else {
       this.hand.images.push(
         `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`
       );
+      this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
       this.hand.visibleCards.push(card);
       this.hand.visibleTotal = this.calculateHandTotal(this.hand.visibleCards);
     }

@@ -107,7 +107,7 @@ class Bet {
     this.initialSideBetSequence = this.sideBet.filter(
       (obj) => obj.sequencePlacement == `initial`
     );
-    if (!this.initialSideBetSequence) return;
+    if (!this.initialSideBetSequence) return false;
 
     this.initialSideBetSequence.forEach(function (obj) {
       obj.initSideBet(sideBetPackage);
@@ -115,7 +115,8 @@ class Bet {
 
     this.initialOutcomePackages = this.sideBet.map((obj) => obj.outcomePackage);
 
-    console.log(this.initialOutcomePackages);
+    // console.log(this.initialOutcomePackages);
+    return true;
   }
 }
 
@@ -310,12 +311,13 @@ class SideBet extends Bet {
   generateOutcomePackage() {
     this.outcomePackage = {
       name: this.name,
+      sideBetKey: this.key,
       betAmount: this.total,
       outcome: this.outcome,
       winCondition: this.winCondition,
-      //   payout: this.winPayout,
-      //   winnings: this.winnings,
-      //   winHand: this.winHand,
+      payout: this.winPayout,
+      winnings: this.winnings,
+      winHand: this.winHand,
     };
 
     if (this.outcome != `lose`) {

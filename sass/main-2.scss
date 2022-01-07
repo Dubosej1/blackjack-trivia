@@ -276,6 +276,10 @@ body {
   display: inline-block;
 }
 
+.btn-system__check-side-bet-outcome {
+  display: none;
+}
+
 .btn-action {
   min-width: 3rem;
   padding: 1rem 3rem;
@@ -351,7 +355,9 @@ li {
 
 .base-bet-modal__container,
 .side-bet-modal__container,
-.generic-modal__container {
+.generic-modal__container,
+.summary-modal__container,
+.winning-hand-modal__container {
   background-color: black;
 }
 
