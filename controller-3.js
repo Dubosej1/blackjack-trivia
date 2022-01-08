@@ -10,13 +10,14 @@ let optionsPlaceholder;
 export function startNewGame(e) {
   let bank = 1000;
   let options = optionsPlaceholder;
+  let specialNum = betModel.generateSpecialNums();
   //   triviaModel.generateTriviaQuestions();
   // view.renderBtnVisibility({ array: btnsArr, newGame: false, endGame: true });
-  startNewRound(bank, options);
+  startNewRound(bank, options, specialNum);
 }
 
-export function startNewRound(bank, options) {
-  let gameState = state.initNewState(bank, options);
+export function startNewRound(bank, options, specialNum) {
+  let gameState = state.initNewState(bank, options, specialNum);
 
   let players = bjModel.initPlayers(bank);
 
@@ -133,24 +134,119 @@ export function startDealCardsRoutine(event, gameState) {
   gameState.betObj.lockInBets();
   gameState.updatePlayer = gameState.player;
   gameState.updateDealer = gameState.dealer;
+  let playerHand = gameState.player.hand;
+  let dealerHand = gameState.dealer.hand;
 
   gameState.checkSplitAvailable();
   gameState.checkDoubleDownAvailable();
   gameState.checkValidEvenMoney();
   gameState.checkValidInsurance();
 
-  let sideBetPackage = {
-    baseBet: gameState.betObj.baseBet,
-    playerHand: gameState.player.hand.cards,
-    dealerHand: gameState.dealer.hand.cards,
-  };
-  if (gameState.betObj.initInitialSideBetSequence(sideBetPackage))
+  //   let sideBetPackage = {
+  //     baseBet: gameState.betObj.baseBet,
+  //     playerHand: playerHand,
+  //     dealerHand: dealerHand,
+  //   };
+
+  //   gameState.sideBetPackage = sideBetPackage;
+
+  if (gameState.betObj.checkForInitialSideBetSequence())
     view.toggleCheckSideBetBtn(true);
-  //else start round as normal
+  //begin regular routine
+
+  //   let [hasPerfect11sBet, perfect11sObj] =
+  //     gameState.betObj.checkHasPerfect11sBet();
+
+  //   if (diceRollGuard && hasPerfect11sBet) {
+  //     let diceRolls = betModel.rollPerfect11Dice();
+  //     view.displayPerfect11DiceRoll(diceRolls);
+  //     gameState.betObj.collectPerfect11DiceRolls(diceRolls);
+  //     return;
+  //   }
+
+  //   continueDealCardsRoutine(sideBetPackage, gameState);
 }
 
+export function determineBeginGameRoutineOrder(gameState) {
+  let beginGameRoutineOrder = {
+    perfect11sDiceRoll: false,
+    sideBetSequence: false,
+    extraBet: false,
+    houseMoney: false,
+    baseRound: true,
+  };
+  let diceRollNeeded = false;
+  let betObj = gameState.betObj;
+  let playerHand = gameState.player.hand;
+
+  let perfect11sExists = betObj.checkSideBetExists(`perfect11s`);
+
+  if (perfect11sExists) {
+    let perfect11sObj = betObj.getSideBet(`perfect11s`);
+    perfect11sObj.checkDiceRollNeeded(playerHand)
+      ? (diceRollNeeded = true)
+      : (diceRollNeeded = false);
+  }
+  perfect11sExists && diceRollNeeded
+    ? (beginGameRoutineOrder.perfect11sDiceRoll = true)
+    : (beginGameRoutineOrder.perfect11sDiceRoll = false);
+
+  betObj.checkForInitialSideBetSequence()
+    ? (beginGameRoutineOrder.sideBetSequence = true)
+    : (beginGameRoutineOrder.sideBetSequence = false);
+
+  let extraBetBJExists = betObj.checkSideBetExists(`extraBetBlackjack`);
+  if (extraBetBJExists) {
+    let extraBetBJObj = betObj.getSideBet(`extraBetBlackjack`);
+    extraBetBJObj.initSideBet(playerHand)
+      ? (beginGameRoutineOrder.extraBet = true)
+      : (beginGameRoutineOrder.extraBet = false);
+  }
+
+  gameState.beginGameRoutineOrder = beginGameRoutineOrder;
+
+  beginGameRoutine(gameState);
+}
+
+export function beginGameRoutine(gameState) {
+  let order = gameState.beginGameRoutineOrder;
+  let betObj = gameState.betObj;
+  let sideBet = betObj.sideBet;
+
+  switch (true) {
+    case order.perfect11sDiceRoll:
+      let perfect11sObj = betObj.getSideBet(`perfect11s`);
+      let diceRolls = perfect11sObj.rollInfinityDice();
+      view.displayPerfect11DiceRoll(diceRolls);
+      order.perfect11sDiceRoll = false;
+      //   gameState.betObj.collectPerfect11DiceRolls(diceRolls);
+      break;
+    case order.sideBetSequence:
+      gameState.betObj.initInitialSideBetSequence(gameState);
+      order.sideBetSequence = false;
+      break;
+    case order.extraBet:
+      view.displayExtraBetModal(gameState);
+      order.extraBet = false;
+      break;
+    case order.houseMoneyModal:
+      view.displayHouseMoneyModal(gameState);
+      order.houseMoneyModal = false;
+      break;
+    default:
+    // start round as normal
+  }
+}
+
+// export function continueDealCardsRoutine(sideBetPackage, gameState) {
+//   if (gameState.betObj.initInitialSideBetSequence(sideBetPackage, gameState))
+//     view.toggleCheckSideBetBtn(true);
+//   //else start round as normal
+// }
+
 export function initDisplayInitialSideBetOutcome(event, gameState) {
-  view.displayInitialSideBetOutcome(gameState);
+  determineBeginGameRoutineOrder(gameState);
+  //   view.displayInitialSideBetOutcome(gameState);
 }
 
 function init() {

@@ -144,6 +144,14 @@ export function addSummaryModalDisplayHandListener(gameState) {
   });
 }
 
+export function addInfinityDiceStopBtnListener() {
+  const dice = getElementsByClassName(`infinity-dice`);
+
+  Array.from(dice).forEach(function (elem) {
+    elem.addEventListener(`click`, stopInfinityDiceCallback);
+  });
+}
+
 export function removeBeginGameOptionsBtnListener() {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
@@ -201,4 +209,8 @@ function checkSideBetBtnListenerCallback(event) {
 
 function initialSideBetOutcomeWinHandCallback(event) {
   view.displayInitialSideBetOutcomeWinHand(event, globalState);
+}
+
+function displayStopInfinityDiceCallback(event) {
+  view.displayStopInfinityDice(event);
 }

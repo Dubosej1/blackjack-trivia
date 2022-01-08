@@ -9,7 +9,8 @@ class State {
   cardsDealt;
   remainingCards;
 
-  constructor(bank, options) {
+  constructor(bank, options, specialNum) {
+    this.specialNum = specialNum;
     this.bank = bank;
     this.options = options;
   }
@@ -98,6 +99,12 @@ class State {
     }
 
     this.evenMoneyAvailable = false;
+  }
+
+  updateHouseMoneyModalNeeded(boolean) {
+    boolean
+      ? (this.beginGameRoutineOrder.houseMoney = true)
+      : (this.beginGameRoutineOrder.houseMoney = false);
   }
 }
 
