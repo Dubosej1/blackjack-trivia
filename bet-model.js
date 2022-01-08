@@ -759,8 +759,11 @@ function calc21Plus3(playerHand, dealerHand) {
 function checkSuited11(playerHand) {
   let playerCards = playerHand.cards;
   let total = playerHand.total;
+  let natural;
 
-  if (total != 11) return false;
+  playerHand.outcome == `natural` ? (natural = true) : (natural = false);
+
+  if (total != 11 || natural) return false;
 
   return this.checkSuitMatch(playerCards);
 }
