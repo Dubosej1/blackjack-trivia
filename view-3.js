@@ -637,6 +637,98 @@ export function displayInitialSideBetOutcomeWinHand(event, gameState) {
   popbox.open(`winning-hand-modal`);
 }
 
+export function displayPerfect11sDiceRoll(diceRolls) {
+  const modalTitle = document.querySelector(`.generic-modal__title`);
+  const displayField = document.querySelector(`.generic-modal__main`);
+  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  closeBtn.style.display = `none`;
+  nextBtn.style.display = `none`;
+  displayField.innerHTML = ` `;
+
+  modalTitle.textContent = `Perfect 11s Dice Roll`;
+
+  let directionsHeading = document.createElement(`h2`);
+  let directionsHeadingContent = document.createTextNode(
+    `Your hand is a suited 11, so you get to roll the Infinity Dice! `
+  );
+  directionsHeading.appendChild(directionsHeadingContent);
+
+  let diceContainer = document.createElement(`div`);
+
+  let infinityDice1 = document.createElement(`h3`);
+  let infinityDice2 = document.createElement(`h3`);
+  let infinityDice3 = document.createElement(`h3`);
+
+  let stopBtn = document.createElement(`button`);
+  stopBtn.classList.add(`btn-generic-modal__stop-dice`);
+  stopBtn.dataset.diceCounter = 1;
+  let stopBtnContent = document.createTextNode(`Stop Dice!`);
+  stopBtn.appendChild(stopBtnContent);
+
+  let directionsFooter = document.createElement(`h2`);
+  directionsFooter.innerHTML = `Press STOP button to stop dice roll.<br>Roll 2 or more infinities to win the BONUS`;
+
+  displayField.appendChild(directionsHeading);
+  displayField.appendChild(diceContainer);
+  diceContainer.appendChild(infinityDice1);
+  diceContainer.appendChild(infinityDice2);
+  diceContainer.appendChild(infinityDice3);
+  displayField.appendChild(stopBtn);
+  stopBtn.insertAdjacentHTML(`afterend`, `<br>`);
+  displayField.appendChild(directionsFooter);
+
+  let diceFields = diceContainer.querySelectorAll(`h3`);
+
+  Array.from(diceFields).forEach(function (elem, index) {
+    elem.classList.add(`infinity-dice-${index + 1}`);
+    elem.classList.add(`infinity-dice`);
+    elem.dataset.diceRoll = diceRolls[index];
+  });
+
+  listeners.addInfinityDiceStopBtnListener();
+  popbox.open(`generic-modal`);
+}
+
+export function displayStopInfinityDice(event) {
+  const dice1 = document.querySelector(`.infinity-dice-1`);
+  const dice2 = document.querySelector(`.infinity-dice-2`);
+  const dice3 = document.querySelector(`.infinity-dice-3`);
+  const stopBtn = document.querySelector(`.btn-generic-modal__stop-dice`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  let num = parseInt(event.target.dataset.diceCounter, 10);
+  let diceRoll;
+
+  switch (num) {
+    case 1:
+      applyDiceRoll(dice1, num);
+      num++;
+      stopBtn.dataset.diceCounter = num;
+      break;
+    case 2:
+      applyDiceRoll(dice2, num);
+      num++;
+      stopBtn.dataset.diceCounter = num;
+      break;
+    case 3:
+      applyDiceRoll(dice3, num);
+      num++;
+      stopBtn.disabled = true;
+      nextBtn.style.display = `inline-block`;
+      listeners.addBeginGameDiceModalNextBtnListener();
+      break;
+    default:
+      console.log(`Infinity Dice Roll Error`);
+  }
+
+  function applyDiceRoll(elem, diceCounter) {
+    let diceRoll = elem.dataset.diceRoll;
+    elem.innerHTML = `DICE ${diceCounter}: ${diceRoll}`;
+  }
+}
+
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
 // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
 // if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;

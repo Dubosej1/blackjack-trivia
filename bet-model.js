@@ -228,7 +228,7 @@ class SideBet extends Bet {
 
   checkColorMatch(cardArr) {
     let colorArr = cardArr.map((obj) => this.getCardColor(obj.suit));
-    this.checkCardPropMatch(colorArr);
+    return this.checkCardPropMatch(colorArr);
   }
 
   checkStraightSequence(cardArr) {
@@ -763,9 +763,8 @@ function checkSuited11(playerHand) {
 
   playerHand.outcome == `natural` ? (natural = true) : (natural = false);
 
-  if (total != 11 || natural) return false;
-
-  return this.checkSuitMatch(playerCards);
+  if (total == 11 || natural) return this.checkSuitMatch(playerCards);
+  else return false;
 }
 
 function checkPerfect11sDiceRollNeeded(playerHand) {
@@ -779,7 +778,7 @@ function rollInfinityDice() {
   }
   let finalArr = diceArr.map((num) => (num == 6 ? `INFINITY` : `BLANK`));
 
-  this.infinityCount = finalArr.map((value) => value == `INFINITY`).length;
+  this.infinityCount = finalArr.filter((value) => value == `INFINITY`).length;
   //   this.diceRoll = finalArr;
   return finalArr;
 }
@@ -801,6 +800,7 @@ function calcPerfect11s(playerHand) {
   let winKey;
   let winHand;
   let natural;
+  let infinityCount = this.infinityCount;
 
   playerHand.outcome == `natural` ? (natural = true) : (natural = false);
 

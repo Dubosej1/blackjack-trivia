@@ -217,12 +217,13 @@ export function beginGameRoutine(gameState) {
     case order.perfect11sDiceRoll:
       let perfect11sObj = betObj.getSideBet(`perfect11s`);
       let diceRolls = perfect11sObj.rollInfinityDice();
-      view.displayPerfect11DiceRoll(diceRolls);
+      view.displayPerfect11sDiceRoll(diceRolls);
       order.perfect11sDiceRoll = false;
       //   gameState.betObj.collectPerfect11DiceRolls(diceRolls);
       break;
     case order.sideBetSequence:
       gameState.betObj.initInitialSideBetSequence(gameState);
+      view.displayInitialSideBetOutcome(gameState);
       order.sideBetSequence = false;
       break;
     case order.extraBet:
@@ -246,7 +247,7 @@ export function beginGameRoutine(gameState) {
 
 export function initDisplayInitialSideBetOutcome(event, gameState) {
   determineBeginGameRoutineOrder(gameState);
-  //   view.displayInitialSideBetOutcome(gameState);
+  view.displayInitialSideBetOutcome(gameState);
 }
 
 function init() {

@@ -145,11 +145,15 @@ export function addSummaryModalDisplayHandListener(gameState) {
 }
 
 export function addInfinityDiceStopBtnListener() {
-  const dice = getElementsByClassName(`infinity-dice`);
+  const stopBtn = document.querySelector(`.btn-generic-modal__stop-dice`);
 
-  Array.from(dice).forEach(function (elem) {
-    elem.addEventListener(`click`, stopInfinityDiceCallback);
-  });
+  stopBtn.addEventListener(`click`, displayStopInfinityDiceCallback);
+}
+
+export function addBeginGameDiceModalNextBtnListener() {
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  nextBtn.addEventListener(`click`, nextBeginGameRoutineCallback);
 }
 
 export function removeBeginGameOptionsBtnListener() {
@@ -213,4 +217,9 @@ function initialSideBetOutcomeWinHandCallback(event) {
 
 function displayStopInfinityDiceCallback(event) {
   view.displayStopInfinityDice(event);
+}
+
+function nextBeginGameRoutineCallback(event) {
+  controller.beginGameRoutine(globalState);
+  event.target.removeEventListener(`click`, nextBeginGameRoutineCallback);
 }

@@ -1,3 +1,5 @@
+import * as testCard from "./test-cards.js";
+
 class Cardholder {
   constructor() {
     this.hand = {
@@ -253,9 +255,13 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       console.log(cardsObj);
-      currentPlayer.addCardToHand = cardsObj.card1;
-      currentPlayer.addCardToHand = cardsObj.card2;
+      //   currentPlayer.addCardToHand = cardsObj.card1;
+      //   currentPlayer.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
+
+      //Test Perfect 11s (regularHand)
+      currentPlayer.addCardToHand = testCard.heart7;
+      currentPlayer.addCardToHand = testCard.heart4;
 
       //Test Player Blackjack/Even Money (replace original 2)
       // currentPlayer.addCardToHand = dealerInsTestCard;
