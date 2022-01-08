@@ -621,20 +621,28 @@ export function displayInitialSideBetOutcomeWinHand(event, gameState) {
   titleField.textContent = `Winning Hand Info`;
   sideBetNameField.textContent = outcomeObj.name;
 
-  //   outcomeObj.winHand.dealer
-  //     ? (dealerCardsContainer.style.display = `block`)
-  //     : (dealerCardsContainer.style.display = `none`);
-  //   outcomeObj.winHand.player
-  //     ? (playerCardsContainer.style.display = `block`)
-  //     : (playerCardsContainer.style.display = `none`);
+  //   if (outcomeObj.winHand.playersArr.includes(`dealer`)) dealerCardsContainer.style.display = `block`;
+  //   else dealerCardsContainer.style.display = `none`;
 
-  //   if (outcomeObj.winHand.player) {
-  //     playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
-  //   }
+  //   if (outcomeObj.winHand.playersArr.includes(`player`)) playerCardsContainer.style.display = `block`;
+  //   else playerCardsContainer.style.display = `none`;
 
-  //   if (outcomeObj.winHand.dealer) {
-  //     dealerCardsField.innerHTML = gameState.dealer.hand.simpleImages.join();
-  //   }
+  if (outcomeObj.outcome != `lose`) {
+    outcomeObj.winHand.playersArr.includes(`dealer`)
+      ? (dealerCardsContainer.style.display = `block`)
+      : (dealerCardsContainer.style.display = `none`);
+    outcomeObj.winHand.playersArr.includes(`player`)
+      ? (playerCardsContainer.style.display = `block`)
+      : (playerCardsContainer.style.display = `none`);
+
+    if (outcomeObj.winHand.player) {
+      playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
+    }
+
+    if (outcomeObj.winHand.dealer) {
+      dealerCardsField.innerHTML = gameState.dealer.hand.simpleImages.join();
+    }
+  }
 
   payoutField.textContent = outcomeObj.payout;
   winConditionField.textContent = outcomeObj.winCondition;

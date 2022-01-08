@@ -406,6 +406,8 @@ class SideBet extends Bet {
       winHand.dealer = hand.cards;
     }
 
+    winHand.playersArr = playersArr;
+
     this.winHand = winHand;
   }
 }
