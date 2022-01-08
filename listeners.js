@@ -138,10 +138,13 @@ export function addSummaryModalDisplayHandListener(gameState) {
   const displayHandBtns = document.getElementsByClassName(
     `btn-summary-modal__display-hand`
   );
+  const nextBtn = document.querySelector(`.btn-summary-modal__next`);
 
   Array.from(displayHandBtns).forEach(function (elem) {
     elem.addEventListener(`click`, initialSideBetOutcomeWinHandCallback);
   });
+
+  nextBtn.addEventListener(`click`, nextBeginGameRoutineCallback);
 }
 
 export function addInfinityDiceStopBtnListener() {
@@ -220,6 +223,6 @@ function displayStopInfinityDiceCallback(event) {
 }
 
 function nextBeginGameRoutineCallback(event) {
-  controller.beginGameRoutine(globalState);
   event.target.removeEventListener(`click`, nextBeginGameRoutineCallback);
+  controller.beginGameRoutine(globalState);
 }

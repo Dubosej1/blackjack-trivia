@@ -247,7 +247,7 @@ export function beginGameRoutine(gameState) {
 
 export function initDisplayInitialSideBetOutcome(event, gameState) {
   determineBeginGameRoutineOrder(gameState);
-  view.displayInitialSideBetOutcome(gameState);
+  //   view.displayInitialSideBetOutcome(gameState);
 }
 
 function init() {

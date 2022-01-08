@@ -394,14 +394,16 @@ class SideBet extends Bet {
     }
   }
 
-  generateWinHand(playersArr, cardsArr) {
+  generateWinHand(playersArr, handArr) {
     let winHand = {};
 
     if (playersArr.includes(`player`)) {
-      winHand.player = cardsArr.find((obj) => obj.playerType == "player");
+      let hand = handArr.find((obj) => obj.playerType == "player");
+      winHand.player = hand.cards;
     }
     if (playersArr.includes(`dealer`)) {
-      winHand.dealer = cardsArr.find((obj) => obj.playerType == "dealer");
+      let hand = handArr.find((obj) => obj.playerType == "dealer");
+      winHand.dealer = hand.cards;
     }
 
     this.winHand = winHand;
@@ -631,7 +633,7 @@ function calcPerfectPair(playerHand, dealerHand) {
   let playerCards = playerHand.cards;
   let dealerCards = dealerHand.cards;
 
-  let cardsArr = [playerCards, dealerCards];
+  let handArr = [playerHand, dealerHand];
   let playerCard1 = playerCards[0];
   let playerCard2 = playerCards[1];
   //   let dealerCard1 = dealerHand.cards[0];
@@ -698,7 +700,7 @@ function calc21Plus3(playerHand, dealerHand) {
   dealerHand.playerType = `dealer`;
   let playerCards = playerHand.cards;
   let dealerCards = dealerHand.cards;
-  let cardsArr = [playerCards, dealerCards];
+  let handArr = [playerHand, dealerHand];
   let targetArr = [playerCards[0], playerCards[1], dealerCards[1]];
 
   //   let dealerCard2 = dealerHand.cards[1];
@@ -752,7 +754,7 @@ function calc21Plus3(playerHand, dealerHand) {
 
   this.outcome = `win`;
   winHand = [`player`, `dealer`];
-  this.generateWinHand(winHand, cardsArr);
+  this.generateWinHand(winHand, handArr);
 }
 
 //Perfect 11s
@@ -789,7 +791,7 @@ function calcPerfect11s(playerHand) {
   let playerCards = playerHand.cards;
   let playerTotal = playerHand.total;
 
-  let cardsArr = [playerCards];
+  let handArr = [playerHand];
 
   let jackpotAce = false;
   let kingSpade = false;
@@ -856,7 +858,7 @@ function calcPerfect11s(playerHand) {
 
   this.outcome = `win`;
   winHand = [`player`];
-  this.generateWinHand(winHand, cardsArr);
+  this.generateWinHand(winHand, handArr);
 
   function checkJackpotAceExists(cardArr) {
     return cardArr.some((obj) => obj.jackpot == true);

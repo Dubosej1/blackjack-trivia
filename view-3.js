@@ -482,6 +482,11 @@ export function toggleCheckSideBetBtn(toggle) {
 export function displayInitialSideBetOutcome(gameState) {
   const summaryField = document.querySelector(`.summary-modal__main`);
   const summaryTitle = document.querySelector(`.summary-modal__title`);
+  const closeBtn = document.querySelector(`.btn-summary-modal__close`);
+  const nextBtn = document.querySelector(`.btn-summary-modal__next`);
+
+  closeBtn.style.display = "none";
+  nextBtn.style.display = `inline-block`;
   //   let buttonCountArr = [];
 
   summaryTitle.textContent = `Side Bet Outcome`;
