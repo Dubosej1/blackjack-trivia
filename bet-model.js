@@ -800,8 +800,11 @@ function calcPerfect11s(playerHand) {
 
   let winKey;
   let winHand;
+  let natural;
 
-  if (playerTotal == 11) {
+  playerHand.outcome == `natural` ? (natural = true) : (natural = false);
+
+  if (playerTotal == 11 || natural) {
     this.checkColorMatch(playerCards) ? (colored = true) : (mixed = true);
 
     this.checkSuitMatch(playerCards) ? (flush = true) : (flush = false);
