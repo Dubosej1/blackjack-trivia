@@ -1,5 +1,15 @@
 import * as listeners from "./listeners.js";
 
+export function updateBank(bank) {
+  const bankField = document.querySelector(`.bank__value`);
+  bankField.textContent = bank;
+}
+
+export function updateBaseBet(bet) {
+  const baseBetField = document.querySelector(`.bet__value`);
+  baseBetField.textContent = bet;
+}
+
 export function openBaseBetModal(gameState) {
   const basicBetModal__BankValue = document.querySelector(
     ".basic-bet-modal__bank-value"
@@ -852,6 +862,41 @@ export function deactivateExtraBetModal() {
   mainContainer.dataset.sidebet = ` `;
 
   listeners.removeExtraBetBlackjackModalListeners();
+}
+
+export function displayHouseMoneyModal(gameState) {
+  const sideBetField = document.querySelector(
+    `.house-money-modal__side-bet-value`
+  );
+  const baseBetField = document.querySelector(
+    `.house-money-modal__base-bet-value`
+  );
+  const winningsField = document.querySelector(
+    `.house-money-modal__winnings-value`
+  );
+  const parlayWinningsField = document.querySelector(
+    `.house-money-modal__parlay-winnings-value`
+  );
+  const parlayBetField = document.querySelector(
+    `.house-money-modal__parlay-bet-value`
+  );
+  const parlayAllField = document.querySelector(
+    `.house-money-modal__parlay-all-value`
+  );
+
+  let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
+  let baseBet = gameState.betObj.baseBet;
+  let sideBet = houseMoneyObj.total;
+  let parlayPackage = houseMoneyObj.parlayPackage;
+
+  sideBetField.textContent = sideBet;
+  baseBetField.textContent = baseBet;
+  winningsField.textContent = parlayPackage.winnings;
+  parlayWinningsField.textContent = parlayPackage.parlayWinnings;
+  parlayBetField.textContent = parlayPackage.parlayBet;
+  parlayAllField.textContent = parlayPackage.parlayAll;
+
+  popbox.open(`house-money-modal`);
 }
 
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;

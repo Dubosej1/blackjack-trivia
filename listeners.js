@@ -30,6 +30,7 @@ export function addNewRoundEventListeners(gameState) {
   addSideBetChipBtnListeners(gameState);
   addSideBetContainerListener(gameState);
   addSystemBtnListeners(gameState);
+  addHouseMoneyModalBtnListeners(gameState);
   // addModalListeners(gameState);
 }
 
@@ -185,6 +186,28 @@ export function addExtraBetBlackjackModalListeners() {
   declineBetBtn.addEventListener(`click`, declineExtraBetBtnCallback);
 }
 
+function addHouseMoneyModalBtnListeners() {
+  // const collectMoneyBtn = document.querySelector(
+  //   `.btn-house-money-modal__collect-money`
+  // );
+  // const parlayWinningsBtn = document.querySelector(
+  //   `.btn-house-money-modal__parlay-winnings`
+  // );
+  // const parlayBetBtn = document.querySelector(
+  //   `.btn-house-money-modal__parlay-bet`
+  // );
+  // const parlayAllBtn = document.querySelector(
+  //   `.btn-house-money-modal__parlay-all`
+  // );
+  const actionBtns = document.querySelectorAll(
+    `.btn-house-money-modal__action`
+  );
+
+  actionBtns.forEach(function (elem) {
+    elem.addEventListener(`click`, decideHouseMoneyBtnsCallback);
+  });
+}
+
 export function removeBeginGameOptionsBtnListener() {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
@@ -292,4 +315,8 @@ function placeExtraBetCallback(event) {
 
 function declineExtraBetBtnCallback(event) {
   controller.declineExtraBet(event, globalState);
+}
+
+function decideHouseMoneyBtnsCallback(event) {
+  controller.decideHouseMoney(event, globalState);
 }

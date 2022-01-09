@@ -1,3 +1,5 @@
+import * as view from "./view-3.js";
+
 class Bet {
   bank;
   tempBank;
@@ -20,9 +22,22 @@ class Bet {
     this.tempBank = this.tempBank - addend;
   }
 
+  // updateBaseBet(addend) {
+  //   this.baseBet = this.baseBet + addend;
+  // }
+
+  parlayToBaseBet(value) {
+    this.baseBet = this.baseBet + value;
+    view.updateBaseBet(this.baseBet);
+  }
+
   clearTempBaseBet() {
     this.tempBaseBet = 0;
     this.tempBank = this.bank;
+  }
+
+  addWinnings(winnings) {
+    this.bank = this.bank + winnings;
   }
 
   addSideBetObj(sideBetObj) {
@@ -403,6 +418,10 @@ class SideBet extends Bet {
       Math.round((this.baseBet * multiplier) / divider) + this.baseBet;
   }
 
+  collectWinnings() {
+    return this.winnings;
+  }
+
   getConditionText() {
     this.winCondition = this.outcomeTable[this.winKey].text;
   }
@@ -528,11 +547,11 @@ const perfect11s = {
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   outcomeTable: {
-    jackpot_Ace_King_Spade: {
+    jackpot_ace_king_spade: {
       payout: `720:10`,
       text: `Jackpot Ace and King of Spades`,
     },
-    jackpot_Ace_King: { payout: `130:10`, text: `Jackpot Ace and King` },
+    jackpot_ace_king: { payout: `130:10`, text: `Jackpot Ace and King` },
     suited_11_3_infinity: {
       payout: `25:10`,
       text: `Suited 11 and 3 Infinities`,
@@ -568,7 +587,7 @@ const houseMoney = {
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   outcomeTable: {
-    suited_Ace_King: { payout: `9:1`, text: `Suited Ace and King` },
+    suited_ace_king: { payout: `9:1`, text: `Suited Ace and King` },
     straight_flush: { payout: `4:1`, text: `Straight Flush` },
     pair: { payout: `3:1`, text: `Pair` },
     straight: { payout: `1:1`, text: `Straight` },
@@ -634,8 +653,8 @@ function calcHouseMoney(playerHand) {
     : (straight = false);
 
   if (flush) {
-    let kingExists = this.checkIncludesCardValue(`KING`);
-    let aceExists = this.checkIncludesCardValue(`ACE`);
+    let kingExists = this.checkIncludesCardValue(playerCards, `KING`);
+    let aceExists = this.checkIncludesCardValue(playerCards, `ACE`);
     kingExists && aceExists ? (suitedAceKing = true) : (suitedAceKing = false);
   }
 
@@ -866,10 +885,10 @@ function calcPerfect11s(playerHand) {
 
   switch (true) {
     case jackpotAce && kingSpade:
-      winKey = `jackpot_Ace_King_Spade`;
+      winKey = `jackpot_ace_king_spade`;
       break;
     case jackpotAce && kingExists:
-      winKey = `jackpot_Ace_King`;
+      winKey = `jackpot_ace_king`;
       break;
     case flush && infinityCount == 3:
       winKey = `suited_11_3_infinity`;
@@ -905,7 +924,26 @@ function calcPerfect11s(playerHand) {
 }
 
 function checkHouseMoneyModalNeeded(dealerHand, gameState) {
-  if (dealerHand.outcome == `natural`) gameState.updateHouseMoneyModalNeeded();
+  if (dealerHand.outcome == `natural`) return;
+  if (this.outcome == `lose`) return;
+  gameState.updateHouseMoneyModalNeeded(true);
+  this.generateParlayPackage(gameState);
+}
+
+function generateParlayPackage(gameState) {
+  let baseBet = gameState.betObj.baseBet;
+
+  this.parlayPackage = {
+    winnings: this.winnings,
+  };
+
+  let parlayWinnings = baseBet + this.winnings;
+  let parlayBet = baseBet + this.total;
+  let parlayAll = baseBet + this.winnings + this.total;
+
+  this.parlayPackage.parlayWinnings = parlayWinnings;
+  this.parlayPackage.parlayBet = parlayBet;
+  this.parlayPackage.parlayAll = parlayAll;
 }
 
 function calcExtraBetBlackjack() {}
@@ -948,6 +986,8 @@ export function generateSideBetObj(name) {
     case `houseMoney`:
       sideBet = new SideBet(houseMoney);
       sideBet.checkModalNeeded = checkHouseMoneyModalNeeded;
+      sideBet.generateParlayPackage = generateParlayPackage;
+      // sideBet.collectHouseMoneyWinnings = collectHouseMoneyWinnings;
       break;
     default:
       console.log(`no side bet`);

@@ -241,9 +241,9 @@ export function beginGameRoutine(gameState) {
       view.displayExtraBetModal(gameState);
       order.extraBet = false;
       break;
-    case order.houseMoneyModal:
+    case order.houseMoney:
       view.displayHouseMoneyModal(gameState);
-      order.houseMoneyModal = false;
+      order.houseMoney = false;
       break;
     default:
     // start round as normal
@@ -326,6 +326,41 @@ export function placeExtraBet(event, gameState) {
 export function declineExtraBet(event, gameState) {
   clearExtraBetChips(event, gameState);
   placeExtraBet(event, gameState);
+}
+
+// export function collectHouseMoneyWinnings(event, gameState) {
+//   let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
+// }
+
+export function decideHouseMoney(event, gameState) {
+  let choice = event.target.dataset.choice;
+  let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
+  let betObj = gameState.betObj;
+  let winnings, bet, total;
+
+  switch (choice) {
+    case `collect`:
+      winnings = houseMoneyObj.winnings;
+      betObj.addWinnings(winnings);
+      gameState.addWinnings(winnings);
+      break;
+    case `parlay-bet`:
+      bet = houseMoneyObj.total;
+      betObj.parlayToBaseBet(bet);
+      break;
+    case `parlay-winnings`:
+      winnings = houseMoneyObj.winnings;
+      betObj.parlayToBaseBet(winnings);
+      break;
+    case `parlay-all`:
+      total = houseMoneyObj.winnings + houseMoneyObj.total;
+      betObj.parlayToBaseBet(total);
+      break;
+    default:
+      console.log(`Error: House Money Modal Parlay Btns`);
+  }
+
+  beginGameRoutine(gameState);
 }
 
 function init() {

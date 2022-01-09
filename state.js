@@ -21,6 +21,11 @@ class State {
     this.dealer = dealer;
   }
 
+  addWinnings(winnings) {
+    this.bank = this.bank + winnings;
+    view.updateBank(bank);
+  }
+
   addBetObj(betObj) {
     this.betObj = betObj;
   }
