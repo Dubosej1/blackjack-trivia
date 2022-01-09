@@ -116,6 +116,17 @@ export function placeSideBets(event, gameState) {
   view.activateSideBetsPlacedModal(gameState);
 }
 
+export function activateSideBet(event, gameState) {
+  let betObj = gameState.betObj;
+  let sideBet = view.collectSideBet();
+
+  if (!betObj.checkSideBetExists(sideBet)) {
+    let sideBetObj = betModel.generateSideBetObj(sideBet);
+
+    gameState.betObj.addSideBetObj(sideBetObj);
+  }
+}
+
 export function clearAllSideBets(event, gameState) {
   let modalActive = gameState.betObj.sideBetPlacedModalActive;
 
@@ -150,7 +161,7 @@ export function startDealCardsRoutine(event, gameState) {
 
   //   gameState.sideBetPackage = sideBetPackage;
 
-  if (gameState.betObj.checkForInitialSideBetSequence())
+  if (gameState.betObj.checkForBeginningSideBetBtn())
     view.toggleCheckSideBetBtn(true);
   //begin regular routine
 
@@ -248,6 +259,73 @@ export function beginGameRoutine(gameState) {
 export function initDisplayInitialSideBetOutcome(event, gameState) {
   determineBeginGameRoutineOrder(gameState);
   //   view.displayInitialSideBetOutcome(gameState);
+}
+
+export function updateExtraBetChips(event, gameState) {
+  const sideBet = document.querySelector(`.extra-bet-modal__main`).dataset
+    .sidebet;
+
+  let addend = parseInt(event.target.dataset.value, 10);
+  let sideBetObj;
+
+  if (sideBet == `extraBetBlackjack`) {
+    sideBetObj = gameState.betObj.getSideBet(`extraBetBlackjack`);
+    sideBetObj.updateTempExtraBetTotal(addend);
+    sideBetObj.calcExtraBetFee();
+  }
+
+  if (sideBet == `raiseTheRoof`) {
+    sideBetObj = gameState.betObj.getSideBet(`raiseTheRoof`);
+    sideBetObj.updateTempExtraBetTotal(addend);
+  }
+
+  view.updateExtraBetModalTotal(sideBetObj, gameState);
+}
+
+export function clearExtraBetChips(event, gameState) {
+  const sideBet = document.querySelector(`.extra-bet-modal__main`).dataset
+    .sidebet;
+
+  // let betObj = gameState.betObj;
+  let sideBetObj;
+
+  if (sideBet == `extraBetBlackjack`) {
+    sideBetObj = gameState.betObj.getSideBet(`extraBetBlackjack`);
+    sideBetObj.clearTempExtraBetBlackjackTotal();
+  }
+
+  if (sideBet == `raiseTheRoof`) {
+    sideBetObj = gameState.betObj.getSideBet(`raiseTheRoof`);
+    sideBetObj.clearExtraBet();
+  }
+
+  view.updateExtraBetModalTotal(sideBetObj, gameState);
+}
+
+export function placeExtraBet(event, gameState) {
+  const sideBet = document.querySelector(`.extra-bet-modal__main`).dataset
+    .sidebet;
+
+  // let betObj = gameState.betObj;
+  let sideBetObj;
+
+  if (sideBet == `extraBetBlackjack`) {
+    sideBetObj = gameState.betObj.getSideBet(`extraBetBlackjack`);
+    let bank = sideBetObj.lockInExtraBet();
+    gameState.betObj.bank = bank;
+  }
+  if (sideBet == `raiseTheRoof`) {
+    sideBetObj = gameState.betObj.getSideBet(`raiseTheRoof`);
+    // sideBetObj.lockInRaiseTheRoofBet();
+  }
+
+  view.deactivateExtraBetModal();
+  beginGameRoutine(gameState);
+}
+
+export function declineExtraBet(event, gameState) {
+  clearExtraBetChips(event, gameState);
+  placeExtraBet(event, gameState);
 }
 
 function init() {

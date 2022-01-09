@@ -389,8 +389,8 @@
       </div>
     </div>
 
-    <!-- <div data-popbox-id="extra-bet-modal" class="popbox modal"> -->
-      <div class="extra-bet-modal modal">
+    <div data-popbox-id="extra-bet-modal" class="popbox modal">
+      <!-- <div class="extra-bet-modal modal"> -->
         <div class="extra-bet-modal__container two-section-modal">
           <div class="extra-bet-modal__header modal__header">
             <div class="extra-bet-modal__title-container">
@@ -412,6 +412,8 @@
               <div class="extra-bet-modal__side-bet-container">
                 <span class="extra-bet-modal__side-bet-label">Side Bet: </span>
                 <span class="extra-bet-modal__side-bet-value">50</span>
+                <span class="extra-bet-modal__fee-label">Fee: </span>
+                <span class="extra-bet-modal__fee-value">0</span>
               </div>
             </div>
             <div class="extra-bet-modal__bet-container">
@@ -426,6 +428,7 @@
                 btn-extra-bet-modal__chip
                 btn-extra-bet-modal__1
               "
+              data-value="1"
             >
               $1
             </button>
@@ -436,6 +439,7 @@
                 btn-extra-bet-modal__chip
                 btn-extra-bet-modal__5
               "
+              data-value="5"
             >
               $5
             </button>
@@ -446,6 +450,7 @@
                 btn-extra-bet-modal__chip
                 btn-extra-bet-modal__10
               "
+              data-value="10"
             >
               $10
             </button>
@@ -456,6 +461,7 @@
                 btn-extra-bet-modal__chip
                 btn-extra-bet-modal__25
               "
+              data-value="25"
             >
               $25
             </button>
@@ -466,6 +472,7 @@
                 btn-extra-bet-modal__chip
                 btn-extra-bet-modal__100
               "
+              data-value="100"
             >
               $100
             </button>
@@ -476,6 +483,7 @@
                 btn-extra-bet-modal__chip
                 btn-extra-bet-modal__500
               "
+              data-value="500"
             >
               $500
             </button>
@@ -498,6 +506,7 @@
                   btn-extra-bet-modal__action
                   btn-extra-bet-modal__place-extra-bet
                 "
+                data-popbox-close="extra-bet-modal"
               >
                 Place Extra Bet
               </button>
@@ -508,6 +517,7 @@
                 btn-extra-bet-modal__action
                 btn-extra-bet-modal__raise-the-roof
               "
+              data-popbox-close="extra-bet-modal"
             >
               Raise the Roof!
             </button>
@@ -518,6 +528,7 @@
                   btn-extra-bet-modal__action
                   btn-extra-bet-modal__decline-bet
                 "
+                data-popbox-close="extra-bet-modal"
               >
                 Decline
               </button>
@@ -839,7 +850,7 @@
                   </div>
                 </div>
 
-                <div class="side-bet-modal__side-bet-div extra-bet-blackjack__container" data-sideBet="extraBetBlackjack">
+                <div class="side-bet-modal__side-bet-div extra-bet-blackjack__container" data-bet-type="no-chip" data-sideBet="extraBetBlackjack">
                   <div class="side-bet-modal__side-bet-input-container">
                     <input type="checkbox" id="extra-bet-blackjack" name="extra-bet-blackjack" value="extra-bet-blackjack">
                     <label for="extra-bet-blackjack">Extra Bet Blackjack</label>
@@ -870,6 +881,7 @@
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__10" data-value="10">$10</button>
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__25" data-value="25">$25</button>
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__100" data-value="100">$100</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__activate-bet">Activate Bet</button>
           </div>
           <div class="side-bet-modal__action-btn-container">
             <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-bet">Clear</button>

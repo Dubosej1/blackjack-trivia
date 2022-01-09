@@ -90,12 +90,13 @@ class Bet {
 
   lockInBets() {
     this.bank = this.tempBank;
+    let bank = this.bank;
     this.baseBet = this.tempBaseBet;
     this.sideBetTotal = this.tempSideBetTotal;
 
     if (this.sideBet) {
       this.sideBet.forEach(function (obj) {
-        obj.lockInSideBet();
+        obj.lockInSideBet(bank);
       });
     }
 
@@ -104,11 +105,18 @@ class Bet {
     this.tempSideBetTotal = 0;
   }
 
+  checkForBeginningSideBetBtn() {
+    this.checkSideBetBtnObjsArr = this.sideBet.filter(
+      (obj) => obj.beginningSideBetCheck == true
+    );
+    return this.checkSideBetBtnObjsArr.length != 0 ? true : false;
+  }
+
   checkForInitialSideBetSequence() {
     this.initialSideBetSequence = this.sideBet.filter(
       (obj) => obj.sequencePlacement == `initial`
     );
-    return this.initialSideBetSequence ? true : false;
+    return this.initialSideBetSequence.length != 0 ? true : false;
   }
 
   initInitialSideBetSequence(sideBetPackage) {
@@ -121,7 +129,9 @@ class Bet {
       obj.initSideBet(sideBetPackage);
     });
 
-    this.initialOutcomePackages = this.sideBet.map((obj) => obj.outcomePackage);
+    this.initialOutcomePackages = this.initialSideBetSequence.map(
+      (obj) => obj.outcomePackage
+    );
 
     // console.log(this.initialOutcomePackages);
     return true;
@@ -174,6 +184,7 @@ class SideBet extends Bet {
       outcomeTable,
       initSideBet,
       calcSideBet,
+      beginningSideBetCheck,
       sequencePlacement,
       test,
     } = obj;
@@ -184,7 +195,8 @@ class SideBet extends Bet {
     this.outcomeTable = outcomeTable;
     this.initSideBet = initSideBet;
     this.calcSideBet = calcSideBet;
-    this.sequencePlacement = sequencePlacement;
+    (this.beginningSideBetCheck = beginningSideBetCheck),
+      (this.sequencePlacement = sequencePlacement);
     // this.test = test;
   }
 
@@ -331,8 +343,26 @@ class SideBet extends Bet {
     this.tempTotal = this.tempTotal + addend;
   }
 
+  updateTempExtraBetTotal(addend) {
+    this.updateTempBetTotal(addend);
+    this.tempBank = this.tempBank - addend;
+  }
+
   clearTempBet() {
     this.tempTotal = 0;
+  }
+
+  clearTempExtraBetBlackjackTotal() {
+    this.tempBank = this.tempBank + this.tempTotal + this.fee;
+    this.fee = 0;
+    this.clearTempBet();
+  }
+
+  lockInExtraBet() {
+    this.bank = this.tempBank;
+    this.total = this.tempTotal;
+    this.tempTotal = 0;
+    return this.bank;
   }
 
   getTempTotal() {
@@ -344,7 +374,9 @@ class SideBet extends Bet {
     return text;
   }
 
-  lockInSideBet() {
+  lockInSideBet(bank) {
+    this.bank = bank;
+    this.tempBank = bank;
     this.total = this.tempTotal;
     this.tempTotal = 0;
     // this.test();
@@ -457,6 +489,7 @@ const perfectPair = {
   name: `Perfect Pair`,
   key: `perfectPair`,
   rules: `rules`,
+  beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   outcomeTable: {
     perfect_pair_2: { payout: `200:1`, text: `2 Perfect Pairs` },
@@ -473,6 +506,7 @@ const twentyOnePlusThree = {
   name: `21 + 3`,
   key: `21Plus3`,
   rules: `rules`,
+  beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   outcomeTable: {
     jackpot_3_kind: { payout: `jackpot`, text: `Suited 3 of a Kind (Q - A)` },
@@ -491,6 +525,7 @@ const perfect11s = {
   name: `Perfect 11s`,
   key: `perfect11s`,
   rules: `rules`,
+  beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   outcomeTable: {
     jackpot_Ace_King_Spade: {
@@ -519,7 +554,8 @@ const extraBetBlackjack = {
   name: `Extra Bet Blackjack`,
   key: `extraBetBlackjack`,
   rules: `rules`,
-  sequencePlacement: `n/a`,
+  beginningSideBetCheck: true,
+  sequencePlacement: `end`,
   outcomeTable: { payout: `n/a`, text: `n/a` },
   initSideBet: checkValidExtraBetBlackjack,
   calcSideBet: calcExtraBetBlackjack,
@@ -529,6 +565,7 @@ const houseMoney = {
   name: `House Money`,
   key: `houseMoney`,
   rules: `rules`,
+  beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   outcomeTable: {
     suited_Ace_King: { payout: `9:1`, text: `Suited Ace and King` },
@@ -873,6 +910,11 @@ function checkHouseMoneyModalNeeded(dealerHand, gameState) {
 
 function calcExtraBetBlackjack() {}
 
+function calcExtraBetFee() {
+  this.fee = this.tempTotal * 0.2;
+  this.tempBank = this.tempBank - this.fee;
+}
+
 // function collectDiceRolls(diceRolls) {
 //   let sideBetObj = this.sideBet.filter((obj) => obj.key == `perfect11s`);
 //   this.diceRolls = diceRolls;
@@ -901,6 +943,7 @@ export function generateSideBetObj(name) {
       break;
     case `extraBetBlackjack`:
       sideBet = new SideBet(extraBetBlackjack);
+      sideBet.calcExtraBetFee = calcExtraBetFee;
       break;
     case `houseMoney`:
       sideBet = new SideBet(houseMoney);

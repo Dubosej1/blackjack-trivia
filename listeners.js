@@ -81,10 +81,15 @@ export function addSideBetChipBtnListeners() {
   const sideBetClearAllBtn = document.querySelector(
     `.btn-side-bet-modal__clear-all`
   );
+  const activateBetBtn = document.querySelector(
+    `.btn-side-bet-modal__activate-bet`
+  );
 
   sideBetChipBtns.forEach(function (elem) {
     elem.addEventListener("click", updateSideBetChipBtnCallback);
   });
+
+  activateBetBtn.addEventListener(`click`, activateSideBetBtnCallback);
 
   sideBetClearBtn.addEventListener("click", clearSideBetChipAmountCallback);
 
@@ -159,6 +164,27 @@ export function addBeginGameDiceModalNextBtnListener() {
   nextBtn.addEventListener(`click`, nextBeginGameRoutineCallback);
 }
 
+export function addExtraBetBlackjackModalListeners() {
+  const chipBtns = document.querySelectorAll(`.btn-extra-bet-modal__chip`);
+  const clearBetBtn = document.querySelector(`.btn-extra-bet-modal__clear-bet`);
+  const placeBetBtn = document.querySelector(
+    `.btn-extra-bet-modal__place-extra-bet`
+  );
+  const declineBetBtn = document.querySelector(
+    `.btn-extra-bet-modal__decline-bet`
+  );
+
+  chipBtns.forEach(function (elem) {
+    elem.addEventListener(`click`, updateExtraBetChipBtnCallback);
+  });
+
+  clearBetBtn.addEventListener(`click`, clearExtraBetChipsCallback);
+
+  placeBetBtn.addEventListener(`click`, placeExtraBetCallback);
+
+  declineBetBtn.addEventListener(`click`, declineExtraBetBtnCallback);
+}
+
 export function removeBeginGameOptionsBtnListener() {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
@@ -168,6 +194,27 @@ export function removeBeginGameOptionsBtnListener() {
     `click`,
     beginGameOptionsListenerCallback
   );
+}
+
+export function removeExtraBetBlackjackModalListeners() {
+  const chipBtns = document.querySelectorAll(`.btn-extra-bet-modal__chip`);
+  const clearBetBtn = document.querySelector(`.btn-extra-bet-modal__clear-bet`);
+  const placeBetBtn = document.querySelector(
+    `.btn-extra-bet-modal__place-extra-bet`
+  );
+  const declineBetBtn = document.querySelector(
+    `.btn-extra-bet-modal__decline-bet`
+  );
+
+  chipBtns.forEach(function (elem) {
+    elem.removeEventListener(`click`, updateExtraBetChipBtnCallback);
+  });
+
+  clearBetBtn.removeEventListener(`click`, clearExtraBetChipsCallback);
+
+  placeBetBtn.removeEventListener(`click`, placeExtraBetCallback);
+
+  declineBetBtn.removeEventListener(`click`, declineExtraBetBtnCallback);
 }
 
 function beginGameOptionsListenerCallback(event) {
@@ -192,6 +239,10 @@ function sideBetContainerListenerCallback(event) {
 
 function updateSideBetChipBtnCallback(event) {
   controller.updateSideBetChips(event, globalState);
+}
+
+function activateSideBetBtnCallback(event) {
+  controller.activateSideBet(event, globalState);
 }
 
 function clearSideBetChipAmountCallback(event) {
@@ -225,4 +276,20 @@ function displayStopInfinityDiceCallback(event) {
 function nextBeginGameRoutineCallback(event) {
   event.target.removeEventListener(`click`, nextBeginGameRoutineCallback);
   controller.beginGameRoutine(globalState);
+}
+
+function updateExtraBetChipBtnCallback(event) {
+  controller.updateExtraBetChips(event, globalState);
+}
+
+function clearExtraBetChipsCallback(event) {
+  controller.clearExtraBetChips(event, globalState);
+}
+
+function placeExtraBetCallback(event) {
+  controller.placeExtraBet(event, globalState);
+}
+
+function declineExtraBetBtnCallback(event) {
+  controller.declineExtraBet(event, globalState);
 }

@@ -260,7 +260,11 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect 11s (regularHand)
-      currentPlayer.addCardToHand = testCard.heart7;
+      // currentPlayer.addCardToHand = testCard.heart7;
+      // currentPlayer.addCardToHand = testCard.heart4;
+
+      //Test Extra Bet Blackjack
+      currentPlayer.addCardToHand = testCard.diamondKing;
       currentPlayer.addCardToHand = testCard.heart4;
 
       //Test Player Blackjack/Even Money (replace original 2)
