@@ -43,6 +43,9 @@ export function startNewRound(bank, options, specialNum) {
 
 export function startDealCardsRoutine(event, gameState) {
   gameState.betObj.lockInBets();
+  let newBank = gameState.betObj.getBank();
+  gameState.updateBank(newBank);
+
   gameState.updatePlayer = gameState.player;
   gameState.updateDealer = gameState.dealer;
   let playerHand = gameState.player.hand;
@@ -134,6 +137,8 @@ export function beginGameRoutine(gameState) {
       break;
     case order.sideBetSequence:
       gameState.betObj.initInitialSideBetSequence(gameState);
+      let winnings = gameState.betObj.getTotalSideBetWinnings();
+      gameState.updateWinningsToBank(winnings);
       view.displayInitialSideBetOutcome(gameState);
       order.sideBetSequence = false;
       break;

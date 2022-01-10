@@ -58,6 +58,10 @@ class Bet {
   }
 
   // Get Values
+  getBank() {
+    return this.bank;
+  }
+
   getTempBank() {
     return this.tempValue.bank;
   }
@@ -76,6 +80,10 @@ class Bet {
 
   getSideBetObj(key) {
     return this.sideBetObjs.filter((obj) => obj.key == key);
+  }
+
+  getTotalSideBetWinnings() {
+    return this.totalSideBetWinnings;
   }
 
   //Side Bet Obj Methods
@@ -160,6 +168,14 @@ class Bet {
     this.initialOutcomePackages = this.initialSideBetSequence.map(
       (obj) => obj.outcomePackage
     );
+
+    let winningsArr = this.initialSideBetSequence.map(function (obj) {
+      if (obj.key == `houseMoney`) return false;
+      return obj.winnings;
+    });
+
+    this.totalSideBetWinnings = winningsArr.reduce((prev, curr) => prev + curr);
+    // console.log(this.totalSideBetWinnings);
 
     // console.log(this.initialOutcomePackages);
     return true;
@@ -365,7 +381,7 @@ class SideBet extends Bet {
 
   //Calculating Outcome Methods
   calcPayout() {
-    if (this.winKey == `lose`) return;
+    // if (this.winKey == `lose`) return;
     this.winPayout = this.outcomeTable[this.winKey].payout;
 
     this.getWinnings();
@@ -373,7 +389,12 @@ class SideBet extends Bet {
 
   getWinnings() {
     if (this.winPayout == "jackpot") {
-      this.winnings = 1000000;
+      this.winnings = 10000;
+      return;
+    }
+
+    if (this.winPayout == "0") {
+      this.winnings = 0;
       return;
     }
 
@@ -381,8 +402,10 @@ class SideBet extends Bet {
     let multiplier = num[0];
     let divider = num[1];
 
-    this.winnings =
+    let winnings =
       Math.round((this.baseBet * multiplier) / divider) + this.baseBet;
+
+    this.winnings = winnings;
   }
 
   collectWinnings() {

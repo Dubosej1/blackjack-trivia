@@ -562,6 +562,7 @@ export function displayInitialSideBetOutcome(gameState) {
   summaryTitle.textContent = `Side Bet Outcome`;
 
   let outcomeArr = gameState.betObj.initialOutcomePackages;
+  let totalWinnings = gameState.betObj.getTotalSideBetWinnings();
 
   outcomeArr.forEach(function (obj) {
     let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
@@ -570,6 +571,13 @@ export function displayInitialSideBetOutcome(gameState) {
 
     summaryField.appendChild(outcomeElem);
   });
+
+  let winningsField = document.createElement(`h1`);
+  let winningsFieldContent = document.createTextNode(
+    `Total Winnings: ${totalWinnings}`
+  );
+  winningsField.appendChild(winningsFieldContent);
+  summaryField.appendChild(winningsField);
 
   listeners.addSummaryModalDisplayHandListener(gameState);
   popbox.open(`summary-modal`);
@@ -593,7 +601,7 @@ function createSummaryFieldElements(outcomeObj) {
   outcomeDiv.appendChild(outcomeDivContent);
 
   const winConditionSpan = document.createElement(`span`);
-  const winConditionSpanContent = document.createTextNode(`${winCondition}`);
+  const winConditionSpanContent = document.createTextNode(`${winCondition}  `);
   winConditionSpan.appendChild(winConditionSpanContent);
 
   // summaryField.appendChild(newDiv);

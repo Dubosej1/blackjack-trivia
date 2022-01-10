@@ -26,9 +26,14 @@ class State {
   //   view.updateBank(bank);
   // }
 
+  updateBank(bank) {
+    this.bank = bank;
+    view.updateBank(this.bank);
+  }
+
   updateWinningsToBank(winnings) {
     this.bank = this.bank + winnings;
-    view.updateBank(bank);
+    view.updateBank(this.bank);
   }
 
   addBetObj(betObj) {
