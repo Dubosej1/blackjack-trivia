@@ -119,7 +119,7 @@ class Player extends Cardholder {
     }
 
     if (!options.splitAces) {
-      if (card1 == "ACE") return false;
+      if (card1 == "ACE" || card2 == "ACE") return false;
     }
 
     if (card1 == card2) return true;
@@ -255,8 +255,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       console.log(cardsObj);
-      //   currentPlayer.addCardToHand = cardsObj.card1;
-      //   currentPlayer.addCardToHand = cardsObj.card2;
+      currentPlayer.addCardToHand = cardsObj.card1;
+      currentPlayer.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect 11s (regularHand)
@@ -268,8 +268,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.addCardToHand = testCard.heart4;
 
       //Test House Money
-      currentPlayer.addCardToHand = testCard.diamondKing;
-      currentPlayer.addCardToHand = testCard.diamondAce;
+      // currentPlayer.addCardToHand = testCard.diamondKing;
+      // currentPlayer.addCardToHand = testCard.diamondAce;
 
       //Test Player Blackjack/Even Money (replace original 2)
       // currentPlayer.addCardToHand = dealerInsTestCard;
@@ -300,7 +300,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       currentDealer.addCardToHand = cardsObj.card1;
-      currentDealer.addCardToHand = cardsObj.card2;
+      // currentDealer.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -308,7 +308,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // dealerHand.push(playerSplitTestCard2);
 
       // To test Insurance functionality (substitute card2)
-      //   currentDealer.addCardToHand = dealerInsTestCard;
+      currentDealer.addCardToHand = testCard.heartAce;
 
       //To test 5 Card Charlie (comment out all other dealerHands)
       // createFiveCardCharlieTestHand(`dealer`);

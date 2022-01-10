@@ -61,6 +61,7 @@ export function startDealCardsRoutine(event, gameState) {
 
   if (gameState.betObj.checkForBeginningSideBetBtn())
     view.toggleCheckSideBetBtn(true);
+  else beginGameRoutinePart2(gameState);
   //begin regular routine
 
   //   let [hasPerfect11sBet, perfect11sObj] =
@@ -146,24 +147,28 @@ export function beginGameRoutine(gameState) {
       order.houseMoney = false;
       break;
     default:
-      gameState.checkSplitAvailable();
-      gameState.checkDoubleDownAvailable();
-      gameState.checkValidEvenMoney();
-      gameState.checkValidInsurance();
       //if end round early?
       //else beginGameRoutinePart2()
       beginGameRoutinePart2(gameState);
   }
 }
 
-function beginGameRoutinePart2(gameState) {
+export function beginGameRoutinePart2(gameState) {
+  if (!gameState.beginningRoundChecksDone) {
+    gameState.checkSplitAvailable();
+    gameState.checkDoubleDownAvailable();
+    gameState.checkValidEvenMoney();
+    gameState.checkValidInsurance();
+    gameState.beginningRoundChecksDone = true;
+  }
+
   switch (true) {
     case gameState.evenMoneyAvailable:
-      //view.activateEvenMoneyModal();
+      view.activateEvenMoneyModal();
       gameState.evenMoneyAvailable = false;
       break;
     case gameState.insuranceAvailable:
-      //view.activateInsuranceModal();
+      view.activateInsuranceModal();
       gameState.insuranceAvailable = false;
       break;
     default:
@@ -172,9 +177,10 @@ function beginGameRoutinePart2(gameState) {
         stand: true,
         split: gameState.splitAvailable,
         doubleDown: gameState.doubleDownAvailable,
+        surrender: true,
       };
       gameState.toggleEnableActionBtns = obj;
-      gameState.noticeText = `Player's Turn`;
+      gameState.updateNoticeText = `Player's Turn`;
   }
 }
 
@@ -389,6 +395,16 @@ export function decideHouseMoney(event, gameState) {
   }
 
   beginGameRoutine(gameState);
+}
+
+export function initEvenMoneyBet(event, gameState) {
+  let outcome = betModel.generateEvenMoneyObj(gameState);
+  view.renderEvenMoneyOutcome(outcome);
+}
+
+export function initInsuranceBet(event, gameState) {
+  let outcome = betModel.generateInsuranceObj(gameState);
+  view.renderInsuranceOutcome(outcome);
 }
 
 // Initializing Entire Program

@@ -12,6 +12,74 @@ export function initBaseSideBetSequence(gameState) {
   this.generateOutcomePackage();
 }
 
+export function initEvenMoneySequence(gameState) {
+  let playerHand = gameState.player.hand;
+  let dealerHand = gameState.dealer.hand;
+
+  this.addHalfBet();
+  this.calcSideBet(playerHand, dealerHand);
+  this.calcPayout();
+  this.getConditionText();
+  this.generateOutcomePackage();
+}
+
+export function addHalfBet() {
+  this.bet = Math.round(this.baseBet / 2);
+}
+
+export function calcEvenMoney(playerHand, dealerHand) {
+  playerHand.playerType = `player`;
+  dealerHand.playerType = `dealer`;
+  let playerCards = playerHand.cards;
+  let cardsArr = [playerHand, dealerHand];
+
+  let winKey, winHand;
+
+  if (playerHand.outcome == `natural` && dealerHand.outcome == `natural`) {
+    this.winKey = `win`;
+    this.outcome = `win`;
+  } else {
+    this.winKey = `lose`;
+    this.outcome = `lose`;
+  }
+
+  if (this.winKey == `lose`) return;
+
+  winHand = [`player`, `dealer`];
+  this.generateWinHand(winHand, cardsArr);
+}
+
+export function initInsuranceSequence(gameState) {
+  let dealerHand = gameState.dealer.hand;
+  this.addHalfBet();
+  this.calcSideBet(dealerHand);
+  this.calcPayout();
+  this.getConditionText();
+  this.generateOutcomePackage();
+}
+
+export function calcInsurance(dealerHand) {
+  // playerHand.playerType = `player`;
+  dealerHand.playerType = `dealer`;
+  // let playerCards = playerHand.cards;
+  let cardsArr = [dealerHand];
+
+  let winKey, winHand;
+
+  if (dealerHand.outcome == `natural`) {
+    this.winKey = `win`;
+    this.outcome = `win`;
+  } else {
+    this.winKey = `lose`;
+    this.outcome = `lose`;
+  }
+
+  if (winKey == `lose`) return;
+
+  winHand = [`dealer`];
+  this.generateWinHand(winHand, cardsArr);
+}
+
 export function checkValidExtraBetBlackjack(playerHand) {
   let playerCards = playerHand.cards;
 

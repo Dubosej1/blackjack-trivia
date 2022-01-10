@@ -13,6 +13,7 @@ class State {
     stand: false,
     doubleDown: false,
     split: false,
+    surrender: false,
   };
 
   constructor(bank, options, specialNum) {
@@ -75,8 +76,12 @@ class State {
   }
 
   checkSplitAvailable() {
+    if (this.bank - this.betObj.baseBet <= 0) {
+      this.splitAvailable = false;
+      return;
+    }
+
     if (this.player.checkValidSplit(this.options)) this.splitAvailable = true;
-    if (this.bank - this.betObj.baseBet > 0) this.splitAvailable = true;
     else this.splitAvailable = false;
   }
 

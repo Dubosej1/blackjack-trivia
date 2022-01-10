@@ -951,6 +951,133 @@ export function renderNoticeText(str) {
   noticeField.textContent = str;
 }
 
+export function activateEvenMoneyModal() {
+  const modalContainer = document.querySelector(`.generic-modal__main`);
+  modalContainer.innerHTML = ` `;
+  const modalTitle = document.querySelector(`.generic-modal__title`);
+  modalTitle.textContent = `Decide Side Bet`;
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+
+  nextBtn.dataset.sidebet = `evenMoney`;
+
+  nextBtn.style.display = "none";
+  closeBtn.style.display = "none";
+
+  const headingElem = document.createElement(`h1`);
+  const headingText = document.createTextNode(`Even Money?`);
+  headingElem.appendChild(headingText);
+
+  const btnContainer = document.createElement(`div`);
+  const acceptBetBtn = document.createElement(`button`);
+  const declineBetBtn = document.createElement(`button`);
+
+  const acceptBetContent = document.createTextNode(`Accept Bet`);
+  const declineBetContent = document.createTextNode(`Decline Bet`);
+  acceptBetBtn.appendChild(acceptBetContent);
+  declineBetBtn.appendChild(declineBetContent);
+
+  const outcomeElem = document.createElement(`h1`);
+  const outcomeContent = document.createTextNode(` `);
+  outcomeElem.classList.add(`generic-modal__outcome-text`);
+
+  btnContainer.classList.add(`generic-modal__side-bet-title`);
+  acceptBetBtn.classList.add(`btn-side-bet-action__accept-even-money`);
+  acceptBetBtn.classList.add(`btn-side-bet-action`);
+  declineBetBtn.classList.add(`btn-side-bet-action__decline-even-money`);
+  declineBetBtn.classList.add(`btn-side-bet-action`);
+
+  btnContainer.appendChild(acceptBetBtn);
+  btnContainer.appendChild(declineBetBtn);
+
+  modalContainer.appendChild(headingElem);
+  modalContainer.appendChild(btnContainer);
+  modalContainer.appendChild(outcomeElem);
+
+  listeners.addEvenMoneyModalListeners();
+
+  popbox.open(`generic-modal`);
+}
+
+export function activateInsuranceModal() {
+  const modalContainer = document.querySelector(`.generic-modal__main`);
+  modalContainer.innerHTML = ` `;
+  const modalTitle = document.querySelector(`.generic-modal__title`);
+  modalTitle.textContent = `Decide Side Bet`;
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+
+  nextBtn.dataset.sidebet = `insurance`;
+
+  nextBtn.style.display = "none";
+  closeBtn.style.display = "none";
+
+  const headingElem = document.createElement(`h1`);
+  const headingText = document.createTextNode(`Insurance?`);
+  headingElem.appendChild(headingText);
+
+  const btnContainer = document.createElement(`div`);
+  const acceptBetBtn = document.createElement(`button`);
+  const declineBetBtn = document.createElement(`button`);
+
+  const acceptBetContent = document.createTextNode(`Accept Bet`);
+  const declineBetContent = document.createTextNode(`Decline Bet`);
+  acceptBetBtn.appendChild(acceptBetContent);
+  declineBetBtn.appendChild(declineBetContent);
+
+  const outcomeElem = document.createElement(`h1`);
+  const outcomeContent = document.createTextNode(` `);
+  outcomeElem.appendChild(outcomeContent);
+  outcomeElem.classList.add(`generic-modal__outcome-text`);
+
+  btnContainer.classList.add(`generic-modal__side-bet-title`);
+  acceptBetBtn.classList.add(`btn-side-bet-action__accept-insurance`);
+  acceptBetBtn.classList.add(`btn-side-bet-action`);
+  declineBetBtn.classList.add(`btn-side-bet-action__decline-insurance`);
+  declineBetBtn.classList.add(`btn-side-bet-action`);
+
+  btnContainer.appendChild(acceptBetBtn);
+  btnContainer.appendChild(declineBetBtn);
+
+  modalContainer.appendChild(headingElem);
+  modalContainer.appendChild(btnContainer);
+  modalContainer.appendChild(outcomeElem);
+
+  listeners.addInsuranceModalListeners();
+
+  popbox.open(`generic-modal`);
+}
+
+export function renderEvenMoneyOutcome(outcome) {
+  const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  nextBtn.style.display = `inline-block`;
+
+  if (outcome == `win`) {
+    outcomeField.textContent = `Dealer Blackjack, Round Over.  You win Even Money!`;
+  } else {
+    outcomeField.textContent = `Round Over.  You lose Even Money`;
+  }
+}
+
+export function renderInsuranceOutcome(outcome) {
+  const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  nextBtn.style.display = `inline-block`;
+
+  if (outcome == `win`) {
+    outcomeField.textContent = `Dealer Blackjack, Round Over.  You win Insurance Bet!`;
+    listeners.addInsuranceNextBtnListener(outcome);
+  } else {
+    outcomeField.textContent = `You lose Insurance Bet.  Round continues...`;
+    listeners.addInsuranceNextBtnListener(outcome);
+  }
+
+  // listeners.removeInsuranceModalListeners();
+}
+
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
 // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
 // if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;

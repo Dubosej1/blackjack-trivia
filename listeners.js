@@ -208,6 +208,66 @@ function addHouseMoneyModalBtnListeners() {
   });
 }
 
+export function addEvenMoneyModalListeners() {
+  const acceptBetBtn = document.querySelector(
+    `.btn-side-bet-action__accept-even-money`
+  );
+  const declineBetBtn = document.querySelector(
+    `.btn-side-bet-action__decline-even-money`
+  );
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  acceptBetBtn.addEventListener(`click`, acceptEvenMoneyBtnCallback);
+  declineBetBtn.addEventListener(`click`, declineEvenMoneyBtnCallback);
+  nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+}
+
+export function addInsuranceModalListeners() {
+  const acceptBetBtn = document.querySelector(
+    `.btn-side-bet-action__accept-insurance`
+  );
+  const declineBetBtn = document.querySelector(
+    `.btn-side-bet-action__decline-insurance`
+  );
+
+  acceptBetBtn.addEventListener(`click`, acceptInsuranceBtnCallback);
+  declineBetBtn.addEventListener(`click`, declineInsuranceBtnCallback);
+}
+
+export function addInsuranceNextBtnListener(outcome) {
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  if (outcome == `win`)
+    nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+  else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
+}
+
+export function removeEvenMoneyModalListeners() {
+  const acceptBetBtn = document.querySelector(
+    `.btn-side-bet-action__accept-even-money`
+  );
+  const declineBetBtn = document.querySelector(
+    `.btn-side-bet-action__decline-even-money`
+  );
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  acceptBetBtn.removeEventListener(`click`, acceptEvenMoneyBtnCallback);
+  declineBetBtn.removeEventListener(`click`, declineEvenMoneyBtnCallback);
+  nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+}
+
+export function removeInsuranceModalListeners() {
+  const acceptBetBtn = document.querySelector(
+    `.btn-side-bet-action__accept-insurance`
+  );
+  const declineBetBtn = document.querySelector(
+    `.btn-side-bet-action__decline-insurance`
+  );
+
+  acceptBetBtn.removeEventListener(`click`, acceptInsuranceBtnCallback);
+  declineBetBtn.removeEventListener(`click`, declineInsuranceBtnCallback);
+}
+
 export function removeBeginGameOptionsBtnListener() {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
@@ -319,4 +379,49 @@ function declineExtraBetBtnCallback(event) {
 
 function decideHouseMoneyBtnsCallback(event) {
   controller.decideHouseMoney(event, globalState);
+}
+
+function acceptEvenMoneyBtnCallback(event) {
+  controller.initEvenMoneyBet(event, globalState);
+}
+
+function declineEvenMoneyBtnCallback(event) {
+  removeEvenMoneyModalListeners();
+  popbox.close(`generic-modal`);
+  //Remove Even Money Info from Generic Modal
+  // controller.beginGameRoutinePart2(globalState);
+
+  //endRound
+}
+
+function acceptInsuranceBtnCallback(event) {
+  controller.initInsuranceBet(event, globalState);
+}
+
+function declineInsuranceBtnCallback(event) {
+  removeInsuranceModalListeners();
+  popbox.close(`generic-modal`);
+  //Remove Insurance Info from Generic Modal
+  controller.beginGameRoutinePart2(globalState);
+}
+
+function nextBtnEndRoundCallback(event) {
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  if (event.target.dataset.sidebet == `evenMoney`) {
+    removeEvenMoneyModalListeners();
+  } else {
+    removeInsuranceModalListeners();
+    nextBtn.removeEventListener(`click`, nextBtnEndRoundCallback);
+  }
+  //endRound function
+}
+
+function nextBtnContinueRoundCallback(event) {
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  removeInsuranceModalListeners();
+  nextBtn.removeEventListener(`click`, nextBtnContinueRoundCallback);
+
+  controller.beginGameRoutinePart2(globalState);
 }

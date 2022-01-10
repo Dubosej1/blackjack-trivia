@@ -155,14 +155,14 @@ class Bet {
     return this.initialSideBetSequence.length != 0 ? true : false;
   }
 
-  initInitialSideBetSequence(sideBetPackage) {
+  initInitialSideBetSequence(gameState) {
     this.initialSideBetSequence = this.sideBetObjs.filter(
       (obj) => obj.sequencePlacement == `initial`
     );
     if (!this.initialSideBetSequence) return false;
 
     this.initialSideBetSequence.forEach(function (obj) {
-      obj.initSideBet(sideBetPackage);
+      obj.initSideBet(gameState);
     });
 
     this.initialOutcomePackages = this.initialSideBetSequence.map(
@@ -402,8 +402,7 @@ class SideBet extends Bet {
     let multiplier = num[0];
     let divider = num[1];
 
-    let winnings =
-      Math.round((this.baseBet * multiplier) / divider) + this.baseBet;
+    let winnings = Math.round((this.bet * multiplier) / divider) + this.baseBet;
 
     this.winnings = winnings;
   }
@@ -420,7 +419,7 @@ class SideBet extends Bet {
     this.outcomePackage = {
       name: this.name,
       sideBetKey: this.key,
-      betAmount: this.total,
+      betAmount: this.bet,
       outcome: this.outcome,
       winCondition: this.winCondition,
       payout: this.winPayout,
@@ -536,6 +535,28 @@ export function initBaseBet(bank) {
 
 //   return sideBet;
 // }
+
+export function generateEvenMoneyObj(gameState) {
+  let evenMoneyObj = new SideBet(sideBetMod.evenMoney);
+  evenMoneyObj.addHalfBet = sideBetFunc.addHalfBet;
+
+  evenMoneyObj.bank = gameState.bank;
+  evenMoneyObj.baseBet = gameState.betObj.baseBet;
+  gameState.betObj.addSideBetObj(evenMoneyObj);
+  evenMoneyObj.initSideBet(gameState);
+  return evenMoneyObj.outcome;
+}
+
+export function generateInsuranceObj(gameState) {
+  let insuranceObj = new SideBet(sideBetMod.insurance);
+  insuranceObj.addHalfBet = sideBetFunc.addHalfBet;
+
+  insuranceObj.bank = gameState.bank;
+  insuranceObj.baseBet = gameState.betObj.baseBet;
+  gameState.betObj.addSideBetObj(insuranceObj);
+  insuranceObj.initSideBet(gameState);
+  return insuranceObj.outcome;
+}
 
 export function generateSideBetObj(name) {
   let sideBet;

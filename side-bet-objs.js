@@ -1,5 +1,33 @@
 import * as sideBetFunc from "./side-bet-functions.js";
 
+export const evenMoney = {
+  name: `Even Money`,
+  key: `evenMoney`,
+  rules: `rules`,
+  beginningSideBetCheck: false,
+  sequencePlacement: `n/a`,
+  outcomeTable: {
+    win: { payout: `1:1`, text: `Win!` },
+    lose: { payout: `0`, text: `Lose...` },
+  },
+  initSideBet: sideBetFunc.initEvenMoneySequence,
+  calcSideBet: sideBetFunc.calcEvenMoney,
+};
+
+export const insurance = {
+  name: `Insurance`,
+  key: `insurance`,
+  rules: `rules`,
+  beginningSideBetCheck: false,
+  sequencePlacement: `n/a`,
+  outcomeTable: {
+    win: { payout: `2:1`, text: `Win!` },
+    lose: { payout: `0`, text: `Lose...` },
+  },
+  initSideBet: sideBetFunc.initInsuranceSequence,
+  calcSideBet: sideBetFunc.calcInsurance,
+};
+
 export const perfectPair = {
   name: `Perfect Pair`,
   key: `perfectPair`,
