@@ -913,6 +913,44 @@ export function displayHouseMoneyModal(gameState) {
   popbox.open(`house-money-modal`);
 }
 
+export function renderGameActionBtns(btnState) {
+  const hitBtn = document.querySelector(`.btn-action__hit`);
+  const standBtn = document.querySelector(`.btn-action__stand`);
+  const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
+  const splitBtn = document.querySelector(`.btn-action__split`);
+  const surrenderBtn = document.querySelector(`.btn-action__surrender`);
+
+  // const actionBtns = document.querySelectorAll(`.btn-action`);
+
+  // actionBtns.forEach(function (elem) {
+  //   let toggle = btnState
+  // })
+
+  btnState.hit ? toggleEnableBtn(hitBtn, true) : toggleEnableBtn(hitBtn, false);
+  btnState.stand
+    ? toggleEnableBtn(standBtn, true)
+    : toggleEnableBtn(standBtn, false);
+  btnState.doubleDown
+    ? toggleEnableBtn(doubleDownBtn, true)
+    : toggleEnableBtn(doubleDownBtn, false);
+  btnState.split
+    ? toggleEnableBtn(splitBtn, true)
+    : toggleEnableBtn(splitBtn, false);
+  btnState.surrender
+    ? toggleEnableBtn(surrenderBtn, true)
+    : toggleEnableBtn(surrenderBtn, false);
+
+  function toggleEnableBtn(elem, boolean) {
+    elem.disabled = !boolean;
+  }
+}
+
+export function renderNoticeText(str) {
+  const noticeField = document.querySelector(`.game-message__text`);
+
+  noticeField.textContent = str;
+}
+
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
 // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
 // if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;

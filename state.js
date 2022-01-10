@@ -8,6 +8,12 @@ class State {
   gameActive;
   cardsDealt;
   remainingCards;
+  actionBtnState = {
+    hit: false,
+    stand: false,
+    doubleDown: false,
+    split: false,
+  };
 
   constructor(bank, options, specialNum) {
     this.specialNum = specialNum;
@@ -120,6 +126,16 @@ class State {
     boolean
       ? (this.beginGameRoutineOrder.houseMoney = true)
       : (this.beginGameRoutineOrder.houseMoney = false);
+  }
+
+  set toggleEnableActionBtns(obj) {
+    this.actionBtnState = { ...this.actionBtnState, ...obj };
+    view.renderGameActionBtns(this.actionBtnState);
+  }
+
+  set updateNoticeText(str) {
+    this.noticeText = str;
+    view.renderNoticeText(str);
   }
 }
 

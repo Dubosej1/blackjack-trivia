@@ -51,11 +51,6 @@ export function startDealCardsRoutine(event, gameState) {
   let playerHand = gameState.player.hand;
   let dealerHand = gameState.dealer.hand;
 
-  gameState.checkSplitAvailable();
-  gameState.checkDoubleDownAvailable();
-  gameState.checkValidEvenMoney();
-  gameState.checkValidInsurance();
-
   //   let sideBetPackage = {
   //     baseBet: gameState.betObj.baseBet,
   //     playerHand: playerHand,
@@ -151,7 +146,35 @@ export function beginGameRoutine(gameState) {
       order.houseMoney = false;
       break;
     default:
-    // start round as normal
+      gameState.checkSplitAvailable();
+      gameState.checkDoubleDownAvailable();
+      gameState.checkValidEvenMoney();
+      gameState.checkValidInsurance();
+      //if end round early?
+      //else beginGameRoutinePart2()
+      beginGameRoutinePart2(gameState);
+  }
+}
+
+function beginGameRoutinePart2(gameState) {
+  switch (true) {
+    case gameState.evenMoneyAvailable:
+      //view.activateEvenMoneyModal();
+      gameState.evenMoneyAvailable = false;
+      break;
+    case gameState.insuranceAvailable:
+      //view.activateInsuranceModal();
+      gameState.insuranceAvailable = false;
+      break;
+    default:
+      let obj = {
+        hit: true,
+        stand: true,
+        split: gameState.splitAvailable,
+        doubleDown: gameState.doubleDownAvailable,
+      };
+      gameState.toggleEnableActionBtns = obj;
+      gameState.noticeText = `Player's Turn`;
   }
 }
 
