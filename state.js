@@ -21,7 +21,12 @@ class State {
     this.dealer = dealer;
   }
 
-  addWinnings(winnings) {
+  // addWinnings(winnings) {
+  //   this.bank = this.bank + winnings;
+  //   view.updateBank(bank);
+  // }
+
+  updateWinningsToBank(winnings) {
     this.bank = this.bank + winnings;
     view.updateBank(bank);
   }

@@ -1,47 +1,86 @@
 import * as view from "./view-3.js";
+import * as sideBetMod from "./side-bet-objs.js";
+import * as sideBetFunc from "./side-bet-functions.js";
 
 class Bet {
   bank;
-  tempBank;
   baseBet = 0;
-  tempBaseBet = 0;
   sideBetTotal = 0;
-  tempSideBetTotal = 0;
-  sideBet = [];
+  sideBetObjs = [];
   sideBetPlacedModalActive;
   initialSideBetSequence;
   initialOutcomePackages;
+  tempValue = { bank: 0, baseBet: 0, sideBetTotal: 0, bet: 0 };
 
   constructor(bank) {
     this.bank = bank;
-    this.tempBank = bank;
+    // this.tempBank = bank;
+    this.tempValue.bank = bank;
   }
 
-  updateTempBaseBet(addend) {
-    this.tempBaseBet = this.tempBaseBet + addend;
-    this.tempBank = this.tempBank - addend;
+  //Manipulate Bank and Base Bet
+
+  addToTempBaseBet(addend) {
+    this.tempValue.baseBet = this.tempValue.baseBet + addend;
+    this.tempValue.bank = this.tempValue.bank - addend;
   }
 
-  // updateBaseBet(addend) {
-  //   this.baseBet = this.baseBet + addend;
-  // }
+  clearTempBaseBet() {
+    this.tempValue.baseBet = 0;
+    this.tempValue.bank = this.bank;
+  }
 
   parlayToBaseBet(value) {
     this.baseBet = this.baseBet + value;
     view.updateBaseBet(this.baseBet);
   }
 
-  clearTempBaseBet() {
-    this.tempBaseBet = 0;
-    this.tempBank = this.bank;
-  }
-
-  addWinnings(winnings) {
+  addWinningsToBank(winnings) {
     this.bank = this.bank + winnings;
   }
 
+  //Lock in Values from Temp
+  lockInBets() {
+    this.bank = this.tempValue.bank;
+    let bank = this.bank;
+    this.baseBet = this.tempValue.baseBet;
+    this.sideBetTotal = this.tempValue.sideBetTotal;
+
+    if (this.sideBetObjs) {
+      this.sideBetObjs.forEach(function (obj) {
+        obj.lockInSideBet(bank);
+      });
+    }
+
+    this.tempValue.bank = 0;
+    this.tempValue.baseBet = 0;
+    this.tempValue.sideBetTotal = 0;
+  }
+
+  // Get Values
+  getTempBank() {
+    return this.tempValue.bank;
+  }
+
+  getTempBaseBet() {
+    return this.tempValue.baseBet;
+  }
+
+  getTempSideBetTotalValue() {
+    return this.tempValue.sideBetTotal;
+  }
+
+  getSideBet(sideBet) {
+    return this.sideBetObjs.find((obj) => obj.key === sideBet);
+  }
+
+  getSideBetObj(key) {
+    return this.sideBetObjs.filter((obj) => obj.key == key);
+  }
+
+  //Side Bet Obj Methods
   addSideBetObj(sideBetObj) {
-    this.sideBet.push(sideBetObj);
+    this.sideBetObjs.push(sideBetObj);
   }
 
   checkSideBetExists(sideBet) {
@@ -49,12 +88,23 @@ class Bet {
     else return false;
   }
 
+  clearSideBetObjs() {
+    //   let length = this.sideBet.length;
+
+    for (let i = 0; i <= this.sideBetObjs.length; i++) {
+      this.sideBetObjs.pop();
+    }
+    this.tempValue.bank = this.tempValue.bank + this.tempValue.sideBetTotal;
+    this.tempValue.sideBetTotal = 0;
+  }
+
+  //Manipulate Side Bet Total
   updateSideBetAmount(sideBet, addend) {
     let sideBetObj = this.getSideBet(sideBet);
 
-    sideBetObj.updateTempBetTotal(addend);
-    this.tempSideBetTotal = this.tempSideBetTotal + addend;
-    this.tempBank = this.tempBank - addend;
+    sideBetObj.addToTempBet(addend);
+    this.tempValue.sideBetTotal = this.tempValue.sideBetTotal + addend;
+    this.tempValue.bank = this.tempValue.bank - addend;
   }
 
   clearTempSideBetAmount(sideBet) {
@@ -62,40 +112,20 @@ class Bet {
 
     let sideBetIndvTotal = sideBetObj.getTempTotal();
 
-    this.tempSideBetTotal = this.tempSideBetTotal - sideBetIndvTotal;
-    this.tempBank = this.tempBank + sideBetIndvTotal;
+    this.tempValue.sideBetTotal =
+      this.tempValue.sideBetTotal - sideBetIndvTotal;
+    this.tempValue.bank = this.tempValue.bank + sideBetIndvTotal;
 
     sideBetObj.clearTempBet();
   }
 
-  getSideBet(sideBet) {
-    return this.sideBet.find((obj) => obj.key === sideBet);
-  }
-
-  getTempSideBetTotalValue() {
-    return this.tempSideBetTotal;
-  }
-
-  getTempBank() {
-    return this.tempBank;
-  }
-
+  //Game Flow Related Methods
   getSideBetsPlacedModalText() {
     let modalText = [];
-    this.sideBet.forEach(function (obj) {
+    this.sideBetObjs.forEach(function (obj) {
       modalText.push(obj.getSideBetAmountInfoText());
     });
     return modalText.join();
-  }
-
-  clearSideBets() {
-    //   let length = this.sideBet.length;
-
-    for (let i = 0; i <= this.sideBet.length; i++) {
-      this.sideBet.pop();
-    }
-    this.tempBank = this.tempBank + this.tempSideBetTotal;
-    this.tempSideBetTotal = 0;
   }
 
   toggleSideBetPlacedModalActive(boolean) {
@@ -103,39 +133,22 @@ class Bet {
     else this.sideBetPlacedModalActive = false;
   }
 
-  lockInBets() {
-    this.bank = this.tempBank;
-    let bank = this.bank;
-    this.baseBet = this.tempBaseBet;
-    this.sideBetTotal = this.tempSideBetTotal;
-
-    if (this.sideBet) {
-      this.sideBet.forEach(function (obj) {
-        obj.lockInSideBet(bank);
-      });
-    }
-
-    this.tempBank = 0;
-    this.tempBaseBet = 0;
-    this.tempSideBetTotal = 0;
-  }
-
   checkForBeginningSideBetBtn() {
-    this.checkSideBetBtnObjsArr = this.sideBet.filter(
+    this.checkSideBetBtnObjsArr = this.sideBetObjs.filter(
       (obj) => obj.beginningSideBetCheck == true
     );
     return this.checkSideBetBtnObjsArr.length != 0 ? true : false;
   }
 
   checkForInitialSideBetSequence() {
-    this.initialSideBetSequence = this.sideBet.filter(
+    this.initialSideBetSequence = this.sideBetObjs.filter(
       (obj) => obj.sequencePlacement == `initial`
     );
     return this.initialSideBetSequence.length != 0 ? true : false;
   }
 
   initInitialSideBetSequence(sideBetPackage) {
-    this.initialSideBetSequence = this.sideBet.filter(
+    this.initialSideBetSequence = this.sideBetObjs.filter(
       (obj) => obj.sequencePlacement == `initial`
     );
     if (!this.initialSideBetSequence) return false;
@@ -151,44 +164,10 @@ class Bet {
     // console.log(this.initialOutcomePackages);
     return true;
   }
-
-  checkHasPerfect11sBet() {
-    let perfect11sObj = this.sideBet.filter((obj) => obj.key == `perfect11s`);
-    if (perfect11sObj) return [true, perfect11sObj];
-    else {
-      perfect11sObj = ` `;
-      return [false, perfect11sObj];
-    }
-  }
-
-  checkHasSideBet(key) {
-    let hasSideBet = this.sideBet.filter((obj) => obj.key == key);
-    return perfect11sObj ? true : false;
-  }
-
-  getSideBetObj(key) {
-    return this.sideBet.filter((obj) => obj.key == key);
-  }
-
-  //   checkPerfect11DiceRollNeeded(playerHand) {
-  //     let sideBetObj = this.sideBet.filter((obj) => obj.key == `perfect11s`);
-
-  //     if (!sideBetObj) return false;
-
-  //     return sideBetObj.checkSuited11(playerHand);
-  //   }
-
-  //   collectPerfect11DiceRolls(diceRolls) {
-  //     let sideBetObj = this.sideBet.filter((obj) => obj.key == `perfect11s`);
-  //   }
 }
 
 class SideBet extends Bet {
-  total = 0;
-  tempTotal = 0;
-  name;
-  key;
-  rules;
+  bet = 0;
   payout;
 
   constructor(obj) {
@@ -201,7 +180,6 @@ class SideBet extends Bet {
       calcSideBet,
       beginningSideBetCheck,
       sequencePlacement,
-      test,
     } = obj;
     super();
     this.name = name;
@@ -210,11 +188,57 @@ class SideBet extends Bet {
     this.outcomeTable = outcomeTable;
     this.initSideBet = initSideBet;
     this.calcSideBet = calcSideBet;
-    (this.beginningSideBetCheck = beginningSideBetCheck),
-      (this.sequencePlacement = sequencePlacement);
-    // this.test = test;
+    this.beginningSideBetCheck = beginningSideBetCheck;
+    this.sequencePlacement = sequencePlacement;
   }
 
+  //Manipulate Bet
+  addToTempBet(addend) {
+    this.tempValue.bet = this.tempValue.bet + addend;
+  }
+
+  clearTempBet() {
+    this.tempValue.bet = 0;
+  }
+
+  //Get Values
+  getTempBet() {
+    return this.tempValue.bet;
+  }
+
+  getSideBetAmountInfoText() {
+    let text = `${this.name} : $${this.tempValue.bet} Bet <br>`;
+    return text;
+  }
+
+  //Extra Bet Methods
+  updateTempExtraBetTotal(addend) {
+    this.addToTempBet(addend);
+    this.tempValue.bank = this.tempValue.bank - addend;
+  }
+
+  clearTempExtraBetBlackjackTotal() {
+    this.tempValue.bank = this.tempValue.bank + this.tempValue.bet + this.fee;
+    this.fee = 0;
+    this.clearTempBet();
+  }
+
+  //Lock in Values from Temp
+  lockInSideBet(bank) {
+    this.bank = bank;
+    this.tempValue.bank = bank;
+    this.bet = this.tempValue.bet;
+    this.tempValue.bet = 0;
+  }
+
+  lockInExtraBet() {
+    this.bank = this.tempValue.bank;
+    this.bet = this.tempValue.bet;
+    this.tempValue.bet = 0;
+    return this.bank;
+  }
+
+  //Determine Outcome Helper Methods
   getCardColor(suit) {
     let color;
     if (suit == "CLUBS") color = "BLACK";
@@ -339,64 +363,7 @@ class SideBet extends Bet {
     return value;
   }
 
-  //   checkSuitMatch(card1, card2) {
-  //       return card1.suit == card2.suit ? true : false;
-  //   }
-
-  //   checkRankMatch(card1, card2) {
-  //       return card1.value == card2.value ? true : false;
-  //   }
-
-  //   checkExactMatch(card1, card2) {
-  //       let rankMatch = this.checkRankMatch(card1, card2);
-  //       let suitMatch = this.checkSuitMatch(card1, card2);
-
-  //       return rankMatch == suitMatch ? true : false;
-  //   }
-
-  updateTempBetTotal(addend) {
-    this.tempTotal = this.tempTotal + addend;
-  }
-
-  updateTempExtraBetTotal(addend) {
-    this.updateTempBetTotal(addend);
-    this.tempBank = this.tempBank - addend;
-  }
-
-  clearTempBet() {
-    this.tempTotal = 0;
-  }
-
-  clearTempExtraBetBlackjackTotal() {
-    this.tempBank = this.tempBank + this.tempTotal + this.fee;
-    this.fee = 0;
-    this.clearTempBet();
-  }
-
-  lockInExtraBet() {
-    this.bank = this.tempBank;
-    this.total = this.tempTotal;
-    this.tempTotal = 0;
-    return this.bank;
-  }
-
-  getTempTotal() {
-    return this.tempTotal;
-  }
-
-  getSideBetAmountInfoText() {
-    let text = `${this.name} : $${this.tempTotal} Bet <br>`;
-    return text;
-  }
-
-  lockInSideBet(bank) {
-    this.bank = bank;
-    this.tempBank = bank;
-    this.total = this.tempTotal;
-    this.tempTotal = 0;
-    // this.test();
-  }
-
+  //Calculating Outcome Methods
   calcPayout() {
     if (this.winKey == `lose`) return;
     this.winPayout = this.outcomeTable[this.winKey].payout;
@@ -500,457 +467,8 @@ export function generateSpecialNums() {
   return specialNum;
 }
 
-function generateRandomNum(min, max) {
+export function generateRandomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-const perfectPair = {
-  name: `Perfect Pair`,
-  key: `perfectPair`,
-  rules: `rules`,
-  beginningSideBetCheck: true,
-  sequencePlacement: `initial`,
-  outcomeTable: {
-    perfect_pair_2: { payout: `200:1`, text: `2 Perfect Pairs` },
-    perfect_pair_1: { payout: `25:1`, text: `1 Perfect Pair` },
-    colored_pair: { payout: `10:1`, text: `Colored Pair` },
-    red_black_pair: { payout: `5:1`, text: `Red/Black Pair` },
-    lose: { payout: `n/a`, text: `Lose: No Pairs...` },
-  },
-  initSideBet: initBaseSideBetSequence,
-  calcSideBet: calcPerfectPair,
-};
-
-const twentyOnePlusThree = {
-  name: `21 + 3`,
-  key: `21Plus3`,
-  rules: `rules`,
-  beginningSideBetCheck: true,
-  sequencePlacement: `initial`,
-  outcomeTable: {
-    jackpot_3_kind: { payout: `jackpot`, text: `Suited 3 of a Kind (Q - A)` },
-    suited_3_kind: { payout: `100:1`, text: `Suited 3 of a Kind (2 - Jack)` },
-    kind_3: { payout: `33:1`, text: `3 of a Kind` },
-    straight_flush: { payout: `35:1`, text: `Straight Flush` },
-    straight: { payout: `10:1`, text: `Straight` },
-    flush: { payout: `5:1`, text: `Flush` },
-    lose: { payout: `n/a`, text: `Lose` },
-  },
-  initSideBet: initBaseSideBetSequence,
-  calcSideBet: calc21Plus3,
-};
-
-const perfect11s = {
-  name: `Perfect 11s`,
-  key: `perfect11s`,
-  rules: `rules`,
-  beginningSideBetCheck: true,
-  sequencePlacement: `initial`,
-  outcomeTable: {
-    jackpot_ace_king_spade: {
-      payout: `720:10`,
-      text: `Jackpot Ace and King of Spades`,
-    },
-    jackpot_ace_king: { payout: `130:10`, text: `Jackpot Ace and King` },
-    suited_11_3_infinity: {
-      payout: `25:10`,
-      text: `Suited 11 and 3 Infinities`,
-    },
-    suited_11_2_infinity: {
-      payout: `16:1`,
-      text: `Suited 11 and 2 Infinities`,
-    },
-    suited_11: { payout: `15:1`, text: `Suited 11` },
-    colored_11: { payout: `10:1`, text: `Colored 11` },
-    mixed_11: { payout: `3:1`, text: `Mixed 11` },
-    lose: { payout: `n/a`, text: `Lose` },
-  },
-  initSideBet: initBaseSideBetSequence,
-  calcSideBet: calcPerfect11s,
-};
-
-const extraBetBlackjack = {
-  name: `Extra Bet Blackjack`,
-  key: `extraBetBlackjack`,
-  rules: `rules`,
-  beginningSideBetCheck: true,
-  sequencePlacement: `end`,
-  outcomeTable: { payout: `n/a`, text: `n/a` },
-  initSideBet: checkValidExtraBetBlackjack,
-  calcSideBet: calcExtraBetBlackjack,
-};
-
-const houseMoney = {
-  name: `House Money`,
-  key: `houseMoney`,
-  rules: `rules`,
-  beginningSideBetCheck: true,
-  sequencePlacement: `initial`,
-  outcomeTable: {
-    suited_ace_king: { payout: `9:1`, text: `Suited Ace and King` },
-    straight_flush: { payout: `4:1`, text: `Straight Flush` },
-    pair: { payout: `3:1`, text: `Pair` },
-    straight: { payout: `1:1`, text: `Straight` },
-    lose: { payout: `n/a`, text: `Lose` },
-  },
-  initSideBet: initHouseMoney,
-  calcSideBet: calcHouseMoney,
-};
-
-function initBaseSideBetSequence(gameState) {
-  let baseBet = gameState.betObj.baseBet;
-  let playerHand = gameState.player.hand;
-  let dealerHand = gameState.dealer.hand;
-
-  this.baseBet = baseBet;
-  this.calcSideBet(playerHand, dealerHand);
-  this.calcPayout();
-  this.getConditionText();
-  this.generateOutcomePackage();
-}
-
-function checkValidExtraBetBlackjack(playerHand) {
-  let playerCards = playerHand.cards;
-
-  let valueArr = playerCards.map((obj) => obj.value);
-
-  let tensArr = valueArr.map((value) => this.convertCardToTenValue(value));
-
-  return tensArr.some((value) => value == 10);
-}
-
-function initHouseMoney(gameState) {
-  let baseBet = gameState.betObj.baseBet;
-  let playerHand = gameState.player.hand;
-  let dealerHand = gameState.dealer.hand;
-
-  this.baseBet = baseBet;
-  this.calcSideBet(playerHand);
-  this.calcPayout();
-  this.getConditionText();
-  this.generateOutcomePackage();
-  this.checkModalNeeded(dealerHand, gameState);
-}
-
-function calcHouseMoney(playerHand) {
-  playerHand.playerType = `player`;
-  let playerCards = playerHand.cards;
-  let cardsArr = [playerHand];
-
-  let suitedAceKing = false;
-  let pair = false;
-  let straight = false;
-  let flush = false;
-  let winKey;
-  let winHand;
-
-  this.checkRankMatch(playerCards) ? (pair = true) : (pair = false);
-
-  this.checkSuitMatch(playerCards) ? (flush = true) : (flush = false);
-
-  this.checkStraightSequence(playerCards)
-    ? (straight = true)
-    : (straight = false);
-
-  if (flush) {
-    let kingExists = this.checkIncludesCardValue(playerCards, `KING`);
-    let aceExists = this.checkIncludesCardValue(playerCards, `ACE`);
-    kingExists && aceExists ? (suitedAceKing = true) : (suitedAceKing = false);
-  }
-
-  switch (true) {
-    case suitedAceKing:
-      winKey = `suited_ace_king`;
-      break;
-    case straight && flush:
-      winKey = `straight_flush`;
-      break;
-    case straight:
-      winKey = `straight`;
-      break;
-    case pair:
-      winKey = `pair`;
-      break;
-    default:
-      winKey = "lose";
-      this.outcome = `lose`;
-  }
-
-  this.winKey = winKey;
-
-  if (winKey == `lose`) return;
-
-  this.outcome = `win`;
-  winHand = [`player`];
-  this.generateWinHand(winHand, cardsArr);
-}
-
-function calcPerfectPair(playerHand, dealerHand) {
-  playerHand.playerType = `player`;
-  dealerHand.playerType = `dealer`;
-  let playerCards = playerHand.cards;
-  let dealerCards = dealerHand.cards;
-
-  let handArr = [playerHand, dealerHand];
-  let playerCard1 = playerCards[0];
-  let playerCard2 = playerCards[1];
-  //   let dealerCard1 = dealerHand.cards[0];
-  //   let dealerCard2 = dealerHand.cards[1];
-  let dealerPerfectMatch = false;
-  let playerPerfectMatch = false;
-  let playerRankMatch = false;
-  let playerColorMatch = false;
-  let playerOppMatch = false;
-  let winKey;
-  let winHand;
-
-  playerCard1.color = this.getCardColor(playerCard1.suit);
-  playerCard2.color = this.getCardColor(playerCard2.suit);
-
-  this.checkExactMatch(dealerCards)
-    ? (dealerPerfectMatch = true)
-    : (dealerPerfectMatch = false);
-  this.checkExactMatch(playerCards)
-    ? (playerPerfectMatch = true)
-    : (playerPerfectMatch = false);
-  this.checkRankMatch(playerCards)
-    ? (playerRankMatch = true)
-    : (playerRankMatch = false);
-  if (playerRankMatch)
-    this.checkColorMatch(playerCards)
-      ? (playerColorMatch = true)
-      : (playerOppMatch = false);
-
-  switch (true) {
-    case dealerPerfectMatch && playerPerfectMatch:
-      winKey = `perfect_pairs_2`;
-      winHand = [`player`, `dealer`];
-      break;
-    case dealerPerfectMatch:
-      winKey = `perfect_pair_2`;
-      winHand = [`dealer`];
-      break;
-    case playerPerfectMatch:
-      winKey = `perfect_pair_1`;
-      winHand = [`player`];
-    case playerColorMatch:
-      winKey = `colored_pair`;
-      winHand = [`player`];
-      break;
-    case playerOppMatch:
-      winKey = `black_red_pair`;
-      winHand = [`player`];
-      break;
-    default:
-      winKey = "lose";
-      this.outcome = `lose`;
-  }
-
-  if (winKey != `lose`) {
-    this.outcome = `win`;
-    this.generateWinHand(winHand, cardsArr);
-  }
-  this.winKey = winKey;
-}
-
-function calc21Plus3(playerHand, dealerHand) {
-  playerHand.playerType = `player`;
-  dealerHand.playerType = `dealer`;
-  let playerCards = playerHand.cards;
-  let dealerCards = dealerHand.cards;
-  let handArr = [playerHand, dealerHand];
-  let targetArr = [playerCards[0], playerCards[1], dealerCards[1]];
-
-  //   let dealerCard2 = dealerHand.cards[1];
-  let flush = false;
-  let straight = false;
-  let threeKind = false;
-  let suitedThreeKind = false;
-  let jackpotThreeKind = false;
-  let winKey;
-  let winHand;
-
-  this.checkSuitMatch(targetArr) ? (flush = true) : (flush = false);
-  this.checkStraightSequence(targetArr)
-    ? (straight = true)
-    : (straight = false);
-  this.checkRankMatch(targetArr) ? (threeKind = true) : (threeKind = false);
-
-  if (threeKind && flush) {
-    let jackpotSuits = [`QUEEN`, `KING`, `ACE`];
-    jackpotSuits.includes(playerCards[0].value)
-      ? (jackpotThreeKind = true)
-      : (suitedThreeKind = true);
-  }
-
-  switch (true) {
-    case jackpotThreeKind:
-      winKey = `jackpot_3_kind`;
-      break;
-    case suitedThreeKind:
-      winKey = `suited_3_kind`;
-      break;
-    case threeKind:
-      winKey = `kind_3`;
-    case flush && straight:
-      winKey = `straight_flush`;
-      break;
-    case straight:
-      winKey = `straight`;
-      break;
-    case flush:
-      winKey = `flush`;
-      break;
-    default:
-      winKey = "lose";
-      this.outcome = `lose`;
-  }
-
-  this.winKey = winKey;
-
-  if (winKey == `lose`) return;
-
-  this.outcome = `win`;
-  winHand = [`player`, `dealer`];
-  this.generateWinHand(winHand, handArr);
-}
-
-//Perfect 11s
-function checkSuited11(playerHand) {
-  let playerCards = playerHand.cards;
-  let total = playerHand.total;
-  let natural;
-
-  playerHand.outcome == `natural` ? (natural = true) : (natural = false);
-
-  if (total == 11 || natural) return this.checkSuitMatch(playerCards);
-  else return false;
-}
-
-function checkPerfect11sDiceRollNeeded(playerHand) {
-  return this.checkSuited11(playerHand);
-}
-
-function rollInfinityDice() {
-  let diceArr = [];
-  for (let i = 1; i <= 3; i++) {
-    diceArr.push(generateRandomNum(1, 6));
-  }
-  let finalArr = diceArr.map((num) => (num == 6 ? `INFINITY` : `BLANK`));
-
-  this.infinityCount = finalArr.filter((value) => value == `INFINITY`).length;
-  //   this.diceRoll = finalArr;
-  return finalArr;
-}
-
-function calcPerfect11s(playerHand) {
-  playerHand.playerType = `player`;
-
-  let playerCards = playerHand.cards;
-  let playerTotal = playerHand.total;
-
-  let handArr = [playerHand];
-
-  let jackpotAce = false;
-  let kingSpade = false;
-  let flush = false;
-  let colored = false;
-  let mixed = false;
-
-  let winKey;
-  let winHand;
-  let natural;
-  let infinityCount = this.infinityCount;
-
-  playerHand.outcome == `natural` ? (natural = true) : (natural = false);
-
-  if (playerTotal == 11 || natural) {
-    this.checkColorMatch(playerCards) ? (colored = true) : (mixed = true);
-
-    this.checkSuitMatch(playerCards) ? (flush = true) : (flush = false);
-
-    checkJackpotAceExists(playerCards)
-      ? (jackpotAce = true)
-      : (jackpotAce = false);
-
-    if (jackpotAce) {
-      this.checkIncludesCardValue(playerCards, `KING`)
-        ? (kingExists = true)
-        : (kingExists = false);
-      this.checkForExactCard(playerCards, `KING`, `SPADES`)
-        ? (kingSpade = true)
-        : (kingSpade = false);
-    }
-  }
-
-  switch (true) {
-    case jackpotAce && kingSpade:
-      winKey = `jackpot_ace_king_spade`;
-      break;
-    case jackpotAce && kingExists:
-      winKey = `jackpot_ace_king`;
-      break;
-    case flush && infinityCount == 3:
-      winKey = `suited_11_3_infinity`;
-      break;
-    case flush && infinityCount == 2:
-      winKey = `suited_11_2_infinity`;
-      break;
-    case flush:
-      winKey = `suited_11`;
-      break;
-    case colored:
-      winKey = `colored_11`;
-      break;
-    case mixed:
-      winKey = `mixed_11`;
-      break;
-    default:
-      winKey = "lose";
-      this.outcome = `lose`;
-  }
-
-  this.winKey = winKey;
-
-  if (winKey == `lose`) return;
-
-  this.outcome = `win`;
-  winHand = [`player`];
-  this.generateWinHand(winHand, handArr);
-
-  function checkJackpotAceExists(cardArr) {
-    return cardArr.some((obj) => obj.jackpot == true);
-  }
-}
-
-function checkHouseMoneyModalNeeded(dealerHand, gameState) {
-  if (dealerHand.outcome == `natural`) return;
-  if (this.outcome == `lose`) return;
-  gameState.updateHouseMoneyModalNeeded(true);
-  this.generateParlayPackage(gameState);
-}
-
-function generateParlayPackage(gameState) {
-  let baseBet = gameState.betObj.baseBet;
-
-  this.parlayPackage = {
-    winnings: this.winnings,
-  };
-
-  let parlayWinnings = baseBet + this.winnings;
-  let parlayBet = baseBet + this.total;
-  let parlayAll = baseBet + this.winnings + this.total;
-
-  this.parlayPackage.parlayWinnings = parlayWinnings;
-  this.parlayPackage.parlayBet = parlayBet;
-  this.parlayPackage.parlayAll = parlayAll;
-}
-
-function calcExtraBetBlackjack() {}
-
-function calcExtraBetFee() {
-  this.fee = this.tempTotal * 0.2;
-  this.tempBank = this.tempBank - this.fee;
 }
 
 // function collectDiceRolls(diceRolls) {
@@ -963,30 +481,63 @@ export function initBaseBet(bank) {
   return bet;
 }
 
+// export function generateSideBetObj(name) {
+//   let sideBet;
+
+//   switch (name) {
+//     case "perfectPair":
+//       sideBet = new SideBet(perfectPair);
+//       break;
+//     case `21Plus3`:
+//       sideBet = new SideBet(twentyOnePlusThree);
+//       break;
+//     case `perfect11s`:
+//       sideBet = new SideBet(perfect11s);
+//       sideBet.checkSuited11 = checkSuited11;
+//       sideBet.checkDiceRollNeeded = checkPerfect11sDiceRollNeeded;
+//       sideBet.rollInfinityDice = rollInfinityDice;
+//       break;
+//     case `extraBetBlackjack`:
+//       sideBet = new SideBet(extraBetBlackjack);
+//       sideBet.calcExtraBetFee = calcExtraBetFee;
+//       break;
+//     case `houseMoney`:
+//       sideBet = new SideBet(houseMoney);
+//       sideBet.checkModalNeeded = checkHouseMoneyModalNeeded;
+//       sideBet.generateParlayPackage = generateParlayPackage;
+//       // sideBet.collectHouseMoneyWinnings = collectHouseMoneyWinnings;
+//       break;
+//     default:
+//       console.log(`no side bet`);
+//   }
+
+//   return sideBet;
+// }
+
 export function generateSideBetObj(name) {
   let sideBet;
 
   switch (name) {
     case "perfectPair":
-      sideBet = new SideBet(perfectPair);
+      sideBet = new SideBet(sideBetMod.perfectPair);
       break;
     case `21Plus3`:
-      sideBet = new SideBet(twentyOnePlusThree);
+      sideBet = new SideBet(sideBetMod.twentyOnePlusThree);
       break;
     case `perfect11s`:
-      sideBet = new SideBet(perfect11s);
-      sideBet.checkSuited11 = checkSuited11;
-      sideBet.checkDiceRollNeeded = checkPerfect11sDiceRollNeeded;
-      sideBet.rollInfinityDice = rollInfinityDice;
+      sideBet = new SideBet(sideBetMod.perfect11s);
+      sideBet.checkSuited11 = sideBetFunc.checkSuited11;
+      sideBet.checkDiceRollNeeded = sideBetFunc.checkPerfect11sDiceRollNeeded;
+      sideBet.rollInfinityDice = sideBetFunc.rollInfinityDice;
       break;
     case `extraBetBlackjack`:
-      sideBet = new SideBet(extraBetBlackjack);
-      sideBet.calcExtraBetFee = calcExtraBetFee;
+      sideBet = new SideBet(sideBetMod.extraBetBlackjack);
+      sideBet.calcExtraBetFee = sideBetFunc.calcExtraBetFee;
       break;
     case `houseMoney`:
-      sideBet = new SideBet(houseMoney);
-      sideBet.checkModalNeeded = checkHouseMoneyModalNeeded;
-      sideBet.generateParlayPackage = generateParlayPackage;
+      sideBet = new SideBet(sideBetMod.houseMoney);
+      sideBet.checkModalNeeded = sideBetFunc.checkHouseMoneyModalNeeded;
+      sideBet.generateParlayPackage = sideBetFunc.generateParlayPackage;
       // sideBet.collectHouseMoneyWinnings = collectHouseMoneyWinnings;
       break;
     default:

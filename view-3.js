@@ -32,8 +32,10 @@ export function updateBaseBetModalTotal(gameState) {
     ".basic-bet-modal__bet-value"
   );
 
-  let betTotal = gameState.betObj.tempBaseBet;
-  let bank = gameState.betObj.tempBank;
+  // let betTotal = gameState.betObj.tempBaseBet;
+  let betTotal = gameState.betObj.getTempBaseBet();
+  // let bank = gameState.betObj.tempBank;
+  let bank = gameState.betObj.getTempBank();
 
   basicBetModal__BankValue.textContent = bank;
   basicBetModal__BetValue.textContent = betTotal;
@@ -102,9 +104,11 @@ export function updateSideBetModalTotals(sideBet, gameState) {
   );
 
   let sideBetObj = gameState.betObj.getSideBet(sideBet);
-  let sideBetValue = sideBetObj.getTempTotal();
+  // let sideBetValue = sideBetObj.getTempTotal();
+  let sideBetValue = sideBetObj.getTempBet();
   let sideBetTotalValue = gameState.betObj.getTempSideBetTotalValue();
-  let bank = gameState.betObj.tempBank;
+  // let bank = gameState.betObj.tempBank;
+  let bank = gameState.betObj.getTempBank();
 
   activeSideBetValueField.textContent = sideBetValue;
   sideBetTotalField.textContent = sideBetTotalValue;
@@ -837,8 +841,10 @@ export function updateExtraBetModalTotal(sideBetObj, gameState) {
   const betField = document.querySelector(".extra-bet-modal__bet-value");
   const feeField = document.querySelector(`.extra-bet-modal__fee-value`);
 
-  let betTotal = sideBetObj.tempTotal;
-  let bank = sideBetObj.tempBank;
+  // let betTotal = sideBetObj.tempTotal;
+  let betTotal = sideBetObj.getTempBet();
+  // let bank = sideBetObj.tempBank;
+  let bank = sideBetObj.getTempBank();
   let fee = sideBetObj.fee;
   let baseBet = gameState.betObj.baseBet;
 

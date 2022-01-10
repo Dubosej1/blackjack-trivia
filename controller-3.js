@@ -7,6 +7,8 @@ import * as state from "./state.js";
 
 let optionsPlaceholder;
 
+//////////Game Flow functions//////////
+
 export function startNewGame(e) {
   let bank = 1000;
   let options = optionsPlaceholder;
@@ -37,108 +39,6 @@ export function startNewRound(bank, options, specialNum) {
   //make submit bet modal visible
   view.openBaseBetModal(gameState);
   bjModel.initDeck(gameState);
-}
-
-export function updateStatePlayers(player, gameState) {
-  // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
-  // if ((hand.type = `dealer`)) gameState.updateDealerHand = hand;
-
-  if (player.type == "player") gameState.updatePlayer = player;
-  if (player.type == `dealer`) gameState.updateDealer = player;
-  if (player.type == `split player`) {
-    if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
-    else gameState.updateSplitHand2 = player;
-  }
-}
-
-export function updateBaseBetChips(event, gameState) {
-  if (!gameState.cardsDealt) bjModel.dealInitialCards(gameState);
-
-  let addend = parseInt(event.target.dataset.value, 10);
-
-  gameState.betObj.updateTempBaseBet(addend);
-  view.updateBaseBetModalTotal(gameState);
-}
-
-export function clearBaseBetChips(event, gameState) {
-  gameState.betObj.clearTempBaseBet();
-  view.updateBaseBetModalTotal(gameState);
-}
-
-export function updateSideBetContainer(event, gameState) {
-  view.addActiveElementToBetContainer(event);
-}
-
-export function updateSideBetChips(event, gameState) {
-  //Need error for when betAmount > bank
-  let betObj = gameState.betObj;
-  let sideBet = view.collectSideBet();
-
-  if (!betObj.checkSideBetExists(sideBet)) {
-    let sideBetObj = betModel.generateSideBetObj(sideBet);
-
-    gameState.betObj.addSideBetObj(sideBetObj);
-  }
-
-  let addend = parseInt(event.target.dataset.value, 10);
-
-  gameState.betObj.updateSideBetAmount(sideBet, addend);
-  view.updateSideBetModalTotals(sideBet, gameState);
-}
-
-export function submitOptions(event, gameState = null) {
-  let options = view.collectOptions();
-
-  if (!gameState) optionsPlaceholder = options;
-  else gameState.updateOptions(options);
-  console.log(options);
-  console.log(optionsPlaceholder);
-}
-
-export function clearSideBetChips(event, gameState) {
-  let sideBet = view.collectSideBet();
-  let betObj = gameState.betObj;
-
-  betObj.clearTempSideBetAmount(sideBet);
-  view.updateSideBetModalTotals(sideBet, gameState);
-}
-
-export function placeSideBets(event, gameState) {
-  let sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-  let bank = gameState.betObj.getTempBank();
-
-  view.updateBaseBetModalTotal(gameState);
-
-  //add "view side bets btn and side bet field"
-
-  gameState.betObj.toggleSideBetPlacedModalActive(true);
-  view.toggleSideBetPlacedBtn(true, gameState);
-  view.activateSideBetsPlacedModal(gameState);
-}
-
-export function activateSideBet(event, gameState) {
-  let betObj = gameState.betObj;
-  let sideBet = view.collectSideBet();
-
-  if (!betObj.checkSideBetExists(sideBet)) {
-    let sideBetObj = betModel.generateSideBetObj(sideBet);
-
-    gameState.betObj.addSideBetObj(sideBetObj);
-  }
-}
-
-export function clearAllSideBets(event, gameState) {
-  let modalActive = gameState.betObj.sideBetPlacedModalActive;
-
-  gameState.betObj.clearSideBets();
-  view.resetSideBetModal(gameState);
-
-  if (modalActive) {
-    view.updateBaseBetModalTotal(gameState);
-    view.toggleSideBetPlacedBtn(false);
-    view.deactivateSideBetsPlacedModal();
-    gameState.betObj.toggleSideBetPlacedModalActive(false);
-  }
 }
 
 export function startDealCardsRoutine(event, gameState) {
@@ -250,16 +150,120 @@ export function beginGameRoutine(gameState) {
   }
 }
 
-// export function continueDealCardsRoutine(sideBetPackage, gameState) {
-//   if (gameState.betObj.initInitialSideBetSequence(sideBetPackage, gameState))
-//     view.toggleCheckSideBetBtn(true);
-//   //else start round as normal
-// }
+export function updateStatePlayers(player, gameState) {
+  // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
+  // if ((hand.type = `dealer`)) gameState.updateDealerHand = hand;
+
+  if (player.type == "player") gameState.updatePlayer = player;
+  if (player.type == `dealer`) gameState.updateDealer = player;
+  if (player.type == `split player`) {
+    if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
+    else gameState.updateSplitHand2 = player;
+  }
+}
+
+export function submitOptions(event, gameState = null) {
+  let options = view.collectOptions();
+
+  if (!gameState) optionsPlaceholder = options;
+  else gameState.updateOptions(options);
+  console.log(options);
+  console.log(optionsPlaceholder);
+}
+
+/////////Betting Controls//////////
+
+//"Base Bet" Modal Functions
+
+export function updateBaseBetChips(event, gameState) {
+  if (!gameState.cardsDealt) bjModel.dealInitialCards(gameState);
+
+  let addend = parseInt(event.target.dataset.value, 10);
+
+  gameState.betObj.addToTempBaseBet(addend);
+  view.updateBaseBetModalTotal(gameState);
+}
+
+export function clearBaseBetChips(event, gameState) {
+  gameState.betObj.clearTempBaseBet();
+  view.updateBaseBetModalTotal(gameState);
+}
+
+export function updateSideBetContainer(event, gameState) {
+  view.addActiveElementToBetContainer(event);
+}
+
+//"Choose Side Bet" Modal functions
+
+export function updateSideBetChips(event, gameState) {
+  //Need error for when betAmount > bank
+  let betObj = gameState.betObj;
+  let sideBet = view.collectSideBet();
+
+  if (!betObj.checkSideBetExists(sideBet)) {
+    let sideBetObj = betModel.generateSideBetObj(sideBet);
+
+    gameState.betObj.addSideBetObj(sideBetObj);
+  }
+
+  let addend = parseInt(event.target.dataset.value, 10);
+
+  gameState.betObj.updateSideBetAmount(sideBet, addend);
+  view.updateSideBetModalTotals(sideBet, gameState);
+}
+
+export function clearSideBetChips(event, gameState) {
+  let sideBet = view.collectSideBet();
+  let betObj = gameState.betObj;
+
+  betObj.clearTempSideBetAmount(sideBet);
+  view.updateSideBetModalTotals(sideBet, gameState);
+}
+
+export function placeSideBets(event, gameState) {
+  let sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
+  let bank = gameState.betObj.getTempBank();
+
+  view.updateBaseBetModalTotal(gameState);
+
+  //add "view side bets btn and side bet field"
+
+  gameState.betObj.toggleSideBetPlacedModalActive(true);
+  view.toggleSideBetPlacedBtn(true, gameState);
+  view.activateSideBetsPlacedModal(gameState);
+}
+
+export function activateSideBet(event, gameState) {
+  let betObj = gameState.betObj;
+  let sideBet = view.collectSideBet();
+
+  if (!betObj.checkSideBetExists(sideBet)) {
+    let sideBetObj = betModel.generateSideBetObj(sideBet);
+
+    gameState.betObj.addSideBetObj(sideBetObj);
+  }
+}
+
+export function clearAllSideBets(event, gameState) {
+  let modalActive = gameState.betObj.sideBetPlacedModalActive;
+
+  gameState.betObj.clearSideBetObjs();
+  view.resetSideBetModal(gameState);
+
+  if (modalActive) {
+    view.updateBaseBetModalTotal(gameState);
+    view.toggleSideBetPlacedBtn(false);
+    view.deactivateSideBetsPlacedModal();
+    gameState.betObj.toggleSideBetPlacedModalActive(false);
+  }
+}
 
 export function initDisplayInitialSideBetOutcome(event, gameState) {
   determineBeginGameRoutineOrder(gameState);
   //   view.displayInitialSideBetOutcome(gameState);
 }
+
+// "Extra Bet" and "House Money" Modal functions
 
 export function updateExtraBetChips(event, gameState) {
   const sideBet = document.querySelector(`.extra-bet-modal__main`).dataset
@@ -328,10 +332,6 @@ export function declineExtraBet(event, gameState) {
   placeExtraBet(event, gameState);
 }
 
-// export function collectHouseMoneyWinnings(event, gameState) {
-//   let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
-// }
-
 export function decideHouseMoney(event, gameState) {
   let choice = event.target.dataset.choice;
   let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
@@ -341,8 +341,8 @@ export function decideHouseMoney(event, gameState) {
   switch (choice) {
     case `collect`:
       winnings = houseMoneyObj.winnings;
-      betObj.addWinnings(winnings);
-      gameState.addWinnings(winnings);
+      betObj.addWinningsToBank(winnings);
+      gameState.updateWinningsToBank(winnings);
       break;
     case `parlay-bet`:
       bet = houseMoneyObj.total;
@@ -362,6 +362,8 @@ export function decideHouseMoney(event, gameState) {
 
   beginGameRoutine(gameState);
 }
+
+// Initializing Entire Program
 
 function init() {
   listeners.addNewGameBtnListener();
