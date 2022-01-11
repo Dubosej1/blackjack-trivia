@@ -31,6 +31,7 @@ export function addNewRoundEventListeners(gameState) {
   addSideBetContainerListener(gameState);
   addSystemBtnListeners(gameState);
   addHouseMoneyModalBtnListeners(gameState);
+  addGameActionBtnListeners(gameState);
   // addModalListeners(gameState);
 }
 
@@ -242,6 +243,20 @@ export function addInsuranceNextBtnListener(outcome) {
   else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
 }
 
+export function addGameActionBtnListeners(gameState) {
+  const hitBtn = document.querySelector(`.btn-action__hit`);
+  const standBtn = document.querySelector(`.btn-action__stand`);
+  const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
+  const splitBtn = document.querySelector(`.btn-action__split`);
+  const surrenderBtn = document.querySelector(`.btn-action__surrender`);
+
+  hitBtn.addEventListener(`click`, hitBtnListenerCallback);
+  standBtn.addEventListener(`click`, standBtnListenerCallback);
+  doubleDownBtn.addEventListener(`click`, doubleDownBtnListenerCallback);
+  splitBtn.addEventListener(`click`, splitBtnListenerCallback);
+  surrenderBtn.addEventListener(`click`, surrenderBtnListenerCallback);
+}
+
 export function removeEvenMoneyModalListeners() {
   const acceptBetBtn = document.querySelector(
     `.btn-side-bet-action__accept-even-money`
@@ -298,6 +313,20 @@ export function removeExtraBetBlackjackModalListeners() {
   placeBetBtn.removeEventListener(`click`, placeExtraBetCallback);
 
   declineBetBtn.removeEventListener(`click`, declineExtraBetBtnCallback);
+}
+
+export function removeGameActionBtnListeners(gameState) {
+  const hitBtn = document.querySelector(`.btn-action__hit`);
+  const standBtn = document.querySelector(`.btn-action__stand`);
+  const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
+  const splitBtn = document.querySelector(`.btn-action__split`);
+  const surrenderBtn = document.querySelector(`.btn-action__surrender`);
+
+  hitBtn.removeEventListener(`click`, hitBtnListenerCallback);
+  standBtn.removeEventListener(`click`, standBtnListenerCallback);
+  doubleDownBtn.removeEventListener(`click`, doubleDownBtnListenerCallback);
+  splitBtn.removeEventListener(`click`, splitBtnListenerCallback);
+  surrenderBtn.removeEventListener(`click`, surrenderBtnListenerCallback);
 }
 
 function beginGameOptionsListenerCallback(event) {
@@ -424,4 +453,24 @@ function nextBtnContinueRoundCallback(event) {
   nextBtn.removeEventListener(`click`, nextBtnContinueRoundCallback);
 
   controller.beginGameRoutinePart2(globalState);
+}
+
+function hitBtnListenerCallback(event) {
+  controller.hitAction(event, globalState);
+}
+
+function standBtnListenerCallback(event) {
+  controller.standAction(event, globalState);
+}
+
+function doubleDownBtnListenerCallback(event) {
+  controller.doubleDownAction(event, globalState);
+}
+
+function splitBtnListenerCallback(event) {
+  controller.splitAction(event, globalState);
+}
+
+function surrenderBtnListenerCallback(event) {
+  controller.surrenderAction(event, globalState);
 }

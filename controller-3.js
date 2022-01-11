@@ -408,6 +408,14 @@ export function initInsuranceBet(event, gameState) {
   view.renderInsuranceOutcome(outcome);
 }
 
+export function splitAction(event, gameState) {
+  // change Split Btn to disabled
+  // Change Player screen label from "Player" to "Hand 1"
+  // activate relevant split stage
+
+  bjModel.splitPlayerHand(gameState);
+}
+
 // Initializing Entire Program
 
 function init() {

@@ -92,6 +92,17 @@ class Hand {
     // this.hand.total = this.calculateHandTotal(this.hand.cards);
   }
 
+  popCardFromHand() {
+    let poppedCard = this.cards.pop();
+
+    this.simpleImages.pop();
+    this.images.pop();
+    if (this.type != `dealer`) this.codes.pop();
+    this.endTags.pop();
+    this.calculateHandTotal(this.cards);
+    return poppedCard;
+  }
+
   calculateHandTotal(cards) {
     let handValueArr = cards.map((card) => card.value);
     // let numberArr = handValue.map(getCardValue);
@@ -181,7 +192,7 @@ class Player extends Cardholder {
   //   code: [],
   //   total: 0,
   // };
-  totalSplitHands = 1;
+  // totalSplitHands = 1;
   currentSplitHand = 0;
 
   constructor(bank) {
@@ -239,22 +250,23 @@ class Player extends Cardholder {
   splitHand(newCards) {
     let [newCard1, newCard2] = newCards;
     let currHand, splitHand, splitCard;
+    let currentSplitHand = this.currentSplitHand;
 
-    switch (currentPlayerHand) {
+    switch (currentSplitHand) {
       case 1:
         currHand = this.getSplitHand(1);
-        splitCard = currHand.cards.pop();
+        splitCard = currHand.popCardFromHand();
         splitHand = this.getSplitHand(2);
         break;
       case 2:
         currHand = this.getSplitHand(2);
-        splitCard = currHand.cards.pop();
+        splitCard = currHand.popCardFromHand();
         if (this.splitHands.length == 2) splitHand = this.getSplitHand(3);
         else splitHand = this.getSplitHand(4);
         break;
       case 3:
         currHand = this.getSplitHand(3);
-        splitCard = currHand.cards.pop();
+        splitCard = currHand.popCardFromHand();
         splitHand = this.getSplitHand(4);
         break;
       default:
@@ -263,6 +275,24 @@ class Player extends Cardholder {
     currHand.addCardToHand = newCard1;
     splitHand.addCardToHand = splitCard;
     splitHand.addCardToHand = newCard2;
+  }
+
+  addInitialSplitHands(newHand) {
+    let splitHand = this.hand;
+    splitHand.handNum = 1;
+    this.splitHands.push(splitHand);
+    this.splitHands.push(newHand);
+    this.hand = null;
+  }
+
+  addNewSplitHand(newHand) {
+    this.splitHands.push(newHand);
+  }
+
+  addCardToSplitHand(handNum, newCard) {
+    let hand = this.splitHands.find((obj) => obj.handNum == handNum);
+
+    hand.addCardToHand(newCard);
   }
 
   // splitHand(newCards) {
@@ -536,11 +566,7 @@ function initNewHands(player, dealer) {
   let playerHand = new Hand(`player`, 0);
   let dealerHand = new Hand(`dealer`, 10);
 
-  playerHand.addImagesToHand = addPlayerImagesToHand;
-  playerHand.splitInitialHand = splitPlayerInitialHand;
-  playerHand.splitNewHand = splitPlayerNewHand;
-  playerHand.addCardToSplitHand = addCardToPlayerSplitHand;
-  playerHand.codes = [];
+  addPlayerHandMethods(playerHand);
 
   dealerHand.addImagesToHand = addDealerImagesToHand;
   dealerHand.calcVisibleTotal = calcDealerVisibleHandTotal;
@@ -551,13 +577,25 @@ function initNewHands(player, dealer) {
   dealer.addNewHand(dealerHand);
 }
 
+function addPlayerHandMethods(playerHand) {
+  playerHand.addImagesToHand = addPlayerImagesToHand;
+  // playerHand.splitInitialHand = splitPlayerInitialHand;
+  // playerHand.splitNewHand = splitPlayerNewHand;
+  // playerHand.addCardToSplitHand = addCardToPlayerSplitHand;
+  playerHand.codes = [];
+}
+
 function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       console.log(cardsObj);
-      currentPlayer.hand.addCardToHand = cardsObj.card1;
-      currentPlayer.hand.addCardToHand = cardsObj.card2;
+      // currentPlayer.hand.addCardToHand = cardsObj.card1;
+      // currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
+
+      //Test Split Functionality (regularHand)
+      currentPlayer.hand.addCardToHand = testCard.heart7;
+      currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test Perfect 11s (regularHand)
       // currentPlayer.addCardToHand = testCard.heart7;
@@ -666,7 +704,7 @@ export function splitPlayerHand(gameState) {
 
   if (num == 0) {
     player.updateType = `split player`;
-    player.updateTotalSplitHands();
+    // player.updateTotalSplitHands();
   }
 
   generateNewSplitHand(num, player);
@@ -678,6 +716,7 @@ export function splitPlayerHand(gameState) {
   // currentPlayer.updateCurrentSplitHand = 1;
 
   let newCards = [];
+  player.updateCurrentSplitHand = 1;
 
   // let poppedCard = playerHand.pop();
   // playerSplitHand.push(poppedCard);
@@ -686,6 +725,7 @@ export function splitPlayerHand(gameState) {
     .then(function (cardsObj) {
       newCards.push(cardsObj.card1);
       newCards.push(cardsObj.card2);
+      gameState.updateRemainingCards = cardsObj.remaining;
       // currentPlayer.splitHand(newCards);
       // player.addCardToSplitHand(1, cardsObj.card1);
       // player.addCardToSplitHand(2, cardsObj.card2);
@@ -703,7 +743,9 @@ export function splitPlayerHand(gameState) {
       console.log(`Error: Split Hand Function`);
     })
     .finally(() => {
-      controller.updateStateInitialSplit(currentPlayer, gameState);
+      // controller.updateStateInitialSplit(currentPlayer, gameState);
+      console.log(currentPlayer);
+      console.log(currentDealer);
     });
 
   function generateNewSplitHand(currentSplitHand, player) {
@@ -730,10 +772,12 @@ export function splitPlayerHand(gameState) {
         console.log(`Error: No split hands`);
     }
 
-    splitHand.addImagesToHand = addPlayerImagesToHand;
+    addPlayerHandMethods(splitHand);
 
-    if (currentSplitHand == 0) player.splitInitialHand(splitHand);
-    else player.splitNewHand(splitHand);
+    // splitHand.addImagesToHand = addPlayerImagesToHand;
+
+    if (currentSplitHand == 0) player.addInitialSplitHands(splitHand);
+    else player.addNewSplitHand(splitHand);
   }
 }
 
@@ -779,19 +823,3 @@ function addPlayerImagesToHand(card) {
 //   this.endTags.push(`</li></ul>`);
 //   this.codes.push(card.code);
 // }
-
-function splitPlayerInitialHand(newHand) {
-  let splitHand1 = this.hand.pop();
-  this.splitHands.push(splitHand1);
-  this.splitHands.push(newHand);
-}
-
-function splitPlayerNewHand(newHand) {
-  this.splitHands.push(newHand);
-}
-
-function addCardToPlayerSplitHand(handNum, newCard) {
-  let hand = this.splitHands.find((obj) => obj.handNum == handNum);
-
-  hand.addCardToHand(newCard);
-}
