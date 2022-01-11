@@ -67,7 +67,8 @@ class State {
 
   set updatePlayer(player) {
     this.player = player;
-    view.renderPlayerField(this.player.hand);
+    view.renderPlayerHands(this.player);
+    // view.renderPlayerField(this.player.hand);
   }
 
   set updateDealer(dealer) {

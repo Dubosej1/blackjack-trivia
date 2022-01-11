@@ -189,12 +189,13 @@ export function updateStatePlayers(player, gameState) {
   // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
   // if ((hand.type = `dealer`)) gameState.updateDealerHand = hand;
 
-  if (player.type == "player") gameState.updatePlayer = player;
+  // if (player.type == "player") gameState.updatePlayer = player;
   if (player.type == `dealer`) gameState.updateDealer = player;
-  if (player.type == `split player`) {
-    if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
-    else gameState.updateSplitHand2 = player;
-  }
+  else gameState.updatePlayer = player;
+  // if (player.type == `split player`) {
+  //   if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
+  //   else gameState.updateSplitHand2 = player;
+  // }
 }
 
 export function submitOptions(event, gameState = null) {

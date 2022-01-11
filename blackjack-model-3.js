@@ -1,4 +1,5 @@
 import * as testCard from "./test-cards.js";
+import * as controller from "./controller-3.js";
 
 class Cardholder {
   hand;
@@ -743,9 +744,7 @@ export function splitPlayerHand(gameState) {
       console.log(`Error: Split Hand Function`);
     })
     .finally(() => {
-      // controller.updateStateInitialSplit(currentPlayer, gameState);
-      console.log(currentPlayer);
-      console.log(currentDealer);
+      controller.updateStatePlayers(player, gameState);
     });
 
   function generateNewSplitHand(currentSplitHand, player) {
