@@ -171,6 +171,7 @@ export function beginGameRoutinePart2(gameState) {
       view.activateInsuranceModal();
       gameState.insuranceAvailable = false;
       break;
+    //case playerhand == natural or dealerhand == natural
     default:
       let obj = {
         hit: true,

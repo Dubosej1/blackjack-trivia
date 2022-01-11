@@ -1,25 +1,95 @@
 import * as testCard from "./test-cards.js";
 
 class Cardholder {
-  constructor() {
-    this.hand = {
-      cards: [],
-      images: [],
-      simpleImages: [],
-      endTags: [],
-      total: 0,
-    };
+  hand;
+
+  constructor() {}
+
+  addNewHand(hand) {
+    this.hand = hand;
   }
 
-  set addCardToHand(card) {
-    this.hand.cards.push(card);
-    this.hand.total = this.calculateHandTotal(this.hand.cards);
-    // this.hand.images.push(`<img src="${card.image}" class="card">`);
-    // this.hand.total = this.calculateHandTotal(this.hand.cards);
-  }
+  // set addCardToHand(card) {
+  //   this.hand.cards.push(card);
+  //   this.hand.total = this.calculateHandTotal(this.hand.cards);
+  // }
 
   get getHand() {
     return this.hand;
+  }
+
+  // calculateHandTotal(cards) {
+  //   let handValueArr = cards.map((card) => card.value);
+  //   // let numberArr = handValue.map(getCardValue);
+
+  //   return getHandValue(handValueArr);
+
+  //   function getHandValue(arr) {
+  //     let total = arr.map(getCardValue).reduce((acc, cur) => acc + cur);
+
+  //     if (total > 21 && arr.includes("ACE")) {
+  //       let index = arr.indexOf("ACE");
+  //       arr[index] = "ACELOW";
+  //       total = getHandValue(arr);
+  //     }
+
+  //     return total;
+
+  //     function getCardValue(value) {
+  //       let num;
+
+  //       switch (value) {
+  //         case "JACK":
+  //           num = 10;
+  //           break;
+  //         case "QUEEN":
+  //           num = 10;
+  //           break;
+  //         case "KING":
+  //           num = 10;
+  //           break;
+  //         case "ACE":
+  //           num = 11;
+  //           break;
+  //         case "ACELOW":
+  //           num = 1;
+  //           break;
+  //         default:
+  //           num = Number(value);
+  //       }
+
+  //       return num;
+  //     }
+  //   }
+  // }
+
+  // addEndingCardTags(imageArr) {
+  //   let cardCount = this.hand.cards.length;
+  //   let endTags = `<li><ul>`;
+  //   let repeatedTags = endTags.repeat(cardCount);
+  //   this.hand.images.push(repeatedTags);
+  // }
+}
+
+class Hand {
+  total;
+  cards = [];
+  images = [];
+  simpleImages = [];
+  endTags = [];
+  addImagesToHand;
+
+  constructor(type, handNum) {
+    this.type = type;
+    this.handNum = handNum;
+  }
+
+  set addCardToHand(card) {
+    this.cards.push(card);
+    this.total = this.calculateHandTotal(this.cards);
+    this.addImagesToHand(card);
+    // this.hand.images.push(`<img src="${card.image}" class="card">`);
+    // this.hand.total = this.calculateHandTotal(this.hand.cards);
   }
 
   calculateHandTotal(cards) {
@@ -68,18 +138,50 @@ class Cardholder {
   }
 
   addEndingCardTags(imageArr) {
-    let cardCount = this.hand.cards.length;
+    let cardCount = this.cards.length;
     let endTags = `<li><ul>`;
     let repeatedTags = endTags.repeat(cardCount);
-    this.hand.images.push(repeatedTags);
+    this.images.push(repeatedTags);
   }
 }
 
 class Player extends Cardholder {
   betAmount = 0;
   type = `player`;
-  splitHand1 = { cards: [], images: [], total: 0 };
-  splitHand2 = { cards: [], images: [], total: 0 };
+  splitHands = [];
+  // splitHand1 = {
+  //   cards: [],
+  //   images: [],
+  //   simpleImages: [],
+  //   endTags: [],
+  //   code: [],
+  //   total: 0,
+  // };
+  // splitHand2 = {
+  //   cards: [],
+  //   images: [],
+  //   simpleImages: [],
+  //   endTags: [],
+  //   code: [],
+  //   total: 0,
+  // };
+  // splitHand3 = {
+  //   cards: [],
+  //   images: [],
+  //   simpleImages: [],
+  //   endTags: [],
+  //   code: [],
+  //   total: 0,
+  // };
+  // splitHand4 = {
+  //   cards: [],
+  //   images: [],
+  //   simpleImages: [],
+  //   endTags: [],
+  //   code: [],
+  //   total: 0,
+  // };
+  totalSplitHands = 1;
   currentSplitHand = 0;
 
   constructor(bank) {
@@ -87,15 +189,28 @@ class Player extends Cardholder {
     this.bank = bank;
   }
 
-  set addCardToHand(card) {
-    super.addCardToHand = card;
-    this.hand.images.push(
-      `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-    );
-    this.hand.endTags.push(`</li></ul>`);
-    this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
-    console.log(this.hand);
-  }
+  // addImagesToHand(card) {
+  //   this.hand.images.push(
+  //     `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+  //   );
+  //   this.hand.endTags.push(`</li></ul>`);
+  //   this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
+  //   console.log(this.hand);
+  // }
+
+  // set addCardToHand(card) {
+  //   super.addCardToHand = card;
+  //   // this.hand.images.push(
+  //   //   `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+  //   // );
+  //   // this.hand.endTags.push(`</li></ul>`);
+  //   // this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
+  //   // console.log(this.hand);
+  // }
+
+  // get getHand() {
+  //   return this.hand;
+  // }
 
   checkHandForNatural(hand) {
     if (hand.cards.length !== 2) return false;
@@ -104,6 +219,166 @@ class Player extends Cardholder {
     this.hand.outcome = `natural`;
     return true;
   }
+
+  set updateType(type) {
+    this.type = type;
+  }
+
+  set updateCurrentSplitHand(handNum) {
+    this.currentSplitHand = handNum;
+  }
+
+  // updateTotalSplitHands() {
+  //   this.totalSplitHands++;
+  // }
+
+  getSplitHand(handNum) {
+    return this.splitHands.find((obj) => obj.handNum == handNum);
+  }
+
+  splitHand(newCards) {
+    let [newCard1, newCard2] = newCards;
+    let currHand, splitHand, splitCard;
+
+    switch (currentPlayerHand) {
+      case 1:
+        currHand = this.getSplitHand(1);
+        splitCard = currHand.cards.pop();
+        splitHand = this.getSplitHand(2);
+        break;
+      case 2:
+        currHand = this.getSplitHand(2);
+        splitCard = currHand.cards.pop();
+        if (this.splitHands.length == 2) splitHand = this.getSplitHand(3);
+        else splitHand = this.getSplitHand(4);
+        break;
+      case 3:
+        currHand = this.getSplitHand(3);
+        splitCard = currHand.cards.pop();
+        splitHand = this.getSplitHand(4);
+        break;
+      default:
+        console.log(`Error: Split Cards`);
+    }
+    currHand.addCardToHand = newCard1;
+    splitHand.addCardToHand = splitCard;
+    splitHand.addCardToHand = newCard2;
+  }
+
+  // splitHand(newCards) {
+  //   let newCard1, newCard2;
+
+  //   if (newCards.length == 2) {
+  //     newCard1 = newCards.pop();
+  //     newCard2 = newCards.pop();
+  //   } else newCard1 = newCards.pop();
+
+  //   if (this.currentSplitHand == 0) {
+  //     let [splitCard1, splitCard2] = this.removeSplitCardsFromBaseHand();
+  //     this.addCardToSplitHand(1, splitCard1);
+  //     this.addCardToSplitHand(1, newCard1);
+  //     this.addCartdToSplitHand(2, splitCard2);
+  //     this.addCardToSplitHand(2, newCard2);
+  //   }
+
+  //   if (this.currentSplitHand == 1) {
+  //     let splitCard = this.removeSplitCardsFromSplitHand(1);
+  //     this.addCardToSplitHand(3, splitCard);
+  //     this.addCardToSplitHand(3, newCard1);
+  //   }
+
+  //   if (this.currentSplitHand == 2 && this.totalSplitHands == 2) {
+  //     let splitCard = this.removeSplitCardsFromSplitHand(2);
+  //     this.addCardToSplitHand(3, splitCard);
+  //     this.addCardToSplitHand(3, newCard1);
+  //   }
+
+  //   if (this.currentSplitHand == 2 && this.totalSplitHands == 3) {
+  //     let splitCard = this.removeSplitCardsFromSplitHand(2);
+  //     this.addCardToSplitHand(4, splitCard);
+  //     this.addCardToSplitHand(4, newCard1);
+  //   }
+
+  //   if (this.currentSplitHand == 3) {
+  //     let splitCard = this.removeSplitCardsFromSplitHand(3);
+  //     this.addCardToSplitHand(4, splitCard);
+  //     this.addCardToSplitHand(4, newCard1);
+  //   }
+
+  //   // this.checkForSplitAces(splitCard1, splitCard2);
+  // }
+
+  // removeSplitCardsFromBaseHand() {
+  //   this.hand.images.length = 0;
+  //   this.hand.total = 0;
+  //   let card1 = this.hand.cards.pop();
+  //   let card2 = this.hand.cards.pop();
+  //   return [card1, card2];
+  // }
+
+  // removeSplitCardsFromSplitHand(splitHand) {
+  //   let card;
+
+  //   if (splitHand == 1) card = this.splitHand1.cards.pop();
+  //   if (splitHand == 2) card = this.splitHand2.cards.pop();
+  //   if (splitHand == 3) card = this.splitHand3.cards.pop();
+
+  //   return card;
+  // }
+
+  // addCardToSplitHand(splitHand, card) {
+  //   if (splitHand == 1) {
+  //     this.splitHand1.cards.push(card);
+  //     this.splitHand1.images.push(
+  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+  //     );
+  //     this.splitHand1.simpleImages.push(
+  //       `<img src="${card.image}" class="card">`
+  //     );
+  //     this.splitHand1.endTags.push(`</li></ul>`);
+  //     this.splitHand1.codes.push(card.code);
+  //     this.splitHand1.total = this.calculateHandTotal(this.splitHand1.cards);
+  //   }
+
+  //   if (splitHand == 2) {
+  //     this.splitHand2.cards.push(card);
+  //     this.splitHand2.images.push(
+  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+  //     );
+  //     this.splitHand2.simpleImages.push(
+  //       `<img src="${card.image}" class="card">`
+  //     );
+  //     this.splitHand2.endTags.push(`</li></ul>`);
+  //     this.splitHand2.codes.push(card.code);
+  //     this.splitHand2.total = this.calculateHandTotal(this.splitHand2.cards);
+  //   }
+
+  //   if (splitHand == 3) {
+  //     this.splitHand3.cards.push(card);
+  //     this.splitHand3.images.push(
+  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+  //     );
+  //     this.splitHand3.simpleImages.push(
+  //       `<img src="${card.image}" class="card">`
+  //     );
+  //     this.splitHand3.endTags.push(`</li></ul>`);
+  //     this.splitHand3.codes.push(card.code);
+  //     this.splitHand3.total = this.calculateHandTotal(this.splitHand3.cards);
+  //   }
+
+  //   if (splitHand == 4) {
+  //     this.splitHand4.cards.push(card);
+  //     this.splitHand4.images.push(
+  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+  //     );
+  //     this.splitHand4.simpleImages.push(
+  //       `<img src="${card.image}" class="card">`
+  //     );
+  //     this.splitHand4.endTags.push(`</li></ul>`);
+  //     this.splitHand4.codes.push(card.code);
+  //     this.splitHand4.total = this.calculateHandTotal(this.splitHand4.cards);
+  //   }
+  // }
 
   //   checkValidSideBet() {
   //     return this.bank - this.betAmount >= 0 ? true : false;
@@ -140,35 +415,39 @@ class Dealer extends Cardholder {
 
   constructor() {
     super();
-    this.hand.type = `dealer`;
-    this.hand.visibleCards = [];
-    this.hand.visibleTotal = 0;
-    this.hand.unrevealedCard;
-    this.hand.simpleUnrevealedCard;
   }
 
-  set addCardToHand(card) {
-    super.addCardToHand = card;
+  // constructor() {
+  //   super();
+  //   this.hand.type = `dealer`;
+  //   this.hand.visibleCards = [];
+  //   this.hand.visibleTotal = 0;
+  //   this.hand.unrevealedCard;
+  //   this.hand.simpleUnrevealedCard;
+  // }
 
-    if (this.hand.cards.length == 1) {
-      this.hand.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`;
-      this.hand.simpleUnrevealedCard = `<img src="${card.image}" class="card">`;
-      this.hand.images.push(
-        `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg"/>`
-      );
-      this.hand.simpleImages.push(
-        `<img src='img/playing-card-back.svg' class='card'>`
-      );
-    } else {
-      this.hand.images.push(
-        `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`
-      );
-      this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
-      this.hand.visibleCards.push(card);
-      this.hand.visibleTotal = this.calculateHandTotal(this.hand.visibleCards);
-    }
-    this.hand.endTags.push(`</li></ul>`);
-  }
+  // set addCardToHand(card) {
+  //   super.addCardToHand = card;
+
+  //   if (this.hand.cards.length == 1) {
+  //     this.hand.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`;
+  //     this.hand.simpleUnrevealedCard = `<img src="${card.image}" class="card">`;
+  //     this.hand.images.push(
+  //       `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg"/>`
+  //     );
+  //     this.hand.simpleImages.push(
+  //       `<img src='img/playing-card-back.svg' class='card'>`
+  //     );
+  //   } else {
+  //     this.hand.images.push(
+  //       `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`
+  //     );
+  //     this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
+  //     this.hand.visibleCards.push(card);
+  //     this.hand.visibleTotal = this.calculateHandTotal(this.hand.visibleCards);
+  //   }
+  //   this.hand.endTags.push(`</li></ul>`);
+  // }
 
   checkHandForNatural(hand) {
     if (hand.cards.length !== 2) return;
@@ -247,16 +526,37 @@ export function dealInitialCards(gameState) {
   let currentDealer = gameState.dealer;
   gameState.updateCardsDealt(true);
 
+  initNewHands(currentPlayer, currentDealer);
+
   dealPlayerCards(gameInfo.deckID, currentPlayer, gameState);
   dealDealerCards(gameInfo.deckID, currentDealer, gameState);
+}
+
+function initNewHands(player, dealer) {
+  let playerHand = new Hand(`player`, 0);
+  let dealerHand = new Hand(`dealer`, 10);
+
+  playerHand.addImagesToHand = addPlayerImagesToHand;
+  playerHand.splitInitialHand = splitPlayerInitialHand;
+  playerHand.splitNewHand = splitPlayerNewHand;
+  playerHand.addCardToSplitHand = addCardToPlayerSplitHand;
+  playerHand.codes = [];
+
+  dealerHand.addImagesToHand = addDealerImagesToHand;
+  dealerHand.calcVisibleTotal = calcDealerVisibleHandTotal;
+  dealerHand.visibleCards = [];
+  dealerHand.visibleTotal = 0;
+
+  player.addNewHand(playerHand);
+  dealer.addNewHand(dealerHand);
 }
 
 function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       console.log(cardsObj);
-      currentPlayer.addCardToHand = cardsObj.card1;
-      currentPlayer.addCardToHand = cardsObj.card2;
+      currentPlayer.hand.addCardToHand = cardsObj.card1;
+      currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect 11s (regularHand)
@@ -299,8 +599,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
 function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      currentDealer.addCardToHand = cardsObj.card1;
-      // currentDealer.addCardToHand = cardsObj.card2;
+      currentDealer.hand.addCardToHand = cardsObj.card1;
+      // currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -308,7 +608,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // dealerHand.push(playerSplitTestCard2);
 
       // To test Insurance functionality (substitute card2)
-      currentDealer.addCardToHand = testCard.heartAce;
+      currentDealer.hand.addCardToHand = testCard.heartAce;
 
       //To test 5 Card Charlie (comment out all other dealerHands)
       // createFiveCardCharlieTestHand(`dealer`);
@@ -355,4 +655,143 @@ function drawCards(deckID, count) {
     .catch(function (err) {
       drawCards(deckID, 2);
     });
+}
+
+export function splitPlayerHand(gameState) {
+  let player = gameState.player;
+  // let betObj = gameState.betObj;
+  let num = player.currentSplitHand;
+
+  gameState.updateSplitBet();
+
+  if (num == 0) {
+    player.updateType = `split player`;
+    player.updateTotalSplitHands();
+  }
+
+  generateNewSplitHand(num, player);
+
+  // currentPlayer.updateSplitBet();
+
+  // currentPlayer.updateType = `split player`;
+
+  // currentPlayer.updateCurrentSplitHand = 1;
+
+  let newCards = [];
+
+  // let poppedCard = playerHand.pop();
+  // playerSplitHand.push(poppedCard);
+
+  drawCards(gameInfo.deckID, 2)
+    .then(function (cardsObj) {
+      newCards.push(cardsObj.card1);
+      newCards.push(cardsObj.card2);
+      // currentPlayer.splitHand(newCards);
+      // player.addCardToSplitHand(1, cardsObj.card1);
+      // player.addCardToSplitHand(2, cardsObj.card2);
+
+      //To test Split Hand 2 Five Card Charlie (comment out playerSPlitHand)
+      // createFiveCardCharlieTestHand(`split`);
+
+      return newCards;
+    })
+    .then(function (newCards) {
+      player.splitHand(newCards);
+    })
+    .catch((err) => {
+      // splitPlayerHand();
+      console.log(`Error: Split Hand Function`);
+    })
+    .finally(() => {
+      controller.updateStateInitialSplit(currentPlayer, gameState);
+    });
+
+  function generateNewSplitHand(currentSplitHand, player) {
+    let splitHand;
+
+    switch (currentSplitHand) {
+      case 0:
+        splitHand = new Hand(`split hand 2`, 2);
+        break;
+      case 1:
+        splitHand = new Hand(`split hand 3`, 3);
+        break;
+      case 2:
+        if (player.splitHands.length == 2) {
+          splitHand = new Hand(`split hand 3`, 3);
+        } else {
+          splitHand = new Hand(`split hand 4`, 4);
+        }
+        break;
+      case 3:
+        splitHand = new Hand(`split hand 4`, 4);
+        break;
+      default:
+        console.log(`Error: No split hands`);
+    }
+
+    splitHand.addImagesToHand = addPlayerImagesToHand;
+
+    if (currentSplitHand == 0) player.splitInitialHand(splitHand);
+    else player.splitNewHand(splitHand);
+  }
+}
+
+function addDealerImagesToHand(card) {
+  if (this.cards.length == 1) {
+    this.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`;
+    this.simpleUnrevealedCard = `<img src="${card.image}" class="card">`;
+    this.images.push(
+      `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg"/>`
+    );
+    this.simpleImages.push(
+      `<img src='img/playing-card-back.svg' class='card'>`
+    );
+  } else {
+    this.images.push(
+      `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`
+    );
+    this.simpleImages.push(`<img src="${card.image}" class="card">`);
+    this.visibleCards.push(card);
+  }
+  this.endTags.push(`</li></ul>`);
+}
+
+function calcDealerVisibleHandTotal() {
+  this.visibleTotal = this.calculateHandTotal(this.visibleCards);
+}
+
+function addPlayerImagesToHand(card) {
+  this.images.push(
+    `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+  );
+  this.endTags.push(`</li></ul>`);
+  this.simpleImages.push(`<img src="${card.image}" class="card">`);
+  this.codes.push(card.code);
+  console.log(this);
+}
+
+// function addSplitImagesToHand(card) {
+//   this.images.push(
+//     `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+//   );
+//   this.simpleImages.push(`<img src="${card.image}" class="card">`);
+//   this.endTags.push(`</li></ul>`);
+//   this.codes.push(card.code);
+// }
+
+function splitPlayerInitialHand(newHand) {
+  let splitHand1 = this.hand.pop();
+  this.splitHands.push(splitHand1);
+  this.splitHands.push(newHand);
+}
+
+function splitPlayerNewHand(newHand) {
+  this.splitHands.push(newHand);
+}
+
+function addCardToPlayerSplitHand(handNum, newCard) {
+  let hand = this.splitHands.find((obj) => obj.handNum == handNum);
+
+  hand.addCardToHand(newCard);
 }

@@ -142,6 +142,27 @@ class State {
     this.noticeText = str;
     view.renderNoticeText(str);
   }
+
+  subtractSplitBetFromBank() {
+    let betAmount = this.betObj.baseBet;
+    this.bank = this.bank - betAmount;
+    this.updateBank(this.bank);
+  }
+
+  // updateSplitBet() {
+  //   let currentSplitHand = this.player.currentSplitHand;
+  //   let totalSplitHands = this.player.totalSplitHands;
+
+  //   this.betObj.splitBet(currentSplitHand, totalSplitHands);
+  //   this.subtractSplitBetFromBank();
+  // }
+  updateSplitBet() {
+    let currentSplitHand = this.player.currentSplitHand;
+    let totalSplitHands = this.player.splitHands.length;
+
+    this.betObj.splitBet(currentSplitHand, totalSplitHands);
+    this.subtractSplitBetFromBank();
+  }
 }
 
 export function initNewState(bank, options) {

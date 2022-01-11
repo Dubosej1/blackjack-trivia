@@ -136,6 +136,24 @@ class Bet {
     return modalText.join();
   }
 
+  splitBet(currentSplitHand, totalSplitHands) {
+    let splitBets = {};
+
+    if (currentSplitHand == 0) splitBets.splitHand2 = this.baseBet;
+
+    if (currentSplitHand == 1) splitBets.splitHand3 = this.baseBet;
+
+    if (currentSplitHand == 2 && totalSplitHands == 2)
+      splitBets.splitHand3 = this.baseBet;
+
+    if (currentSplitHand == 2 && totalSplitHands == 3)
+      splitBets.splitHand4 = this.baseBet;
+
+    if (currentSplitHand == 3) splitBets.splitHand4 = this.baseBet;
+
+    this.bank = this.bank - this.baseBet;
+  }
+
   toggleSideBetPlacedModalActive(boolean) {
     if (boolean) this.sideBetPlacedModalActive = true;
     else this.sideBetPlacedModalActive = false;
