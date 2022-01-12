@@ -155,8 +155,10 @@ export function beginGameRoutine(gameState) {
 
 export function beginGameRoutinePart2(gameState) {
   if (!gameState.beginningRoundChecksDone) {
-    gameState.checkSplitAvailable();
-    gameState.checkDoubleDownAvailable();
+    let hand = gameState.player.hand;
+
+    gameState.checkSplitAvailable(hand);
+    gameState.checkDoubleDownAvailable(hand);
     gameState.checkValidEvenMoney();
     gameState.checkValidInsurance();
     gameState.beginningRoundChecksDone = true;
@@ -196,6 +198,47 @@ export function updateStatePlayers(player, gameState) {
   //   if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
   //   else gameState.updateSplitHand2 = player;
   // }
+}
+
+export function continueRoundAfterSplit(gameState) {
+  let betObj = gameState.betObj;
+  let player = gameState.player;
+  let splitHands = player.splitHands;
+  let splitPlayerCount = gameState.player.splitHands.length;
+  let options = gameState.options;
+
+  switch (true) {
+    case betObj.checkSideBetExists(`21Magic`):
+      //activate 21 Magic Extra Bet Modal for new split hand
+      break;
+    default:
+      if (splitPlayerCount == 4)
+        player.checkValidResplitActions(splitHands[3], options);
+      if (splitPlayerCount == 3)
+        player.checkValidResplitActions(splitHands[2], options);
+      player.checkValidResplitActions(splitHands[1], options);
+      player.checkValidResplitActions(splitHands[0], options);
+
+      beginSplitHandActions(gameState);
+  }
+}
+
+export function beginSplitHandActions(gameState) {
+  let currentSplitHand = gameState.player.currentSplitHand;
+  let currHand = gameState.player.getSplitHand(currentSplitHand);
+
+  gameState.checkSplitAvailable(currHand);
+  gameState.checkDoubleDownAvailable(currHand);
+
+  let btnObj = {};
+
+  gameState.splitAvailable ? (btnObj.split = true) : (btnObj.split = false);
+  gameState.doubleDownAvailable
+    ? (btnObj.doubleDown = true)
+    : (btnObj.doubleDown = false);
+  currHand.resplitHit ? (btnObj.hit = true) : (btnObj.hit = false);
+
+  gameState.toggleEnableActionBtns = btnObj;
 }
 
 export function submitOptions(event, gameState = null) {

@@ -252,17 +252,20 @@ class Player extends Cardholder {
     let [newCard1, newCard2] = newCards;
     let currHand, splitHand, splitCard;
     let currentSplitHand = this.currentSplitHand;
+    let handCount = this.splitHands.length;
 
     switch (currentSplitHand) {
       case 1:
         currHand = this.getSplitHand(1);
         splitCard = currHand.popCardFromHand();
-        splitHand = this.getSplitHand(2);
+        if (handCount == 4) splitHand = this.getSplitHand(4);
+        if (handCount == 3) splitHand = this.getSplitHand(3);
+        if (handCount == 2) splitHand = this.getSplitHand(2);
         break;
       case 2:
         currHand = this.getSplitHand(2);
         splitCard = currHand.popCardFromHand();
-        if (this.splitHands.length == 2) splitHand = this.getSplitHand(3);
+        if (handCount == 2) splitHand = this.getSplitHand(3);
         else splitHand = this.getSplitHand(4);
         break;
       case 3:
@@ -280,7 +283,11 @@ class Player extends Cardholder {
 
   addInitialSplitHands(newHand) {
     let splitHand = this.hand;
+
+    splitHand.splitValid = false;
+    splitHand.splitChecked = false;
     splitHand.handNum = 1;
+
     this.splitHands.push(splitHand);
     this.splitHands.push(newHand);
     this.hand = null;
@@ -415,9 +422,73 @@ class Player extends Cardholder {
   //     return this.bank - this.betAmount >= 0 ? true : false;
   //   }
 
-  checkValidSplit(options) {
-    let card1 = this.hand.cards[0].value;
-    let card2 = this.hand.cards[1].value;
+  // checkValidSplit(options) {
+  //   let card1 = this.hand.cards[0].value;
+  //   let card2 = this.hand.cards[1].value;
+
+  //   if (options.splitAnyTens) {
+  //     card1 = convertTenValueCard(card1);
+  //     card2 = convertTenValueCard(card2);
+  //   }
+
+  //   if (!options.splitAces) {
+  //     if (card1 == "ACE" || card2 == "ACE") return false;
+  //   }
+
+  //   if (card1 == card2) return true;
+  //   return false;
+
+  //   function convertTenValueCard(value) {
+  //     let faceCards = ["JACK", "QUEEN", "KING"];
+  //     let result = faceCards.some((face) => face == value);
+
+  //     if (result) value = "10";
+  //     return value;
+  //   }
+  // }
+
+  checkValidResplitActions(hand, options) {
+    if (hand.splitChecked) return;
+    hand.splitChecked = true;
+
+    this.checkValidResplitDraw(hand, options);
+
+    if (!options.resplitting) {
+      hand.splitValid = false;
+      return;
+    }
+
+    if (this.acesSplit && !options.resplitAfterSplitAces) {
+      hand.splitValid = false;
+      return;
+    }
+
+    this.checkValidSplit(hand, options);
+  }
+
+  checkValidResplitDraw(hand, options) {
+    options.doubleAfterSplit
+      ? (hand.resplitDoubleValid = true)
+      : (hand.resplitDoubleValid = false);
+
+    hand.resplitHit = true;
+
+    if (!this.acesSplit) return;
+
+    options.doubleAfterSplitAces
+      ? (hand.resplitDoubleValid = true)
+      : (hand.resplitDoubleValid = false);
+
+    if (options.draw1SplitAce) {
+      hand.resplitDoubleValid = false;
+      hand.resplitHit = false;
+    }
+  }
+
+  checkValidSplit(hand, options) {
+    let card1 = hand.cards[0].value;
+    let card2 = hand.cards[1].value;
+    let result;
 
     if (options.splitAnyTens) {
       card1 = convertTenValueCard(card1);
@@ -425,11 +496,17 @@ class Player extends Cardholder {
     }
 
     if (!options.splitAces) {
-      if (card1 == "ACE" || card2 == "ACE") return false;
+      if (card1 == "ACE" || card2 == "ACE") {
+        hand.splitValid = false;
+        hand.splitChecked = true;
+        return;
+      }
     }
 
-    if (card1 == card2) return true;
-    return false;
+    if (card1 == card2) result = true;
+    else result = false;
+
+    result ? (hand.splitValid = true) : (hand.splitValid = false);
 
     function convertTenValueCard(value) {
       let faceCards = ["JACK", "QUEEN", "KING"];
@@ -594,9 +671,13 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
+      //Test Split Ace Functionality
+      currentPlayer.hand.addCardToHand = testCard.heartAce;
+      currentPlayer.hand.addCardToHand = testCard.diamondAce;
+
       //Test Split Functionality (regularHand)
-      currentPlayer.hand.addCardToHand = testCard.heart7;
-      currentPlayer.hand.addCardToHand = testCard.spade7;
+      // currentPlayer.hand.addCardToHand = testCard.heart7;
+      // currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test Perfect 11s (regularHand)
       // currentPlayer.addCardToHand = testCard.heart7;
@@ -705,7 +786,14 @@ export function splitPlayerHand(gameState) {
 
   if (num == 0) {
     player.updateType = `split player`;
-    // player.updateTotalSplitHands();
+    // let hand = player.hand;
+    checkForSplitAces(player.hand, player);
+    player.updateCurrentSplitHand = 1;
+  } else {
+    let currHand = player.getSplitHand(num);
+    if (currHand.splitChecked) currHand.splitChecked = false;
+
+    checkForSplitAces(currHand, player);
   }
 
   generateNewSplitHand(num, player);
@@ -717,15 +805,14 @@ export function splitPlayerHand(gameState) {
   // currentPlayer.updateCurrentSplitHand = 1;
 
   let newCards = [];
-  player.updateCurrentSplitHand = 1;
 
   // let poppedCard = playerHand.pop();
   // playerSplitHand.push(poppedCard);
 
   drawCards(gameInfo.deckID, 2)
     .then(function (cardsObj) {
-      newCards.push(cardsObj.card1);
-      newCards.push(cardsObj.card2);
+      // newCards.push(cardsObj.card1);
+      // newCards.push(cardsObj.card2);
       gameState.updateRemainingCards = cardsObj.remaining;
       // currentPlayer.splitHand(newCards);
       // player.addCardToSplitHand(1, cardsObj.card1);
@@ -733,6 +820,10 @@ export function splitPlayerHand(gameState) {
 
       //To test Split Hand 2 Five Card Charlie (comment out playerSPlitHand)
       // createFiveCardCharlieTestHand(`split`);
+
+      //Testing Resplitting more hands
+      newCards.push(testCard.heartAce);
+      newCards.push(cardsObj.card2);
 
       return newCards;
     })
@@ -745,24 +836,24 @@ export function splitPlayerHand(gameState) {
     })
     .finally(() => {
       controller.updateStatePlayers(player, gameState);
+      controller.continueRoundAfterSplit(gameState);
     });
 
   function generateNewSplitHand(currentSplitHand, player) {
     let splitHand;
+    let handCount = player.splitHands.length;
 
     switch (currentSplitHand) {
       case 0:
         splitHand = new Hand(`split hand 2`, 2);
         break;
       case 1:
-        splitHand = new Hand(`split hand 3`, 3);
+        if (handCount == 2) splitHand = new Hand(`split hand 3`, 3);
+        else splitHand = new Hand(`split hand 4`, 4);
         break;
       case 2:
-        if (player.splitHands.length == 2) {
-          splitHand = new Hand(`split hand 3`, 3);
-        } else {
-          splitHand = new Hand(`split hand 4`, 4);
-        }
+        if (handCount == 2) splitHand = new Hand(`split hand 3`, 3);
+        else splitHand = new Hand(`split hand 4`, 4);
         break;
       case 3:
         splitHand = new Hand(`split hand 4`, 4);
@@ -777,6 +868,14 @@ export function splitPlayerHand(gameState) {
 
     if (currentSplitHand == 0) player.addInitialSplitHands(splitHand);
     else player.addNewSplitHand(splitHand);
+  }
+
+  function checkForSplitAces(hand, player) {
+    let [card1, card2] = hand.cards;
+
+    card1.value == "ACE" && card2.value == "ACE"
+      ? (player.acesSplit = true)
+      : (player.acesSplit = false);
   }
 }
 

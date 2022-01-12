@@ -139,17 +139,35 @@ class Bet {
   splitBet(currentSplitHand, totalSplitHands) {
     let splitBets = {};
 
-    if (currentSplitHand == 0) splitBets.splitHand2 = this.baseBet;
+    switch (currentSplitHand) {
+      case 0:
+        splitBets.splitHand2 = this.baseBet;
+        break;
+      case 1:
+        if (totalSplitHands == 2) splitBets.splitHand3 = this.baseBet;
+        if (totalSplitHands == 3) splitBets.splitHand4 = this.baseBet;
+        break;
+      case 2:
+        if (totalSplitHands == 2) splitBets.splitHand3 = this.baseBet;
+        if (totalSplitHands == 3) splitBets.splitHand4 = this.baseBet;
+        break;
+      case 3:
+        splitBets.splitHand4 = this.baseBet;
+      default:
+        console.log(`ERROR: Split Bets`);
+    }
 
-    if (currentSplitHand == 1) splitBets.splitHand3 = this.baseBet;
+    // if (currentSplitHand == 0) splitBets.splitHand2 = this.baseBet;
 
-    if (currentSplitHand == 2 && totalSplitHands == 2)
-      splitBets.splitHand3 = this.baseBet;
+    // if (currentSplitHand == 1) splitBets.splitHand3 = this.baseBet;
 
-    if (currentSplitHand == 2 && totalSplitHands == 3)
-      splitBets.splitHand4 = this.baseBet;
+    // if (currentSplitHand == 2 && totalSplitHands == 2)
+    //   splitBets.splitHand3 = this.baseBet;
 
-    if (currentSplitHand == 3) splitBets.splitHand4 = this.baseBet;
+    // if (currentSplitHand == 2 && totalSplitHands == 3)
+    //   splitBets.splitHand4 = this.baseBet;
+
+    // if (currentSplitHand == 3) splitBets.splitHand4 = this.baseBet;
 
     this.bank = this.bank - this.baseBet;
   }

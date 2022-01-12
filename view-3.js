@@ -525,7 +525,7 @@ export function resetOptionsMenuInputs(event) {
 export function renderPlayerHands(player) {
   let active = player.currentSplitHand;
   let count;
-  if (player.type == `split player`) count = player.splitHands.length;
+  if (player.type == "split player") count = player.splitHands.length;
 
   if (active == 0) {
     renderPlayerField(player.hand);
@@ -535,62 +535,91 @@ export function renderPlayerHands(player) {
 
   splitHand1 = player.getSplitHand(1);
   splitHand2 = player.getSplitHand(2);
-  if (count == 3) splitHand3 = player.getSplitHand(3);
+  if (count >= 3) splitHand3 = player.getSplitHand(3);
   if (count == 4) splitHand4 = player.getSplitHand(4);
 
-  switch (true) {
-    case active == 1 && count == 2:
+  switch (active) {
+    case 1:
       renderPlayerField(splitHand1);
-      // renderSplitStage1(splitHand2);
-      renderSplitStage(splitHand2, 1);
+      if (count == 4) renderSplitStage(splitHand4, 3);
+      if (count >= 3) renderSplitStage(splitHand3, 2);
+      if (count >= 2) renderSplitStage(splitHand2, 1);
       break;
-    case active == 1 && count == 3:
-      renderPlayerField(splitHand1);
-      // renderSplitStage1(splitHand2);
-      // renderSplitStage2(splitHand3);
-      renderSplitStage(splitHand2, 1);
-      renderSplitStage(splitHand3, 2);
-      break;
-    case active == 2 && count == 2:
+    case 2:
       renderPlayerField(splitHand2);
-      // renderSplitStage1(splitHand1);
       renderSplitStage(splitHand1, 1);
+      if (count == 4) renderSplitStage(splitHand4, 3);
+      if (count >= 3) renderSplitStage(splitHand3, 2);
       break;
-    case active == 2 && count == 3:
-      renderPlayerField(splitHand2);
-      // renderSplitStage1(splitHand1);
-      // renderSplitStage2(splitHand3);
-      renderSplitStage(splitHand1, 1);
-      renderSplitStage(splitHand3, 2);
-      break;
-    case active == 3 && count == 3:
+    case 3:
       renderPlayerField(splitHand3);
-      // renderSplitStage1(splitHand1);
-      // renderSplitStage2(splitHand2);
       renderSplitStage(splitHand1, 1);
       renderSplitStage(splitHand2, 2);
+      if (count == 4) renderSplitStage(splitHand4, 3);
       break;
-    case active == 3 && count == 4:
-      renderPlayerField(splitHand3);
-      // renderSplitStage1(splitHand1);
-      // renderSplitStage2(splitHand2);
-      // renderSplitStage3(splitHand4);
-      renderSplitStage(splitHand1, 1);
-      renderSplitStage(splitHand2, 2);
-      renderSplitStage(splitHand4, 3);
-      break;
-    case active == 4:
+    case 4:
       renderPlayerField(splitHand4);
-      // renderSplitStage1(splitHand1);
-      // renderSplitStage2(splitHand2);
-      // renderSplitStage3(splitHand3);
       renderSplitStage(splitHand1, 1);
       renderSplitStage(splitHand2, 2);
       renderSplitStage(splitHand3, 3);
       break;
     default:
-      console.log(`ERROR: Rendering Split Hands`);
+      console.log(`ERROR: Rendering split hands to view`);
   }
+
+  // switch (true) {
+  //   case active == 1 && count == 2:
+  //     renderPlayerField(splitHand1);
+  //     // renderSplitStage1(splitHand2);
+  //     renderSplitStage(splitHand2, 1);
+  //     break;
+  //   case active == 1 && count == 3:
+  //     renderPlayerField(splitHand1);
+  //     // renderSplitStage1(splitHand2);
+  //     // renderSplitStage2(splitHand3);
+  //     renderSplitStage(splitHand2, 1);
+  //     renderSplitStage(splitHand3, 2);
+  //     break;
+  //   case active == 2 && count == 2:
+  //     renderPlayerField(splitHand2);
+  //     // renderSplitStage1(splitHand1);
+  //     renderSplitStage(splitHand1, 1);
+  //     break;
+  //   case active == 2 && count == 3:
+  //     renderPlayerField(splitHand2);
+  //     // renderSplitStage1(splitHand1);
+  //     // renderSplitStage2(splitHand3);
+  //     renderSplitStage(splitHand1, 1);
+  //     renderSplitStage(splitHand3, 2);
+  //     break;
+  //   case active == 3 && count == 3:
+  //     renderPlayerField(splitHand3);
+  //     // renderSplitStage1(splitHand1);
+  //     // renderSplitStage2(splitHand2);
+  //     renderSplitStage(splitHand1, 1);
+  //     renderSplitStage(splitHand2, 2);
+  //     break;
+  //   case active == 3 && count == 4:
+  //     renderPlayerField(splitHand3);
+  //     // renderSplitStage1(splitHand1);
+  //     // renderSplitStage2(splitHand2);
+  //     // renderSplitStage3(splitHand4);
+  //     renderSplitStage(splitHand1, 1);
+  //     renderSplitStage(splitHand2, 2);
+  //     renderSplitStage(splitHand4, 3);
+  //     break;
+  //   case active == 4:
+  //     renderPlayerField(splitHand4);
+  //     // renderSplitStage1(splitHand1);
+  //     // renderSplitStage2(splitHand2);
+  //     // renderSplitStage3(splitHand3);
+  //     renderSplitStage(splitHand1, 1);
+  //     renderSplitStage(splitHand2, 2);
+  //     renderSplitStage(splitHand3, 3);
+  //     break;
+  //   default:
+  //     console.log(`ERROR: Rendering Split Hands`);
+  // }
 }
 
 export function renderPlayerField(hand) {

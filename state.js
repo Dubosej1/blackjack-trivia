@@ -76,19 +76,49 @@ class State {
     view.renderDealerField(this.dealer.hand);
   }
 
-  checkSplitAvailable() {
+  // checkSplitAvailable() {
+  //   if (this.bank - this.betObj.baseBet <= 0) {
+  //     this.splitAvailable = false;
+  //     return;
+  //   }
+
+  //   if (this.player.checkValidSplit(this.options)) this.splitAvailable = true;
+  //   else this.splitAvailable = false;
+  // }
+
+  checkSplitAvailable(hand) {
     if (this.bank - this.betObj.baseBet <= 0) {
       this.splitAvailable = false;
       return;
     }
 
-    if (this.player.checkValidSplit(this.options)) this.splitAvailable = true;
+    // let hand = this.player.hand;
+
+    if (this.player.currentSplitHand == 0)
+      this.player.checkValidSplit(hand, this.options);
+
+    if (hand.splitValid) this.splitAvailable = true;
     else this.splitAvailable = false;
   }
 
-  checkDoubleDownAvailable() {
-    if (this.bank - this.betObj.baseBet < 0) this.doubleDownAvailable = false;
-    else this.doubleDownAvailable = true;
+  // checkDoubleDownAvailable() {
+  //   if (this.bank - this.betObj.baseBet < 0) this.doubleDownAvailable = false;
+  //   else this.doubleDownAvailable = true;
+  // }
+
+  checkDoubleDownAvailable(hand) {
+    if (this.bank - this.betObj.baseBet < 0) {
+      this.doubleDownAvailable = false;
+      return;
+    }
+
+    if (this.player.currentSplitHand != 0) {
+      if (hand.resplitDoubleValid) this.doubleDownAvailable = true;
+      else this.doubleDownAvailable = false;
+      return;
+    }
+
+    this.doubleDownAvailable = true;
   }
 
   checkValidInsurance() {
