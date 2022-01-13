@@ -174,7 +174,7 @@ class State {
     view.renderNoticeText(str);
   }
 
-  subtractSplitBetFromBank() {
+  subtractBaseBetFromBank() {
     let betAmount = this.betObj.baseBet;
     this.bank = this.bank - betAmount;
     this.updateBank(this.bank);
@@ -192,7 +192,12 @@ class State {
     let totalSplitHands = this.player.splitHands.length;
 
     this.betObj.splitBet(currentSplitHand, totalSplitHands);
-    this.subtractSplitBetFromBank();
+    this.subtractBaseBetFromBank();
+  }
+
+  updateDoubleDownBet() {
+    this.betObj.applyDoubleDown(this.player.currentSplitHand);
+    this.subtractBaseBetFromBank();
   }
 }
 

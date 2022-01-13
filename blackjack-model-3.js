@@ -155,6 +155,45 @@ class Hand {
     let repeatedTags = endTags.repeat(cardCount);
     this.images.push(repeatedTags);
   }
+
+  playerHit(gameState) {
+    let player = gameState.player;
+
+    drawSingleCard(gameInfo.deckID)
+      .then(function (cardsObj) {
+        this.addCardToHand = cardsObj;
+      })
+      .catch((err) => alert(`error executePlayerHit`))
+      .finally(function () {
+        this.performHandChecks();
+        controller.updateStatePlayers(player, gameState);
+        controller.checkPlayerNextAvailableAction(gameState);
+      });
+    // player.performHandChecks();
+
+    // controller.updateStatePlayers(player, gameState);
+    // controller.checkPlayerNextAvailableAction(player, gameState);
+  }
+
+  performHandChecks() {
+    this.checkHandForBust();
+    this.checkHandForCharlie();
+  }
+
+  checkHandForBust() {
+    if (this.total <= 21) return;
+    else this.outcome = `bust`;
+  }
+
+  checkHandForCharlie() {
+    let cardCount = this.cards.length;
+
+    if (this.total > 21) return;
+    if (cardCount < 5) return;
+
+    this.outcome = `charlie`;
+    this.charlieType = cardCount;
+  }
 }
 
 class Player extends Cardholder {
@@ -515,6 +554,54 @@ class Player extends Cardholder {
       if (result) value = "10";
       return value;
     }
+  }
+
+  executeHit(gameState) {
+    let options = gameState.options;
+    let activeHand = this.currentSplitHand;
+    let hand;
+
+    if (activeHand == 0) hand = player.hand;
+    else hand = this.getSplitHand(activeHand);
+
+    hand.playerHit(options);
+    let nextAction = this.determineContinueStatus(hand, options);
+
+    controller.nextPlayerAction(nextAction, gameState);
+  }
+
+  determineContinueStatus(hand) {
+    let outcome = hand.outcome;
+    let activeHand = this.currentSplitHand;
+    let handCount = 1;
+    let nextAction;
+
+    if (activeHand > 0) handCount = this.splitHands.length;
+
+    switch (outcome) {
+      case `bust`:
+        if (activeHand == 0) nextAction = `endRound`;
+        else if (activeHand == handCount) nextAction = `dealer`;
+        else nextAction = `changeHand`;
+        break;
+      case `charlie`:
+        let charlieLimit;
+
+        if (options.fiveCardCharlie) charlieLimit = 5;
+        else charlieLimit = 7;
+
+        if (hand.charlieCount < charlieLimit) nextAction = `continue`;
+        else if (activeHand == 0) nextAction = `endRound`;
+        else if (activeHand == handCount) nextAction = `dealer`;
+        else nextAction = `changeHand`;
+        break;
+      default:
+        if (hand.doubleDownActive) {
+          nextAction = `dealer`;
+        } else nextAction = `continue`;
+    }
+
+    return nextAction;
   }
 }
 

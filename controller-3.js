@@ -460,6 +460,150 @@ export function splitAction(event, gameState) {
   bjModel.splitPlayerHand(gameState);
 }
 
+export function hitAction(event, gameState) {
+  // change hit Btn to disabled
+  // activate relevant split stage
+
+  gameState.player.executeHit(gameState);
+}
+
+export function standAction(e, gameState) {
+  // if (checkForNaturals(gameState)) return;
+  // changeBtnsAvailable(gameState);
+
+  let player = gameState.player;
+  let activeHand = player.currentSplitHand;
+  let handCount;
+  if (activeHand > 0) handCount = player.splitHands.length;
+
+  switch (true) {
+    case activeHand == 0 || activeHand == handCount:
+      // render hand outcome in the view as "Stand"
+
+      //render Notice text = "Dealer's Turn"
+
+      //Wait 3 Sec
+
+      // Execute Dealer Hit
+      break;
+    case activeHand < 4:
+      // render hand outcome in the view as "stand"
+
+      //render Notice text = "Playing Hand ###"
+
+      //change currentSplitHand
+
+      //beginSplitHand()
+      break;
+    default:
+      console.log(`ERROR: Stand Action`);
+  }
+
+  // if (player.currentSplitHand == 1) {
+  //   executeStandForSplitHand1();
+  //   return;
+  // }
+
+  // executeDealerTurn(gameState);
+
+  // function executeStandForSplitHand1() {
+  //   player.updateCurrentSplitHand = 2;
+  //   gameState.updateNoticeText = `Please play 2nd split hand`;
+  //   gameState.updateVisibleGameBtns = { hit: true, stand: true };
+  // }
+}
+
+export function doubleDownAction(e, gameState) {
+  // disable Double Down Btn
+  let player = gameState.player;
+  let activeHand = player.currentPlayerHand;
+
+  gameState.updateDoubleDownBet();
+
+  let hand;
+
+  if (activeHand == 0) hand = player.hand;
+  else hand = player.getSplitHand(activeHand);
+
+  gameState.updateNoticeText = `Player Doubles Down`;
+
+  // Wait 3 Sec
+
+  player.executeHit(gameState);
+}
+
+export function surrenderAction(event, gameState) {
+  //disable game buttons
+
+  //Notice Text: Player Surrendered
+  //Render Hand Outcome: Surrender
+
+  //Check if dealer has a natural
+  //IF yes: Player loses, render player outcome as Lose/dealer as natural, end round
+  //IF no: Player outcome as surrender,
+
+  //End Round
+
+  let dealer = gameState.dealer;
+  let player = gameState.player;
+  let gameTimer;
+
+  gameState.updateNoticeText = `Player surrendered...`;
+
+  // dealer.checkHandForNatural();
+
+  if (dealer.hand.outcome == `natural`) player.applySurrenderOutcome = `fail`;
+  else player.applySurrenderOutcome = `pass`;
+
+  gameTimer = setTimeout(endRound, 3000, gameState);
+}
+
+export function nextPlayerAction(gameState, nextAction) {
+  let player = gameState.player;
+
+  switch (nextAction) {
+    case `changeHand`:
+      //render Outcome of Current Hand to View
+
+      //Wait 3 Sec
+
+      let activeHand = player.currentSplitHand;
+      player.currentSplitHand = ++activeHand;
+
+      //Change Notice Text
+      //Change Player Field to new active split hand
+
+      beginSplitHandActions(gameState);
+      break;
+    case `dealer`:
+      // render Outcome of Current Hand to View
+
+      // Wait 3 Sec
+
+      //Change Notice Text
+
+      //Start Dealer Turn
+      break;
+    case `End Round`:
+      //render Outcome of Current Hand to View
+
+      // Wait 3 Sec
+
+      //Begin End Round Sequence (Mystery Jackpot, Side Bets, Round Outcome)
+      break;
+    default:
+      let btnObj = {
+        hit: true,
+        stand: true,
+        doubleDown: false,
+        split: false,
+        surrender: false,
+      };
+
+      gameState.toggleEnableActionBtns = btnObj;
+  }
+}
+
 // Initializing Entire Program
 
 function init() {

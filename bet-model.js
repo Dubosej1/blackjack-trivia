@@ -172,6 +172,17 @@ class Bet {
     this.bank = this.bank - this.baseBet;
   }
 
+  applyDoubleDown(activeHand) {
+    let newBet = this.baseBet * 2;
+
+    if (activeHand <= 1) this.baseBet = newBet;
+    if (activeHand == 2) this.splitBets.splitHand2 = newBet;
+    if (activeHand == 3) this.splitBets.splitHand3 = newBet;
+    if (activeHand == 4) this.splitBets.splitHand4 = newBet;
+
+    this.bank = this.bank - this.baseBet;
+  }
+
   toggleSideBetPlacedModalActive(boolean) {
     if (boolean) this.sideBetPlacedModalActive = true;
     else this.sideBetPlacedModalActive = false;
