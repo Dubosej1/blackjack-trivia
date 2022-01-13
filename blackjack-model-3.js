@@ -166,7 +166,7 @@ class Hand {
       })
       .catch((err) => alert(`error executePlayerHit`))
       .finally(function () {
-        hand.performHandChecks();
+        hand.performHandChecks(gameState);
         controller.updateStatePlayers(player, gameState);
         // controller.checkPlayerNextAvailableAction(gameState);
         player.determineContinueStatus(hand, gameState);
@@ -177,9 +177,11 @@ class Hand {
     // controller.checkPlayerNextAvailableAction(player, gameState);
   }
 
-  performHandChecks() {
+  performHandChecks(gameState) {
+    let options = gameState.options;
+
     this.checkHandForBust();
-    this.checkHandForCharlie();
+    this.checkHandForCharlie(options);
   }
 
   checkHandForBust() {
@@ -187,10 +189,24 @@ class Hand {
     else this.outcome = `bust`;
   }
 
-  checkHandForCharlie() {
+  checkHandForCharlie(options) {
     let cardCount = this.cards.length;
 
+    let charlieLimit;
+
+    if (options.fiveCardCharlie) charlieLimit = 5;
+    else charlieLimit = 7;
+
     if (this.total > 21) return;
+    if (cardCount < charlieLimit) return;
+
+    this.outcome = `charlie`;
+    this.charlieType = cardCount;
+  }
+
+  checkStandForCharlie() {
+    let cardCount = this.cards.length;
+
     if (cardCount < 5) return;
 
     this.outcome = `charlie`;
@@ -601,7 +617,14 @@ class Player extends Cardholder {
         } else nextAction = `continue`;
     }
 
-    controller.nextPlayerAction(nextAction, gameState);
+    let gameTimer = setTimeout(
+      controller.nextPlayerAction,
+      3000,
+      nextAction,
+      gameState
+    );
+
+    // controller.renderPlayerOutcome(nextAction, gameState);
   }
 }
 
@@ -991,17 +1014,17 @@ export function splitPlayerHand(gameState) {
 
 function addDealerImagesToHand(card) {
   if (this.cards.length == 1) {
-    this.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`;
+    this.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}">`;
     this.simpleUnrevealedCard = `<img src="${card.image}" class="card">`;
     this.images.push(
-      `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg"/>`
+      `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg">`
     );
     this.simpleImages.push(
       `<img src='img/playing-card-back.svg' class='card'>`
     );
   } else {
     this.images.push(
-      `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`
+      `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}">`
     );
     this.simpleImages.push(`<img src="${card.image}" class="card">`);
     this.visibleCards.push(card);
@@ -1015,7 +1038,7 @@ function calcDealerVisibleHandTotal() {
 
 function addPlayerImagesToHand(card) {
   this.images.push(
-    `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
+    `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}">`
   );
   this.endTags.push(`</li></ul>`);
   this.simpleImages.push(`<img src="${card.image}" class="card">`);

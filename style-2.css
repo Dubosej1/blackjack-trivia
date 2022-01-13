@@ -97,10 +97,21 @@ body {
 }
 
 .dealer-message__container {
-  background: red;
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
+}
+.dealer-message__container--blackjack {
+  background: yellow;
+  color: black;
+}
+.dealer-message__container--bust {
+  background: red;
+  color: white;
+}
+.dealer-message__container--charlie {
+  background: orange;
+  color: white;
 }
 
 .grid__game-message {
@@ -180,14 +191,25 @@ body {
   grid-column-end: -1;
   grid-row-start: 2;
   grid-row-end: -1;
-  background: yellow;
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
 }
+.player-message__container--blackjack {
+  background: yellow;
+  color: black;
+}
+.player-message__container--bust {
+  background: red;
+  color: white;
+}
+.player-message__container--charlie {
+  background: orange;
+  color: white;
+}
 
 .player-message__text {
-  color: black;
+  color: white;
 }
 
 .grid__split-stages-container {
@@ -237,6 +259,12 @@ body {
   text-align: center;
 }
 
+.split-stage-1__container,
+.split-stage-2__container,
+.split-stage-3__container {
+  display: none;
+}
+
 .split-stage__label {
   font-weight: 700;
   color: orange;
@@ -265,17 +293,43 @@ body {
   padding: 0rem 1rem;
 }
 
-.split-stage-1__result {
-  background-color: red;
-}
-
-.split-stage-2__result {
-  background-color: orange;
-}
-
-.split-stage-3__result {
-  background-color: yellow;
+.split-stage-1__result--blackjack {
+  background: yellow;
   color: black;
+}
+.split-stage-1__result--bust {
+  background: red;
+  color: white;
+}
+.split-stage-1__result--charlie {
+  background: orange;
+  color: white;
+}
+
+.split-stage-2__result--blackjack {
+  background: yellow;
+  color: black;
+}
+.split-stage-2__result--bust {
+  background: red;
+  color: white;
+}
+.split-stage-2__result--charlie {
+  background: orange;
+  color: white;
+}
+
+.split-stage-3__result--blackjack {
+  background: yellow;
+  color: black;
+}
+.split-stage-3__result--bust {
+  background: red;
+  color: white;
+}
+.split-stage-3__result--charlie {
+  background: orange;
+  color: white;
 }
 
 .btn {

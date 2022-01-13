@@ -17,6 +17,23 @@ $font-size-default: 2rem;
   grid-row-end: $row-end;
 }
 
+@mixin outcomeClasses {
+  &--blackjack {
+    background: yellow;
+    color: black;
+  }
+
+  &--bust {
+    background: red;
+    color: white;
+  }
+
+  &--charlie {
+    background: orange;
+    color: white;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -103,10 +120,12 @@ body {
 }
 
 .dealer-message__container {
-  background: red;
+  // background: red;
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
+
+  @include outcomeClasses;
 }
 
 .grid__game-message {
@@ -181,14 +200,16 @@ body {
 
 .player-message__container {
   @include grid-item-define(2, -1, 2, -1);
-  background: yellow;
+  // background: yellow;
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
+
+  @include outcomeClasses;
 }
 
 .player-message__text {
-  color: black;
+  color: white;
 }
 
 .grid__split-stages-container {
@@ -227,6 +248,12 @@ body {
   text-align: center;
 }
 
+.split-stage-1__container,
+.split-stage-2__container,
+.split-stage-3__container {
+  display: none;
+}
+
 .split-stage__label {
   font-weight: 700;
   color: orange;
@@ -256,16 +283,22 @@ body {
 }
 
 .split-stage-1__result {
-  background-color: red;
+  // background-color: red;
+
+  @include outcomeClasses;
 }
 
 .split-stage-2__result {
-  background-color: orange;
+  // background-color: orange;
+
+  @include outcomeClasses;
 }
 
 .split-stage-3__result {
-  background-color: yellow;
-  color: black;
+  // background-color: yellow;
+  // color: black;
+
+  @include outcomeClasses;
 }
 
 .btn {

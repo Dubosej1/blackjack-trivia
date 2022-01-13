@@ -560,41 +560,46 @@ export function surrenderAction(event, gameState) {
   gameTimer = setTimeout(endRound, 3000, gameState);
 }
 
+// export function renderPlayerOutcome(nextAction, gameState) {
+//   let player = gameState.player;
+//   let activeHand = player.currentSplitHand;
+//   let hand;
+
+//   if (activeHand == 0) hand = player.hand;
+//   else hand = player.getSplitHand(activeHand);
+
+//   view.renderPlayerHands(player);
+//   // view.renderPlayerHandOutcome(hand, `player`);
+
+//   let gameTimer = setTimeout(nextPlayerAction, 3000, nextAction, gameState);
+// }
+
 export function nextPlayerAction(nextAction, gameState) {
   let player = gameState.player;
 
   switch (nextAction) {
     case `changeHand`:
-      //render Outcome of Current Hand to View
-
-      //Wait 3 Sec
-
       let activeHand = player.currentSplitHand;
       player.currentSplitHand = ++activeHand;
 
-      //Change Notice Text
+      gameState.updateNoticeText = `Hand ${activeHand}'s Turn`;
+
+      view.renderPlayerHands(player, true);
+      // view.resetOutcomeField(activeHand - 1);
       //Change Player Field to new active split hand
 
       beginSplitHandActions(gameState);
       break;
     case `dealer`:
-      // render Outcome of Current Hand to View
-
-      // Wait 3 Sec
-
-      //Change Notice Text
+      gameState.updateNoticeText = `Dealer's Turn`;
 
       //Start Dealer Turn
       break;
     case `endRound`:
-      //render Outcome of Current Hand to View
-
-      // Wait 3 Sec
-
       //Begin End Round Sequence (Mystery Jackpot, Side Bets, Round Outcome)
       break;
     default:
-      view.renderPlayerHands(player);
+      // view.renderPlayerHands(player);
 
       let btnObj = {
         hit: true,
