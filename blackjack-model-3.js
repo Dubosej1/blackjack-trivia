@@ -158,16 +158,18 @@ class Hand {
 
   playerHit(gameState) {
     let player = gameState.player;
+    let hand = this;
 
     drawSingleCard(gameInfo.deckID)
       .then(function (cardsObj) {
-        this.addCardToHand = cardsObj;
+        hand.addCardToHand = cardsObj;
       })
       .catch((err) => alert(`error executePlayerHit`))
       .finally(function () {
-        this.performHandChecks();
+        hand.performHandChecks();
         controller.updateStatePlayers(player, gameState);
-        controller.checkPlayerNextAvailableAction(gameState);
+        // controller.checkPlayerNextAvailableAction(gameState);
+        player.determineContinueStatus(hand, gameState);
       });
     // player.performHandChecks();
 
@@ -561,16 +563,14 @@ class Player extends Cardholder {
     let activeHand = this.currentSplitHand;
     let hand;
 
-    if (activeHand == 0) hand = player.hand;
+    if (activeHand == 0) hand = gameState.player.hand;
     else hand = this.getSplitHand(activeHand);
 
-    hand.playerHit(options);
-    let nextAction = this.determineContinueStatus(hand, options);
-
-    controller.nextPlayerAction(nextAction, gameState);
+    hand.playerHit(gameState);
   }
 
-  determineContinueStatus(hand) {
+  determineContinueStatus(hand, gameState) {
+    let options = gameState.options;
     let outcome = hand.outcome;
     let activeHand = this.currentSplitHand;
     let handCount = 1;
@@ -601,7 +601,7 @@ class Player extends Cardholder {
         } else nextAction = `continue`;
     }
 
-    return nextAction;
+    controller.nextPlayerAction(nextAction, gameState);
   }
 }
 
@@ -861,6 +861,29 @@ function drawCards(deckID, count) {
     })
     .catch(function (err) {
       drawCards(deckID, 2);
+    });
+}
+
+function drawSingleCard(deckID) {
+  return fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      let cardData = data.cards;
+      let card = {
+        value: cardData[0].value,
+        code: cardData[0].code,
+        image: cardData[0].image,
+        remaining: data.remaining,
+      };
+
+      return card;
+    })
+    .catch((err) => {
+      cardData = null;
+      card = null;
+      drawSingleCard(deckID);
     });
 }
 

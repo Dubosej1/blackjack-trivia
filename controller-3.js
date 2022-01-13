@@ -453,16 +453,18 @@ export function initInsuranceBet(event, gameState) {
 }
 
 export function splitAction(event, gameState) {
-  // change Split Btn to disabled
+  gameState.toggleEnableActionBtns = { split: false };
   // Change Player screen label from "Player" to "Hand 1"
-  // activate relevant split stage
 
   bjModel.splitPlayerHand(gameState);
 }
 
 export function hitAction(event, gameState) {
-  // change hit Btn to disabled
-  // activate relevant split stage
+  gameState.toggleEnableActionBtns = {
+    split: false,
+    doubleDown: false,
+    surrender: false,
+  };
 
   gameState.player.executeHit(gameState);
 }
@@ -558,7 +560,7 @@ export function surrenderAction(event, gameState) {
   gameTimer = setTimeout(endRound, 3000, gameState);
 }
 
-export function nextPlayerAction(gameState, nextAction) {
+export function nextPlayerAction(nextAction, gameState) {
   let player = gameState.player;
 
   switch (nextAction) {
@@ -584,7 +586,7 @@ export function nextPlayerAction(gameState, nextAction) {
 
       //Start Dealer Turn
       break;
-    case `End Round`:
+    case `endRound`:
       //render Outcome of Current Hand to View
 
       // Wait 3 Sec
@@ -592,6 +594,8 @@ export function nextPlayerAction(gameState, nextAction) {
       //Begin End Round Sequence (Mystery Jackpot, Side Bets, Round Outcome)
       break;
     default:
+      view.renderPlayerHands(player);
+
       let btnObj = {
         hit: true,
         stand: true,
