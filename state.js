@@ -198,6 +198,8 @@ class State {
   updateDoubleDownBet() {
     this.betObj.applyDoubleDown(this.player.currentSplitHand);
     this.subtractBaseBetFromBank();
+    // view.updateBaseBet(this.betObj.baseBet);
+    view.toggleDoubleDownMarker(true);
   }
 }
 

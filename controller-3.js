@@ -478,6 +478,7 @@ export function standAction(e, gameState) {
     doubleDown: false,
     hit: false,
     stand: false,
+    surrender: false,
   };
 
   let player = gameState.player;
@@ -505,9 +506,14 @@ export function standAction(e, gameState) {
 }
 
 export function doubleDownAction(e, gameState) {
-  // disable Double Down Btn
   let player = gameState.player;
-  let activeHand = player.currentPlayerHand;
+  let activeHand = player.currentSplitHand;
+
+  gameState.toggleEnableActionBtns = {
+    doubleDown: false,
+    surrender: false,
+    split: false,
+  };
 
   gameState.updateDoubleDownBet();
 
@@ -516,11 +522,15 @@ export function doubleDownAction(e, gameState) {
   if (activeHand == 0) hand = player.hand;
   else hand = player.getSplitHand(activeHand);
 
+  hand.doubleDownActive = true;
+
   gameState.updateNoticeText = `Player Doubles Down`;
+
+  let hitClbk = player.executeHit.bind(player);
 
   // Wait 3 Sec
 
-  player.executeHit(gameState);
+  let gameTimer = setTimeout(hitClbk, 1500, gameState);
 }
 
 export function surrenderAction(event, gameState) {
@@ -569,6 +579,10 @@ export function nextPlayerAction(nextAction, gameState) {
   switch (nextAction) {
     case `changeHand`:
       let activeHand = player.currentSplitHand;
+
+      let hand = player.getSplitHand(activeHand);
+      if (hand.doubleDownActive) view.toggleDoubleDownMarker(false);
+
       player.currentSplitHand = ++activeHand;
 
       gameState.updateNoticeText = `Hand ${activeHand}'s Turn`;

@@ -613,9 +613,13 @@ class Player extends Cardholder {
         else nextAction = `changeHand`;
         break;
       default:
-        if (hand.doubleDownActive) {
-          nextAction = `dealer`;
-        } else nextAction = `continue`;
+        if (!hand.doubleDownActive) nextAction = `continue`;
+        else {
+          if (activeHand == 0 || activeHand == handCount) nextAction = `dealer`;
+          else nextAction = `changeHand`;
+        }
+
+        hand.outcome = `stand`;
     }
 
     let gameTimer = setTimeout(

@@ -90,6 +90,14 @@ body {
   color: white;
 }
 
+.round-info__double-down-marker {
+  margin-left: 5px;
+  color: red;
+  font-weight: 700;
+  font-size: 3rem;
+  display: none;
+}
+
 .grid__round-info {
   @include grid-item-define(1, 3, 2, 4);
 }

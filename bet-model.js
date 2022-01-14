@@ -11,6 +11,7 @@ class Bet {
   initialSideBetSequence;
   initialOutcomePackages;
   tempValue = { bank: 0, baseBet: 0, sideBetTotal: 0, bet: 0 };
+  splitBets = {};
 
   constructor(bank) {
     this.bank = bank;

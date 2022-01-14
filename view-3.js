@@ -10,6 +10,15 @@ export function updateBaseBet(bet) {
   baseBetField.textContent = bet;
 }
 
+export function toggleDoubleDownMarker(boolean) {
+  const doubleDownMarker = document.querySelector(
+    `.round-info__double-down-marker`
+  );
+
+  if (boolean) doubleDownMarker.style.display = `inline`;
+  else doubleDownMarker.style.display = `none`;
+}
+
 export function openBaseBetModal(gameState) {
   const basicBetModal__BankValue = document.querySelector(
     ".basic-bet-modal__bank-value"
