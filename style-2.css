@@ -113,6 +113,10 @@ body {
   background: orange;
   color: white;
 }
+.dealer-message__container--stand {
+  background: gray;
+  color: white;
+}
 
 .grid__game-message {
   display: flex;
@@ -205,6 +209,10 @@ body {
 }
 .player-message__container--charlie {
   background: orange;
+  color: white;
+}
+.player-message__container--stand {
+  background: gray;
   color: white;
 }
 
@@ -305,6 +313,10 @@ body {
   background: orange;
   color: white;
 }
+.split-stage-1__result--stand {
+  background: gray;
+  color: white;
+}
 
 .split-stage-2__result--blackjack {
   background: yellow;
@@ -318,6 +330,10 @@ body {
   background: orange;
   color: white;
 }
+.split-stage-2__result--stand {
+  background: gray;
+  color: white;
+}
 
 .split-stage-3__result--blackjack {
   background: yellow;
@@ -329,6 +345,10 @@ body {
 }
 .split-stage-3__result--charlie {
   background: orange;
+  color: white;
+}
+.split-stage-3__result--stand {
+  background: gray;
   color: white;
 }
 

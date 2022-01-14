@@ -230,7 +230,7 @@ export function beginSplitHandActions(gameState) {
   gameState.checkSplitAvailable(currHand);
   gameState.checkDoubleDownAvailable(currHand);
 
-  let btnObj = {};
+  let btnObj = { stand: true };
 
   gameState.splitAvailable ? (btnObj.split = true) : (btnObj.split = false);
   gameState.doubleDownAvailable
@@ -473,46 +473,35 @@ export function standAction(e, gameState) {
   // if (checkForNaturals(gameState)) return;
   // changeBtnsAvailable(gameState);
 
+  gameState.toggleEnableActionBtns = {
+    split: false,
+    doubleDown: false,
+    hit: false,
+    stand: false,
+  };
+
   let player = gameState.player;
   let activeHand = player.currentSplitHand;
-  let handCount;
-  if (activeHand > 0) handCount = player.splitHands.length;
+  let hand, handCount, outcomeCharlie, nextAction;
 
-  switch (true) {
-    case activeHand == 0 || activeHand == handCount:
-      // render hand outcome in the view as "Stand"
+  if (activeHand == 0) {
+    hand = player.hand;
+    nextAction = `dealer`;
+  } else {
+    handCount = player.splitHands.length;
+    hand = player.getSplitHand(activeHand);
 
-      //render Notice text = "Dealer's Turn"
-
-      //Wait 3 Sec
-
-      // Execute Dealer Hit
-      break;
-    case activeHand < 4:
-      // render hand outcome in the view as "stand"
-
-      //render Notice text = "Playing Hand ###"
-
-      //change currentSplitHand
-
-      //beginSplitHand()
-      break;
-    default:
-      console.log(`ERROR: Stand Action`);
+    if (activeHand == handCount) nextAction = `dealer`;
+    else nextAction = `changeHand`;
   }
 
-  // if (player.currentSplitHand == 1) {
-  //   executeStandForSplitHand1();
-  //   return;
-  // }
+  outcomeCharlie = hand.checkStandForCharlie();
 
-  // executeDealerTurn(gameState);
+  if (!outcomeCharlie) hand.outcome = `stand`;
 
-  // function executeStandForSplitHand1() {
-  //   player.updateCurrentSplitHand = 2;
-  //   gameState.updateNoticeText = `Please play 2nd split hand`;
-  //   gameState.updateVisibleGameBtns = { hit: true, stand: true };
-  // }
+  view.renderPlayerHands(player);
+
+  let gameTimer = setTimeout(nextPlayerAction, 3000, nextAction, gameState);
 }
 
 export function doubleDownAction(e, gameState) {

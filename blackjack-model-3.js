@@ -207,10 +207,11 @@ class Hand {
   checkStandForCharlie() {
     let cardCount = this.cards.length;
 
-    if (cardCount < 5) return;
+    if (cardCount < 5) return false;
 
     this.outcome = `charlie`;
     this.charlieType = cardCount;
+    return true;
   }
 }
 
