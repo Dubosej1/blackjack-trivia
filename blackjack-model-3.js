@@ -249,6 +249,42 @@ class Hand {
   checkForAces() {
     return this.cards.some((obj) => obj.value == "ACE");
   }
+
+  calculateWinnings(options, bet) {
+    let bjPayout = this.options.blackjackPayout;
+    let winnings;
+
+    switch (this.roundOutcome) {
+      case `win`:
+        winnings = bet * 2;
+        break;
+      case `push`:
+        winnings = bet;
+        break;
+      case `natural`:
+        let num = bjPayout.split(`:`).map((num) => parseInt(num, 10));
+        let multiplier = num[0];
+        let divider = num[1];
+
+        winnings = Math.round((bet * multiplier) / divider) + bet;
+        break;
+      default:
+        winnings = 0;
+    }
+
+    this.winnings = winnings;
+  }
+
+  generateOutcomePackage() {
+    let outcomePackage = {};
+
+    outcomePackage.handOutcome = this.outcome;
+    outcomePackage.roundOutcome = this.roundOutcome;
+    outcomePackage.winnings = this.winnings;
+    outcomePackage.outcomeText = this.roundOutcomeText;
+
+    this.outcomePackage = outcomePackage;
+  }
 }
 
 class Player extends Cardholder {

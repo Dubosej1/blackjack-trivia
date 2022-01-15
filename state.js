@@ -211,6 +211,143 @@ class State {
     // view.updateBaseBet(this.betObj.baseBet);
     view.toggleDoubleDownMarker(true);
   }
+
+  //Possible Outcomes: Win, Lose, Push or Surrender (for each hand)
+
+  determineBaseRoundOutcome() {
+    let player = this.player;
+    let dealer = this.dealer;
+    let dealerHand = dealer.hand;
+    let activeHand = player.currentSplitHand;
+
+    if (activeHand == 0) {
+      let hand = player.hand;
+      this.calculateHandMatchup(hand, dealerHand);
+      hand.calculateWinnings(this.options, this.betObj.baseBet);
+      this.generateOutcomePackage();
+    } else {
+      player.splitHands.forEach(function (hand, index) {
+        if (index == 0) bet = this.betObj.baseBet;
+        else bet = this.betObj.splitBets[index - 1];
+
+        this.calculateHandMatchup(hand, dealerHand);
+        hand.calculateWinnings(this.options, bet);
+        this.generateOutcomePackage();
+      });
+    }
+
+    // switch (handCount) {
+    //   case 1:
+    //     hand = player.hand;
+    //     this.calculateHandMatchup(hand, dealerHand);
+    //     break;
+    //   case 2:
+    //     hand = player.getSplitHand(1);
+    //     hand2 = player.getSplitHand(2);
+    //     this.calculateHandMatchup(hand, dealerHand);
+    //     this.calculateHandMatchup(hand2, dealerHand);
+    //     break;
+    //   case 3:
+    //     hand = player.getSplitHand(1);
+    //     hand2 = player.getSplitHand(2);
+    //     hand3 = player.getSplitHand(3);
+    //     this.calculateHandMatchup(hand, dealerHand);
+    //     this.calculateHandMatchup(hand2, dealerHand);
+    //     this.calculateHandMatchup(hand3, dealerHand);
+    //     break;
+    //   case 4:
+    //     hand = player.getSplitHand(1);
+    //     hand2 = player.getSplitHand(2);
+    //     hand3 = player.getSplitHand(3);
+    //     hand4 = player.getSplitHand(4);
+    //     this.calculateHandMatchup(hand, dealerHand);
+    //     this.calculateHandMatchup(hand2, dealerHand);
+    //     this.calculateHandMatchup(hand3, dealerHand);
+    //     this.calculateHandMatchup(hand4, dealerHand);
+    //     break;
+    //   default:
+    //     console.log(`ERROR: calculating hand outcomes`);
+    // }
+  }
+
+  //Pre existing outcomes: Bust, Charlie, Blackjack, Stand
+
+  calculateHandMatchup(hand, dealerHand) {
+    let playerOutcome = hand.getOutcome;
+    let dealerOutcome = dealerHand.getOutcome;
+    let roundOutcome;
+    let roundOutcomeText;
+    let handNum = hand.handNum;
+
+    let player;
+
+    if ((handNum = 0)) player = `Player`;
+    else player = `Hand ${handNum}`;
+
+    switch (true) {
+      case playerOutcome == dealerOutcome:
+        if (playerOutcome == `bust`) {
+          roundOutcome = `lose`;
+          roundOutcomeText = `${player} busts...`;
+        } else roundOutcome = "push";
+        break;
+      case playerOutcome == `bust`:
+        roundOutcome = `lose`;
+        roundOutcomeText = `${player} busts...`;
+        break;
+      case dealerOutcome == `bust`:
+        roundOutcome = `win`;
+        roundOutcomeText = `Dealer busts.`;
+        break;
+      case playerOutcome == `blackjack`:
+        roundOutcome = `natural`;
+        roundOutcomeText = `${player} has Blackjack!!!`;
+        break;
+      case dealerOutcome == `blackjack`:
+        roundOutcome = `natural`;
+        roundOutcomeText = `Dealer has Blackjack...`;
+        break;
+      case playerOutcome == `charlie`:
+        roundOutcome = `win`;
+        roundOutcomeText = `${player} has ${hand.charlieType} Card Charlie`;
+        break;
+      case dealerOutcome == `charlie`:
+        roundOutcome = `lose`;
+        roundOutcomeText = `Dealer has ${dealerHand.charlieType} Card Charlie`;
+        break;
+      case playerOutcome == `surrender`:
+        roundOutcome = `surrender`;
+        roundOutcomeText = `${player} has surrendered`;
+        break;
+      default:
+        hand.outcome = null;
+        dealerHand.outcome = null;
+
+        if (hand.total == dealerHand.total) roundOutcome = `push`;
+        else if (dealerHand.total > hand.total) roundOutcome = `lose`;
+        else roundOutcome = `win`;
+
+        if (roundOutcome == `win`) roundOutcomeText = `${player} Wins!`;
+        else if (roundOutcome == `lose`) roundOutcomeText = `Dealer Wins...`;
+    }
+
+    hand.roundOutcome = roundOutcome;
+
+    if (roundOutcome == `push`) {
+      let qualifier;
+
+      roundOutcomeText = `${player} Push.`;
+
+      if (playerOutcome == `charlie` || playerOutcome == `blackjack`) {
+        if (playerOutcome == `charlie`) qualifier = `Charlies`;
+        if (playerOutcome == `blackjack`) qualifier = `Blackjack`;
+
+        roundOutcomeText = roundOutcomeText + `Both players have ${qualifier}`;
+      }
+    }
+
+    hand.roundOutcomeText = roundOutcomeText;
+  }
 }
 
 export function initNewState(bank, options) {

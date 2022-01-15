@@ -187,6 +187,48 @@ export function beginGameRoutinePart2(gameState) {
   }
 }
 
+export function determineEndGameRoutineOrder(gameState) {
+  let endGameRoutineOrder = {
+    mysteryModal: false,
+    sideBetSequence: false,
+    totalWinnings: false,
+    roundOutcome: true,
+  };
+
+  betObj.checkForEndingSideBetSequence()
+    ? (endGameRoutineOrder.sideBetSequence = true)
+    : (endGameRoutineOrder.sideBetSequence = false);
+
+  gameState.endGameRoutineOrder = endGameRoutineOrder;
+
+  endGameRoutine(gameState);
+}
+
+export function endGameRoutine(gameState) {
+  let order = gameState.endGameRoutineOrder;
+  let betObj = gameState.betObj;
+  let sideBet = betObj.sideBet;
+
+  switch (true) {
+    case 1:
+      //Base Round Outcome Modal
+
+      break;
+    case 2:
+      //Mystery Jackpot Modal
+      break;
+    case 3:
+      //Side Bet Outcome Modal
+      break;
+    case 4:
+      //Total Winnings Modal + Complete Win Summary Modal via Btn
+      break;
+    default:
+    //if end round early?
+    //else beginGameRoutinePart2()
+  }
+}
+
 export function updateStatePlayers(player, gameState) {
   // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
   // if ((hand.type = `dealer`)) gameState.updateDealerHand = hand;
