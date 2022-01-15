@@ -87,9 +87,19 @@ class State {
   // }
 
   checkSplitAvailable(hand) {
+    let player = this.player;
+    let activeHand = player.currentSplitHand;
+
     if (this.bank - this.betObj.baseBet <= 0) {
       this.splitAvailable = false;
       return;
+    }
+
+    if (activeHand > 0) {
+      if (player.splitHands.length >= 4) {
+        this.splitAvailable = false;
+        return;
+      }
     }
 
     // let hand = this.player.hand;

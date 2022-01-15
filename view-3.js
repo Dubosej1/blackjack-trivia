@@ -615,16 +615,16 @@ export function renderPlayerHandOutcome(hand, field) {
       break;
     case `split-2`:
       const splitStage2Result = document.querySelector(
-        `.split-stage-1__result`
+        `.split-stage-2__result`
       );
-      splitStage2Result.classList.add(`split-stage-1__result--${outcome}`);
+      splitStage2Result.classList.add(`split-stage-2__result--${outcome}`);
       splitStage2Result.textContent = outcomeText;
       break;
     case `split-3`:
       const splitStage3Result = document.querySelector(
-        `.split-stage-1__result`
+        `.split-stage-3__result`
       );
-      splitStage3Result.classList.add(`split-stage-1__result--${outcome}`);
+      splitStage3Result.classList.add(`split-stage-3__result--${outcome}`);
       splitStage3Result.textContent = outcomeText;
       break;
     case `dealer`:
