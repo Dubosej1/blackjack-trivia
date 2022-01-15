@@ -319,6 +319,9 @@ class State {
         roundOutcome = `surrender`;
         roundOutcomeText = `${player} has surrendered`;
         break;
+      case playerOutcome == `surrenderFail`:
+        roundOutcome = `lose`;
+        roundOutcomeText = `Failed surrender.  Dealer has Blackjack.`;
       default:
         hand.outcome = null;
         dealerHand.outcome = null;

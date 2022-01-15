@@ -576,9 +576,37 @@ export function doubleDownAction(e, gameState) {
 
 export function surrenderAction(event, gameState) {
   //disable game buttons
+  gameState.toggleEnableActionBtns = {
+    split: false,
+    hit: false,
+    stand: false,
+    doubleDown: false,
+    surrender: false,
+  };
+
+  let hand;
+  let player = gameState.player;
+  let dealer = gameState.dealer;
+  let activeHand = player.currentSplitHand;
+  let handHolder, gameTimer, nextAction;
+
+  if (activeHand > 0) {
+    let handCount = player.splitHands.length;
+
+    hand = player.getSplitHand(activeHand);
+    handHolder = `Hand ${activeHand}`;
+
+    if (activeHand == 4) nextAction = `endRound`;
+    else nextAction = `changeHand`;
+  } else {
+    hand = player.hand;
+    handHolder = `Player`;
+    nextAction = `endRound`;
+  }
 
   //Notice Text: Player Surrendered
   //Render Hand Outcome: Surrender
+  gameState.updateNoticeText = `${handHolder} surrendered`;
 
   //Check if dealer has a natural
   //IF yes: Player loses, render player outcome as Lose/dealer as natural, end round
@@ -586,18 +614,10 @@ export function surrenderAction(event, gameState) {
 
   //End Round
 
-  let dealer = gameState.dealer;
-  let player = gameState.player;
-  let gameTimer;
+  if (dealer.hand.outcome == `natural`) player.outcome = `surrenderFail`;
+  else player.outcome = `surrender`;
 
-  gameState.updateNoticeText = `Player surrendered...`;
-
-  // dealer.checkHandForNatural();
-
-  if (dealer.hand.outcome == `natural`) player.applySurrenderOutcome = `fail`;
-  else player.applySurrenderOutcome = `pass`;
-
-  gameTimer = setTimeout(endRound, 1500, gameState);
+  gameTimer = setTimeout(nextPlayerAction, 1500, nextAction, gameState);
 }
 
 // export function renderPlayerOutcome(nextAction, gameState) {
@@ -648,6 +668,7 @@ export function nextPlayerAction(nextAction, gameState) {
     case `endRound`:
       gameState.updateNoticeText = `Round Ends...`;
       //Begin End Round Sequence (Mystery Jackpot, Side Bets, Round Outcome)
+      determineEndGameRoutineOrder(gameState);
       break;
     default:
       // view.renderPlayerHands(player);
@@ -687,7 +708,7 @@ export function nextDealerAction(nextAction, gameState) {
     view.renderDealerField(dealer.hand);
 
     gameState.updateNoticeText = `Round Ends...`;
-    // End Round
+    determineEndGameRoutineOrder(gameState);
   }
 }
 

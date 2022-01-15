@@ -261,6 +261,9 @@ class Hand {
       case `push`:
         winnings = bet;
         break;
+      case `surrender`:
+        winnings = Math.round(bet / 2);
+        break;
       case `natural`:
         let num = bjPayout.split(`:`).map((num) => parseInt(num, 10));
         let multiplier = num[0];
