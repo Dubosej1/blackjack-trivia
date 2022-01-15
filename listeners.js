@@ -257,6 +257,12 @@ export function addGameActionBtnListeners(gameState) {
   surrenderBtn.addEventListener(`click`, surrenderBtnListenerCallback);
 }
 
+export function addBaseRoundOutcomeModalListener() {
+  const nextBtn = document.querySelector(`.notice-modal__next`);
+
+  nextBtn.addEventListener(`click`, roundOutcomeModalNextBtnListenerCallback);
+}
+
 export function removeEvenMoneyModalListeners() {
   const acceptBetBtn = document.querySelector(
     `.btn-side-bet-action__accept-even-money`
@@ -473,4 +479,16 @@ function splitBtnListenerCallback(event) {
 
 function surrenderBtnListenerCallback(event) {
   controller.surrenderAction(event, globalState);
+}
+
+function roundOutcomeModalNextBtnListenerCallback(event) {
+  const nextBtn = document.querySelector(`.notice-modal__next`);
+  //remove new elements from notice modal
+
+  nextBtn.removeEventListener(
+    `click`,
+    roundOutcomeModalNextBtnListenerCallback
+  );
+
+  controller.endGameRoutine(globalState);
 }

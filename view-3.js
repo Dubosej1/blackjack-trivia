@@ -1371,6 +1371,43 @@ export function renderInsuranceOutcome(outcome) {
   // listeners.removeInsuranceModalListeners();
 }
 
+export function renderSingleHandOutcome(gameState) {
+  let player = gameState.player;
+  let outcomePackage = player.hand.outcomePackage;
+  let roundOutcome = outcomePackage.roundOutcome;
+  let noticeText;
+
+  const noticeContainer = document.querySelector(`.notice-modal__container`);
+  const noticeTitle = document.querySelector(`.notice-modal__notice`);
+
+  if (roundOutcome == `win`) noticeText = `WIN!`;
+  if (roundOutcome == `lose`) noticeText = `Lose`;
+  if (roundOutcome == `push`) noticeText = `Push`;
+  if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
+  if (roundOutcome == `surrender`) noticeText = `Surrender`;
+
+  noticeTitle.textContent = noticeText;
+
+  const outcomeHeading = document.createElement(`h2`);
+  const outcomeHeadingContent = document.createTextNode(
+    outcomePackage.outcomeText
+  );
+  outcomeHeading.appendChild(outcomeHeadingContent);
+
+  const winningsHeading = document.createElement(`h2`);
+  const winningsHeadingContent = document.createTextNode(
+    `Winnings: ${outcomePackage.winnings}`
+  );
+  winningsHeading.appendChild(winningsHeadingContent);
+
+  noticeTitle.insertAdjacentElement(outcomeHeading);
+  outcomeHeading.insertAdjacentElement(winningsHeading);
+
+  listeners.addBaseRoundOutcomeModalListener();
+
+  popbox.open(`notice-modal`);
+}
+
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
 // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
 // if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;

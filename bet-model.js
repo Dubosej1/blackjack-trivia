@@ -10,6 +10,8 @@ class Bet {
   sideBetPlacedModalActive;
   initialSideBetSequence;
   initialOutcomePackages;
+  endingSideBetSequence;
+  endingOutcomePackages;
   tempValue = { bank: 0, baseBet: 0, sideBetTotal: 0, bet: 0 };
   splitBets = {};
 
@@ -85,6 +87,14 @@ class Bet {
 
   getTotalSideBetWinnings() {
     return this.totalSideBetWinnings;
+  }
+
+  getInitialSideBetWinnings() {
+    return this.initialSideBetWinnings;
+  }
+
+  getEndingSideBetWinnings() {
+    return this.endingSideBetWinnings;
   }
 
   //Side Bet Obj Methods
@@ -222,7 +232,44 @@ class Bet {
       return obj.winnings;
     });
 
-    this.totalSideBetWinnings = winningsArr.reduce((prev, curr) => prev + curr);
+    this.initialSideBetWinnings = winningsArr.reduce(
+      (prev, curr) => prev + curr
+    );
+    // console.log(this.totalSideBetWinnings);
+
+    // console.log(this.initialOutcomePackages);
+    return true;
+  }
+
+  checkForEndingSideBetSequence() {
+    this.endingSideBetSequence = this.sideBetObjs.filter(
+      (obj) => obj.sequencePlacement == `ending`
+    );
+    return this.endingSideBetSequence.length != 0 ? true : false;
+  }
+
+  initEndingSideBetSequence(gameState) {
+    this.endingSideBetSequence = this.sideBetObjs.filter(
+      (obj) => obj.sequencePlacement == `ending`
+    );
+    if (!this.endingSideBetSequence) return false;
+
+    this.endingSideBetSequence.forEach(function (obj) {
+      obj.initSideBet(gameState);
+    });
+
+    this.endingOutcomePackages = this.endingSideBetSequence.map(
+      (obj) => obj.outcomePackage
+    );
+
+    let winningsArr = this.endingSideBetSequence.map(function (obj) {
+      if (obj.key == `houseMoney`) return false;
+      return obj.winnings;
+    });
+
+    this.endingSideBetWinnings = winningsArr.reduce(
+      (prev, curr) => prev + curr
+    );
     // console.log(this.totalSideBetWinnings);
 
     // console.log(this.initialOutcomePackages);

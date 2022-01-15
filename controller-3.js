@@ -133,7 +133,7 @@ export function beginGameRoutine(gameState) {
       break;
     case order.sideBetSequence:
       gameState.betObj.initInitialSideBetSequence(gameState);
-      let winnings = gameState.betObj.getTotalSideBetWinnings();
+      let winnings = gameState.betObj.getInitialSideBetWinnings();
       gameState.updateWinningsToBank(winnings);
       view.displayInitialSideBetOutcome(gameState);
       order.sideBetSequence = false;
@@ -195,6 +195,8 @@ export function determineEndGameRoutineOrder(gameState) {
     roundOutcome: true,
   };
 
+  gameState.determineBaseRoundOutcome();
+
   betObj.checkForEndingSideBetSequence()
     ? (endGameRoutineOrder.sideBetSequence = true)
     : (endGameRoutineOrder.sideBetSequence = false);
@@ -208,17 +210,26 @@ export function endGameRoutine(gameState) {
   let order = gameState.endGameRoutineOrder;
   let betObj = gameState.betObj;
   let sideBet = betObj.sideBet;
+  let activeHand = gameState.player.currentSplitHand;
 
   switch (true) {
-    case 1:
+    case order.roundOutcome:
       //Base Round Outcome Modal
+      if (activeHand == 0) view.renderSingleHandRoundOutcome(gameState);
+      else view.renderSplitHandRoundOutcome(gameState);
 
+      order.roundOutcome = false;
       break;
     case 2:
       //Mystery Jackpot Modal
       break;
-    case 3:
+    case order.sideBetRoutine:
       //Side Bet Outcome Modal
+      gameState.betObj.initEndingSideBetSequence(gameState);
+      let winnings = gameState.betObj.getEndingSideBetWinnings();
+      gameState.updateWinningsToBank(winnings);
+      view.displayEndingSideBetOutcome(gameState);
+      order.sideBetSequence = false;
       break;
     case 4:
       //Total Winnings Modal + Complete Win Summary Modal via Btn
@@ -708,7 +719,8 @@ export function nextDealerAction(nextAction, gameState) {
     view.renderDealerField(dealer.hand);
 
     gameState.updateNoticeText = `Round Ends...`;
-    determineEndGameRoutineOrder(gameState);
+
+    gameTimer = setTimeout(determineEndGameRoutineOrder, 1500, gameState);
   }
 }
 
