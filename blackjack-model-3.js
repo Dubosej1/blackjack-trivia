@@ -156,26 +156,58 @@ class Hand {
     this.images.push(repeatedTags);
   }
 
-  playerHit(gameState) {
-    let player = gameState.player;
+  cardHit(cardHolder, gameState) {
+    // let player = gameState.player;
     let hand = this;
 
     drawSingleCard(gameInfo.deckID)
       .then(function (cardsObj) {
         hand.addCardToHand = cardsObj;
       })
-      .catch((err) => alert(`error executePlayerHit`))
+      .catch((err) => alert(`error executeHit`))
       .finally(function () {
         hand.performHandChecks(gameState);
-        controller.updateStatePlayers(player, gameState);
+        controller.updateStatePlayers(cardHolder, gameState);
         // controller.checkPlayerNextAvailableAction(gameState);
-        player.determineContinueStatus(hand, gameState);
+        cardHolder.determineContinueStatus(hand, gameState);
       });
     // player.performHandChecks();
 
     // controller.updateStatePlayers(player, gameState);
     // controller.checkPlayerNextAvailableAction(player, gameState);
   }
+
+  // playerHit(gameState) {
+  //   let player = gameState.player;
+  //   let hand = this;
+
+  //   drawSingleCard(gameInfo.deckID)
+  //     .then(function (cardsObj) {
+  //       hand.addCardToHand = cardsObj;
+  //     })
+  //     .catch((err) => alert(`error executePlayerHit`))
+  //     .finally(function () {
+  //       hand.performHandChecks(gameState);
+  //       controller.updateStatePlayers(player, gameState);
+  //       player.determineContinueStatus(hand, gameState);
+  //     });
+  // }
+
+  // dealerHit(gameState) {
+  //   let dealer = gameState.dealer;
+  //   let hand = this;
+
+  //   drawSingleCard(gameInfo.deckID)
+  //     .then(function (cardsObj) {
+  //       hand.addCardToHand = cardsObj;
+  //     })
+  //     .catch((err) => alert(`error executeDealerHit`))
+  //     .finally(function () {
+  //       hand.performHandChecks(gameState);
+  //       controller.updateStatePlayers(dealer, gameState);
+  //       dealer.determineContinueStatus(hand, gameState);
+  //     });
+  // }
 
   performHandChecks(gameState) {
     let options = gameState.options;
@@ -212,6 +244,10 @@ class Hand {
     this.outcome = `charlie`;
     this.charlieType = cardCount;
     return true;
+  }
+
+  checkForAces() {
+    return this.cards.some((obj) => obj.value == "ACE");
   }
 }
 
@@ -583,7 +619,7 @@ class Player extends Cardholder {
     if (activeHand == 0) hand = gameState.player.hand;
     else hand = this.getSplitHand(activeHand);
 
-    hand.playerHit(gameState);
+    hand.cardHit(this, gameState);
   }
 
   determineContinueStatus(hand, gameState) {
@@ -617,14 +653,14 @@ class Player extends Cardholder {
         else {
           if (activeHand == 0 || activeHand == handCount) nextAction = `dealer`;
           else nextAction = `changeHand`;
-        }
 
-        hand.outcome = `stand`;
+          hand.outcome = `stand`;
+        }
     }
 
     let gameTimer = setTimeout(
       controller.nextPlayerAction,
-      3000,
+      1500,
       nextAction,
       gameState
     );
@@ -677,6 +713,70 @@ class Dealer extends Cardholder {
     if (hand.total != 21) return;
 
     this.hand.outcome = `natural`;
+  }
+
+  executeHit(gameState) {
+    // let options = gameState.options;
+
+    this.hand.cardHit(this, gameState);
+  }
+
+  determineContinueStatus(hand, gameState) {
+    let options = gameState.options;
+    let outcome = hand.outcome;
+    let dealerLimit = options.dealerStandsOn;
+    let aces, nextAction;
+    // let activeHand = this.currentSplitHand;
+    // let handCount = 1;
+    // let nextAction;
+
+    // if (activeHand > 0) handCount = this.splitHands.length;
+
+    if (outcome == `bust` || outcome == `charlie`) nextAction = `endRound`;
+    else {
+      switch (dealerLimit) {
+        case `soft16`:
+          if (this.hand.total >= 16) nextAction = `endRound`;
+          else nextAction = `continue`;
+          break;
+        case `hard16`:
+          if (this.hand.total > 16) nextAction = `endRound`;
+          else if (this.hand.total < 16) nextAction = `continue`;
+          else {
+            aces = this.hand.checkForAces();
+            if (aces) nextAction = `continue`;
+            else nextAction = `endRound`;
+          }
+          break;
+        case `soft17`:
+          if (this.hand.total >= 17) nextAction = `endRound`;
+          else nextAction = `continue`;
+          break;
+        case `hard17`:
+          if (this.hand.total > 17) nextAction = `endRound`;
+          else if (this.hand.total < 17) nextAction = `continue`;
+          else {
+            aces = this.hand.checkForAces();
+            if (aces) nextAction = `continue`;
+            else nextAction = `endRound`;
+          }
+          break;
+        default:
+          console.log(`ERROR: Determine Dealer Continue`);
+      }
+    }
+
+    if (nextAction == `endRound`) hand.outcome = `stand`;
+    else hand.outcome = `dealerHit`;
+
+    let gameTimer = setTimeout(
+      controller.nextDealerAction,
+      1500,
+      nextAction,
+      gameState
+    );
+
+    // controller.renderPlayerOutcome(nextAction, gameState);
   }
 }
 
@@ -763,6 +863,7 @@ function initNewHands(player, dealer) {
 
   dealerHand.addImagesToHand = addDealerImagesToHand;
   dealerHand.calcVisibleTotal = calcDealerVisibleHandTotal;
+  dealerHand.revealFaceDownCard = revealDealerFaceDownCard;
   dealerHand.visibleCards = [];
   dealerHand.visibleTotal = 0;
 
@@ -834,7 +935,7 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
 function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      currentDealer.hand.addCardToHand = cardsObj.card1;
+      // currentDealer.hand.addCardToHand = cardsObj.card1;
       // currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
@@ -843,10 +944,14 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // dealerHand.push(playerSplitTestCard2);
 
       // To test Insurance functionality (substitute card2)
-      currentDealer.hand.addCardToHand = testCard.heartAce;
+      // currentDealer.hand.addCardToHand = testCard.heartAce;
 
       //To test 5 Card Charlie (comment out all other dealerHands)
       // createFiveCardCharlieTestHand(`dealer`);
+
+      //To Test "Dealer Stands On" routines
+      currentDealer.hand.addCardToHand = testCard.heartAce;
+      currentDealer.hand.addCardToHand = testCard.spade6;
 
       // return dealerHand;
     })
@@ -1033,6 +1138,7 @@ function addDealerImagesToHand(card) {
     );
     this.simpleImages.push(`<img src="${card.image}" class="card">`);
     this.visibleCards.push(card);
+    this.visibleTotal = this.calculateHandTotal(this.visibleCards);
   }
   this.endTags.push(`</li></ul>`);
 }
@@ -1049,6 +1155,14 @@ function addPlayerImagesToHand(card) {
   this.simpleImages.push(`<img src="${card.image}" class="card">`);
   this.codes.push(card.code);
   console.log(this);
+}
+
+function revealDealerFaceDownCard() {
+  this.visibleTotal = this.total;
+
+  this.images.shift();
+  this.images.unshift(this.unrevealedCard);
+  // this.endTags.push(`</li></ul>`);
 }
 
 // function addSplitImagesToHand(card) {

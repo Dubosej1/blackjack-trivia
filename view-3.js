@@ -597,6 +597,7 @@ export function renderPlayerHandOutcome(hand, field) {
   if (outcome == `charlie`) outcomeText = `${hand.charlieType} Card Charlie`;
   if (outcome == `blackjack`) outcomeText = `Blackjack!`;
   if (outcome == `stand`) outcomeText = `Stand`;
+  if (outcome == `dealerHit`) outcomeText = `Hitting...`;
 
   switch (field) {
     case `player`:
@@ -626,6 +627,12 @@ export function renderPlayerHandOutcome(hand, field) {
       splitStage3Result.classList.add(`split-stage-1__result--${outcome}`);
       splitStage3Result.textContent = outcomeText;
       break;
+    case `dealer`:
+      document
+        .querySelector(`.dealer-message__container`)
+        .classList.add(`dealer-message__container--${outcome}`);
+      document.querySelector(`.dealer-message__text`).textContent = outcomeText;
+      break;
     default:
       console.log(`ERROR: Rendering Outcome Fields`);
   }
@@ -639,11 +646,19 @@ export function resetOutcomeField(stageNum) {
   const splitStage1Result = document.querySelector(`.split-stage-1__result`);
   const splitStage2Result = document.querySelector(`.split-stage-2__result`);
   const splitStage3Result = document.querySelector(`.split-stage-3__result`);
+  const dealerMessageContainer = document.querySelector(
+    `.dealer-message__container`
+  );
+  const dealerMessageText = document.querySelector(`.dealer-message__text`);
 
   switch (stageNum) {
     case 0:
       removeOutcomeModifierClasses(playerMessageContainer);
       playerMessageText.textContent = ``;
+      break;
+    case 10:
+      removeOutcomeModifierClasses(dealerMessageContainer);
+      dealerMessageText.textContent = ``;
       break;
     case 1:
       removeOutcomeModifierClasses(splitStage1Result);
@@ -712,6 +727,8 @@ export function renderDealerField(hand) {
     finalImages.join(``);
   document.querySelector(".dealer-total__value").textContent =
     hand.visibleTotal;
+
+  // if (hand.outcome) renderPlayerHandOutcome(hand, `dealer`);
 }
 
 export function renderSplitStage(hand, stageNum) {

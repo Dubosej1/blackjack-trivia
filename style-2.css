@@ -389,6 +389,11 @@ body {
   outline: none;
 }
 
+.btn-action:disabled {
+  border-color: gray;
+  color: gray;
+}
+
 .btn-action__doubleDown {
   border-color: orange;
   color: orange;

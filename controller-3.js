@@ -454,7 +454,6 @@ export function initInsuranceBet(event, gameState) {
 
 export function splitAction(event, gameState) {
   gameState.toggleEnableActionBtns = { split: false };
-  // Change Player screen label from "Player" to "Hand 1"
 
   bjModel.splitPlayerHand(gameState);
 }
@@ -502,7 +501,7 @@ export function standAction(e, gameState) {
 
   view.renderPlayerHands(player);
 
-  let gameTimer = setTimeout(nextPlayerAction, 3000, nextAction, gameState);
+  let gameTimer = setTimeout(nextPlayerAction, 1500, nextAction, gameState);
 }
 
 export function doubleDownAction(e, gameState) {
@@ -556,7 +555,7 @@ export function surrenderAction(event, gameState) {
   if (dealer.hand.outcome == `natural`) player.applySurrenderOutcome = `fail`;
   else player.applySurrenderOutcome = `pass`;
 
-  gameTimer = setTimeout(endRound, 3000, gameState);
+  gameTimer = setTimeout(endRound, 1500, gameState);
 }
 
 // export function renderPlayerOutcome(nextAction, gameState) {
@@ -588,17 +587,24 @@ export function nextPlayerAction(nextAction, gameState) {
       gameState.updateNoticeText = `Hand ${activeHand}'s Turn`;
 
       view.renderPlayerHands(player, true);
-      // view.resetOutcomeField(activeHand - 1);
-      //Change Player Field to new active split hand
 
       beginSplitHandActions(gameState);
       break;
     case `dealer`:
       gameState.updateNoticeText = `Dealer's Turn`;
 
-      //Start Dealer Turn
+      gameState.toggleEnableActionBtns = {
+        hit: false,
+        stand: false,
+        doubleDown: false,
+        split: false,
+        surrender: false,
+      };
+
+      executeDealerTurn(gameState);
       break;
     case `endRound`:
+      gameState.updateNoticeText = `Round Ends...`;
       //Begin End Round Sequence (Mystery Jackpot, Side Bets, Round Outcome)
       break;
     default:
@@ -613,6 +619,33 @@ export function nextPlayerAction(nextAction, gameState) {
       };
 
       gameState.toggleEnableActionBtns = btnObj;
+  }
+}
+
+export function executeDealerTurn(gameState) {
+  let dealer = gameState.dealer;
+
+  dealer.determineContinueStatus(dealer.hand, gameState);
+
+  // dealer.executeHit(gameState);
+}
+
+export function nextDealerAction(nextAction, gameState) {
+  let gameTimer;
+  let dealer = gameState.dealer;
+
+  view.renderPlayerHandOutcome(dealer.hand, `dealer`);
+
+  let hitClbk = dealer.executeHit.bind(dealer);
+
+  if (nextAction == `continue`)
+    gameTimer = setTimeout(hitClbk, 1500, gameState);
+  else {
+    dealer.hand.revealFaceDownCard();
+    view.renderDealerField(dealer.hand);
+
+    gameState.updateNoticeText = `Round Ends...`;
+    // End Round
   }
 }
 
