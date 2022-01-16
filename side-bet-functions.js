@@ -443,3 +443,123 @@ export function calcExtraBetFee() {
   this.fee = this.tempValue.bet * 0.2;
   this.tempValue.bank = this.tempValue.bet - this.fee;
 }
+
+export function calcLuckyLadies(gameState) {
+  let player = gameState.player;
+
+  let activeHand = player.currentSplitHand;
+  let dealerHand = gameState.dealer.hand;
+  let playerHand;
+
+  if (activeHand == 0) playerHand = player.hand;
+  else playerHand = player.splitHand[0];
+
+  playerHand.playerType = `player`;
+  dealerHand.playerType = `dealer`;
+
+  let playerCards = playerHand.cards;
+  let playerTotal = playerHand.total;
+
+  let handArr = [playerHand];
+
+  dealerNatural = false;
+  heartsDealerNatural = false;
+  suitedDealerNatural = false;
+  queenHeartsPair = false;
+  queenPair = false;
+  ranked20 = false;
+  suited20 = false;
+  any20 = false;
+  queenHeartsExists = false;
+  queenExists = false;
+
+  let winKey;
+  let winHand;
+
+  this.checkIncludesCardValue(playerHand, `QUEEN`)
+    ? (queenExists = true)
+    : (queenExists = false);
+  this.checkForExactCard(playerHand, `QUEEN`, `HEARTS`)
+    ? (queenHeartsExists = true)
+    : (queenHeartsExists = false);
+  playerTotal == 20 ? (any20 = true) : (any20 = false);
+
+  if (any20) {
+    this.checkRankMatch(playerHand) ? (ranked20 = true) : (ranked20 = false);
+    this.checkSuitMatch(playerHand) ? (suited20 = true) : (suited20 = false);
+    this.checkForPropCount(playerHand, `value`, `QUEEN`, 2)
+      ? (queenPair = true)
+      : (queenPair = false);
+    queenPair && this.checkForPropCount(playerHand, `suit`, `HEARTS`, 2)
+      ? (queenHeartsPair = true)
+      : (queenHeartsPair = false);
+
+    if (queenHeartsPair) {
+      dealerHand.outcome == `natural`
+        ? (dealerNatural = true)
+        : (dealerNatural = false);
+
+      dealerNatural && this.checkSuitMatch(dealerHand)
+        ? (suitedDealerNatural = true)
+        : (suitedDealerNatural = false);
+      dealerNatural && this.checkExactSuitMatch(dealerHand, `HEARTS`)
+        ? (heartsDealerNatural = true)
+        : (heartsDealerNatural = false);
+    }
+  }
+
+  switch (true) {
+    case queenHeartsPair && heartsDealerNatural:
+      winKey = `jackpot_100`;
+      break;
+    case queenHeartsPair && suitedDealerNatural:
+      winKey = `jackpot_20`;
+      break;
+    case queenHeartsPair && dealerNatural:
+      winKey = `jackpot_5`;
+      break;
+    case queenPair && dealerNatural:
+      winKey = `queen_pair_dealer_bj`;
+      break;
+    case queenHeartsPair:
+      winKey = `queen_hearts_pair`;
+      break;
+    case queenPair:
+      winKey = `queen_pair`;
+      break;
+    case suited20 && ranked20:
+      winKey = `match_20`;
+      break;
+    case suited20:
+      winKey = `suited_20`;
+      break;
+    case ranked20:
+      winKey = `ranked_20`;
+      break;
+    case any20:
+      winKey = `any_20`;
+      break;
+    case queenHeartsExists:
+      winKey = `queen_hearts`;
+      break;
+    case queenExists:
+      winKey = `queen`;
+      break;
+    default:
+      winKey = "lose";
+      this.outcome = `lose`;
+  }
+
+  this.winKey = winKey;
+
+  if (winKey == `lose`) return;
+
+  this.outcome = `win`;
+
+  if (dealerNatural) {
+    winHand.push(`dealer`);
+    handArr.push(dealerHand);
+  }
+
+  this.generateWinHand(winHand, handArr);
+}

@@ -351,19 +351,61 @@ class SideBet extends Bet {
   }
 
   //Determine Outcome Helper Methods
-  getCardColor(suit) {
-    let color;
-    if (suit == "CLUBS") color = "BLACK";
-    if (suit == "SPADES") color = "BLACK";
-    if (suit == "HEARTS") color = "RED";
-    if (suit == "DIAMONDS") color = "RED";
-    return color;
+
+  //Check Match for Specific Properties
+  checkExactValueMatch(cardArr, value) {
+    return cardArr.every((obj) => obj.value == value);
   }
 
-  checkCardPropMatch(propArr) {
-    return propArr.every((prop) => prop === propArr[0]);
+  checkExactSuitMatch(cardArr, suit) {
+    return cardArr.every((obj) => obj.suit == suit);
   }
 
+  checkForExactCardMatch(cardArr, value, suit) {
+    let rankMatch = this.checkExactValueMatch(cardArr, value);
+    let suitMatch = this.checkExactSuitMatch(cardArr, suit);
+
+    return rankMatch && suitMatch;
+  }
+
+  //Check for Counts of Specific Properties
+
+  checkForPropCount(cardArr, prop, value, num) {
+    let count = 0;
+    let propArr;
+
+    let count = this.getPropCount(cardArr, prop, value);
+
+    return count == num;
+  }
+
+  checkForExactCardCount(cardArr, value, suit, num) {
+    let exactCount = 0;
+    let suitMatch, rankMatch;
+
+    cardArr.forEach(function (card) {
+      let suitMatch, rankMatch;
+
+      card.value == value ? (rankMatch = true) : (rankMatch = false);
+      card.suit == suit ? (suitMatch = true) : (suitMatch = false);
+
+      if (suitMatch && rankMatch) exactCount++;
+    });
+
+    return exactCount == num;
+  }
+
+  getPropCount(cardArr, prop, value) {
+    let count = 0;
+
+    cardArr.forEach(function (obj) {
+      if (obj[prop] == value) count++;
+    });
+
+    return count;
+  }
+
+  //Check if Specific Card Exists
   checkIncludesCardValue(cardArr, value) {
     return cardArr.some((obj) => obj.value == value);
   }
@@ -371,6 +413,8 @@ class SideBet extends Bet {
   checkForExactCard(cardArr, value, suit) {
     return cardArr.some((obj) => obj.value == value && obj.suit == suit);
   }
+
+  //Check for General Property Matches
 
   checkSuitMatch(cardArr) {
     let suitArr = cardArr.map((obj) => obj.suit);
@@ -393,6 +437,21 @@ class SideBet extends Bet {
     let colorArr = cardArr.map((obj) => this.getCardColor(obj.suit));
     return this.checkCardPropMatch(colorArr);
   }
+
+  getCardColor(suit) {
+    let color;
+    if (suit == "CLUBS") color = "BLACK";
+    if (suit == "SPADES") color = "BLACK";
+    if (suit == "HEARTS") color = "RED";
+    if (suit == "DIAMONDS") color = "RED";
+    return color;
+  }
+
+  checkCardPropMatch(propArr) {
+    return propArr.every((prop) => prop === propArr[0]);
+  }
+
+  //Check For Specific Sequence of properties
 
   checkStraightSequence(cardArr) {
     let straightMatch;

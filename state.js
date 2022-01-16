@@ -221,12 +221,14 @@ class State {
     let activeHand = player.currentSplitHand;
     let betObj = this.betObj;
     let gameState = this;
+    let winnings = [];
 
     if (activeHand == 0) {
       let hand = player.hand;
       this.calculateHandMatchup(hand, dealerHand);
       hand.calculateWinnings(this.options, this.betObj.baseBet);
       hand.generateOutcomePackage();
+      winnings.push(hand.winnings);
     } else {
       player.splitHands.forEach(function (hand, index) {
         let bet;
@@ -239,8 +241,11 @@ class State {
         gameState.calculateHandMatchup(hand, dealerHand);
         hand.calculateWinnings(gameState.options, bet);
         hand.generateOutcomePackage();
+        winnings.push(hand.winnings);
       });
     }
+
+    this.totalWinnings = winnings.reduce((prev, curr) => prev + curr);
 
     // switch (handCount) {
     //   case 1:

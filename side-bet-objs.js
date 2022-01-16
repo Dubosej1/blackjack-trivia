@@ -120,3 +120,40 @@ export const houseMoney = {
   initSideBet: sideBetFunc.initHouseMoney,
   calcSideBet: sideBetFunc.calcHouseMoney,
 };
+
+export const luckyLadies = {
+  name: `Lucky Ladies`,
+  key: `luckyLadies`,
+  rules: `rules`,
+  beginningSideBetCheck: false,
+  sequencePlacement: `ending`,
+  outcomeTable: {
+    jackpot_100: {
+      payout: `jackpot100`,
+      text: `Queen of Hearts Pair and Dealer Blackjack in Hearts`,
+    },
+    jackpot__25: {
+      payout: `jackpot25`,
+      text: `Queen of Hearts Pair and Suited Dealer Blackjack`,
+    },
+    jackpot__5: {
+      payout: `jackpot5`,
+      text: `Queen of Hearts Pair and Dealer Blackjack`,
+    },
+    queen_pair_dealer_bj: {
+      payout: `250:1`,
+      text: `Queen Pair and Dealer Blackjack`,
+    },
+    queen_hearts_pair: { payout: `200:1`, text: `Queen of Hearts Pair` },
+    queen_pair: { payout: `25:1`, text: `Queen Pair` },
+    matched_20: { payout: `25:1`, text: `Matched 20` },
+    suited_20: { payout: `10:1`, text: `Suited 20` },
+    ranked_20: { payout: `9:1`, text: `Ranked 20` },
+    any_20: { payout: `4:1`, text: `Ranked 20` },
+    queen_hearts: { payout: `2:1`, text: `Hand includes Queen of Hearts` },
+    queen: { payout: `1:1`, text: `Hand includes a Queen` },
+    lose: { payout: `0`, text: `No Winning Hand` },
+  },
+  initSideBet: sideBetFunc.initBaseSideBetSequence,
+  calcSideBet: sideBetFunc.calcLuckyLadies,
+};
