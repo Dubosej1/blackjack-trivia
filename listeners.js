@@ -426,7 +426,7 @@ function declineEvenMoneyBtnCallback(event) {
   //Remove Even Money Info from Generic Modal
   // controller.beginGameRoutinePart2(globalState);
 
-  //endRound
+  controller.determineEndGameRoutineOrder(globalState);
 }
 
 function acceptInsuranceBtnCallback(event) {

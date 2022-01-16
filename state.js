@@ -299,11 +299,11 @@ class State {
         roundOutcome = `win`;
         roundOutcomeText = `Dealer busts.`;
         break;
-      case playerOutcome == `blackjack`:
+      case playerOutcome == `natural`:
         roundOutcome = `natural`;
         roundOutcomeText = `${player} has Blackjack!!!`;
         break;
-      case dealerOutcome == `blackjack`:
+      case dealerOutcome == `natural`:
         roundOutcome = `natural`;
         roundOutcomeText = `Dealer has Blackjack...`;
         break;
@@ -339,11 +339,11 @@ class State {
     if (roundOutcome == `push`) {
       let qualifier;
 
-      roundOutcomeText = `${player} Push.`;
+      roundOutcomeText = `${player} Push.  `;
 
-      if (playerOutcome == `charlie` || playerOutcome == `blackjack`) {
+      if (playerOutcome == `charlie` || playerOutcome == `natural`) {
         if (playerOutcome == `charlie`) qualifier = `Charlies`;
-        if (playerOutcome == `blackjack`) qualifier = `Blackjack`;
+        if (playerOutcome == `natural`) qualifier = `Blackjack`;
 
         roundOutcomeText = roundOutcomeText + `Both players have ${qualifier}`;
       }

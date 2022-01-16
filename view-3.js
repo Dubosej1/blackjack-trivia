@@ -595,7 +595,7 @@ export function renderPlayerHandOutcome(hand, field) {
 
   if (outcome == `bust`) outcomeText = `Bust`;
   if (outcome == `charlie`) outcomeText = `${hand.charlieType} Card Charlie`;
-  if (outcome == `blackjack`) outcomeText = `Blackjack!`;
+  if (outcome == `natural`) outcomeText = `Blackjack!`;
   if (outcome == `stand`) outcomeText = `Stand`;
   if (outcome == `dealerHit`) outcomeText = `Hitting...`;
 
@@ -685,7 +685,7 @@ export function resetOutcomeField(stageNum) {
 }
 
 function removeOutcomeModifierClasses(elem) {
-  let classesArr = [`blackjack`, `bust`, `charlie`, `stand`];
+  let classesArr = [`natural`, `bust`, `charlie`, `stand`];
 
   classesArr.forEach(function (str) {
     elem.classList.remove(`player-message__container--${str}`);

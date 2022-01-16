@@ -154,9 +154,15 @@ export function beginGameRoutine(gameState) {
 }
 
 export function beginGameRoutinePart2(gameState) {
-  if (!gameState.beginningRoundChecksDone) {
-    let hand = gameState.player.hand;
+  let natural = false;
+  let hand = gameState.player.hand;
+  let dealerHand = gameState.dealer.hand;
+  let gameTimer;
 
+  if (hand.outcome == `natural` || dealerHand.outcome == `natural`)
+    natural = true;
+
+  if (!gameState.beginningRoundChecksDone) {
     gameState.checkSplitAvailable(hand);
     gameState.checkDoubleDownAvailable(hand);
     gameState.checkValidEvenMoney();
@@ -173,7 +179,13 @@ export function beginGameRoutinePart2(gameState) {
       view.activateInsuranceModal();
       gameState.insuranceAvailable = false;
       break;
-    //case playerhand == natural or dealerhand == natural
+    case natural:
+      // add option for dealer to "check" for natural
+      gameState.updateNoticeText = `Round Ends Early...`;
+
+      gameTimer = setTimeout(determineEndGameRoutineOrder, 2000, gameState);
+      natural = false;
+      break;
     default:
       let obj = {
         hit: true,
@@ -627,8 +639,8 @@ export function surrenderAction(event, gameState) {
 
   //End Round
 
-  if (dealer.hand.outcome == `natural`) player.outcome = `surrenderFail`;
-  else player.outcome = `surrender`;
+  if (dealer.hand.outcome == `natural`) hand.outcome = `surrenderFail`;
+  else hand.outcome = `surrender`;
 
   gameTimer = setTimeout(nextPlayerAction, 1500, nextAction, gameState);
 }
