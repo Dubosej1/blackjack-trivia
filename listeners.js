@@ -258,7 +258,7 @@ export function addGameActionBtnListeners(gameState) {
 }
 
 export function addBaseRoundOutcomeModalListener() {
-  const nextBtn = document.querySelector(`.notice-modal__next`);
+  const nextBtn = document.querySelector(`.btn-notice-modal__next`);
 
   nextBtn.addEventListener(`click`, roundOutcomeModalNextBtnListenerCallback);
 }
@@ -482,7 +482,7 @@ function surrenderBtnListenerCallback(event) {
 }
 
 function roundOutcomeModalNextBtnListenerCallback(event) {
-  const nextBtn = document.querySelector(`.notice-modal__next`);
+  const nextBtn = document.querySelector(`.btn-notice-modal__next`);
   //remove new elements from notice modal
 
   nextBtn.removeEventListener(

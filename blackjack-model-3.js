@@ -251,12 +251,12 @@ class Hand {
   }
 
   calculateWinnings(options, bet) {
-    let bjPayout = this.options.blackjackPayout;
+    let bjPayout = options.blackjackPayout;
     let winnings;
 
     switch (this.roundOutcome) {
       case `win`:
-        winnings = bet * 2;
+        winnings = bet * 2 + bet;
         break;
       case `push`:
         winnings = bet;
@@ -275,6 +275,8 @@ class Hand {
         winnings = 0;
     }
 
+    //Need option to not add base bet to winnings (based on side bet option)
+
     this.winnings = winnings;
   }
 
@@ -287,6 +289,15 @@ class Hand {
     outcomePackage.outcomeText = this.roundOutcomeText;
 
     this.outcomePackage = outcomePackage;
+  }
+
+  getFinalOutcome() {
+    if (this.outcome == `stand`) {
+      if (this.handNum <= 4) this.outcome = `playerStand`;
+      else this.outcome = `dealerStand`;
+    }
+
+    return this.outcome;
   }
 }
 

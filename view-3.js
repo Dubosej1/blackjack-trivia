@@ -1400,8 +1400,8 @@ export function renderSingleHandOutcome(gameState) {
   );
   winningsHeading.appendChild(winningsHeadingContent);
 
-  noticeTitle.insertAdjacentElement(outcomeHeading);
-  outcomeHeading.insertAdjacentElement(winningsHeading);
+  noticeTitle.insertAdjacentElement(`afterend`, outcomeHeading);
+  outcomeHeading.insertAdjacentElement(`afterend`, winningsHeading);
 
   listeners.addBaseRoundOutcomeModalListener();
 

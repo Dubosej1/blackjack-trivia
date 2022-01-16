@@ -224,7 +224,7 @@ class State {
       let hand = player.hand;
       this.calculateHandMatchup(hand, dealerHand);
       hand.calculateWinnings(this.options, this.betObj.baseBet);
-      this.generateOutcomePackage();
+      hand.generateOutcomePackage();
     } else {
       player.splitHands.forEach(function (hand, index) {
         if (index == 0) bet = this.betObj.baseBet;
@@ -232,7 +232,7 @@ class State {
 
         this.calculateHandMatchup(hand, dealerHand);
         hand.calculateWinnings(this.options, bet);
-        this.generateOutcomePackage();
+        hand.generateOutcomePackage();
       });
     }
 
@@ -273,15 +273,15 @@ class State {
   //Pre existing outcomes: Bust, Charlie, Blackjack, Stand
 
   calculateHandMatchup(hand, dealerHand) {
-    let playerOutcome = hand.getOutcome;
-    let dealerOutcome = dealerHand.getOutcome;
+    let playerOutcome = hand.getFinalOutcome();
+    let dealerOutcome = dealerHand.getFinalOutcome();
     let roundOutcome;
     let roundOutcomeText;
     let handNum = hand.handNum;
 
     let player;
 
-    if ((handNum = 0)) player = `Player`;
+    if (handNum == 0) player = `Player`;
     else player = `Hand ${handNum}`;
 
     switch (true) {
@@ -350,6 +350,11 @@ class State {
     }
 
     hand.roundOutcomeText = roundOutcomeText;
+  }
+
+  revealDealerFaceDown() {
+    this.dealer.hand.revealFaceDownCard();
+    view.renderDealerField(this.dealer.hand);
   }
 }
 

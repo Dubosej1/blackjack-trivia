@@ -195,9 +195,11 @@ export function determineEndGameRoutineOrder(gameState) {
     roundOutcome: true,
   };
 
+  gameState.revealDealerFaceDown();
+
   gameState.determineBaseRoundOutcome();
 
-  betObj.checkForEndingSideBetSequence()
+  gameState.betObj.checkForEndingSideBetSequence()
     ? (endGameRoutineOrder.sideBetSequence = true)
     : (endGameRoutineOrder.sideBetSequence = false);
 
@@ -215,8 +217,8 @@ export function endGameRoutine(gameState) {
   switch (true) {
     case order.roundOutcome:
       //Base Round Outcome Modal
-      if (activeHand == 0) view.renderSingleHandRoundOutcome(gameState);
-      else view.renderSplitHandRoundOutcome(gameState);
+      if (activeHand == 0) view.renderSingleHandOutcome(gameState);
+      else view.renderSplitHandOutcome(gameState);
 
       order.roundOutcome = false;
       break;
@@ -715,9 +717,6 @@ export function nextDealerAction(nextAction, gameState) {
   if (nextAction == `continue`)
     gameTimer = setTimeout(hitClbk, 1500, gameState);
   else {
-    dealer.hand.revealFaceDownCard();
-    view.renderDealerField(dealer.hand);
-
     gameState.updateNoticeText = `Round Ends...`;
 
     gameTimer = setTimeout(determineEndGameRoutineOrder, 1500, gameState);
