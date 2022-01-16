@@ -814,10 +814,10 @@ class Dealer extends Cardholder {
         default:
           console.log(`ERROR: Determine Dealer Continue`);
       }
-    }
 
-    if (nextAction == `endRound`) hand.outcome = `stand`;
-    else hand.outcome = `dealerHit`;
+      if (nextAction == `endRound`) hand.outcome = `stand`;
+      else hand.outcome = `dealerHit`;
+    }
 
     let gameTimer = setTimeout(
       controller.nextDealerAction,
@@ -942,12 +942,12 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Natural Functionality
-      currentPlayer.hand.addCardToHand = testCard.spadeKing;
-      currentPlayer.hand.addCardToHand = testCard.diamondAce;
+      // currentPlayer.hand.addCardToHand = testCard.spadeKing;
+      // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Split Functionality (regularHand)
-      // currentPlayer.hand.addCardToHand = testCard.heart7;
-      // currentPlayer.hand.addCardToHand = testCard.spade7;
+      currentPlayer.hand.addCardToHand = testCard.heart7;
+      currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test Perfect 11s (regularHand)
       // currentPlayer.addCardToHand = testCard.heart7;
@@ -989,8 +989,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
 function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      // currentDealer.hand.addCardToHand = cardsObj.card1;
-      // currentDealer.hand.addCardToHand = cardsObj.card2;
+      currentDealer.hand.addCardToHand = cardsObj.card1;
+      currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -1008,8 +1008,8 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // currentDealer.hand.addCardToHand = testCard.spade6;
 
       //Test Natural Functionality
-      currentDealer.hand.addCardToHand = testCard.heartAce;
-      currentDealer.hand.addCardToHand = testCard.spadeKing;
+      // currentDealer.hand.addCardToHand = testCard.heartAce;
+      // currentDealer.hand.addCardToHand = testCard.spadeKing;
 
       // return dealerHand;
     })

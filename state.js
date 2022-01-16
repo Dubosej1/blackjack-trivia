@@ -219,6 +219,8 @@ class State {
     let dealer = this.dealer;
     let dealerHand = dealer.hand;
     let activeHand = player.currentSplitHand;
+    let betObj = this.betObj;
+    let gameState = this;
 
     if (activeHand == 0) {
       let hand = player.hand;
@@ -227,11 +229,13 @@ class State {
       hand.generateOutcomePackage();
     } else {
       player.splitHands.forEach(function (hand, index) {
-        if (index == 0) bet = this.betObj.baseBet;
-        else bet = this.betObj.splitBets[index - 1];
+        let bet;
 
-        this.calculateHandMatchup(hand, dealerHand);
-        hand.calculateWinnings(this.options, bet);
+        if (index == 0) bet = betObj.baseBet;
+        else bet = betObj.splitBets[index - 1];
+
+        gameState.calculateHandMatchup(hand, dealerHand);
+        hand.calculateWinnings(gameState.options, bet);
         hand.generateOutcomePackage();
       });
     }
@@ -304,7 +308,7 @@ class State {
         roundOutcomeText = `${player} has Blackjack!!!`;
         break;
       case dealerOutcome == `natural`:
-        roundOutcome = `natural`;
+        roundOutcome = `lose`;
         roundOutcomeText = `Dealer has Blackjack...`;
         break;
       case playerOutcome == `charlie`:
@@ -330,7 +334,7 @@ class State {
         else if (dealerHand.total > hand.total) roundOutcome = `lose`;
         else roundOutcome = `win`;
 
-        if (roundOutcome == `win`) roundOutcomeText = `${player} Wins!`;
+        if (roundOutcome == `win`) roundOutcomeText = `Dealer Loses!`;
         else if (roundOutcome == `lose`) roundOutcomeText = `Dealer Wins...`;
     }
 

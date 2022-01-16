@@ -1408,6 +1408,49 @@ export function renderSingleHandOutcome(gameState) {
   popbox.open(`notice-modal`);
 }
 
+export function renderSplitHandOutcome(gameState) {
+  let player = gameState.player;
+  let splitHands = player.splitHands;
+
+  // const noticeContainer = document.querySelector(`.notice-modal__container`);
+  const noticeTitle = document.querySelector(`.notice-modal__notice`);
+
+  noticeTitle.textContent = `Round Outcome`;
+
+  let handElems = splitHands.map((obj) => renderSplitOutcomeText(obj));
+
+  handElems.forEach(function (elem, index, array) {
+    if (index == 0) noticeTitle.insertAdjacentElement(`afterend`, elem);
+    else array[index - 1].insertAdjacentElement(`afterend`, elem);
+  });
+
+  listeners.addBaseRoundOutcomeModalListener();
+
+  popbox.open(`notice-modal`);
+
+  function renderSplitOutcomeText(hand) {
+    let handNum = hand.handNum;
+    let roundOutcome = hand.roundOutcome;
+    let outcomeText = hand.outcomePackage.outcomeText;
+    let winnings = hand.outcomePackage.winnings;
+    let noticeText;
+
+    if (roundOutcome == `win`) noticeText = `WIN!`;
+    if (roundOutcome == `lose`) noticeText = `Lose.`;
+    if (roundOutcome == `push`) noticeText = `Push.`;
+    if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
+    if (roundOutcome == `surrender`) noticeText = `Surrender.`;
+
+    const outcomeHeading = document.createElement(`h2`);
+    const outcomeHeadingContent = document.createTextNode(
+      `Hand ${handNum}: ${noticeText}  ${outcomeText}  Winnings: $${winnings}`
+    );
+    outcomeHeading.appendChild(outcomeHeadingContent);
+
+    return outcomeHeading;
+  }
+}
+
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
 // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
 // if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;
