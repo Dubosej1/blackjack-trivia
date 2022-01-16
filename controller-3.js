@@ -297,7 +297,7 @@ export function beginSplitHandActions(gameState) {
   gameState.checkSplitAvailable(currHand);
   gameState.checkDoubleDownAvailable(currHand);
 
-  let btnObj = { stand: true };
+  let btnObj = { stand: true, surrender: true };
 
   gameState.splitAvailable ? (btnObj.split = true) : (btnObj.split = false);
   gameState.doubleDownAvailable
@@ -613,6 +613,7 @@ export function surrenderAction(event, gameState) {
   let player = gameState.player;
   let dealer = gameState.dealer;
   let activeHand = player.currentSplitHand;
+  let handCount = player.splitHands.length;
   let handHolder, gameTimer, nextAction;
 
   if (activeHand > 0) {
@@ -621,7 +622,7 @@ export function surrenderAction(event, gameState) {
     hand = player.getSplitHand(activeHand);
     handHolder = `Hand ${activeHand}`;
 
-    if (activeHand == 4) nextAction = `endRound`;
+    if (activeHand == handCount) nextAction = `endRound`;
     else nextAction = `changeHand`;
   } else {
     hand = player.hand;

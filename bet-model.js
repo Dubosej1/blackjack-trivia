@@ -181,6 +181,7 @@ class Bet {
     // if (currentSplitHand == 3) splitBets.splitHand4 = this.baseBet;
 
     this.bank = this.bank - this.baseBet;
+    this.splitBets = splitBets;
   }
 
   applyDoubleDown(activeHand) {

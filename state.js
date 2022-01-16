@@ -232,7 +232,9 @@ class State {
         let bet;
 
         if (index == 0) bet = betObj.baseBet;
-        else bet = betObj.splitBets[index - 1];
+        else if (index == 1) bet = betObj.splitBets.splitHand2;
+        else if (index == 2) bet = betObj.splitBets.splitHand3;
+        else bet = betObj.splitBets.splitHand4;
 
         gameState.calculateHandMatchup(hand, dealerHand);
         hand.calculateWinnings(gameState.options, bet);
@@ -289,6 +291,14 @@ class State {
     else player = `Hand ${handNum}`;
 
     switch (true) {
+      case playerOutcome == `surrender`:
+        roundOutcome = `surrender`;
+        roundOutcomeText = `${player} has surrendered`;
+        break;
+      case playerOutcome == `surrenderFail`:
+        roundOutcome = `lose`;
+        roundOutcomeText = `Failed surrender.  Dealer has Blackjack.`;
+        break;
       case playerOutcome == dealerOutcome:
         if (playerOutcome == `bust`) {
           roundOutcome = `lose`;
@@ -319,13 +329,6 @@ class State {
         roundOutcome = `lose`;
         roundOutcomeText = `Dealer has ${dealerHand.charlieType} Card Charlie`;
         break;
-      case playerOutcome == `surrender`:
-        roundOutcome = `surrender`;
-        roundOutcomeText = `${player} has surrendered`;
-        break;
-      case playerOutcome == `surrenderFail`:
-        roundOutcome = `lose`;
-        roundOutcomeText = `Failed surrender.  Dealer has Blackjack.`;
       default:
         hand.outcome = null;
         dealerHand.outcome = null;
