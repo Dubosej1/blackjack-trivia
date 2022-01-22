@@ -1021,6 +1021,68 @@ export function displayInitialSideBetOutcomeWinHand(event, gameState) {
   popbox.open(`winning-hand-modal`);
 }
 
+export function displayEndingSideBetOutcomeWinHand(event, gameState) {
+  //   const displayHandBtn = document.querySelector(
+  //     `.btn-summary-modal__display-hand`
+  //   );
+  const titleField = document.querySelector(`.winning-hand-modal__title`);
+  const sideBetNameField = document.querySelector(
+    `.winning-hand-modal__side-bet-name`
+  );
+  const dealerCardsContainer = document.querySelector(
+    `.winning-hand-modal__dealer-cards-container`
+  );
+  const playerCardsContainer = document.querySelector(
+    `.winning-hand-modal__player-cards-container`
+  );
+  const dealerCardsField = document.querySelector(
+    `.winning-hand-modal__dealer-cards`
+  );
+  const playerCardsField = document.querySelector(
+    `.winning-hand-modal__player-cards`
+  );
+  const payoutField = document.querySelector(`.winning-hand-modal__payout`);
+  const winConditionField = document.querySelector(
+    `.winning-hand-modal__winning-hand-name`
+  );
+
+  let outcomeArr = gameState.betObj.endingOutcomePackages;
+  let key = event.target.dataset.sideBet;
+
+  let [outcomeObj] = outcomeArr.filter((obj) => obj.sideBetKey == key);
+
+  titleField.textContent = `Winning Hand Info`;
+  sideBetNameField.textContent = outcomeObj.name;
+
+  //   if (outcomeObj.winHand.playersArr.includes(`dealer`)) dealerCardsContainer.style.display = `block`;
+  //   else dealerCardsContainer.style.display = `none`;
+
+  //   if (outcomeObj.winHand.playersArr.includes(`player`)) playerCardsContainer.style.display = `block`;
+  //   else playerCardsContainer.style.display = `none`;
+
+  if (outcomeObj.outcome != `lose`) {
+    outcomeObj.winHand.playersArr.includes(`dealer`)
+      ? (dealerCardsContainer.style.display = `block`)
+      : (dealerCardsContainer.style.display = `none`);
+    outcomeObj.winHand.playersArr.includes(`player`)
+      ? (playerCardsContainer.style.display = `block`)
+      : (playerCardsContainer.style.display = `none`);
+
+    if (outcomeObj.winHand.player) {
+      playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
+    }
+
+    if (outcomeObj.winHand.dealer) {
+      dealerCardsField.innerHTML = gameState.dealer.hand.simpleImages.join();
+    }
+  }
+
+  payoutField.textContent = outcomeObj.payout;
+  winConditionField.textContent = outcomeObj.winCondition;
+
+  popbox.open(`winning-hand-modal`);
+}
+
 export function displayPerfect11sDiceRoll(diceRolls) {
   const modalTitle = document.querySelector(`.generic-modal__title`);
   const displayField = document.querySelector(`.generic-modal__main`);
@@ -1449,6 +1511,42 @@ export function renderSplitHandOutcome(gameState) {
 
     return outcomeHeading;
   }
+}
+
+export function displayEndingSideBetOutcome(gameState) {
+  const summaryField = document.querySelector(`.summary-modal__main`);
+  const summaryTitle = document.querySelector(`.summary-modal__title`);
+  const closeBtn = document.querySelector(`.btn-summary-modal__close`);
+  const nextBtn = document.querySelector(`.btn-summary-modal__next`);
+
+  closeBtn.style.display = "none";
+  nextBtn.style.display = `inline-block`;
+  //   let buttonCountArr = [];
+
+  summaryTitle.textContent = `Side Bet Outcome`;
+
+  summaryField.innerHTML = ` `;
+
+  let outcomeArr = gameState.betObj.endingOutcomePackages;
+  let totalWinnings = gameState.betObj.getTotalSideBetWinnings();
+
+  outcomeArr.forEach(function (obj) {
+    let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
+
+    //   buttonCountArr.push(buttonCount);
+
+    summaryField.appendChild(outcomeElem);
+  });
+
+  let winningsField = document.createElement(`h1`);
+  let winningsFieldContent = document.createTextNode(
+    `Total Winnings: ${totalWinnings}`
+  );
+  winningsField.appendChild(winningsFieldContent);
+  summaryField.appendChild(winningsField);
+
+  listeners.addSummaryModalEndingDisplayHandListener(gameState);
+  popbox.open(`summary-modal`);
 }
 
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;

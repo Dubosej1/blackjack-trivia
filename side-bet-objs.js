@@ -154,6 +154,6 @@ export const luckyLadies = {
     queen: { payout: `1:1`, text: `Hand includes a Queen` },
     lose: { payout: `0`, text: `No Winning Hand` },
   },
-  initSideBet: sideBetFunc.initBaseSideBetSequence,
+  initSideBet: sideBetFunc.initLuckyLadies,
   calcSideBet: sideBetFunc.calcLuckyLadies,
 };

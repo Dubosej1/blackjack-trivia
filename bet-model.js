@@ -371,9 +371,6 @@ class SideBet extends Bet {
   //Check for Counts of Specific Properties
 
   checkForPropCount(cardArr, prop, value, num) {
-    let count = 0;
-    let propArr;
-
     let count = this.getPropCount(cardArr, prop, value);
 
     return count == num;
@@ -739,6 +736,8 @@ export function generateSideBetObj(name) {
       sideBet.generateParlayPackage = sideBetFunc.generateParlayPackage;
       // sideBet.collectHouseMoneyWinnings = collectHouseMoneyWinnings;
       break;
+    case `luckyLadies`:
+      sideBet = new SideBet(sideBetMod.luckyLadies);
     default:
       console.log(`no side bet`);
   }

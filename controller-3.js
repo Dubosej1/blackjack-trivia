@@ -237,7 +237,7 @@ export function endGameRoutine(gameState) {
     case 2:
       //Mystery Jackpot Modal
       break;
-    case order.sideBetRoutine:
+    case order.sideBetSequence:
       //Side Bet Outcome Modal
       gameState.betObj.initEndingSideBetSequence(gameState);
       let winnings = gameState.betObj.getEndingSideBetWinnings();

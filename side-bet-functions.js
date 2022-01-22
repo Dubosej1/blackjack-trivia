@@ -444,11 +444,22 @@ export function calcExtraBetFee() {
   this.tempValue.bank = this.tempValue.bet - this.fee;
 }
 
+export function initLuckyLadies(gameState) {
+  let baseBet = gameState.betObj.baseBet;
+
+  this.baseBet = baseBet;
+  this.calcSideBet(gameState);
+  this.calcPayout();
+  this.getConditionText();
+  this.generateOutcomePackage();
+}
+
 export function calcLuckyLadies(gameState) {
   let player = gameState.player;
 
   let activeHand = player.currentSplitHand;
   let dealerHand = gameState.dealer.hand;
+  let dealerCards = dealerHand.cards;
   let playerHand;
 
   if (activeHand == 0) playerHand = player.hand;
@@ -462,35 +473,35 @@ export function calcLuckyLadies(gameState) {
 
   let handArr = [playerHand];
 
-  dealerNatural = false;
-  heartsDealerNatural = false;
-  suitedDealerNatural = false;
-  queenHeartsPair = false;
-  queenPair = false;
-  ranked20 = false;
-  suited20 = false;
-  any20 = false;
-  queenHeartsExists = false;
-  queenExists = false;
+  let dealerNatural = false;
+  let heartsDealerNatural = false;
+  let suitedDealerNatural = false;
+  let queenHeartsPair = false;
+  let queenPair = false;
+  let ranked20 = false;
+  let suited20 = false;
+  let any20 = false;
+  let queenHeartsExists = false;
+  let queenExists = false;
 
   let winKey;
   let winHand;
 
-  this.checkIncludesCardValue(playerHand, `QUEEN`)
+  this.checkIncludesCardValue(playerCards, `QUEEN`)
     ? (queenExists = true)
     : (queenExists = false);
-  this.checkForExactCard(playerHand, `QUEEN`, `HEARTS`)
+  this.checkForExactCard(playerCards, `QUEEN`, `HEARTS`)
     ? (queenHeartsExists = true)
     : (queenHeartsExists = false);
   playerTotal == 20 ? (any20 = true) : (any20 = false);
 
   if (any20) {
-    this.checkRankMatch(playerHand) ? (ranked20 = true) : (ranked20 = false);
-    this.checkSuitMatch(playerHand) ? (suited20 = true) : (suited20 = false);
-    this.checkForPropCount(playerHand, `value`, `QUEEN`, 2)
+    this.checkRankMatch(playerCards) ? (ranked20 = true) : (ranked20 = false);
+    this.checkSuitMatch(playerCards) ? (suited20 = true) : (suited20 = false);
+    this.checkForPropCount(playerCards, `value`, `QUEEN`, 2)
       ? (queenPair = true)
       : (queenPair = false);
-    queenPair && this.checkForPropCount(playerHand, `suit`, `HEARTS`, 2)
+    queenPair && this.checkForPropCount(playerCards, `suit`, `HEARTS`, 2)
       ? (queenHeartsPair = true)
       : (queenHeartsPair = false);
 
@@ -499,10 +510,10 @@ export function calcLuckyLadies(gameState) {
         ? (dealerNatural = true)
         : (dealerNatural = false);
 
-      dealerNatural && this.checkSuitMatch(dealerHand)
+      dealerNatural && this.checkSuitMatch(dealerCards)
         ? (suitedDealerNatural = true)
         : (suitedDealerNatural = false);
-      dealerNatural && this.checkExactSuitMatch(dealerHand, `HEARTS`)
+      dealerNatural && this.checkExactSuitMatch(dealerCards, `HEARTS`)
         ? (heartsDealerNatural = true)
         : (heartsDealerNatural = false);
     }
