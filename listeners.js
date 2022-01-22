@@ -32,6 +32,7 @@ export function addNewRoundEventListeners(gameState) {
   addSystemBtnListeners(gameState);
   addHouseMoneyModalBtnListeners(gameState);
   addGameActionBtnListeners(gameState);
+  addWinningsModalListener(gameState);
   // addModalListeners(gameState);
 }
 
@@ -276,6 +277,16 @@ export function addBaseRoundOutcomeModalListener() {
   nextBtn.addEventListener(`click`, roundOutcomeModalNextBtnListenerCallback);
 }
 
+export function addWinningsModalListener(gameState) {
+  const winSummaryBtn = document.querySelector(
+    `.btn-winnings-modal__win-summary`
+  );
+  const closeBtn = document.querySelector(`.btn-winnings-modal__close`);
+
+  winSummaryBtn.addEventListener(`click`, winSummaryBtnListenerCallback);
+  closeBtn.addEventListener(`click`, winningsModalCloseBtnListenerCallback);
+}
+
 export function removeEvenMoneyModalListeners() {
   const acceptBetBtn = document.querySelector(
     `.btn-side-bet-action__accept-even-money`
@@ -512,5 +523,13 @@ function roundOutcomeModalNextBtnListenerCallback(event) {
     roundOutcomeModalNextBtnListenerCallback
   );
 
+  controller.endGameRoutine(globalState);
+}
+
+function winSummaryBtnListenerCallback(event) {
+  view.displayWinSummaryModal(globalState);
+}
+
+function winningsModalCloseBtnListenerCallback(event) {
   controller.endGameRoutine(globalState);
 }

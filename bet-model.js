@@ -10,8 +10,10 @@ class Bet {
   sideBetPlacedModalActive;
   initialSideBetSequence;
   initialOutcomePackages;
+  initialSideBetWinnings = 0;
   endingSideBetSequence;
   endingOutcomePackages;
+  endingSideBetWinnings = 0;
   tempValue = { bank: 0, baseBet: 0, sideBetTotal: 0, bet: 0 };
   splitBets = {};
 
@@ -236,6 +238,7 @@ class Bet {
     this.initialSideBetWinnings = winningsArr.reduce(
       (prev, curr) => prev + curr
     );
+
     // console.log(this.totalSideBetWinnings);
 
     // console.log(this.initialOutcomePackages);

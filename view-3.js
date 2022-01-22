@@ -855,7 +855,7 @@ export function displayInitialSideBetOutcome(gameState) {
   summaryTitle.textContent = `Side Bet Outcome`;
 
   let outcomeArr = gameState.betObj.initialOutcomePackages;
-  let totalWinnings = gameState.betObj.getTotalSideBetWinnings();
+  let totalWinnings = gameState.betObj.getInitialSideBetWinnings();
 
   outcomeArr.forEach(function (obj) {
     let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
@@ -1528,7 +1528,7 @@ export function displayEndingSideBetOutcome(gameState) {
   summaryField.innerHTML = ` `;
 
   let outcomeArr = gameState.betObj.endingOutcomePackages;
-  let totalWinnings = gameState.betObj.getTotalSideBetWinnings();
+  let totalWinnings = gameState.betObj.getEndingSideBetWinnings();
 
   outcomeArr.forEach(function (obj) {
     let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
@@ -1547,6 +1547,157 @@ export function displayEndingSideBetOutcome(gameState) {
 
   listeners.addSummaryModalEndingDisplayHandListener(gameState);
   popbox.open(`summary-modal`);
+}
+
+export function displayTotalWinningsModal(gameState) {
+  const winningsField = document.querySelector(
+    `.winnings-modal__winnings-value`
+  );
+
+  winningsField.textContent = gameState.totalWinnings;
+
+  popbox.open(`winnings-modal`);
+}
+
+export function displayWinSummaryModal(gameState) {
+  const summaryField = document.querySelector(`.summary-modal__main`);
+  const summaryTitle = document.querySelector(`.summary-modal__title`);
+  const closeBtn = document.querySelector(`.btn-summary-modal__close`);
+  const nextBtn = document.querySelector(`.btn-summary-modal__next`);
+
+  let initialOutcomePackages = gameState.betObj.initialOutcomePackages;
+  let endingOutcomePackages = gameState.betObj.endingOutcomePackages;
+
+  closeBtn.style.display = "inline-block";
+  nextBtn.style.display = `none`;
+
+  summaryTitle.textContent = `Win Summary`;
+
+  summaryField.innerHTML = ` `;
+
+  let baseGameDiv = createBaseGameSummaryElements(gameState);
+
+  summaryField.appendChild(baseGameDiv);
+
+  if (initialOutcomePackages)
+    initialOutcomePackages.forEach(generateSummaryElements);
+
+  if (endingOutcomePackages)
+    endingOutcomePackages.forEach(generateSummaryElements);
+
+  function generateSummaryElements(outcomeObj) {
+    let sideBetDiv = createSideBetSummaryElements(outcomeObj);
+
+    summaryField.appendChild(sideBetDiv);
+  }
+
+  popbox.open(`summary-modal`);
+}
+
+function createSideBetSummaryElements(outcomeObj) {
+  let { name, outcome, payout, winCondition, winnings } = outcomeObj;
+
+  const newDiv = document.createElement(`div`);
+
+  const nameSpan = document.createElement(`span`);
+  const nameSpanContent = document.createTextNode(`${name}`);
+  nameSpan.appendChild(nameSpanContent);
+
+  const outcomeDiv = document.createElement(`div`);
+  outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
+  outcomeDiv.style.display = `inline-block`;
+  let outcomeDivContent = document.createTextNode(`${outcome} `);
+  outcomeDiv.appendChild(outcomeDivContent);
+
+  const payoutSpan = document.createElement(`span`);
+  const payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+  payoutSpan.appendChild(payoutSpanContent);
+
+  const winConditionSpan = document.createElement(`span`);
+  const winConditionSpanContent = document.createTextNode(`${winCondition}`);
+  winConditionSpan.appendChild(winConditionSpanContent);
+
+  const winningsSpan = document.createElement(`span`);
+  const winningsSpanContent = document.createTextNode(`+ $${winnings}`);
+  winningsSpan.appendChild(winningsSpanContent);
+
+  newDiv.appendChild(nameSpan);
+  newDiv.appendChild(outcomeDiv);
+  newDiv.appendChild(payoutSpan);
+  payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
+  newDiv.appendChild(winConditionSpan);
+  newDiv.appendChild(winningsSpan);
+
+  return newDiv;
+}
+
+function createBaseGameSummaryElements(gameState) {
+  let player = gameState.player;
+  let activeHand = player.currentSplitHand;
+  let outcomeObj;
+  let blackjackPayout = gameState.options.blackjackPayout;
+
+  const newDiv = document.createElement(`div`);
+
+  const roundLabel = document.createElement(`span`);
+  let roundLabelContent = document.createTextNode(`Base Round`);
+  roundLabel.appendChild(roundLabelContent);
+
+  newDiv.appendChild(roundLabel);
+  roundLabel.insertAdjacentHTML(`afterend`, `<br>`);
+
+  if (activeHand == 0) {
+    let hand = player.hand;
+    let outcomeElem = createPlayerSummaryFieldElements(hand, blackjackPayout);
+
+    newDiv.appendChild(outcomeElem);
+  } else {
+    player.splitHands.forEach(function (hand) {
+      let outcomeElem = createPlayerSummaryFieldElements(hand, blackjackPayout);
+
+      newDiv.appendChild(outcomeElem);
+    });
+  }
+
+  return newDiv;
+}
+
+function createPlayerSummaryFieldElements(hand, blackjackPayout) {
+  let { name, roundOutcome, winnings } = hand.outcomePackage;
+
+  let payout;
+  if (roundOutcome == `win`) payout = `2:1`;
+  else if (roundOutcome == `natural`) payout = blackjackPayout;
+  else if (roundOutcome == `push`) payout = `Bet Returned`;
+  else if (roundOutcome == `surrender`) payout = `1/2 Bet Returned`;
+  else payout = `0:0`;
+
+  const playerDiv = document.createElement(`div`);
+
+  const nameSpan = document.createElement(`span`);
+  let nameSpanContent = document.createTextNode(`${name} `);
+  nameSpan.appendChild(nameSpanContent);
+
+  const outcomeDiv = document.createElement(`div`);
+  outcomeDiv.classList.add(`summary-modal__outcome--${roundOutcome}`);
+  let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
+  outcomeDiv.style.display = `inline-block`;
+  outcomeDiv.appendChild(outcomeDivContent);
+
+  const payoutSpan = document.createElement(`span`);
+  let payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+  payoutSpan.appendChild(payoutSpanContent);
+
+  const winningsSpan = document.createElement(`span`);
+  let winningsSpanContent = document.createTextNode(`+ $${winnings}`);
+  winningsSpan.appendChild(winningsSpanContent);
+
+  playerDiv.appendChild(nameSpan);
+  playerDiv.appendChild(outcomeDiv);
+  playerDiv.appendChild(payoutSpan);
+  playerDiv.appendChild(winningsSpan);
+
+  return playerDiv;
 }
 
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;

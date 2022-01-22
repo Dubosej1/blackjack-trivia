@@ -288,6 +288,16 @@ class Hand {
     outcomePackage.winnings = this.winnings;
     outcomePackage.outcomeText = this.roundOutcomeText;
 
+    let name;
+
+    if (this.handNum == 1) name = `Hand 1`;
+    else if (this.handNum == 2) name = `Hand 2`;
+    else if (this.handNum == 3) name = `Hand 3`;
+    else if (this.handNum == 4) name = `Hand 4`;
+    else name = `Player`;
+
+    outcomePackage.name = name;
+
     this.outcomePackage = outcomePackage;
   }
 

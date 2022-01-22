@@ -203,7 +203,7 @@ export function determineEndGameRoutineOrder(gameState) {
   let endGameRoutineOrder = {
     mysteryModal: false,
     sideBetSequence: false,
-    totalWinnings: false,
+    totalWinnings: true,
     roundOutcome: true,
   };
 
@@ -245,10 +245,14 @@ export function endGameRoutine(gameState) {
       view.displayEndingSideBetOutcome(gameState);
       order.sideBetSequence = false;
       break;
-    case 4:
+    case order.totalWinnings:
+      gameState.calculateTotalWinnings();
+      view.displayTotalWinningsModal(gameState);
       //Total Winnings Modal + Complete Win Summary Modal via Btn
+      order.totalWinnings = false;
       break;
     default:
+    //Clear Round Routine
     //if end round early?
     //else beginGameRoutinePart2()
   }

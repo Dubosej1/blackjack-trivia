@@ -245,7 +245,7 @@ class State {
       });
     }
 
-    this.totalWinnings = winnings.reduce((prev, curr) => prev + curr);
+    this.playerWinnings = winnings.reduce((prev, curr) => prev + curr);
 
     // switch (handCount) {
     //   case 1:
@@ -367,6 +367,13 @@ class State {
   revealDealerFaceDown() {
     this.dealer.hand.revealFaceDownCard();
     view.renderDealerField(this.dealer.hand);
+  }
+
+  calculateTotalWinnings() {
+    this.playerWinnings += this.betObj.initialSideBetWinnings;
+    this.playerWinnings += this.betObj.endingSideBetWinnings;
+
+    this.totalWinnings = this.playerWinnings;
   }
 }
 
