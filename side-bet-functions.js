@@ -463,7 +463,7 @@ export function calcLuckyLadies(gameState) {
   let playerHand;
 
   if (activeHand == 0) playerHand = player.hand;
-  else playerHand = player.splitHand[0];
+  else playerHand = player.splitHands[0];
 
   playerHand.playerType = `player`;
   dealerHand.playerType = `dealer`;
