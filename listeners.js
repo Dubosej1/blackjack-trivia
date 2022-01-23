@@ -53,6 +53,7 @@ export function removeOptionsBtnListener() {
 
 export function addTriviaBtnListeners() {
   const difficultyBtns = document.querySelectorAll(`.btn__trivia-difficulty`);
+  const answerBtns = document.querySelectorAll(`.btn__answer`);
 
   difficultyBtns.forEach(function (elem) {
     elem.addEventListener(`click`, difficultyBtnCallback);
