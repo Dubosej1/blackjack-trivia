@@ -51,6 +51,18 @@ export function removeOptionsBtnListener() {
   applyOptionsBtn.removeEventListener(`click`, optionsListenerCallback);
 }
 
+export function addTriviaBtnListeners() {
+  const difficultyBtns = document.querySelectorAll(`.btn__trivia-difficulty`);
+
+  difficultyBtns.forEach(function (elem) {
+    elem.addEventListener(`click`, difficultyBtnCallback);
+  });
+
+  answerBtns.forEach(function (elem) {
+    elem.addEventListener(`click`, answerBtnCallback);
+  });
+}
+
 export function addNewRoundEventListeners(gameState) {
   addOptionsBtnListener(gameState);
   addBaseBetModalBtnListeners(gameState);
@@ -650,4 +662,12 @@ function winSummaryBtnListenerCallback(event) {
 
 function winningsModalCloseBtnListenerCallback(event) {
   controller.endGameRoutine(globalState);
+}
+
+function difficultyBtnCallback(event) {
+  controller.processTriviaDifficulty(event, globalState);
+}
+
+function answerBtnCallback(event) {
+  controller.processTriviaAnswer(event, globalState);
 }

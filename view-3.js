@@ -1840,6 +1840,234 @@ export function toggleDisplayNewGameBtn(boolean) {
     : (newGameBtn.style.display = `none`);
 }
 
+export function renderTriviaQuestion(questionObj) {
+  const labelContainer = document.querySelector(
+    `.trivia-modal__label-container`
+  );
+  const categoryField = document.querySelector(`.trivia__category`);
+  const difficultyField = document.querySelector(`.trivia__difficulty`);
+  const questionField = document.querySelector(`.trivia__question`);
+
+  const answerTableItems = document.querySelectorAll(
+    `.trivia-modal__answer-table-item`
+  );
+
+  toggleDisplayTriviaDifficultyBtns(false);
+
+  labelContainer.style.display = `flex`;
+
+  categoryField.textContent = questionObj.category;
+  difficultyField.textContent = questionObj.difficulty;
+  questionField.innerHTML = questionObj.question;
+
+  if (questionObj.type == `multiple`) {
+    renderMultipleChoiceAnswers(questionObj);
+  } else {
+    renderBooleanChoiceAnswers(questionObj);
+  }
+
+  function renderMultipleChoiceAnswers(questionObj) {
+    const answerTableField = document.querySelector(
+      `.trivia-modal__answer-table`
+    );
+
+    const multChoiceAnswerBtns = document.querySelectorAll(
+      `.btn__answer-multiple`
+    );
+
+    const answerABtn = document.querySelector(`.btn__answer-a`);
+    const answerBBtn = document.querySelector(`.btn__answer-b`);
+    const answerCBtn = document.querySelector(`.btn__answer-c`);
+    const answerDBtn = document.querySelector(`.btn__answer-d`);
+
+    const answerAField = document.querySelector(`.trivia-modal__answer-a`);
+    const answerBField = document.querySelector(`.trivia-modal__answer-b`);
+    const answerCField = document.querySelector(`.trivia-modal__answer-c`);
+    const answerDField = document.querySelector(`.trivia-modal__answer-d`);
+
+    answerABtn.setAttribute(`data-ans`, questionObj.answerChoices[0]);
+    answerBBtn.setAttribute(`data-ans`, questionObj.answerChoices[1]);
+    answerCBtn.setAttribute(`data-ans`, questionObj.answerChoices[2]);
+    answerDBtn.setAttribute(`data-ans`, questionObj.answerChoices[3]);
+
+    answerAField.innerHTML = questionObj.answerChoices[0];
+    answerBField.innerHTML = questionObj.answerChoices[1];
+    answerCField.innerHTML = questionObj.answerChoices[2];
+    answerDField.innerHTML = questionObj.answerChoices[3];
+
+    multChoiceAnswerBtns.forEach(function (btn) {
+      let answer = btn.getAttribute("data-ans");
+      if (answer == questionObj.correctAnswer) {
+        btn.classList.add("correctAnswer");
+      }
+
+      btn.style.display = `inline-block`;
+    });
+
+    answerTableField.style.display = `flex`;
+  }
+
+  function renderBooleanChoiceAnswers(questionObj) {
+    const trueBtn = document.querySelector(`.btn__answer-true`);
+    const falseBtn = document.querySelector(`.btn__answer-false`);
+    const boolChoiceAnswerBtns =
+      document.querySelectorAll(`.btn__answer-boolean`);
+
+    if (questionObj.correctAnswer == `True`) {
+      trueBtn.classList.add("correctAnswer");
+      trueBtn.setAttribute(`data-ans`, `True`);
+    } else {
+      falseBtn.classList.add("correctAnswer");
+      falseBtn.setAttribute(`data-ans`, "False");
+    }
+
+    boolChoiceAnswerBtns.forEach(function (btn) {
+      btn.style.display = `inline-block`;
+    });
+  }
+}
+
+function toggleDisplayTriviaDifficultyBtns(toggle) {
+  const triviaDifficultyBtns = document.querySelectorAll(
+    `.btn__trivia-difficulty`
+  );
+
+  if (toggle) {
+    triviaDifficultyBtns.forEach(function (btn) {
+      btn.style.display = `inline-block`;
+    });
+  } else {
+    triviaDifficultyBtns.forEach(function (btn) {
+      btn.style.display = "none";
+    });
+  }
+}
+
+export function displayTriviaCorrectAnswer(questionObj) {
+  const correctAnswerField = document.querySelector(
+    `.trivia-modal__answer-correct-container`
+  );
+  const correctAnswerText = document.querySelector(
+    `.trivia-modal__answer-correct`
+  );
+
+  correctAnswerField.style.display = `inline-block`;
+  correctAnswerText.innerHTML = questionObj.correctAnswer;
+}
+
+export function renderTriviaCorrectAnswer() {
+  const titleField = document.querySelector(`.trivia-modal__title`);
+
+  document.querySelector(".correctAnswer").style.backgroundColor = `green`;
+  titleField.textContent = `Correct Answer!`;
+  titleField.style.color = `green`;
+}
+
+export function renderTriviaIncorrectAnswer(event) {
+  const titleField = document.querySelector(`.trivia-modal__title`);
+
+  document.querySelector(".correctAnswer").style.backgroundColor = `green`;
+  event.target.id = `incorrectAnswer`;
+
+  titleField.textContent = `Wrong Answer...`;
+  titleField.style.color = `red`;
+}
+
+export function resetTriviaModal(answerCorrectly) {
+  popbox.close(`trivia-modal`);
+
+  clearTriviaUI();
+  clearAnswerBtnData(answerCorrectly);
+  // toggleDisableTriviaAnswerBtns(true);
+  toggleDisplayTriviaDifficultyBtns(true);
+  resetTriviaBtns();
+}
+
+function clearTriviaUI() {
+  const categoryField = document.querySelector(`.trivia__category`);
+  const difficultyField = document.querySelector(`.trivia__difficulty`);
+  const labelContainer = document.querySelector(
+    `.trivia-modal__label-container`
+  );
+  const questionField = document.querySelector(`.trivia__question`);
+  const answerTableItems = document.querySelectorAll(
+    `.trivia-modal__answer-table-item`
+  );
+  const correctAnswerField = document.querySelector(
+    `.answer-correct-container`
+  );
+  const correctAnswerText = document.querySelector(
+    `.trivia-modal__answer-correctly`
+  );
+  const answerTableField = document.querySelector(
+    `.trivia-modal__answer-table`
+  );
+  const titleField = document.querySelector(`.trivia-modal__title`);
+
+  categoryField.textContent = ``;
+  difficultyField.textContent = ``;
+  // choiceATriviaUI.innerHTML = ``;
+  // choiceBTriviaUI.innerHTML = ``;
+  // choiceCTriviaUI.innerHTML = ``;
+  // choiceDTriviaUI.innerHTML = ``;
+  correctAnswerText.innerHTML = ` `;
+  labelContainer.style.display = `none`;
+  correctAnswerField.style.display = `none`;
+  answerTableField.style.display = `none`;
+  titleField.textContent = `Hit Trivia Question`;
+  titleField.style.color = `white`;
+  questionField.textContent = `Select Trivia Difficulty`;
+
+  answerTableItems.forEach(function (elem) {
+    elem.innerHTML = ` `;
+  });
+}
+
+function clearAnswerBtnData(answerCorrectly) {
+  const multChoiceAnswerBtns = document.querySelectorAll(
+    `.btn__answer-multiple`
+  );
+
+  multChoiceAnswerBtns.forEach(function (elem) {
+    elem.removeAttribute(`data-ans`);
+  });
+  // answerABtn.removeAttribute(`data-ans`);
+  // answerBBtn.removeAttribute(`data-ans`);
+  // answerCBtn.removeAttribute(`data-ans`);
+  // answerDBtn.removeAttribute(`data-ans`);
+  // correctAnswer = ``;
+  // currentTriviaDifficulty = ``;
+
+  document.querySelector(".correctAnswer").style.backgroundColor = `grey`;
+  document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
+
+  if (!answerCorrectly) {
+    document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
+  }
+}
+
+function resetTriviaBtns() {
+  const answerBtns = document.querySelectorAll(`.btn__answer`);
+  toggleDisableTriviaAnswerBtns(false);
+
+  answerBtns.forEach(function (btn) {
+    btn.style.display = `none`;
+  });
+}
+
+export function toggleDisableTriviaAnswerBtns(toggle) {
+  const answerBtns = document.querySelectorAll(`.btn__answer`);
+  if (toggle) {
+    answerBtns.forEach(function (btn) {
+      btn.disabled = true;
+    });
+  } else {
+    answerBtns.forEach(function (btn) {
+      btn.disabled = false;
+    });
+  }
+}
+
 // export function resetSideBetModal() {
 //   const sideBetValueFields = document.querySelectorAll(
 //     `.side-bet-modal__side-bet-value`

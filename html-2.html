@@ -116,6 +116,8 @@
         </div>
         <button class="btn btn-system btn-system__new-game">Start New Game</button>
         <button class="btn btn-system btn-system__check-side-bet-outcome">Check Side Bets!</button>
+        <button class="btn btn-system btn-system__start-next-round">Start Next Round</button>
+
         <button class="btn-side-bet btn-side-bet__even-money-decline">
           No
         </button>
@@ -239,6 +241,43 @@
       </div>
       <div class="grid__surrender-container">
         <button class="btn btn-action btn-action__surrender">⚑</button>
+      </div>
+    </div>
+
+    <!-- <div id="trivia__modal" class="trivia__modal"> -->
+    <div data-popbox-id="trivia-modal" class="popbox modal">
+      <div class="trivia-modal__container">
+        <div class="trivia-modal__header">
+          <h1 class="trivia-modal__title">Hit Trivia Question</h1>
+        </div>
+        <div class="trivia-modal__main">
+    
+          <div class="trivia-modal__label-container">
+            <div>Category: <span class="trivia__category"></span></div>
+            <div>Difficulty: <span class="trivia__difficulty"></span></div>
+          </div>
+          <div><h2 class="trivia__question">Select Trivia Difficulty</h2></div>
+          <div class="trivia-modal__answer-table">
+            <div class="trivia-modal__answer-table-item">A: <span class="trivia-modal__answer-a"></span></div>
+            <div class="trivia-modal__answer-table-item">B: <span class="trivia-modal__answer-b"></span></div><br /></br /><hr>
+            <div class="break"> </div>
+            <div class="trivia-modal__answer-table-item">C: <span class="trivia-modal__answer-c"></span></div>
+            <div class="trivia-modal__answer-table-item">D: <span class="trivia-modal__answer-d"></span></div>
+          </div>
+          <div class="trivia-modal__footer">
+            <button class="btn btn__answer btn__answer-multiple btn__answer-a">A</button>
+            <button class="btn btn__answer btn__answer-multiple btn__answer-b">B</button>
+            <button class="btn btn__answer btn__answer-multiple btn__answer-c">C</button>
+            <button class="btn btn__answer btn__answer-multiple btn__answer-d">D</button><br /><br />
+            <button class="btn btn__answer btn__answer-boolean btn__answer-true" data-ans="True">True</button>
+            <button class="btn btn__answer btn__answer-boolean btn__answer-false" data-ans="False">False</button><br /><br />
+            <button class="btn btn__trivia-difficulty btn__easy" data-difficulty="easy">Easy</button>
+           <button class="btn btn__trivia-difficulty btn__medium" data-difficulty="medium">Medium</button>
+           <button class="btn btn__trivia-difficulty btn__hard" data-difficulty="hard">Hard</button>
+          </div>
+            <h2 class="trivia-modal__answer-correct-container">Correct Answer: <span class="trivia-modal__answer-correct"></span></h2>
+
+        </div>
       </div>
     </div>
 
@@ -672,7 +711,8 @@
     <div data-popbox-id="notice-modal" class="popbox modal">
       <!-- <div class="notice-modal modal"> -->
         <div class="notice-modal__container">
-          <h1 class="notice-modal__notice">Player Bust</h1>
+            <h1 class="notice-modal__notice">Player Bust</h1>
+ 
           <div class="notice-modal__btn-container">
             <button class="btn btn-notice-modal btn-notice-modal__next" data-popbox-close="notice-modal">Next</button>
             <button class="btn btn-notice-modal btn-notice-modal__close" data-popbox-close="notice-modal">Close</button>

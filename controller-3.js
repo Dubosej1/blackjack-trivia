@@ -4,6 +4,7 @@ import * as view from "./view-3.js";
 import * as listeners from "./listeners.js";
 import * as betModel from "./bet-model.js";
 import * as state from "./state.js";
+import { triviaObj } from "./trivia-model.js";
 
 export let optionsPlaceholder;
 export let bankPlaceholder;
@@ -15,6 +16,8 @@ export function startNewGame(e) {
   let bank = 1000;
   let options = optionsPlaceholder;
   let specialNum = betModel.generateSpecialNums();
+
+  triviaObj.generateTriviaQuestions();
 
   view.toggleDisplayNewGameBtn(false);
   //   triviaModel.generateTriviaQuestions();
@@ -582,7 +585,8 @@ export function hitAction(event, gameState) {
     surrender: false,
   };
 
-  gameState.player.executeHit(gameState);
+  if (gameState.options.triviaMode) popbox.open(`trivia-modal`);
+  else gameState.player.executeHit(gameState);
 }
 
 export function standAction(e, gameState) {
@@ -622,16 +626,21 @@ export function standAction(e, gameState) {
 }
 
 export function doubleDownAction(e, gameState) {
-  let player = gameState.player;
-  let activeHand = player.currentSplitHand;
-
   gameState.toggleEnableActionBtns = {
     doubleDown: false,
     surrender: false,
     split: false,
   };
 
-  gameState.updateDoubleDownBet();
+  triviaObj.doubleDownActive = true;
+
+  if (gameState.options.triviaMode) popbox.open(`trivia-modal`);
+  else executeDoubleDown(gameState);
+}
+
+function executeDoubleDown(gameState) {
+  let player = gameState.player;
+  let activeHand = player.currentSplitHand;
 
   let hand;
 
@@ -639,6 +648,7 @@ export function doubleDownAction(e, gameState) {
   else hand = player.getSplitHand(activeHand);
 
   hand.doubleDownActive = true;
+  gameState.updateDoubleDownBet();
 
   gameState.updateNoticeText = `Player Doubles Down`;
 
@@ -786,6 +796,49 @@ export function nextDealerAction(nextAction, gameState) {
   }
 }
 
+export function processTriviaDifficulty(event, gameState) {
+  let difficulty = event.target.dataset.difficulty;
+
+  triviaObj.selectTriviaDifficulty(difficulty);
+  view.renderTriviaQuestion(triviaObj.activeQuestion);
+}
+
+export function processTriviaAnswer(event, gameState) {
+  view.disableTriviaAnswerBtns();
+
+  let selectedAnswer = event.target.dataset.ans;
+
+  let answerCorrectly = triviaObj.determineCorrectAnswer(selectedAnswer);
+  view.displayTriviaCorrectAnswer(triviaObj.activeQuestion);
+  updateTriviaResult(answerCorrectly, event, gameState);
+
+  function updateTriviaResult(answerCorrectly, event, gameState) {
+    if (answerCorrectly) {
+      //Player Hits
+      view.renderTriviaCorrectAnswer();
+    } else {
+      //Player Stands
+      view.renderTriviaIncorrectAnswer(event);
+    }
+
+    gameTimer = setTimeout(view.resetTriviaModal, 3000, answerCorrectly);
+
+    nextTriviaAction(answerCorrectly, gameState);
+
+    function nextTriviaAction(answerCorrectly, gameState) {
+      let gameTimer;
+      let player = gameState.player;
+      let hitClbk = player.executeHit.bind(player);
+
+      if (answerCorrectly) {
+        if (triviaObj.doubleDownToken)
+          gameTimer = setTimeout(executeDoubleDown, 5000, gameState);
+        else gameTimer = setTimeout(hitClbk, 5000, gameState);
+      } else gameTimer = setTimeout(standAction, 5000, null, gameState);
+    }
+  }
+}
+
 // Initializing Entire Program
 
 function init() {
@@ -793,6 +846,7 @@ function init() {
   listeners.addBeginGameOptionsBtnListener();
   listeners.addOptionsMenuInputListeners();
   listeners.addStartNextRoundBtnListener();
+  listeners.addTriviaBtnListeners();
   submitOptions();
 }
 
