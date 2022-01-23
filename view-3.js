@@ -125,6 +125,26 @@ export function updateSideBetModalTotals(sideBet, gameState) {
   checkSideBetChipBtnsValid(bank);
 }
 
+export function clearSideBetModal(gameState) {
+  const sideBetTotalField = document.querySelector(
+    `.side-bet-modal__total-value`
+  );
+
+  const sideBetBankField = document.querySelector(
+    `.side-bet-modal__bank-value`
+  );
+  const sideBetValueFields = document.querySelectorAll(
+    `.side-bet-modal__side-bet-value`
+  );
+  // const bank = gameState.betObj.getTempBank();
+
+  sideBetTotalField.textContent = 0;
+  sideBetBankField.textContent = 0;
+  sideBetValueFields.forEach(function (elem) {
+    elem.textContent = 0;
+  });
+}
+
 export function resetSideBetModal(gameState) {
   const sideBetTotalField = document.querySelector(
     `.side-bet-modal__total-value`
@@ -854,6 +874,8 @@ export function displayInitialSideBetOutcome(gameState) {
 
   summaryTitle.textContent = `Side Bet Outcome`;
 
+  summaryField.innerHTML = ` `;
+
   let outcomeArr = gameState.betObj.initialOutcomePackages;
   let totalWinnings = gameState.betObj.getInitialSideBetWinnings();
 
@@ -1439,8 +1461,13 @@ export function renderSingleHandOutcome(gameState) {
   let roundOutcome = outcomePackage.roundOutcome;
   let noticeText;
 
-  const noticeContainer = document.querySelector(`.notice-modal__container`);
-  const noticeTitle = document.querySelector(`.notice-modal__notice`);
+  const displayField = document.querySelector(`.generic-modal__main`);
+  const displayTitle = document.querySelector(`.generic-modal__title`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+
+  nextBtn.style.display = `inline-block`;
+  closeBtn.style.display = `none`;
 
   if (roundOutcome == `win`) noticeText = `WIN!`;
   if (roundOutcome == `lose`) noticeText = `Lose`;
@@ -1448,7 +1475,13 @@ export function renderSingleHandOutcome(gameState) {
   if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
   if (roundOutcome == `surrender`) noticeText = `Surrender`;
 
-  noticeTitle.textContent = noticeText;
+  displayTitle.textContent = `Round Outcome`;
+
+  displayField.innerHTML = ` `;
+
+  const roundOutcomeHeading = document.createElement(`h1`);
+  const roundOutcomeHeadingContent = document.createTextNode(noticeText);
+  roundOutcomeHeading.appendChild(roundOutcomeHeadingContent);
 
   const outcomeHeading = document.createElement(`h2`);
   const outcomeHeadingContent = document.createTextNode(
@@ -1462,33 +1495,45 @@ export function renderSingleHandOutcome(gameState) {
   );
   winningsHeading.appendChild(winningsHeadingContent);
 
-  noticeTitle.insertAdjacentElement(`afterend`, outcomeHeading);
-  outcomeHeading.insertAdjacentElement(`afterend`, winningsHeading);
+  // displayTitle.insertAdjacentElement(`afterend`, outcomeHeading);
+  // outcomeHeading.insertAdjacentElement(`afterend`, winningsHeading);
+
+  displayField.appendChild(roundOutcomeHeading);
+  displayField.appendChild(outcomeHeading);
+  displayField.appendChild(winningsHeading);
 
   listeners.addBaseRoundOutcomeModalListener();
 
-  popbox.open(`notice-modal`);
+  popbox.open(`generic-modal`);
 }
 
 export function renderSplitHandOutcome(gameState) {
   let player = gameState.player;
   let splitHands = player.splitHands;
 
-  // const noticeContainer = document.querySelector(`.notice-modal__container`);
-  const noticeTitle = document.querySelector(`.notice-modal__notice`);
+  const displayField = document.querySelector(`.generic-modal__main`);
+  const displayTitle = document.querySelector(`.generic-modal__title`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
 
-  noticeTitle.textContent = `Round Outcome`;
+  nextBtn.style.display = `inline-block`;
+  closeBtn.style.display = `none`;
+
+  displayTitle.textContent = `Round Outcome`;
+
+  displayField.innerHTML = ` `;
 
   let handElems = splitHands.map((obj) => renderSplitOutcomeText(obj));
 
   handElems.forEach(function (elem, index, array) {
-    if (index == 0) noticeTitle.insertAdjacentElement(`afterend`, elem);
-    else array[index - 1].insertAdjacentElement(`afterend`, elem);
+    // if (index == 0) noticeTitle.insertAdjacentElement(`afterend`, elem);
+    // else array[index - 1].insertAdjacentElement(`afterend`, elem);
+    displayField.appendChild(elem);
   });
 
   listeners.addBaseRoundOutcomeModalListener();
 
-  popbox.open(`notice-modal`);
+  popbox.open(`generic-modal`);
 
   function renderSplitOutcomeText(hand) {
     let handNum = hand.handNum;
@@ -1699,6 +1744,111 @@ function createPlayerSummaryFieldElements(hand, blackjackPayout) {
 
   return playerDiv;
 }
+
+export function resetUI() {
+  const dealerCardsField = document.querySelector(`.dealer-cards__container`);
+  const playerCardsField = document.querySelector(`.player-cards__container`);
+  const betField = document.querySelector(`.bet__value`);
+  const dealerTotalField = document.querySelector(`.dealer-total__value`);
+  const playerTotalField = document.querySelector(`.player-total__value`);
+  const splitStageCardFields = document.querySelectorAll(`.split-stage__cards`);
+  const splitStageTotalFields =
+    document.querySelectorAll(`.split-stage__total`);
+  const splitStageField = document.querySelector(
+    `.grid__split-stages-container`
+  );
+
+  clearSideBetModal();
+
+  betField.textContent = 0;
+
+  dealerCardsField.innerHTML = ` `;
+  playerCardsField.innerHTML = ` `;
+  splitStageCardFields.forEach(function (elem) {
+    elem.innerHTML = ` `;
+  });
+
+  dealerTotalField.textContent = 0;
+  playerTotalField.textContent = 0;
+  splitStageTotalFields.forEach(function (elem) {
+    elem.textContent = 0;
+  });
+
+  resetMessageFieldUI();
+
+  splitStageField.style.display = `none`;
+
+  function resetMessageFieldUI() {
+    const dealerMessageText = document.querySelector(`.dealer-message__text`);
+    const dealerMessageField = document.querySelector(
+      `.dealer-message__container`
+    );
+    const playerMessageText = document.querySelector(`.player-message__text`);
+    const playerMessageField = document.querySelector(
+      `.player-message__container`
+    );
+    const splitStage1ResultField = document.querySelector(
+      `.split-stage-1__result`
+    );
+    const splitStage2ResultField = document.querySelector(
+      `.split-stage-2__result`
+    );
+    const splitStage3ResultField = document.querySelector(
+      `.split-stage-3__result`
+    );
+
+    dealerMessageText.textContent = ` `;
+    playerMessageText.textContent = ` `;
+    splitStage1ResultField.textContent = ` `;
+    splitStage2ResultField.textContent = ` `;
+    splitStage3ResultField.textContent = ` `;
+
+    let outcomeArr = [
+      `bust`,
+      `charlie`,
+      `natural`,
+      `stand`,
+      `surrender`,
+      `dealerHit`,
+    ];
+
+    outcomeArr.forEach(function (str) {
+      dealerMessageField.classList.remove(`dealer-message__container--${str}`);
+      playerMessageField.classList.remove(`player-message__container--${str}`);
+      splitStage1ResultField.classList.remove(`split-stage-1__result--${str}`);
+      splitStage2ResultField.classList.remove(`split-stage-2__result--${str}`);
+      splitStage3ResultField.classList.remove(`split-stage-3__result--${str}`);
+    });
+  }
+}
+
+export function toggleDisplayStartNextRoundBtn(boolean) {
+  const startNextRoundBtn = document.querySelector(
+    `.btn-system__start-next-round`
+  );
+
+  boolean
+    ? (startNextRoundBtn.style.display = `inline-block`)
+    : (startNextRoundBtn.style.display = `none`);
+}
+
+export function toggleDisplayNewGameBtn(boolean) {
+  const newGameBtn = document.querySelector(`.btn-system__new-game`);
+
+  boolean
+    ? (newGameBtn.style.display = `inline-block`)
+    : (newGameBtn.style.display = `none`);
+}
+
+// export function resetSideBetModal() {
+//   const sideBetValueFields = document.querySelectorAll(
+//     `.side-bet-modal__side-bet-value`
+//   );
+
+//   sideBetValueFields.forEach(function (elem) {
+//     elem.textContent = 0;
+//   });
+// }
 
 // if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
 // if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;

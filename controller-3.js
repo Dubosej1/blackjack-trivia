@@ -5,7 +5,9 @@ import * as listeners from "./listeners.js";
 import * as betModel from "./bet-model.js";
 import * as state from "./state.js";
 
-let optionsPlaceholder;
+export let optionsPlaceholder;
+export let bankPlaceholder;
+export let specialNumPlaceholder;
 
 //////////Game Flow functions//////////
 
@@ -13,12 +15,16 @@ export function startNewGame(e) {
   let bank = 1000;
   let options = optionsPlaceholder;
   let specialNum = betModel.generateSpecialNums();
+
+  view.toggleDisplayNewGameBtn(false);
   //   triviaModel.generateTriviaQuestions();
   // view.renderBtnVisibility({ array: btnsArr, newGame: false, endGame: true });
   startNewRound(bank, options, specialNum);
 }
 
 export function startNewRound(bank, options, specialNum) {
+  view.toggleDisplayStartNextRoundBtn(false);
+
   let gameState = state.initNewState(bank, options, specialNum);
 
   let players = bjModel.initPlayers(bank);
@@ -31,6 +37,14 @@ export function startNewRound(bank, options, specialNum) {
 
   listeners.removeBeginGameOptionsBtnListener();
   listeners.addNewRoundEventListeners(gameState);
+
+  gameState.toggleEnableActionBtns = {
+    hit: false,
+    stand: false,
+    doubleDown: false,
+    split: false,
+    surrender: false,
+  };
 
   //   view.addHandlerListeners(btnsArr, gameState);
 
@@ -252,10 +266,40 @@ export function endGameRoutine(gameState) {
       order.totalWinnings = false;
       break;
     default:
+      clearRoundData(gameState);
     //Clear Round Routine
     //if end round early?
     //else beginGameRoutinePart2()
   }
+}
+
+function clearRoundData(gameState) {
+  let gameTimer;
+
+  view.resetUI();
+  state.addStateToLog(gameState);
+  listeners.removeRoundEventListeners();
+  listeners.addBeginGameOptionsBtnListener();
+  bankPlaceholder = gameState.bank;
+  specialNumPlaceholder = gameState.specialNum;
+  optionsPlaceholder = gameState.options;
+  view.renderNoticeText(` `);
+  view.toggleDisplayStartNextRoundBtn(true);
+
+  if (gameState.gameAborted) {
+    view.renderNoticeText(`Game Ended.  Select New Game...`);
+    let bank = 0;
+    view.renderBank(bank);
+    gameState.toggleEnableGameBtns = {
+      hit: false,
+      stand: false,
+      doubleDown: false,
+      split: false,
+      surrender: false,
+    };
+    // init();
+  }
+  // else gameTimer = setTimeout(startNewRound, 1500, gameState.player.bank);
 }
 
 export function updateStatePlayers(player, gameState) {
@@ -409,6 +453,8 @@ export function clearAllSideBets(event, gameState) {
 }
 
 export function initDisplayInitialSideBetOutcome(event, gameState) {
+  view.toggleCheckSideBetBtn(false);
+
   determineBeginGameRoutineOrder(gameState);
   //   view.displayInitialSideBetOutcome(gameState);
 }
@@ -746,6 +792,7 @@ function init() {
   listeners.addNewGameBtnListener();
   listeners.addBeginGameOptionsBtnListener();
   listeners.addOptionsMenuInputListeners();
+  listeners.addStartNextRoundBtnListener();
   submitOptions();
 }
 

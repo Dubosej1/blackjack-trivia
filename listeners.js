@@ -16,12 +16,39 @@ export function addBeginGameOptionsBtnListener(gameState = null) {
   applyOptionsBtn.addEventListener(`click`, beginGameOptionsListenerCallback);
 }
 
+export function addStartNextRoundBtnListener() {
+  const startNextRoundBtn = document.querySelector(
+    `.btn-system__start-next-round`
+  );
+
+  startNextRoundBtn.addEventListener(
+    `click`,
+    startNextRoundBtnListenerCallback
+  );
+}
+
+function startNextRoundBtnListenerCallback(event) {
+  controller.startNewRound(
+    controller.bankPlaceholder,
+    controller.optionsPlaceholder,
+    controller.specialNumPlaceholder
+  );
+}
+
 export function addOptionsBtnListener(gameState) {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
   );
 
   applyOptionsBtn.addEventListener(`click`, optionsListenerCallback);
+}
+
+export function removeOptionsBtnListener() {
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
+
+  applyOptionsBtn.removeEventListener(`click`, optionsListenerCallback);
 }
 
 export function addNewRoundEventListeners(gameState) {
@@ -34,6 +61,16 @@ export function addNewRoundEventListeners(gameState) {
   addGameActionBtnListeners(gameState);
   addWinningsModalListener(gameState);
   // addModalListeners(gameState);
+}
+
+export function removeRoundEventListeners() {
+  removeBaseBetModalBtnListeners();
+  removeSideBetChipBtnListeners();
+  removeSideBetContainerListener();
+  removeSystemBtnListeners();
+  removeHouseMoneyModalBtnListeners();
+  removeGameActionBtnListeners();
+  removeWinningsModalListener();
 }
 
 export function addBaseBetModalBtnListeners(gameState) {
@@ -61,6 +98,32 @@ export function addBaseBetModalBtnListeners(gameState) {
   // checkSideBetsBtn.addEventListener(`click`, checkSideBetsBtnListenerCallback);
 }
 
+function removeBaseBetModalBtnListeners() {
+  const baseBetChipBtns = document.querySelectorAll(
+    `.btn-basic-bet-modal__chip`
+  );
+  const baseBetClearBtn = document.querySelector(
+    `.btn-basic-bet-modal__clear-bet`
+  );
+  const baseBetDealCardsBtn = document.querySelector(
+    `.btn-basic-bet-modal__deal-cards`
+  );
+  // const checkSideBetsBtn = document.querySelector(
+  //   `.btn-basic-bet-modal__check-side-bets`
+  // );
+
+  baseBetChipBtns.forEach(function (elem) {
+    elem.removeEventListener("click", updateBaseBetChipBtnCallback);
+  });
+
+  baseBetClearBtn.removeEventListener("click", clearBaseBetChipAmountCallback);
+
+  baseBetDealCardsBtn.removeEventListener(
+    `click`,
+    dealCardsBtnListenerCallback
+  );
+}
+
 export function addSideBetContainerListener() {
   const sideBetContainers = document.querySelectorAll(
     `.side-bet-modal__side-bet-div`
@@ -68,6 +131,16 @@ export function addSideBetContainerListener() {
 
   sideBetContainers.forEach(function (elem) {
     elem.addEventListener(`click`, sideBetContainerListenerCallback);
+  });
+}
+
+export function removeSideBetContainerListener() {
+  const sideBetContainers = document.querySelectorAll(
+    `.side-bet-modal__side-bet-div`
+  );
+
+  sideBetContainers.forEach(function (elem) {
+    elem.removeEventListener(`click`, sideBetContainerListenerCallback);
   });
 }
 
@@ -99,6 +172,36 @@ export function addSideBetChipBtnListeners() {
   placeSideBetsBtn.addEventListener(`click`, placeSideBetsBtnCallback);
 
   sideBetClearAllBtn.addEventListener(`click`, clearAllSideBetsBtnCallback);
+}
+
+export function removeSideBetChipBtnListeners() {
+  const sideBetChipBtns = document.querySelectorAll(
+    `.btn-side-bet-modal__chip`
+  );
+  const sideBetClearBtn = document.querySelector(
+    `.btn-side-bet-modal__clear-bet`
+  );
+  const placeSideBetsBtn = document.querySelector(
+    `.btn-side-bet-modal__place-bets`
+  );
+  const sideBetClearAllBtn = document.querySelector(
+    `.btn-side-bet-modal__clear-all`
+  );
+  const activateBetBtn = document.querySelector(
+    `.btn-side-bet-modal__activate-bet`
+  );
+
+  sideBetChipBtns.forEach(function (elem) {
+    elem.removeEventListener("click", updateSideBetChipBtnCallback);
+  });
+
+  activateBetBtn.removeEventListener(`click`, activateSideBetBtnCallback);
+
+  sideBetClearBtn.removeEventListener("click", clearSideBetChipAmountCallback);
+
+  placeSideBetsBtn.removeEventListener(`click`, placeSideBetsBtnCallback);
+
+  sideBetClearAllBtn.removeEventListener(`click`, clearAllSideBetsBtnCallback);
 }
 
 export function addOptionsMenuInputListeners() {
@@ -140,6 +243,14 @@ export function addSystemBtnListeners(gameState) {
   );
 
   checkSideBetBtn.addEventListener(`click`, checkSideBetBtnListenerCallback);
+}
+
+export function removeSystemBtnListeners(gameState) {
+  const checkSideBetBtn = document.querySelector(
+    `.btn-system__check-side-bet-outcome`
+  );
+
+  checkSideBetBtn.removeEventListener(`click`, checkSideBetBtnListenerCallback);
 }
 
 export function addSummaryModalDisplayHandListener(gameState) {
@@ -202,24 +313,22 @@ export function addExtraBetBlackjackModalListeners() {
 }
 
 function addHouseMoneyModalBtnListeners() {
-  // const collectMoneyBtn = document.querySelector(
-  //   `.btn-house-money-modal__collect-money`
-  // );
-  // const parlayWinningsBtn = document.querySelector(
-  //   `.btn-house-money-modal__parlay-winnings`
-  // );
-  // const parlayBetBtn = document.querySelector(
-  //   `.btn-house-money-modal__parlay-bet`
-  // );
-  // const parlayAllBtn = document.querySelector(
-  //   `.btn-house-money-modal__parlay-all`
-  // );
   const actionBtns = document.querySelectorAll(
     `.btn-house-money-modal__action`
   );
 
   actionBtns.forEach(function (elem) {
     elem.addEventListener(`click`, decideHouseMoneyBtnsCallback);
+  });
+}
+
+function removeHouseMoneyModalBtnListeners() {
+  const actionBtns = document.querySelectorAll(
+    `.btn-house-money-modal__action`
+  );
+
+  actionBtns.forEach(function (elem) {
+    elem.removeEventListener(`click`, decideHouseMoneyBtnsCallback);
   });
 }
 
@@ -272,7 +381,7 @@ export function addGameActionBtnListeners(gameState) {
 }
 
 export function addBaseRoundOutcomeModalListener() {
-  const nextBtn = document.querySelector(`.btn-notice-modal__next`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
 
   nextBtn.addEventListener(`click`, roundOutcomeModalNextBtnListenerCallback);
 }
@@ -285,6 +394,16 @@ export function addWinningsModalListener(gameState) {
 
   winSummaryBtn.addEventListener(`click`, winSummaryBtnListenerCallback);
   closeBtn.addEventListener(`click`, winningsModalCloseBtnListenerCallback);
+}
+
+export function removeWinningsModalListener(gameState) {
+  const winSummaryBtn = document.querySelector(
+    `.btn-winnings-modal__win-summary`
+  );
+  const closeBtn = document.querySelector(`.btn-winnings-modal__close`);
+
+  winSummaryBtn.removeEventListener(`click`, winSummaryBtnListenerCallback);
+  closeBtn.removeEventListener(`click`, winningsModalCloseBtnListenerCallback);
 }
 
 export function removeEvenMoneyModalListeners() {
@@ -345,7 +464,7 @@ export function removeExtraBetBlackjackModalListeners() {
   declineBetBtn.removeEventListener(`click`, declineExtraBetBtnCallback);
 }
 
-export function removeGameActionBtnListeners(gameState) {
+export function removeGameActionBtnListeners() {
   const hitBtn = document.querySelector(`.btn-action__hit`);
   const standBtn = document.querySelector(`.btn-action__stand`);
   const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
@@ -515,8 +634,7 @@ function surrenderBtnListenerCallback(event) {
 }
 
 function roundOutcomeModalNextBtnListenerCallback(event) {
-  const nextBtn = document.querySelector(`.btn-notice-modal__next`);
-  //remove new elements from notice modal
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
 
   nextBtn.removeEventListener(
     `click`,

@@ -1,6 +1,9 @@
 import * as view from "./view-3.js";
 export let globalState;
 
+let roundNumber = 1;
+let log = [];
+
 class State {
   betObj;
   player;
@@ -375,6 +378,17 @@ class State {
 
     this.totalWinnings = this.playerWinnings;
   }
+
+  set addRoundNumber(num) {
+    this.roundNumber = num;
+  }
+}
+
+export function addStateToLog(gameState) {
+  gameState.addRoundNumber = roundNumber;
+  log.push(gameState);
+  roundNumber++;
+  console.log(log);
 }
 
 export function initNewState(bank, options) {
