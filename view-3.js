@@ -938,17 +938,17 @@ function createSummaryFieldElements(outcomeObj) {
   // newDiv.insertAdjacentHTML(`afterend` `<br>`);
 
   if (outcome == `lose`) {
-    let { sideBetKey } = outcomeObj;
+    // let { sideBetKey } = outcomeObj;
 
-    const checkHandBtn = document.createElement(`button`);
-    checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
-    checkHandBtn.dataset.sideBet = sideBetKey;
-    checkHandBtn.dataset.popboxTarget = `winning-hand-modal`;
-    let checkHandBtnContent = document.createTextNode(`Check Hand`);
-    checkHandBtn.appendChild(checkHandBtnContent);
+    // const checkHandBtn = document.createElement(`button`);
+    // checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
+    // checkHandBtn.dataset.sideBet = sideBetKey;
+    // checkHandBtn.dataset.popboxTarget = `winning-hand-modal`;
+    // let checkHandBtnContent = document.createTextNode(`Check Hand`);
+    // checkHandBtn.appendChild(checkHandBtnContent);
 
     newDiv.appendChild(winConditionSpan);
-    newDiv.appendChild(checkHandBtn);
+    // newDiv.appendChild(checkHandBtn);
     winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
 
     buttonCount = 0;
