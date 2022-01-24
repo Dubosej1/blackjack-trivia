@@ -146,6 +146,10 @@ export const triviaObj = {
   determineCorrectAnswer(selectedAnswer) {
     return selectedAnswer == this.activeQuestion.correctAnswer;
   },
+
+  toggleDoubleDownToken(toggle) {
+    toggle ? (this.doubleDownToken = true) : (this.doubleDownToken = false);
+  },
 };
 
 class TriviaQuestion {

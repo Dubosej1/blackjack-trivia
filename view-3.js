@@ -1760,6 +1760,8 @@ export function resetUI() {
 
   clearSideBetModal();
 
+  toggleDoubleDownMarker(false);
+
   betField.textContent = 0;
 
   dealerCardsField.innerHTML = ` `;
@@ -1859,6 +1861,8 @@ export function renderTriviaQuestion(questionObj) {
   categoryField.textContent = questionObj.category;
   difficultyField.textContent = questionObj.difficulty;
   questionField.innerHTML = questionObj.question;
+
+  console.log(questionObj.correctAnswer);
 
   if (questionObj.type == `multiple`) {
     renderMultipleChoiceAnswers(questionObj);
@@ -1974,13 +1978,12 @@ export function renderTriviaIncorrectAnswer(event) {
 }
 
 export function resetTriviaModal(answerCorrectly) {
-  popbox.close(`trivia-modal`);
-
   clearTriviaUI();
   clearAnswerBtnData(answerCorrectly);
   // toggleDisableTriviaAnswerBtns(true);
   toggleDisplayTriviaDifficultyBtns(true);
   resetTriviaBtns();
+  popbox.close(`trivia-modal`);
 }
 
 function clearTriviaUI() {
@@ -1990,14 +1993,12 @@ function clearTriviaUI() {
     `.trivia-modal__label-container`
   );
   const questionField = document.querySelector(`.trivia__question`);
-  const answerTableItems = document.querySelectorAll(
-    `.trivia-modal__answer-table-item`
-  );
+  const answerFields = document.querySelectorAll(`.trivia-modal__answer`);
   const correctAnswerField = document.querySelector(
-    `.answer-correct-container`
+    `.trivia-modal__answer-correct-container`
   );
   const correctAnswerText = document.querySelector(
-    `.trivia-modal__answer-correctly`
+    `.trivia-modal__answer-correct`
   );
   const answerTableField = document.querySelector(
     `.trivia-modal__answer-table`
@@ -2018,8 +2019,8 @@ function clearTriviaUI() {
   titleField.style.color = `white`;
   questionField.textContent = `Select Trivia Difficulty`;
 
-  answerTableItems.forEach(function (elem) {
-    elem.innerHTML = ` `;
+  answerFields.forEach(function (elem) {
+    elem.textContent = ` `;
   });
 }
 

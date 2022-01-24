@@ -632,7 +632,7 @@ export function doubleDownAction(e, gameState) {
     split: false,
   };
 
-  triviaObj.doubleDownActive = true;
+  triviaObj.toggleDoubleDownToken(true);
 
   if (gameState.options.triviaMode) popbox.open(`trivia-modal`);
   else executeDoubleDown(gameState);
@@ -804,7 +804,7 @@ export function processTriviaDifficulty(event, gameState) {
 }
 
 export function processTriviaAnswer(event, gameState) {
-  view.disableTriviaAnswerBtns();
+  view.toggleDisableTriviaAnswerBtns();
 
   let selectedAnswer = event.target.dataset.ans;
 
@@ -813,6 +813,8 @@ export function processTriviaAnswer(event, gameState) {
   updateTriviaResult(answerCorrectly, event, gameState);
 
   function updateTriviaResult(answerCorrectly, event, gameState) {
+    let gameTimer;
+
     if (answerCorrectly) {
       //Player Hits
       view.renderTriviaCorrectAnswer();
@@ -821,7 +823,7 @@ export function processTriviaAnswer(event, gameState) {
       view.renderTriviaIncorrectAnswer(event);
     }
 
-    gameTimer = setTimeout(view.resetTriviaModal, 3000, answerCorrectly);
+    gameTimer = setTimeout(view.resetTriviaModal, 5000, answerCorrectly);
 
     nextTriviaAction(answerCorrectly, gameState);
 
@@ -831,10 +833,11 @@ export function processTriviaAnswer(event, gameState) {
       let hitClbk = player.executeHit.bind(player);
 
       if (answerCorrectly) {
-        if (triviaObj.doubleDownToken)
-          gameTimer = setTimeout(executeDoubleDown, 5000, gameState);
-        else gameTimer = setTimeout(hitClbk, 5000, gameState);
-      } else gameTimer = setTimeout(standAction, 5000, null, gameState);
+        if (triviaObj.doubleDownToken) {
+          gameTimer = setTimeout(executeDoubleDown, 5500, gameState);
+          triviaObj.toggleDoubleDownToken(false);
+        } else gameTimer = setTimeout(hitClbk, 5500, gameState);
+      } else gameTimer = setTimeout(standAction, 5500, null, gameState);
     }
   }
 }

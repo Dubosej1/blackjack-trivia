@@ -364,6 +364,10 @@ body {
   display: inline-block;
 }
 
+#incorrectAnswer {
+  background-color: red;
+}
+
 .btn-system__new-game {
   display: inline-block;
 }
