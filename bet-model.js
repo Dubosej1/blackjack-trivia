@@ -231,7 +231,7 @@ class Bet {
     );
 
     let winningsArr = this.initialSideBetSequence.map(function (obj) {
-      if (obj.key == `houseMoney`) return false;
+      if (obj.key == `houseMoney`) return 0;
       return obj.winnings;
     });
 

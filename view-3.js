@@ -1289,7 +1289,7 @@ export function displayHouseMoneyModal(gameState) {
 
   let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
   let baseBet = gameState.betObj.baseBet;
-  let sideBet = houseMoneyObj.total;
+  let sideBet = houseMoneyObj.bet;
   let parlayPackage = houseMoneyObj.parlayPackage;
 
   sideBetField.textContent = sideBet;
@@ -1301,6 +1301,8 @@ export function displayHouseMoneyModal(gameState) {
 
   popbox.open(`house-money-modal`);
 }
+
+// export function resetHouseMoneyModal() {}
 
 export function renderGameActionBtns(btnState) {
   const hitBtn = document.querySelector(`.btn-action__hit`);

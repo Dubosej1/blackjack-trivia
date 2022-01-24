@@ -561,6 +561,8 @@ export function decideHouseMoney(event, gameState) {
       console.log(`Error: House Money Modal Parlay Btns`);
   }
 
+  // view.resetHouseMoneyModal();
+
   beginGameRoutine(gameState);
 }
 
