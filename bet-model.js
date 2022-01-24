@@ -322,7 +322,11 @@ class SideBet extends Bet {
   }
 
   getSideBetAmountInfoText() {
-    let text = `${this.name} : $${this.tempValue.bet} Bet <br>`;
+    let text;
+
+    if (this.key == `extraBetBlackjack`) text = `${this.name} : Bet Activated`;
+    else text = `${this.name} : $${this.tempValue.bet} Bet <br>`;
+
     return text;
   }
 
