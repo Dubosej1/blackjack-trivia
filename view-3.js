@@ -458,18 +458,26 @@ export function collectOptions() {
 export function doubleAfterSplitAcesHandler(event) {
   const doubleAfterSplitBox = document.querySelector(`#double-after-split`);
   const splitAcesBox = document.querySelector(`#split-aces-on`);
+  const draw1AfterSplitAceBox = document.querySelector(
+    `#split-ace-draw-limit-on`
+  );
 
   if (event.target.checked) {
     doubleAfterSplitBox.checked = true;
     splitAcesBox.checked = true;
+    draw1AfterSplitAceBox.checked = false;
   }
 }
 
 export function draw1AfterSplitAcesHandler(event) {
   const splitAcesBox = document.querySelector(`#split-aces-on`);
+  const doubleAfterSplitAcesBox = document.querySelector(
+    `#double-after-split-ace`
+  );
 
   if (event.target.checked) {
     splitAcesBox.checked = true;
+    doubleAfterSplitAcesBox.checked = false;
   }
 }
 
