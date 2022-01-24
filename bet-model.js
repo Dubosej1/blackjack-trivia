@@ -131,7 +131,7 @@ class Bet {
   clearTempSideBetAmount(sideBet) {
     let sideBetObj = this.getSideBet(sideBet);
 
-    let sideBetIndvTotal = sideBetObj.getTempTotal();
+    let sideBetIndvTotal = sideBetObj.getTempBet();
 
     this.tempValue.sideBetTotal =
       this.tempValue.sideBetTotal - sideBetIndvTotal;

@@ -59,6 +59,18 @@ export function collectSideBet() {
   return sideBet;
 }
 
+export function activateSideBetSelectedText(sideBet) {
+  switch (sideBet) {
+    case "extraBetBlackjack":
+      document.querySelector(
+        `.extra-bet-blackjack__value`
+      ).textContent = `Activated`;
+      break;
+    default:
+      console.log(`ERROR: activateSideBetSelectedText`);
+  }
+}
+
 export function addActiveElementToBetContainer(event) {
   const activeBetElem = document.querySelector(`.side-bet-modal__active-bet`);
 

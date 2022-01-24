@@ -439,6 +439,8 @@ export function activateSideBet(event, gameState) {
 
     gameState.betObj.addSideBetObj(sideBetObj);
   }
+
+  view.activateSideBetSelectedText(sideBet);
 }
 
 export function clearAllSideBets(event, gameState) {
