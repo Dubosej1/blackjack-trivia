@@ -324,6 +324,7 @@ export function calcPerfect11s(playerHand) {
 
   let jackpotAce = false;
   let kingSpade = false;
+  let kingExists = false;
   let flush = false;
   let colored = false;
   let mixed = false;

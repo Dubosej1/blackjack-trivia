@@ -6,6 +6,7 @@ export const evenMoney = {
   rules: `rules`,
   beginningSideBetCheck: false,
   sequencePlacement: `n/a`,
+  naturalEnd: true,
   outcomeTable: {
     win: { payout: `1:1`, text: `Win!` },
     lose: { payout: `0`, text: `Lose...` },
@@ -20,6 +21,7 @@ export const insurance = {
   rules: `rules`,
   beginningSideBetCheck: false,
   sequencePlacement: `n/a`,
+  naturalEnd: true,
   outcomeTable: {
     win: { payout: `2:1`, text: `Win!` },
     lose: { payout: `0`, text: `Lose...` },
@@ -34,6 +36,7 @@ export const perfectPair = {
   rules: `rules`,
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
+  naturalEnd: false,
   outcomeTable: {
     perfect_pair_2: { payout: `200:1`, text: `2 Perfect Pairs` },
     perfect_pair_1: { payout: `25:1`, text: `1 Perfect Pair` },
@@ -51,6 +54,7 @@ export const twentyOnePlusThree = {
   rules: `rules`,
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
+  naturalEnd: false,
   outcomeTable: {
     jackpot_3_kind: { payout: `jackpot`, text: `Suited 3 of a Kind (Q - A)` },
     suited_3_kind: { payout: `100:1`, text: `Suited 3 of a Kind (2 - Jack)` },
@@ -70,6 +74,7 @@ export const perfect11s = {
   rules: `rules`,
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
+  naturalEnd: true,
   outcomeTable: {
     jackpot_ace_king_spade: {
       payout: `720:10`,
@@ -99,6 +104,7 @@ export const extraBetBlackjack = {
   rules: `rules`,
   beginningSideBetCheck: true,
   sequencePlacement: `end`,
+  naturalEnd: false,
   outcomeTable: { payout: `0`, text: `n/a` },
   initSideBet: sideBetFunc.checkValidExtraBetBlackjack,
   calcSideBet: sideBetFunc.calcExtraBetBlackjack,
@@ -110,6 +116,7 @@ export const houseMoney = {
   rules: `rules`,
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
+  naturalEnd: false,
   outcomeTable: {
     suited_ace_king: { payout: `9:1`, text: `Suited Ace and King` },
     straight_flush: { payout: `4:1`, text: `Straight Flush` },
@@ -127,6 +134,7 @@ export const luckyLadies = {
   rules: `rules`,
   beginningSideBetCheck: false,
   sequencePlacement: `ending`,
+  naturalEnd: false,
   outcomeTable: {
     jackpot_100: {
       payout: `jackpot100`,

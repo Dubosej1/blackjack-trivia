@@ -245,17 +245,38 @@ class Bet {
     return true;
   }
 
-  checkForEndingSideBetSequence() {
+  checkForEndingSideBetSequence(gameState) {
     this.endingSideBetSequence = this.sideBetObjs.filter(
       (obj) => obj.sequencePlacement == `ending`
     );
+
+    // let naturalExists = gameState.checkForNaturalHands();
+    // let naturalArr;
+
+    // if (naturalExists) {
+    //   naturalArr = this.sideBetObjs.filter((obj) => obj.naturalEnd == true);
+    //   naturalArr.forEach(function (obj) {
+    //     this.endingSideBetSequence.push(obj);
+    //   });
+    // }
     return this.endingSideBetSequence.length != 0 ? true : false;
   }
 
   initEndingSideBetSequence(gameState) {
+    // let naturalExists = gameState.checkForNaturalHands();
+    // let naturalArr;
+
     this.endingSideBetSequence = this.sideBetObjs.filter(
       (obj) => obj.sequencePlacement == `ending`
     );
+
+    // if (naturalExists) {
+    //   naturalArr = this.sideBetObjs.filter((obj) => obj.naturalEnding == true);
+    //   naturalArr.forEach(function (obj) {
+    //     this.endingSideBetSequence.push(obj);
+    //   });
+    // }
+
     if (!this.endingSideBetSequence) return false;
 
     this.endingSideBetSequence.forEach(function (obj) {
@@ -295,6 +316,7 @@ class SideBet extends Bet {
       calcSideBet,
       beginningSideBetCheck,
       sequencePlacement,
+      naturalEnd,
     } = obj;
     super();
     this.name = name;
@@ -305,6 +327,7 @@ class SideBet extends Bet {
     this.calcSideBet = calcSideBet;
     this.beginningSideBetCheck = beginningSideBetCheck;
     this.sequencePlacement = sequencePlacement;
+    this.naturalEnd = naturalEnd;
   }
 
   //Manipulate Bet
@@ -617,31 +640,54 @@ export function generateSpecialNums() {
 
   let specialNum = {
     mysteryJackpot: mysteryJackpotNumber,
-    jackpotAce: jackpotAceNum,
-    jackpotAceCounter: 0,
+    // jackpotAce: jackpotAceNum,
+    jackpotAce: 1,
+    jackpotAceCounter: 1,
     jackpotAceFound: false,
 
-    trackJackpotAce() {
-      let playerCards = this.player.hand.cards;
-      let dealerCards = this.dealer.hand.cards;
+    trackJackpotAce(hand) {
+      // let playerCards = this.player.hand.cards;
+      // let dealerCards = this.dealer.hand.cards;
 
-      checkJackpotAce(playerCards);
-      checkJackpotAce(dealerCards);
+      let jackpotNum = this.jackpotAce;
+      let counter = this.jackpotAceCounter;
+      let jackpotFound = false;
 
-      function checkJackpotAce(cardsArr) {
-        cardsArr.forEach(function (card) {
-          if (card.checked) return;
-          if (card.value == "ACE" && card.suit == "SPADES") {
-            if (this.jackpotAceNum == this.jackpotAceCounter) {
-              card.jackpot = true;
-              this.jackpotAceFound = true;
-            }
-            card.checked = true;
-            this.jackpotAceCounter++;
-            if (this.jackpotAceCounter > 6) this.jackpotAceCounter = 0;
+      let cardsArr = hand.cards;
+
+      cardsArr.forEach(function (card) {
+        if (card.value == "ACE" && card.suit == "SPADES") {
+          if (jackpotNum == counter) {
+            card.jackpot = true;
+            jackpotFound = true;
           }
-        });
-      }
+          card.checked = true;
+          counter++;
+        }
+      });
+
+      this.jackpotAceFound = jackpotFound;
+      this.jackpotAceCounter = counter;
+
+      if (this.jackpotAceCounter == 6) this.jackpotAceCounter = 1;
+
+      // checkJackpotAce(playerCards);
+      // checkJackpotAce(dealerCards);
+
+      // function checkJackpotAce(cardsArr) {
+      //   cardsArr.forEach(function (card) {
+      //     if (card.checked) return;
+      //     if (card.value == "ACE" && card.suit == "SPADES") {
+      //       if (this.jackpotAceNum == this.jackpotAceCounter) {
+      //         card.jackpot = true;
+      //         this.jackpotAceFound = true;
+      //       }
+      //       card.checked = true;
+      //       this.jackpotAceCounter++;
+      //       if (this.jackpotAceCounter > 6) this.jackpotAceCounter = 0;
+      //     }
+      //   });
+      // }
     },
   };
 

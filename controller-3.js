@@ -228,7 +228,7 @@ export function determineEndGameRoutineOrder(gameState) {
 
   gameState.determineBaseRoundOutcome();
 
-  gameState.betObj.checkForEndingSideBetSequence()
+  gameState.betObj.checkForEndingSideBetSequence(gameState)
     ? (endGameRoutineOrder.sideBetSequence = true)
     : (endGameRoutineOrder.sideBetSequence = false);
 

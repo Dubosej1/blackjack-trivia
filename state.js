@@ -70,13 +70,45 @@ class State {
 
   set updatePlayer(player) {
     this.player = player;
+    this.checkForJackpotAce(this.player.hand);
     view.renderPlayerHands(this.player);
     // view.renderPlayerField(this.player.hand);
   }
 
   set updateDealer(dealer) {
     this.dealer = dealer;
+    this.checkForJackpotAce(this.dealer.hand);
     view.renderDealerField(this.dealer.hand);
+  }
+
+  checkForJackpotAce(cardPlayerHand) {
+    let count = 0;
+    let aceSpadeFound;
+    let cards = cardPlayerHand.cards;
+
+    cards.forEach(function (card) {
+      card.value == `ACE` &&
+        card.suit == `SPADES` &&
+        card.checked != true &&
+        count++;
+    });
+
+    aceSpadeFound = count > 0 ? true : false;
+
+    if (aceSpadeFound) this.specialNum.trackJackpotAce(cardPlayerHand);
+  }
+
+  checkForNaturalHands() {
+    let player = this.player;
+    let activeHand = player.currentSplitHand;
+    let hand;
+
+    if (activeHand == 0) hand = player.hand;
+    else hand = player.splitHands[0];
+
+    return hand.outcome == `natural` || this.dealer.hand.outcome == `natural`
+      ? true
+      : false;
   }
 
   // checkSplitAvailable() {
@@ -391,8 +423,8 @@ export function addStateToLog(gameState) {
   console.log(log);
 }
 
-export function initNewState(bank, options) {
-  let gameState = new State(bank, options);
+export function initNewState(bank, options, specialNum) {
+  let gameState = new State(bank, options, specialNum);
   globalState = gameState;
   return gameState;
 }
