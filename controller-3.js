@@ -61,7 +61,9 @@ export function startNewRound(bank, options, specialNum) {
 export function startDealCardsRoutine(event, gameState) {
   gameState.betObj.lockInBets();
   let newBank = gameState.betObj.getBank();
+  let newBaseBet = gameState.betObj.getBaseBet();
   gameState.updateBank(newBank);
+  view.updateBaseBet(newBaseBet);
 
   gameState.updatePlayer = gameState.player;
   gameState.updateDealer = gameState.dealer;

@@ -67,6 +67,10 @@ class Bet {
     return this.bank;
   }
 
+  getBaseBet() {
+    return this.baseBet;
+  }
+
   getTempBank() {
     return this.tempValue.bank;
   }
