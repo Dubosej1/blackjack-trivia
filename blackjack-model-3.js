@@ -956,8 +956,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Split Functionality (regularHand)
-      // currentPlayer.hand.addCardToHand = testCard.heart7;
-      // currentPlayer.hand.addCardToHand = testCard.spade7;
+      currentPlayer.hand.addCardToHand = testCard.heart7;
+      currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test Perfect 11s (regularHand)
       // currentPlayer.addCardToHand = testCard.heart7;
@@ -983,10 +983,10 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // createFiveCardCharlieTestHand(`player`);
 
       //Test Jackpot Ace Functionality
-      currentPlayer.hand.addCardToHand = testCard.spadeAce;
+      // currentPlayer.hand.addCardToHand = testCard.spadeAce;
 
       //Test Perfect 11s Jackpot Functionality (pair with Jackpot Ace)
-      currentPlayer.hand.addCardToHand = testCard.spadeKing;
+      // currentPlayer.hand.addCardToHand = testCard.spadeKing;
 
       //   console.log(`dealPlayerCards`);
       //   console.log(playerHand);

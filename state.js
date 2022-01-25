@@ -70,7 +70,14 @@ class State {
 
   set updatePlayer(player) {
     this.player = player;
-    this.checkForJackpotAce(this.player.hand);
+    let hand;
+
+    let activeHand = player.currentSplitHand;
+
+    if (activeHand == 0) hand = player.hand;
+    else hand = player.getSplitHand(activeHand);
+
+    this.checkForJackpotAce(hand);
     view.renderPlayerHands(this.player);
     // view.renderPlayerField(this.player.hand);
   }
@@ -325,15 +332,16 @@ class State {
     let roundOutcomeText;
     let handNum = hand.handNum;
 
-    let player;
+    // let player;
 
-    if (handNum == 0) player = `Player`;
-    else player = `Hand ${handNum}`;
+    // if (handNum == 0) player = `Player`;
+    // else player = `Hand ${handNum}`;
 
     switch (true) {
       case playerOutcome == `surrender`:
         roundOutcome = `surrender`;
-        roundOutcomeText = `${player} has surrendered`;
+        // roundOutcomeText = `${player} has surrendered`;
+        roundOutcomeText = `Player has surrendered`;
         break;
       case playerOutcome == `surrenderFail`:
         roundOutcome = `lose`;
@@ -342,12 +350,14 @@ class State {
       case playerOutcome == dealerOutcome:
         if (playerOutcome == `bust`) {
           roundOutcome = `lose`;
-          roundOutcomeText = `${player} busts...`;
+          // roundOutcomeText = `${player} busts...`;
+          roundOutcomeText = `Player busts...`;
         } else roundOutcome = "push";
         break;
       case playerOutcome == `bust`:
         roundOutcome = `lose`;
-        roundOutcomeText = `${player} busts...`;
+        // roundOutcomeText = `${player} busts...`;
+        roundOutcomeText = `Player busts...`;
         break;
       case dealerOutcome == `bust`:
         roundOutcome = `win`;
@@ -355,7 +365,8 @@ class State {
         break;
       case playerOutcome == `natural`:
         roundOutcome = `natural`;
-        roundOutcomeText = `${player} has Blackjack!!!`;
+        // roundOutcomeText = `${player} has Blackjack!!!`;
+        roundOutcomeText = `Player has Blackjack!!!`;
         break;
       case dealerOutcome == `natural`:
         roundOutcome = `lose`;
@@ -363,7 +374,8 @@ class State {
         break;
       case playerOutcome == `charlie`:
         roundOutcome = `win`;
-        roundOutcomeText = `${player} has ${hand.charlieType} Card Charlie`;
+        // roundOutcomeText = `${player} has ${hand.charlieType} Card Charlie`;
+        roundOutcomeText = `Player has ${hand.charlieType} Card Charlie`;
         break;
       case dealerOutcome == `charlie`:
         roundOutcome = `lose`;
