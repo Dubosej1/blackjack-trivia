@@ -73,6 +73,7 @@ export function addNewRoundEventListeners(gameState) {
   addHouseMoneyModalBtnListeners(gameState);
   addGameActionBtnListeners(gameState);
   addWinningsModalListener(gameState);
+  addEarlySurrenderModalListeners(gameState);
   // addModalListeners(gameState);
 }
 
@@ -84,6 +85,7 @@ export function removeRoundEventListeners() {
   removeHouseMoneyModalBtnListeners();
   removeGameActionBtnListeners();
   removeWinningsModalListener();
+  removeEarlySurrenderModalListeners();
 }
 
 export function addBaseBetModalBtnListeners(gameState) {
@@ -352,11 +354,11 @@ export function addEvenMoneyModalListeners() {
   const declineBetBtn = document.querySelector(
     `.btn-side-bet-action__decline-even-money`
   );
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  // const nextBtn = document.querySelector(`.btn-generic-modal__next`);
 
   acceptBetBtn.addEventListener(`click`, acceptEvenMoneyBtnCallback);
   declineBetBtn.addEventListener(`click`, declineEvenMoneyBtnCallback);
-  nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+  // nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
 }
 
 export function addInsuranceModalListeners() {
@@ -372,11 +374,10 @@ export function addInsuranceModalListeners() {
 }
 
 export function addInsuranceNextBtnListener(outcome) {
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-
-  if (outcome == `win`)
-    nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
-  else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
+  // const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  // if (outcome == `win`)
+  //   nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+  // else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
 }
 
 export function addGameActionBtnListeners(gameState) {
@@ -409,6 +410,30 @@ export function addWinningsModalListener(gameState) {
   closeBtn.addEventListener(`click`, winningsModalCloseBtnListenerCallback);
 }
 
+export function addEarlySurrenderModalListeners(gameState) {
+  const acceptBtn = document.querySelector(
+    `.btn-winning-hand-modal__accept-early-surrender`
+  );
+  const declineBtn = document.querySelector(
+    `.btn-winning-hand-modal__decline-early-surrender`
+  );
+
+  acceptBtn.addEventListener(`click`, acceptEarlySurrenderCallback);
+  declineBtn.addEventListener(`click`, declineEarlySurrenderCallback);
+}
+
+export function removeEarlySurrenderModalListeners(gameState) {
+  const acceptBtn = document.querySelector(
+    `.btn-winning-hand-modal__accept-early-surrender`
+  );
+  const declineBtn = document.querySelector(
+    `.btn-winning-hand-modal__decline-early-surrender`
+  );
+
+  acceptBtn.removeEventListener(`click`, acceptEarlySurrenderCallback);
+  declineBtn.removeEventListener(`click`, declineEarlySurrenderCallback);
+}
+
 export function removeWinningsModalListener(gameState) {
   const winSummaryBtn = document.querySelector(
     `.btn-winnings-modal__win-summary`
@@ -430,7 +455,7 @@ export function removeEvenMoneyModalListeners() {
 
   acceptBetBtn.removeEventListener(`click`, acceptEvenMoneyBtnCallback);
   declineBetBtn.removeEventListener(`click`, declineEvenMoneyBtnCallback);
-  nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+  // nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
 }
 
 export function removeInsuranceModalListeners() {
@@ -671,4 +696,14 @@ function difficultyBtnCallback(event) {
 
 function answerBtnCallback(event) {
   controller.processTriviaAnswer(event, globalState);
+}
+
+function acceptEarlySurrenderCallback(event) {
+  view.resetWinningHandModal();
+  controller.surrenderAction(event, globalState);
+}
+
+function declineEarlySurrenderCallback(event) {
+  view.resetWinningHandModal();
+  controller.beginGameRoutinePart2(globalState);
 }

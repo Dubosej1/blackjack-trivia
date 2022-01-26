@@ -11,6 +11,7 @@ class State {
   gameActive;
   cardsDealt;
   remainingCards;
+  beginGameRoutineOrder = {};
   actionBtnState = {
     hit: false,
     stand: false,
@@ -398,7 +399,7 @@ class State {
     if (roundOutcome == `push`) {
       let qualifier;
 
-      roundOutcomeText = `${player} Push.  `;
+      roundOutcomeText = `Player Push.  `;
 
       if (playerOutcome == `charlie` || playerOutcome == `natural`) {
         if (playerOutcome == `charlie`) qualifier = `Charlies`;

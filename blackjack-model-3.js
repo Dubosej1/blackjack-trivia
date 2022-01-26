@@ -106,6 +106,7 @@ class Hand {
 
   calculateHandTotal(cards) {
     let handValueArr = cards.map((card) => card.value);
+    let getCardValue = this.getCardValue;
     // let numberArr = handValue.map(getCardValue);
 
     return getHandValue(handValueArr);
@@ -120,33 +121,33 @@ class Hand {
       }
 
       return total;
-
-      function getCardValue(value) {
-        let num;
-
-        switch (value) {
-          case "JACK":
-            num = 10;
-            break;
-          case "QUEEN":
-            num = 10;
-            break;
-          case "KING":
-            num = 10;
-            break;
-          case "ACE":
-            num = 11;
-            break;
-          case "ACELOW":
-            num = 1;
-            break;
-          default:
-            num = Number(value);
-        }
-
-        return num;
-      }
     }
+  }
+
+  getCardValue(value) {
+    let num;
+
+    switch (value) {
+      case "JACK":
+        num = 10;
+        break;
+      case "QUEEN":
+        num = 10;
+        break;
+      case "KING":
+        num = 10;
+        break;
+      case "ACE":
+        num = 11;
+        break;
+      case "ACELOW":
+        num = 1;
+        break;
+      default:
+        num = Number(value);
+    }
+
+    return num;
   }
 
   addEndingCardTags(imageArr) {
@@ -775,6 +776,13 @@ class Dealer extends Cardholder {
     this.hand.outcome = `natural`;
   }
 
+  checkHandForPeek() {
+    let faceUpCard = this.hand.cards[1];
+    let cardValue = this.hand.getCardValue(faceUpCard.value);
+
+    cardValue >= 10 ? (this.peekNeeded = true) : (this.peekNeeded = false);
+  }
+
   executeHit(gameState) {
     // let options = gameState.options;
 
@@ -1006,7 +1014,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       currentDealer.hand.addCardToHand = cardsObj.card1;
-      currentDealer.hand.addCardToHand = cardsObj.card2;
+      // currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -1024,7 +1032,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // currentDealer.hand.addCardToHand = testCard.spade6;
 
       //Test Natural Functionality
-      // currentDealer.hand.addCardToHand = testCard.heartAce;
+      currentDealer.hand.addCardToHand = testCard.heartAce;
       // currentDealer.hand.addCardToHand = testCard.spadeKing;
 
       // return dealerHand;
@@ -1035,6 +1043,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
     .catch((err) => dealDealerCards(deckID))
     .finally(function () {
       currentDealer.checkHandForNatural(currentDealer.hand);
+      currentDealer.checkHandForPeek();
       // controller.updateStatePlayers(currentDealer, gameState);
       // gameState.checkValidEvenMoney();
       // gameState.checkValidInsurance();

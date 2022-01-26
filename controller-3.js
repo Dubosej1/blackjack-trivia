@@ -103,10 +103,15 @@ export function determineBeginGameRoutineOrder(gameState) {
     extraBet: false,
     houseMoney: false,
     baseRound: true,
+    natural: false,
+    dealerPeek: false,
+    earlySurrender: false,
   };
+
   let diceRollNeeded = false;
   let betObj = gameState.betObj;
   let playerHand = gameState.player.hand;
+  let dealerHand = gameState.dealer.hand;
 
   let perfect11sExists = betObj.checkSideBetExists(`perfect11s`);
 
@@ -173,19 +178,22 @@ export function beginGameRoutine(gameState) {
 }
 
 export function beginGameRoutinePart2(gameState) {
-  let natural = false;
-  let hand = gameState.player.hand;
+  let order = gameState.beginGameRoutineOrder;
+  // let playerNatural = false;
+  // let dealerPeek = false;
+  let playerHand = gameState.player.hand;
   let dealerHand = gameState.dealer.hand;
   let gameTimer;
 
-  if (hand.outcome == `natural` || dealerHand.outcome == `natural`)
-    natural = true;
+  // if (hand.outcome == `natural` || dealerHand.outcome == `natural`)
+  //   natural = true;
 
   if (!gameState.beginningRoundChecksDone) {
-    gameState.checkSplitAvailable(hand);
-    gameState.checkDoubleDownAvailable(hand);
+    gameState.checkSplitAvailable(playerHand);
+    gameState.checkDoubleDownAvailable(playerHand);
     gameState.checkValidEvenMoney();
     gameState.checkValidInsurance();
+    checkForRemainingOrderRoutines(gameState);
     gameState.beginningRoundChecksDone = true;
   }
 
@@ -198,12 +206,28 @@ export function beginGameRoutinePart2(gameState) {
       view.activateInsuranceModal();
       gameState.insuranceAvailable = false;
       break;
-    case natural:
+    case order.natural:
       // add option for dealer to "check" for natural
-      gameState.updateNoticeText = `Round Ends Early...`;
+      let playerText;
+
+      if (playerHand.outcome == `natural`) playerText = `Player`;
+      else playerText = "Dealer";
+
+      gameState.updateNoticeText = `${playerText} Natural`;
 
       gameTimer = setTimeout(determineEndGameRoutineOrder, 2000, gameState);
-      natural = false;
+      order.natural = false;
+      break;
+    case order.earlySurrender:
+      view.activateEarlySurrenderModal(gameState);
+
+      order.earlySurrender = false;
+      break;
+    case order.dealerPeek:
+      gameState.updateNoticeText = `Dealer Peeks for Natural`;
+
+      gameTimer = setTimeout(dealerPeekAction, 2000, gameState);
+      order.dealerPeek = false;
       break;
     default:
       let obj = {
@@ -213,8 +237,34 @@ export function beginGameRoutinePart2(gameState) {
         doubleDown: gameState.doubleDownAvailable,
         surrender: true,
       };
+
+      if (gameState.options.surrenderType == `early`) obj.surrender = false;
+
       gameState.toggleEnableActionBtns = obj;
       gameState.updateNoticeText = `Player's Turn`;
+  }
+
+  function dealerPeekAction(gameState) {
+    let dealerHand = gameState.dealer.hand;
+
+    if (dealerHand.outcome == `natural`)
+      gameState.beginGameRoutineOrder.natural = true;
+
+    beginGameRoutinePart2(gameState);
+  }
+
+  function checkForRemainingOrderRoutines(gameState) {
+    let playerHand = gameState.player.hand;
+    let dealer = gameState.dealer;
+    let options = gameState.options;
+
+    if (playerHand.outcome == `natural`)
+      gameState.beginGameRoutineOrder.natural = true;
+
+    if (dealer.peekNeeded) gameState.beginGameRoutineOrder.dealerPeek = true;
+
+    if (options.surrenderType == `early`)
+      gameState.beginGameRoutineOrder.earlySurrender = true;
   }
 }
 
@@ -225,6 +275,8 @@ export function determineEndGameRoutineOrder(gameState) {
     totalWinnings: true,
     roundOutcome: true,
   };
+
+  gameState.updateNoticeText = `Round Ended`;
 
   gameState.revealDealerFaceDown();
 
@@ -679,8 +731,13 @@ export function surrenderAction(event, gameState) {
   let player = gameState.player;
   let dealer = gameState.dealer;
   let activeHand = player.currentSplitHand;
-  let handCount = player.splitHands.length;
+  // let handCount = player.splitHands.length;
   let handHolder, gameTimer, nextAction;
+  let earlySurrender;
+
+  gameState.options.surrenderType == `early`
+    ? (earlySurrender = true)
+    : (earlySurrender = false);
 
   if (activeHand > 0) {
     let handCount = player.splitHands.length;
@@ -706,7 +763,8 @@ export function surrenderAction(event, gameState) {
 
   //End Round
 
-  if (dealer.hand.outcome == `natural`) hand.outcome = `surrenderFail`;
+  if (dealer.hand.outcome == `natural` && !earlySurrender)
+    hand.outcome = `surrenderFail`;
   else hand.outcome = `surrender`;
 
   gameTimer = setTimeout(nextPlayerAction, 1500, nextAction, gameState);
