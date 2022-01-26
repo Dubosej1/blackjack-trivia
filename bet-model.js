@@ -284,6 +284,8 @@ class Bet {
     if (!this.endingSideBetSequence) return false;
 
     this.endingSideBetSequence.forEach(function (obj) {
+      if (obj.key == `evenMoney` || obj.key == `insurance`) return;
+
       obj.initSideBet(gameState);
     });
 

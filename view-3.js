@@ -1088,6 +1088,8 @@ export function displayEndingSideBetOutcomeWinHand(event, gameState) {
     `.winning-hand-modal__winning-hand-name`
   );
 
+  let dealerHand = gameState.dealer.hand;
+
   let outcomeArr = gameState.betObj.endingOutcomePackages;
   let key = event.target.dataset.sideBet;
 
@@ -1115,7 +1117,8 @@ export function displayEndingSideBetOutcomeWinHand(event, gameState) {
     }
 
     if (outcomeObj.winHand.dealer) {
-      dealerCardsField.innerHTML = gameState.dealer.hand.simpleImages.join();
+      dealerHand.simpleImages[0] = dealerHand.simpleUnrevealedCard;
+      dealerCardsField.innerHTML = dealerHand.simpleImages.join();
     }
   }
 

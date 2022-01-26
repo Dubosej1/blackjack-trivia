@@ -956,16 +956,16 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Split Ace Functionality
-      // currentPlayer.hand.addCardToHand = testCard.heartAce;
-      // currentPlayer.hand.addCardToHand = testCard.diamondAce;
+      currentPlayer.hand.addCardToHand = testCard.heartAce;
+      currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Natural Functionality
       // currentPlayer.hand.addCardToHand = testCard.spadeKing;
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Split Functionality (regularHand)
-      currentPlayer.hand.addCardToHand = testCard.heart7;
-      currentPlayer.hand.addCardToHand = testCard.spade7;
+      // currentPlayer.hand.addCardToHand = testCard.heart7;
+      // currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test Perfect 11s (regularHand)
       // currentPlayer.addCardToHand = testCard.heart7;
@@ -1032,8 +1032,8 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // currentDealer.hand.addCardToHand = testCard.spade6;
 
       //Test Natural Functionality
-      currentDealer.hand.addCardToHand = testCard.heartAce;
       // currentDealer.hand.addCardToHand = testCard.spadeKing;
+      currentDealer.hand.addCardToHand = testCard.heartAce;
 
       // return dealerHand;
     })

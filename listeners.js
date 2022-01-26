@@ -354,11 +354,11 @@ export function addEvenMoneyModalListeners() {
   const declineBetBtn = document.querySelector(
     `.btn-side-bet-action__decline-even-money`
   );
-  // const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
 
   acceptBetBtn.addEventListener(`click`, acceptEvenMoneyBtnCallback);
   declineBetBtn.addEventListener(`click`, declineEvenMoneyBtnCallback);
-  // nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+  nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
 }
 
 export function addInsuranceModalListeners() {
@@ -374,10 +374,10 @@ export function addInsuranceModalListeners() {
 }
 
 export function addInsuranceNextBtnListener(outcome) {
-  // const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-  // if (outcome == `win`)
-  //   nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
-  // else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  if (outcome == `win`)
+    nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+  else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
 }
 
 export function addGameActionBtnListeners(gameState) {
@@ -455,7 +455,7 @@ export function removeEvenMoneyModalListeners() {
 
   acceptBetBtn.removeEventListener(`click`, acceptEvenMoneyBtnCallback);
   declineBetBtn.removeEventListener(`click`, declineEvenMoneyBtnCallback);
-  // nextBtn.addEventListener(`click`, nextBtnEndRoundCallback);
+  nextBtn.removeEventListener(`click`, nextBtnEndRoundCallback);
 }
 
 export function removeInsuranceModalListeners() {
@@ -637,9 +637,11 @@ function nextBtnEndRoundCallback(event) {
     removeEvenMoneyModalListeners();
   } else {
     removeInsuranceModalListeners();
-    nextBtn.removeEventListener(`click`, nextBtnEndRoundCallback);
   }
-  //endRound function
+
+  nextBtn.removeEventListener(`click`, nextBtnEndRoundCallback);
+
+  controller.determineEndGameRoutineOrder(globalState);
 }
 
 function nextBtnContinueRoundCallback(event) {
