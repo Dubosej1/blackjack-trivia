@@ -58,6 +58,15 @@ export function updateBasicBetInfo(gameState) {
   bankValue.textContent = gameState.betObj.tempValue.bank;
 }
 
+export function resetBasicBetModal(gameState) {
+  const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
+  const betValue = document.querySelector(`.basic-bet-modal__bet-value`);
+
+  bankValue.textContent = gameState.bank;
+  betValue.textContent = 0;
+  toggleSideBetPlacedBtn(false);
+}
+
 export function collectSideBet() {
   const elem = document.querySelector(`.side-bet-modal__active-bet`);
 

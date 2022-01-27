@@ -359,6 +359,7 @@ export function clearRoundData(gameState) {
   let gameTimer;
 
   view.resetUI();
+  view.resetBasicBetModal(gameState);
   state.addStateToLog(gameState);
   listeners.removeRoundEventListeners();
   listeners.addBeginGameOptionsBtnListener();
