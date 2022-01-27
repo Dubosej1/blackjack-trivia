@@ -11,6 +11,8 @@ export const triviaObj = {
   credits: 10,
 
   generateTriviaQuestions() {
+    if (this.easyQuestions) return;
+
     this.fetchTriviaQuestions(`easy`).then((questions) => {
       this.easyQuestions = questions;
     });
@@ -178,6 +180,10 @@ export const triviaObj = {
     let arr = [this.credits, modifier];
 
     return arr;
+  },
+
+  resetTriviaCredits() {
+    this.credits = 10;
   },
 };
 

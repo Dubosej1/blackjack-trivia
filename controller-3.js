@@ -17,7 +17,10 @@ export function startNewGame(e) {
   let options = optionsPlaceholder;
   let specialNum = betModel.generateSpecialNums();
 
+  view.renderNoticeText(`New Game Started...`);
+
   triviaObj.generateTriviaQuestions();
+  triviaObj.resetTriviaCredits();
 
   view.toggleDisplayNewGameBtn(false);
   //   triviaModel.generateTriviaQuestions();
@@ -324,10 +327,28 @@ export function endGameRoutine(gameState) {
       break;
     default:
       clearRoundData(gameState);
+      let result = checkGameOver(gameState);
+
+      if (result) view.toggleDisplayNewGameBtn(true);
+      else view.toggleDisplayStartNextRoundBtn(true);
     //Clear Round Routine
     //if end round early?
     //else beginGameRoutinePart2()
   }
+}
+
+function checkGameOver(gameState) {
+  let result;
+
+  if (gameState.bank == 0) {
+    view.renderNoticeText(`Game Over...no money`);
+    result = true;
+  } else if (triviaObj.credits == 0) {
+    view.renderNoticeText(`Game Over...no trivia credits`);
+    result = true;
+  } else result = false;
+
+  return result;
 }
 
 function clearRoundData(gameState) {
@@ -341,7 +362,6 @@ function clearRoundData(gameState) {
   specialNumPlaceholder = gameState.specialNum;
   optionsPlaceholder = gameState.options;
   view.renderNoticeText(` `);
-  view.toggleDisplayStartNextRoundBtn(true);
 
   if (gameState.gameAborted) {
     view.renderNoticeText(`Game Ended.  Select New Game...`);

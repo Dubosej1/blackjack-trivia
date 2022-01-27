@@ -270,6 +270,7 @@ export function deactivateSideBetsPlacedModal() {
 
 function checkBasicBetChipBtnsValid(value) {
   // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
+  const chip1 = document.querySelector(`.btn-basic-bet-modal__1`);
   const chip5 = document.querySelector(`.btn-basic-bet-modal__5`);
   const chip10 = document.querySelector(`.btn-basic-bet-modal__10`);
   const chip25 = document.querySelector(`.btn-basic-bet-modal__25`);
@@ -277,29 +278,33 @@ function checkBasicBetChipBtnsValid(value) {
   const chip500 = document.querySelector(`.btn-basic-bet-modal__500`);
   // const bank = basicBetModal__BankValue.textContent;
 
-  value > 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
-  value > 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
-  value > 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
-  value > 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
-  value > 500 ? enableChipBtn(chip500) : disableChipBtn(chip500);
+  value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
+  value >= 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
+  value >= 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
+  value >= 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
+  value >= 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
+  value >= 500 ? enableChipBtn(chip500) : disableChipBtn(chip500);
 }
 
 function checkSideBetChipBtnsValid(value) {
   // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
+  const chip1 = document.querySelector(`.btn-side-bet-modal__1`);
   const chip5 = document.querySelector(`.btn-side-bet-modal__5`);
   const chip10 = document.querySelector(`.btn-side-bet-modal__10`);
   const chip25 = document.querySelector(`.btn-side-bet-modal__25`);
   const chip100 = document.querySelector(`.btn-side-bet-modal__100`);
   // const bank = basicBetModal__BankValue.textContent;
 
-  value > 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
-  value > 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
-  value > 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
-  value > 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
+  value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
+  value >= 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
+  value >= 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
+  value >= 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
+  value >= 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
 }
 
 function checkExtraBetChipBtnsValid(value, sideBet, baseBet) {
   // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
+  const chip1 = document.querySelector(`.btn-extra-bet-modal__1`);
   const chip5 = document.querySelector(`.btn-extra-bet-modal__5`);
   const chip10 = document.querySelector(`.btn-extra-bet-modal__10`);
   const chip25 = document.querySelector(`.btn-extra-bet-modal__25`);
@@ -308,6 +313,7 @@ function checkExtraBetChipBtnsValid(value, sideBet, baseBet) {
   // const bank = basicBetModal__BankValue.textContent;
   let maxValue = baseBet * 5;
 
+  value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
   value > 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
   value > 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
   value > 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
