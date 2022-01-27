@@ -326,7 +326,7 @@ export function endGameRoutine(gameState) {
       order.totalWinnings = false;
       break;
     default:
-      clearRoundData(gameState);
+      // clearRoundData(gameState);
       let result = checkGameOver(gameState);
 
       if (result) view.toggleDisplayNewGameBtn(true);
@@ -351,7 +351,7 @@ function checkGameOver(gameState) {
   return result;
 }
 
-function clearRoundData(gameState) {
+export function clearRoundData(gameState) {
   let gameTimer;
 
   view.resetUI();

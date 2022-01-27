@@ -34,6 +34,8 @@ export function addStartNextRoundBtnListener() {
 }
 
 function startNextRoundBtnListenerCallback(event) {
+  controller.clearRoundData(globalState);
+
   controller.startNewRound(
     controller.bankPlaceholder,
     controller.optionsPlaceholder,
