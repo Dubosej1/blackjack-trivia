@@ -30,6 +30,7 @@ export function startNewGame(e) {
 
 export function startNewRound(bank, options, specialNum) {
   view.toggleDisplayStartNextRoundBtn(false);
+  view.toggleDisplayOptionsBtn(false);
 
   let gameState = state.initNewState(bank, options, specialNum);
 
@@ -327,10 +328,13 @@ export function endGameRoutine(gameState) {
       break;
     default:
       // clearRoundData(gameState);
+      view.toggleDisplayOptionsBtn(true);
       let result = checkGameOver(gameState);
 
-      if (result) view.toggleDisplayNewGameBtn(true);
-      else view.toggleDisplayStartNextRoundBtn(true);
+      if (result) {
+        clearRoundData(gameState);
+        view.toggleDisplayNewGameBtn(true);
+      } else view.toggleDisplayStartNextRoundBtn(true);
     //Clear Round Routine
     //if end round early?
     //else beginGameRoutinePart2()

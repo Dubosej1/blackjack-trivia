@@ -1919,6 +1919,14 @@ export function toggleDisplayNewGameBtn(boolean) {
   }
 }
 
+export function toggleDisplayOptionsBtn(boolean) {
+  const optionsBtn = document.querySelector(`.btn-system__settings`);
+
+  boolean
+    ? (optionsBtn.style.display = `inline`)
+    : (optionsBtn.style.display = `none`);
+}
+
 export function renderTriviaQuestion(questionObj) {
   const labelContainer = document.querySelector(
     `.trivia-modal__label-container`
