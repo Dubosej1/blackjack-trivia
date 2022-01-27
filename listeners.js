@@ -71,10 +71,20 @@ export function addNewRoundEventListeners(gameState) {
   addSideBetContainerListener(gameState);
   addSystemBtnListeners(gameState);
   addHouseMoneyModalBtnListeners(gameState);
-  addGameActionBtnListeners(gameState);
+  // addGameActionBtnListeners(gameState);
   addWinningsModalListener(gameState);
   addEarlySurrenderModalListeners(gameState);
   // addModalListeners(gameState);
+
+  let gameActionBtnClbkObj = {
+    hit: hitBtnListenerCallback,
+    stand: standBtnListenerCallback,
+    doubleDown: standBtnListenerCallback,
+    split: splitBtnListenerCallback,
+    surrender: surrenderBtnListenerCallback,
+  };
+
+  view.addGameActionBtnListeners(gameActionBtnClbkObj);
 }
 
 export function removeRoundEventListeners() {

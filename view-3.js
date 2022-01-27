@@ -1315,36 +1315,77 @@ export function displayHouseMoneyModal(gameState) {
 
 // export function resetHouseMoneyModal() {}
 
+// export function renderGameActionBtns(btnState) {
+//   const hitBtn = document.querySelector(`.btn-action__hit`);
+//   const standBtn = document.querySelector(`.btn-action__stand`);
+//   const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
+//   const splitBtn = document.querySelector(`.btn-action__split`);
+//   const surrenderBtn = document.querySelector(`.btn-action__surrender`);
+
+//   // const actionBtns = document.querySelectorAll(`.btn-action`);
+
+//   // actionBtns.forEach(function (elem) {
+//   //   let toggle = btnState
+//   // })
+
+//   btnState.hit ? toggleEnableBtn(hitBtn, true) : toggleEnableBtn(hitBtn, false);
+//   btnState.stand
+//     ? toggleEnableBtn(standBtn, true)
+//     : toggleEnableBtn(standBtn, false);
+//   btnState.doubleDown
+//     ? toggleEnableBtn(doubleDownBtn, true)
+//     : toggleEnableBtn(doubleDownBtn, false);
+//   btnState.split
+//     ? toggleEnableBtn(splitBtn, true)
+//     : toggleEnableBtn(splitBtn, false);
+//   btnState.surrender
+//     ? toggleEnableBtn(surrenderBtn, true)
+//     : toggleEnableBtn(surrenderBtn, false);
+
+//   function toggleEnableBtn(elem, boolean) {
+//     elem.disabled = !boolean;
+//   }
+// }
+
+let gameActionBtns = {
+  hit: document.querySelector(`.btn-action__hit`),
+  stand: document.querySelector(`.btn-action__stand`),
+  doubleDown: document.querySelector(`.btn-action__doubleDown`),
+  split: document.querySelector(`.btn-action__split`),
+  surrender: document.querySelector(`.btn-action__surrender`),
+
+  renderGameActionBtns(btnState) {
+    let changeArr = Object.entries(btnState);
+
+    changeArr.forEach(function (arr) {
+      let [key, boolean] = arr;
+
+      this.toggleEnableBtn(this[key], boolean);
+    }, this);
+  },
+
+  toggleEnableBtn(prop, boolean) {
+    prop.disabled = !boolean;
+  },
+
+  toggleEventListeners(funcObj, toggle) {
+    let keysArr = Object.entries(funcObj);
+
+    keysArr.forEach(function (arr) {
+      let [key, clbk] = arr;
+
+      if (toggle == `add`) this[key].addEventListener(`click`, clbk);
+      else this[key].removeEventListener(`click`, clbk);
+    }, this);
+  },
+};
+
 export function renderGameActionBtns(btnState) {
-  const hitBtn = document.querySelector(`.btn-action__hit`);
-  const standBtn = document.querySelector(`.btn-action__stand`);
-  const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
-  const splitBtn = document.querySelector(`.btn-action__split`);
-  const surrenderBtn = document.querySelector(`.btn-action__surrender`);
+  gameActionBtns.renderGameActionBtns(btnState);
+}
 
-  // const actionBtns = document.querySelectorAll(`.btn-action`);
-
-  // actionBtns.forEach(function (elem) {
-  //   let toggle = btnState
-  // })
-
-  btnState.hit ? toggleEnableBtn(hitBtn, true) : toggleEnableBtn(hitBtn, false);
-  btnState.stand
-    ? toggleEnableBtn(standBtn, true)
-    : toggleEnableBtn(standBtn, false);
-  btnState.doubleDown
-    ? toggleEnableBtn(doubleDownBtn, true)
-    : toggleEnableBtn(doubleDownBtn, false);
-  btnState.split
-    ? toggleEnableBtn(splitBtn, true)
-    : toggleEnableBtn(splitBtn, false);
-  btnState.surrender
-    ? toggleEnableBtn(surrenderBtn, true)
-    : toggleEnableBtn(surrenderBtn, false);
-
-  function toggleEnableBtn(elem, boolean) {
-    elem.disabled = !boolean;
-  }
+export function addGameActionBtnListeners(funcObj) {
+  gameActionBtns.toggleEventListeners(funcObj, `add`);
 }
 
 export function renderNoticeText(str) {
@@ -2070,6 +2111,12 @@ function clearAnswerBtnData(answerCorrectly) {
   if (!answerCorrectly) {
     document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
   }
+}
+
+export function renderTriviaCredits(credits) {
+  const creditsField = document.querySelector(`.trivia__credits`);
+
+  creditsField.textContent = credits;
 }
 
 function resetTriviaBtns() {
