@@ -52,6 +52,12 @@ export function updateBaseBetModalTotal(gameState) {
   checkBasicBetChipBtnsValid(bank);
 }
 
+export function updateBasicBetInfo(gameState) {
+  const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
+
+  bankValue.textContent = gameState.betObj.tempValue.bank;
+}
+
 export function collectSideBet() {
   const elem = document.querySelector(`.side-bet-modal__active-bet`);
 
@@ -135,6 +141,14 @@ export function updateSideBetModalTotals(sideBet, gameState) {
   sideBetTotalField.textContent = sideBetTotalValue;
   sideBetBankField.textContent = bank;
   checkSideBetChipBtnsValid(bank);
+}
+
+export function updateSideBetModalInfo(gameState) {
+  const sideBetBankField = document.querySelector(
+    `.side-bet-modal__bank-value`
+  );
+
+  sideBetBankField.textContent = gameState.betObj.tempValue.bank;
 }
 
 export function clearSideBetModal(gameState) {

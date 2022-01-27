@@ -116,6 +116,10 @@ export function addBaseBetModalBtnListeners(gameState) {
   const baseBetDealCardsBtn = document.querySelector(
     `.btn-basic-bet-modal__deal-cards`
   );
+
+  const sideBetMenuBtn = document.querySelector(
+    `.btn-basic-bet-modal__place-side-bets`
+  );
   // const checkSideBetsBtn = document.querySelector(
   //   `.btn-basic-bet-modal__check-side-bets`
   // );
@@ -127,6 +131,8 @@ export function addBaseBetModalBtnListeners(gameState) {
   baseBetClearBtn.addEventListener("click", clearBaseBetChipAmountCallback);
 
   baseBetDealCardsBtn.addEventListener(`click`, dealCardsBtnListenerCallback);
+
+  sideBetMenuBtn.addEventListener(`click`, sideBetMenuBtnListener);
 
   // checkSideBetsBtn.addEventListener(`click`, checkSideBetsBtnListenerCallback);
 }
@@ -567,6 +573,7 @@ function clearSideBetChipAmountCallback(event) {
 }
 
 function placeSideBetsBtnCallback(event) {
+  view.updateBasicBetInfo(globalState);
   controller.placeSideBets(event, globalState);
 }
 
@@ -730,4 +737,8 @@ function declineEarlySurrenderCallback(event) {
 
 function endGameBtnCallback(event) {
   controller.endGameAction(globalState);
+}
+
+function sideBetMenuBtnListener(event) {
+  view.updateSideBetModalInfo(globalState);
 }
