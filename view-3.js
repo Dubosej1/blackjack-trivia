@@ -2046,6 +2046,7 @@ export function renderTriviaIncorrectAnswer(event) {
 export function resetTriviaModal(answerCorrectly) {
   clearTriviaUI();
   clearAnswerBtnData(answerCorrectly);
+  resetTriviaCreditsModifier();
   // toggleDisableTriviaAnswerBtns(true);
   toggleDisplayTriviaDifficultyBtns(true);
   resetTriviaBtns();
@@ -2113,10 +2114,33 @@ function clearAnswerBtnData(answerCorrectly) {
   }
 }
 
-export function renderTriviaCredits(credits) {
+export function renderTriviaCredits(credits, modifier = null) {
   const creditsField = document.querySelector(`.trivia__credits`);
+  const minus1Modifier = document.querySelector(
+    `.trivia__credits-modifier--minus-1`
+  );
+  const plus1Modifier = document.querySelector(
+    `.trivia__credits-modifier--plus-1`
+  );
+  const plus5Modifier = document.querySelector(
+    `.trivia__credits-modifier--plus-5`
+  );
 
   creditsField.textContent = credits;
+
+  if (modifier == `minus1`) minus1Modifier.style.display = `inline`;
+  if (modifier == `plus1`) plus1Modifier.style.display = `inline`;
+  if (modifier == `plus5`) plus5Modifier.style.display = `inline`;
+}
+
+function resetTriviaCreditsModifier() {
+  const creditsModifiers = document.querySelectorAll(
+    `.trivia__credits-modifier`
+  );
+
+  creditsModifiers.forEach(function (elem) {
+    elem.style.display = `none`;
+  });
 }
 
 function resetTriviaBtns() {

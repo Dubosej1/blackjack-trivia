@@ -322,6 +322,19 @@ body {
   background-color: red;
 }
 
+.trivia__credits-modifier {
+  display: none;
+
+  &--minus-1 {
+    color: red;
+  }
+
+  &--plus-1,
+  &--plus-5 {
+    color: green;
+  }
+}
+
 .btn-system__new-game {
   display: inline-block;
 }

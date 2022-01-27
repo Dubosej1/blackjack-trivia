@@ -158,13 +158,26 @@ export const triviaObj = {
 
   updateTriviaCredits(answerCorrectly) {
     let difficulty = this.activeQuestion.difficulty;
+    let modifier;
 
     if (answerCorrectly) {
-      if (difficulty == `medium`) this.credits += 1;
-      if (difficulty == `hard`) this.credits += 5;
-    } else this.credits -= 1;
+      if (difficulty == `medium`) {
+        this.credits += 1;
+        modifier = `plus1`;
+      }
 
-    return this.credits;
+      if (difficulty == `hard`) {
+        this.credits += 5;
+        modifier = `plus5`;
+      }
+    } else {
+      this.credits -= 1;
+      modifier = `minus1`;
+    }
+
+    let arr = [this.credits, modifier];
+
+    return arr;
   },
 };
 

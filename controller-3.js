@@ -873,9 +873,9 @@ export function processTriviaAnswer(event, gameState) {
   let selectedAnswer = event.target.dataset.ans;
 
   let answerCorrectly = triviaObj.determineCorrectAnswer(selectedAnswer);
-  let credits = triviaObj.updateTriviaCredits(answerCorrectly);
+  let [credits, modifier] = triviaObj.updateTriviaCredits(answerCorrectly);
   view.displayTriviaCorrectAnswer(triviaObj.activeQuestion);
-  view.renderTriviaCredits(credits);
+  view.renderTriviaCredits(credits, modifier);
   updateTriviaResult(answerCorrectly, event, gameState);
 
   function updateTriviaResult(answerCorrectly, event, gameState) {

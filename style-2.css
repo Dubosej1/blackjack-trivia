@@ -368,6 +368,16 @@ body {
   background-color: red;
 }
 
+.trivia__credits-modifier {
+  display: none;
+}
+.trivia__credits-modifier--minus-1 {
+  color: red;
+}
+.trivia__credits-modifier--plus-1, .trivia__credits-modifier--plus-5 {
+  color: green;
+}
+
 .btn-system__new-game {
   display: inline-block;
 }

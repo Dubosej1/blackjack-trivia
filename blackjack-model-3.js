@@ -1014,7 +1014,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       currentDealer.hand.addCardToHand = cardsObj.card1;
-      // currentDealer.hand.addCardToHand = cardsObj.card2;
+      currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -1033,7 +1033,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
 
       //Test Natural Functionality
       // currentDealer.hand.addCardToHand = testCard.spadeKing;
-      currentDealer.hand.addCardToHand = testCard.heartAce;
+      // currentDealer.hand.addCardToHand = testCard.heartAce;
 
       // return dealerHand;
     })
