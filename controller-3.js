@@ -873,7 +873,9 @@ export function processTriviaAnswer(event, gameState) {
   let selectedAnswer = event.target.dataset.ans;
 
   let answerCorrectly = triviaObj.determineCorrectAnswer(selectedAnswer);
+  let credits = triviaObj.updateTriviaCredits(answerCorrectly);
   view.displayTriviaCorrectAnswer(triviaObj.activeQuestion);
+  view.renderTriviaCredits(credits);
   updateTriviaResult(answerCorrectly, event, gameState);
 
   function updateTriviaResult(answerCorrectly, event, gameState) {
@@ -915,6 +917,8 @@ function init() {
   listeners.addStartNextRoundBtnListener();
   listeners.addTriviaBtnListeners();
   submitOptions();
+  let credits = triviaObj.getTriviaCredits();
+  view.renderTriviaCredits(credits);
 }
 
 init();

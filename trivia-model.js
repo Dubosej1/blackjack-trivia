@@ -8,6 +8,7 @@ export const triviaObj = {
   easyCurrentIndex: 0,
   mediumCurrentIndex: 0,
   hardCurrentIndex: 0,
+  credits: 10,
 
   generateTriviaQuestions() {
     this.fetchTriviaQuestions(`easy`).then((questions) => {
@@ -149,6 +150,21 @@ export const triviaObj = {
 
   toggleDoubleDownToken(toggle) {
     toggle ? (this.doubleDownToken = true) : (this.doubleDownToken = false);
+  },
+
+  getTriviaCredits() {
+    return this.credits;
+  },
+
+  updateTriviaCredits(answerCorrectly) {
+    let difficulty = this.activeQuestion.difficulty;
+
+    if (answerCorrectly) {
+      if (difficulty == `medium`) this.credits += 1;
+      if (difficulty == `hard`) this.credits += 5;
+    } else this.credits -= 1;
+
+    return this.credits;
   },
 };
 
