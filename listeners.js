@@ -87,7 +87,7 @@ export function addNewRoundEventListeners(gameState) {
   let gameActionBtnClbkObj = {
     hit: hitBtnListenerCallback,
     stand: standBtnListenerCallback,
-    doubleDown: standBtnListenerCallback,
+    doubleDown: doubleDownBtnListenerCallback,
     split: splitBtnListenerCallback,
     surrender: surrenderBtnListenerCallback,
   };

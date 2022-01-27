@@ -716,6 +716,8 @@ export function standAction(e, gameState) {
 
 export function doubleDownAction(e, gameState) {
   gameState.toggleEnableActionBtns = {
+    hit: false,
+    stand: false,
     doubleDown: false,
     surrender: false,
     split: false,
