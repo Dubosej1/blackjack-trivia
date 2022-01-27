@@ -427,6 +427,10 @@ class State {
   set addRoundNumber(num) {
     this.roundNumber = num;
   }
+
+  abortGame() {
+    this.gameAborted = true;
+  }
 }
 
 export function addStateToLog(gameState) {

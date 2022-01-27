@@ -8,6 +8,12 @@ export function addNewGameBtnListener() {
   newGameBtn.addEventListener("click", controller.startNewGame);
 }
 
+export function addEndGameBtnListener() {
+  const endGameBtn = document.querySelector(`.btn-system__end-game`);
+
+  endGameBtn.addEventListener("click", endGameBtnCallback);
+}
+
 export function addBeginGameOptionsBtnListener(gameState = null) {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
@@ -718,4 +724,8 @@ function acceptEarlySurrenderCallback(event) {
 function declineEarlySurrenderCallback(event) {
   view.resetWinningHandModal();
   controller.beginGameRoutinePart2(globalState);
+}
+
+function endGameBtnCallback(event) {
+  controller.endGameAction(globalState);
 }

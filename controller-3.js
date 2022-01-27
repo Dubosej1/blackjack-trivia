@@ -364,10 +364,11 @@ function clearRoundData(gameState) {
   view.renderNoticeText(` `);
 
   if (gameState.gameAborted) {
-    view.renderNoticeText(`Game Ended.  Select New Game...`);
+    view.renderNoticeText(`Game Ended.`);
     let bank = 0;
-    view.renderBank(bank);
-    gameState.toggleEnableGameBtns = {
+    view.updateBank(bank);
+    view.toggleDisplayNewGameBtn(true);
+    gameState.toggleEnableActionBtns = {
       hit: false,
       stand: false,
       doubleDown: false,
@@ -377,6 +378,11 @@ function clearRoundData(gameState) {
     // init();
   }
   // else gameTimer = setTimeout(startNewRound, 1500, gameState.player.bank);
+}
+
+export function endGameAction(gameState) {
+  gameState.abortGame();
+  clearRoundData(gameState);
 }
 
 export function updateStatePlayers(player, gameState) {
@@ -932,6 +938,7 @@ export function processTriviaAnswer(event, gameState) {
 
 function init() {
   listeners.addNewGameBtnListener();
+  listeners.addEndGameBtnListener();
   listeners.addBeginGameOptionsBtnListener();
   listeners.addOptionsMenuInputListeners();
   listeners.addStartNextRoundBtnListener();

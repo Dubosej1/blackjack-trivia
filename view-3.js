@@ -1908,10 +1908,15 @@ export function toggleDisplayStartNextRoundBtn(boolean) {
 
 export function toggleDisplayNewGameBtn(boolean) {
   const newGameBtn = document.querySelector(`.btn-system__new-game`);
+  const endGameBtn = document.querySelector(`.btn-system__end-game`);
 
-  boolean
-    ? (newGameBtn.style.display = `inline-block`)
-    : (newGameBtn.style.display = `none`);
+  if (boolean) {
+    newGameBtn.style.display = `inline-block`;
+    endGameBtn.style.display = `none`;
+  } else {
+    newGameBtn.style.display = `none`;
+    endGameBtn.style.display = `inline-block`;
+  }
 }
 
 export function renderTriviaQuestion(questionObj) {
