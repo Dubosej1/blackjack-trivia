@@ -907,7 +907,7 @@ export function shuffleCards(deckCount) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      // console.log(data);
     })
     .catch((err) => console.log(`shuffle cards error`));
 }
@@ -950,14 +950,14 @@ function addPlayerHandMethods(playerHand) {
 function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      console.log(cardsObj);
+      // console.log(cardsObj);
       // currentPlayer.hand.addCardToHand = cardsObj.card1;
       // currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Split Ace Functionality
-      currentPlayer.hand.addCardToHand = testCard.heartAce;
-      currentPlayer.hand.addCardToHand = testCard.diamondAce;
+      // currentPlayer.hand.addCardToHand = testCard.heartAce;
+      // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Natural Functionality
       // currentPlayer.hand.addCardToHand = testCard.spadeKing;
@@ -968,8 +968,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test Perfect 11s (regularHand)
-      // currentPlayer.addCardToHand = testCard.heart7;
-      // currentPlayer.addCardToHand = testCard.heart4;
+      // currentPlayer.hand.addCardToHand = testCard.heart7;
+      // currentPlayer.hand.addCardToHand = testCard.heart4;
 
       //Test Extra Bet Blackjack
       // currentPlayer.addCardToHand = testCard.diamondKing;
@@ -996,6 +996,14 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       //Test Perfect 11s Jackpot Functionality (pair with Jackpot Ace)
       // currentPlayer.hand.addCardToHand = testCard.spadeKing;
 
+      //Test Lucky Ladies Functionality
+      // currentPlayer.hand.addCardToHand = testCard.diamondKing;
+      // currentPlayer.hand.addCardToHand = testCard.diamondKing;
+
+      //Test Lucky Ladies Queen Pair
+      currentPlayer.hand.addCardToHand = testCard.spadeQueen;
+      currentPlayer.hand.addCardToHand = testCard.spadeQueen;
+
       //   console.log(`dealPlayerCards`);
       //   console.log(playerHand);
       //   return playerHand;
@@ -1006,15 +1014,15 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       //   controller.updateStatePlayers(currentPlayer, gameState);
       //   controller.updateSplitToken(currentPlayer.checkValidSplit(), gameState);
       //   controller.updateDoubleDownToken(currentPlayer.checkValidSideBet(), gameState);
-      console.log(currentPlayer.hand);
+      // console.log(currentPlayer.hand);
     });
 }
 
 function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      currentDealer.hand.addCardToHand = cardsObj.card1;
-      currentDealer.hand.addCardToHand = cardsObj.card2;
+      // currentDealer.hand.addCardToHand = cardsObj.card1;
+      // currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -1032,8 +1040,8 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // currentDealer.hand.addCardToHand = testCard.spade6;
 
       //Test Natural Functionality
-      // currentDealer.hand.addCardToHand = testCard.spadeKing;
-      // currentDealer.hand.addCardToHand = testCard.heartAce;
+      currentDealer.hand.addCardToHand = testCard.spadeKing;
+      currentDealer.hand.addCardToHand = testCard.heartAce;
 
       // return dealerHand;
     })
@@ -1051,7 +1059,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
 
       // checkValidInsurance(dealerHand);
       // cardObj = renderCardInfo(specialToken);
-      console.log(currentDealer.hand);
+      // console.log(currentDealer.hand);
     });
 }
 
@@ -1237,7 +1245,7 @@ function addPlayerImagesToHand(card) {
   this.endTags.push(`</li></ul>`);
   this.simpleImages.push(`<img src="${card.image}" class="card">`);
   this.codes.push(card.code);
-  console.log(this);
+  // console.log(this);
 }
 
 function revealDealerFaceDownCard() {

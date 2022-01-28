@@ -31,12 +31,12 @@ export const triviaObj = {
       `https://opentdb.com/api.php?amount=10&difficulty=${difficulty}`
     )
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         return response.json();
       })
       .then(function (data) {
         let questions = [];
-        console.log(data);
+        // console.log(data);
         let tempArr = data.results;
         let mapping = {
           category: `category`,
