@@ -307,6 +307,8 @@ export function endGameRoutine(gameState) {
       if (activeHand == 0) view.renderSingleHandOutcome(gameState);
       else view.renderSplitHandOutcome(gameState);
 
+      gameState.updateWinningsToBank(gameState.playerWinnings);
+
       order.roundOutcome = false;
       break;
     case 2:
@@ -449,8 +451,8 @@ export function submitOptions(event, gameState = null) {
 
   if (!gameState) optionsPlaceholder = options;
   else gameState.updateOptions(options);
-  console.log(options);
-  console.log(optionsPlaceholder);
+  // console.log(options);
+  // console.log(optionsPlaceholder);
 }
 
 /////////Betting Controls//////////
@@ -652,11 +654,15 @@ export function decideHouseMoney(event, gameState) {
 }
 
 export function initEvenMoneyBet(event, gameState) {
+  gameState.deductHalfBetFromBank();
+
   let outcome = betModel.generateEvenMoneyObj(gameState);
   view.renderEvenMoneyOutcome(outcome);
 }
 
 export function initInsuranceBet(event, gameState) {
+  gameState.deductHalfBetFromBank();
+
   let outcome = betModel.generateInsuranceObj(gameState);
   view.renderInsuranceOutcome(outcome);
 }

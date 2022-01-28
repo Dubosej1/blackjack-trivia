@@ -590,7 +590,7 @@ class SideBet extends Bet {
     let multiplier = num[0];
     let divider = num[1];
 
-    let winnings = Math.round((this.bet * multiplier) / divider) + this.baseBet;
+    let winnings = Math.round((this.bet * multiplier) / divider) + this.bet;
 
     this.winnings = winnings;
   }

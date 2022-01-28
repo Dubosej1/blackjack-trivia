@@ -31,7 +31,7 @@ export function calcEvenMoney(playerHand, dealerHand) {
   playerHand.playerType = `player`;
   dealerHand.playerType = `dealer`;
   let playerCards = playerHand.cards;
-  let cardsArr = [playerHand, dealerHand];
+  let handArr = [playerHand, dealerHand];
 
   let winKey, winHand;
 
@@ -46,7 +46,7 @@ export function calcEvenMoney(playerHand, dealerHand) {
   if (this.winKey == `lose`) return;
 
   winHand = [`player`, `dealer`];
-  this.generateWinHand(winHand, cardsArr);
+  this.generateWinHand(winHand, handArr);
 }
 
 export function initInsuranceSequence(gameState) {
@@ -106,7 +106,8 @@ export function initHouseMoney(gameState) {
 export function calcHouseMoney(playerHand) {
   playerHand.playerType = `player`;
   let playerCards = playerHand.cards;
-  let cardsArr = [playerHand];
+  // let cardsArr = [playerHand];
+  let handArr = [playerHand];
 
   let suitedAceKing = false;
   let pair = false;
@@ -153,7 +154,7 @@ export function calcHouseMoney(playerHand) {
 
   this.outcome = `win`;
   winHand = [`player`];
-  this.generateWinHand(winHand, cardsArr);
+  this.generateWinHand(winHand, handArr);
 }
 
 export function calcPerfectPair(playerHand, dealerHand) {
@@ -219,7 +220,7 @@ export function calcPerfectPair(playerHand, dealerHand) {
 
   if (winKey != `lose`) {
     this.outcome = `win`;
-    this.generateWinHand(winHand, cardsArr);
+    this.generateWinHand(winHand, handArr);
   }
   this.winKey = winKey;
 }
@@ -486,7 +487,7 @@ export function calcLuckyLadies(gameState) {
   let queenExists = false;
 
   let winKey;
-  let winHand;
+  let winHand = [`player`];
 
   this.checkIncludesCardValue(playerCards, `QUEEN`)
     ? (queenExists = true)
@@ -505,12 +506,11 @@ export function calcLuckyLadies(gameState) {
     queenPair && this.checkForPropCount(playerCards, `suit`, `HEARTS`, 2)
       ? (queenHeartsPair = true)
       : (queenHeartsPair = false);
+    dealerHand.outcome == `natural`
+      ? (dealerNatural = true)
+      : (dealerNatural = false);
 
     if (queenHeartsPair) {
-      dealerHand.outcome == `natural`
-        ? (dealerNatural = true)
-        : (dealerNatural = false);
-
       dealerNatural && this.checkSuitMatch(dealerCards)
         ? (suitedDealerNatural = true)
         : (suitedDealerNatural = false);
@@ -540,7 +540,7 @@ export function calcLuckyLadies(gameState) {
       winKey = `queen_pair`;
       break;
     case suited20 && ranked20:
-      winKey = `match_20`;
+      winKey = `matched_20`;
       break;
     case suited20:
       winKey = `suited_20`;

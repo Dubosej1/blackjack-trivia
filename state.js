@@ -78,6 +78,8 @@ class State {
     if (activeHand == 0) hand = player.hand;
     else hand = player.getSplitHand(activeHand);
 
+    console.log(hand);
+
     this.checkForJackpotAce(hand);
     view.renderPlayerHands(this.player);
     // view.renderPlayerField(this.player.hand);
@@ -87,6 +89,7 @@ class State {
     this.dealer = dealer;
     this.checkForJackpotAce(this.dealer.hand);
     view.renderDealerField(this.dealer.hand);
+    console.log(this.dealer.hand);
   }
 
   checkForJackpotAce(cardPlayerHand) {
@@ -430,6 +433,11 @@ class State {
 
   abortGame() {
     this.gameAborted = true;
+  }
+
+  deductHalfBetFromBank() {
+    let newBank = this.bank - Math.round(this.betObj.baseBet / 2);
+    this.updateBank(newBank);
   }
 }
 

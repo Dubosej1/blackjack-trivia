@@ -8,7 +8,7 @@ export const evenMoney = {
   sequencePlacement: `ending`,
   naturalEnd: true,
   outcomeTable: {
-    win: { payout: `1:1`, text: `Dealer has Blackjack` },
+    win: { payout: `2:1`, text: `Dealer has Blackjack` },
     lose: { payout: `0`, text: `No Dealer Blackjack` },
   },
   initSideBet: sideBetFunc.initEvenMoneySequence,
