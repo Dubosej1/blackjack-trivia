@@ -37,7 +37,7 @@ class Bet {
 
   parlayToBaseBet(value) {
     this.baseBet = this.baseBet + value;
-    view.updateBaseBet(this.baseBet);
+    view.gameInfoFields.updateBaseBet(this.baseBet);
   }
 
   addWinningsToBank(winnings) {

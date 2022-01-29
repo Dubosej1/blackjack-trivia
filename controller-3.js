@@ -92,7 +92,7 @@ export function startDealCardsRoutine(event, gameState) {
     gameState.updateBank(newBank);
 
     let newBaseBet = gameState.betObj.getBaseBet();
-    view.updateBaseBet(newBaseBet);
+    view.gameInfoFields.updateBaseBet(newBaseBet);
   }
 
   function updateGameStateCardHolderObjs(gameState) {
@@ -378,7 +378,7 @@ export function clearRoundData(gameState) {
   if (gameState.gameAborted) {
     view.renderNoticeText(`Game Ended.`);
     let bank = 0;
-    view.updateBank(bank);
+    view.gameInfoFields.updateBank(bank);
     view.toggleDisplayNewGameBtn(true);
     gameState.toggleEnableActionBtns = {
       hit: false,
@@ -795,7 +795,8 @@ export function nextPlayerAction(nextAction, gameState) {
       let activeHand = player.currentSplitHand;
 
       let hand = player.getSplitHand(activeHand);
-      if (hand.doubleDownActive) view.toggleDoubleDownMarker(false);
+      if (hand.doubleDownActive)
+        view.gameInfoFields.toggleDoubleDownMarker(false);
 
       player.currentSplitHand = ++activeHand;
 

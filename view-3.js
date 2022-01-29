@@ -33,24 +33,43 @@ export let gameActionBtns = {
   },
 };
 
-export function updateBank(bank) {
-  const bankField = document.querySelector(`.bank__value`);
-  bankField.textContent = bank;
-}
+export let gameInfoFields = {
+  bankField: document.querySelector(`.bank__value`),
+  baseBetField: document.querySelector(`.bet__value`),
+  doubleDownMarker: document.querySelector(`.round-info__double-down-marker`),
 
-export function updateBaseBet(bet) {
-  const baseBetField = document.querySelector(`.bet__value`);
-  baseBetField.textContent = bet;
-}
+  updateBank(bank) {
+    this.bankField.textContent = bank;
+  },
 
-export function toggleDoubleDownMarker(boolean) {
-  const doubleDownMarker = document.querySelector(
-    `.round-info__double-down-marker`
-  );
+  updateBaseBet(bet) {
+    this.baseBetField.textContent = bet;
+  },
 
-  if (boolean) doubleDownMarker.style.display = `inline`;
-  else doubleDownMarker.style.display = `none`;
-}
+  toggleDoubleDownMarker(toggle) {
+    if (toggle) this.doubleDownMarker.style.display = `inline`;
+    else this.doubleDownMarker.style.display = `none`;
+  },
+};
+
+// export function updateBank(bank) {
+//   const bankField = document.querySelector(`.bank__value`);
+//   bankField.textContent = bank;
+// }
+
+// export function updateBaseBet(bet) {
+//   const baseBetField = document.querySelector(`.bet__value`);
+//   baseBetField.textContent = bet;
+// }
+
+// export function toggleDoubleDownMarker(boolean) {
+//   const doubleDownMarker = document.querySelector(
+//     `.round-info__double-down-marker`
+//   );
+
+//   if (boolean) doubleDownMarker.style.display = `inline`;
+//   else doubleDownMarker.style.display = `none`;
+// }
 
 export function openBaseBetModal(gameState) {
   const basicBetModal__BankValue = document.querySelector(
@@ -1883,7 +1902,7 @@ export function resetUI() {
 
   clearSideBetModal();
 
-  toggleDoubleDownMarker(false);
+  gameInfoFields.toggleDoubleDownMarker(false);
 
   betField.textContent = 0;
 

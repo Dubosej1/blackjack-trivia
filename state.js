@@ -39,12 +39,12 @@ class State {
 
   updateBank(bank) {
     this.bank = bank;
-    view.updateBank(this.bank);
+    view.gameInfoFields.updateBank(this.bank);
   }
 
   updateWinningsToBank(winnings) {
     this.bank = this.bank + winnings;
-    view.updateBank(this.bank);
+    view.gameInfoFields.updateBank(this.bank);
   }
 
   addBetObj(betObj) {
@@ -256,7 +256,7 @@ class State {
     this.betObj.applyDoubleDown(this.player.currentSplitHand);
     this.subtractBaseBetFromBank();
     // view.updateBaseBet(this.betObj.baseBet);
-    view.toggleDoubleDownMarker(true);
+    view.gameInfoFields.toggleDoubleDownMarker(true);
   }
 
   //Possible Outcomes: Win, Lose, Push or Surrender (for each hand)
