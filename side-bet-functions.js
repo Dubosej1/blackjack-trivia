@@ -191,26 +191,27 @@ export function calcPerfectPair(playerHand, dealerHand) {
   if (playerRankMatch)
     this.checkColorMatch(playerCards)
       ? (playerColorMatch = true)
-      : (playerOppMatch = false);
+      : (playerOppMatch = true);
 
   switch (true) {
     case dealerPerfectMatch && playerPerfectMatch:
-      winKey = `perfect_pairs_2`;
+      winKey = `perfect_pair_2`;
       winHand = [`player`, `dealer`];
       break;
     case dealerPerfectMatch:
-      winKey = `perfect_pair_2`;
+      winKey = `perfect_pair_1`;
       winHand = [`dealer`];
       break;
     case playerPerfectMatch:
       winKey = `perfect_pair_1`;
       winHand = [`player`];
+      break;
     case playerColorMatch:
       winKey = `colored_pair`;
       winHand = [`player`];
       break;
     case playerOppMatch:
-      winKey = `black_red_pair`;
+      winKey = `red_black_pair`;
       winHand = [`player`];
       break;
     default:
