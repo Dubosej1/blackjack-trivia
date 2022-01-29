@@ -951,7 +951,7 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       // console.log(cardsObj);
-      // currentPlayer.hand.addCardToHand = cardsObj.card1;
+      currentPlayer.hand.addCardToHand = cardsObj.card1;
       // currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
@@ -962,7 +962,7 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.heart7;
 
       //Test Split Ace Functionality
-      currentPlayer.hand.addCardToHand = testCard.heartAce;
+      // currentPlayer.hand.addCardToHand = testCard.heartAce;
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Natural Functionality
@@ -1009,12 +1009,16 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.spadeKing;
 
       //Test Lucky Ladies Functionality
-      currentPlayer.hand.addCardToHand = testCard.diamondKing;
+      // currentPlayer.hand.addCardToHand = testCard.diamondKing;
       // currentPlayer.hand.addCardToHand = testCard.diamondKing;
 
       //Test Lucky Ladies Queen Pair
+      currentPlayer.hand.addCardToHand = testCard.spadeQueen;
       // currentPlayer.hand.addCardToHand = testCard.spadeQueen;
-      // currentPlayer.hand.addCardToHand = testCard.spadeQueen;
+
+      //Test Lucky Ladies Queen Hearts Pair
+      // currentPlayer.hand.addCardToHand = testCard.heartQueen;
+      // currentPlayer.hand.addCardToHand = testCard.heartQueen;
 
       //   console.log(`dealPlayerCards`);
       //   console.log(playerHand);
@@ -1058,6 +1062,12 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       //Test Natural Functionality
       // currentDealer.hand.addCardToHand = testCard.spadeKing;
       // currentDealer.hand.addCardToHand = testCard.heartAce;
+
+      //Test Lucky Ladies
+      // currentDealer.hand.addCardToHand = testCard.heartQueen;
+      // currentDealer.hand.addCardToHand = testCard.heartAce;
+      // currentDealer.hand.addCardToHand = testCard.diamondKing;
+      // currentDealer.hand.addCardToHand = testCard.diamondAce;
 
       //Test 21+3 King 3 Kind
       // currentDealer.hand.addCardToHand = testCard.diamondKing;

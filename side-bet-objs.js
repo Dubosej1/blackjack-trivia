@@ -144,11 +144,11 @@ export const luckyLadies = {
       payout: `jackpot100`,
       text: `Queen of Hearts Pair and Dealer Blackjack in Hearts`,
     },
-    jackpot__25: {
+    jackpot_25: {
       payout: `jackpot25`,
       text: `Queen of Hearts Pair and Suited Dealer Blackjack`,
     },
-    jackpot__5: {
+    jackpot_5: {
       payout: `jackpot5`,
       text: `Queen of Hearts Pair and Dealer Blackjack`,
     },
@@ -161,7 +161,7 @@ export const luckyLadies = {
     matched_20: { payout: `25:1`, text: `Matched 20` },
     suited_20: { payout: `10:1`, text: `Suited 20` },
     ranked_20: { payout: `9:1`, text: `Ranked 20` },
-    any_20: { payout: `4:1`, text: `Ranked 20` },
+    any_20: { payout: `4:1`, text: `Any 20` },
     queen_hearts: { payout: `2:1`, text: `Hand includes Queen of Hearts` },
     queen: { payout: `1:1`, text: `Hand includes a Queen` },
     lose: { payout: `0`, text: `No Winning Hand` },

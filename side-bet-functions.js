@@ -579,7 +579,7 @@ export function calcLuckyLadies(gameState) {
       winKey = `jackpot_100`;
       break;
     case queenHeartsPair && suitedDealerNatural:
-      winKey = `jackpot_20`;
+      winKey = `jackpot_25`;
       break;
     case queenHeartsPair && dealerNatural:
       winKey = `jackpot_5`;
