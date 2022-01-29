@@ -13,37 +13,26 @@ export let specialNumPlaceholder;
 //////////Game Flow functions//////////
 
 export function startNewGame(e) {
-  let bank = 1000;
-  let options = optionsPlaceholder;
-  let specialNum = betModel.generateSpecialNums();
-
-  view.renderNoticeText(`New Game Started...`);
+  view.toggleDisplayNewGameBtn(false);
 
   triviaObj.generateTriviaQuestions();
   triviaObj.resetTriviaCredits();
 
-  view.toggleDisplayNewGameBtn(false);
-  //   triviaModel.generateTriviaQuestions();
-  // view.renderBtnVisibility({ array: btnsArr, newGame: false, endGame: true });
+  view.renderNoticeText(`New Game Started...`);
+
+  let bank = 1000;
+  let options = optionsPlaceholder;
+  let specialNum = betModel.generateSpecialNums();
+
   startNewRound(bank, options, specialNum);
 }
 
 export function startNewRound(bank, options, specialNum) {
-  view.toggleDisplayStartNextRoundBtn(false);
-  view.toggleDisplayOptionsBtn(false);
+  let gameState = initializeGameObjs(bank, options, specialNum);
 
-  let gameState = state.initNewState(bank, options, specialNum);
+  changeSystemButtonVisibility();
 
-  let players = bjModel.initPlayers(bank);
-
-  let betObj = betModel.initBaseBet(bank);
-
-  gameState.addBetObj(betObj);
-
-  gameState.initialAddPlayers(players);
-
-  listeners.removeBeginGameOptionsBtnListener();
-  listeners.addNewRoundEventListeners(gameState);
+  addBeginningRoundListeners(gameState);
 
   gameState.toggleEnableActionBtns = {
     hit: false,
@@ -53,13 +42,34 @@ export function startNewRound(bank, options, specialNum) {
     surrender: false,
   };
 
-  //   view.addHandlerListeners(btnsArr, gameState);
+  // gameState.toggleGameActive(true);
 
-  gameState.toggleGameActive(true);
-
-  //make submit bet modal visible
   view.openBaseBetModal(gameState);
   bjModel.initDeck(gameState);
+
+  function initializeGameObjs(bank, options, specialNum) {
+    let gameState = state.initNewState(bank, options, specialNum);
+
+    let players = bjModel.initPlayers(bank);
+
+    let betObj = betModel.initBaseBet(bank);
+
+    gameState.addBetObj(betObj);
+
+    gameState.initialAddPlayers(players);
+
+    return gameState;
+  }
+
+  function changeSystemButtonVisibility() {
+    view.toggleDisplayStartNextRoundBtn(false);
+    view.toggleDisplayOptionsBtn(false);
+  }
+
+  function addBeginningRoundListeners(gameState) {
+    listeners.removeBeginGameOptionsBtnListener();
+    listeners.addNewRoundEventListeners(gameState);
+  }
 }
 
 export function startDealCardsRoutine(event, gameState) {
@@ -75,30 +85,9 @@ export function startDealCardsRoutine(event, gameState) {
   let playerHand = gameState.player.hand;
   let dealerHand = gameState.dealer.hand;
 
-  //   let sideBetPackage = {
-  //     baseBet: gameState.betObj.baseBet,
-  //     playerHand: playerHand,
-  //     dealerHand: dealerHand,
-  //   };
-
-  //   gameState.sideBetPackage = sideBetPackage;
-
   if (gameState.betObj.checkForBeginningSideBetBtn())
     view.toggleCheckSideBetBtn(true);
   else beginGameRoutinePart2(gameState);
-  //begin regular routine
-
-  //   let [hasPerfect11sBet, perfect11sObj] =
-  //     gameState.betObj.checkHasPerfect11sBet();
-
-  //   if (diceRollGuard && hasPerfect11sBet) {
-  //     let diceRolls = betModel.rollPerfect11Dice();
-  //     view.displayPerfect11DiceRoll(diceRolls);
-  //     gameState.betObj.collectPerfect11DiceRolls(diceRolls);
-  //     return;
-  //   }
-
-  //   continueDealCardsRoutine(sideBetPackage, gameState);
 }
 
 export function determineBeginGameRoutineOrder(gameState) {
@@ -184,22 +173,15 @@ export function beginGameRoutine(gameState) {
       order.extraBet = false;
       break;
     default:
-      //if end round early?
-      //else beginGameRoutinePart2()
       beginGameRoutinePart2(gameState);
   }
 }
 
 export function beginGameRoutinePart2(gameState) {
   let order = gameState.beginGameRoutineOrder;
-  // let playerNatural = false;
-  // let dealerPeek = false;
   let playerHand = gameState.player.hand;
   let dealerHand = gameState.dealer.hand;
   let gameTimer;
-
-  // if (hand.outcome == `natural` || dealerHand.outcome == `natural`)
-  //   natural = true;
 
   if (!gameState.beginningRoundChecksDone) {
     gameState.checkSplitAvailable(playerHand);
@@ -336,11 +318,9 @@ export function endGameRoutine(gameState) {
     case order.totalWinnings:
       gameState.calculateTotalWinnings();
       view.displayTotalWinningsModal(gameState);
-      //Total Winnings Modal + Complete Win Summary Modal via Btn
       order.totalWinnings = false;
       break;
     default:
-      // clearRoundData(gameState);
       view.toggleDisplayOptionsBtn(true);
       let result = checkGameOver(gameState);
 
@@ -348,9 +328,6 @@ export function endGameRoutine(gameState) {
         clearRoundData(gameState);
         view.toggleDisplayNewGameBtn(true);
       } else view.toggleDisplayStartNextRoundBtn(true);
-    //Clear Round Routine
-    //if end round early?
-    //else beginGameRoutinePart2()
   }
 }
 
@@ -393,9 +370,7 @@ export function clearRoundData(gameState) {
       split: false,
       surrender: false,
     };
-    // init();
   }
-  // else gameTimer = setTimeout(startNewRound, 1500, gameState.player.bank);
 }
 
 export function endGameAction(gameState) {
@@ -404,16 +379,8 @@ export function endGameAction(gameState) {
 }
 
 export function updateStatePlayers(player, gameState) {
-  // if ((hand.type = `player`)) gameState.updatePlayerHand = hand;
-  // if ((hand.type = `dealer`)) gameState.updateDealerHand = hand;
-
-  // if (player.type == "player") gameState.updatePlayer = player;
   if (player.type == `dealer`) gameState.updateDealer = player;
   else gameState.updatePlayer = player;
-  // if (player.type == `split player`) {
-  //   if (player.currentSplitHand == 1) gameState.updateSplitHand1 = player;
-  //   else gameState.updateSplitHand2 = player;
-  // }
 }
 
 export function continueRoundAfterSplit(gameState) {
@@ -462,8 +429,6 @@ export function submitOptions(event, gameState = null) {
 
   if (!gameState) optionsPlaceholder = options;
   else gameState.updateOptions(options);
-  // console.log(options);
-  // console.log(optionsPlaceholder);
 }
 
 /////////Betting Controls//////////
@@ -521,8 +486,6 @@ export function placeSideBets(event, gameState) {
 
   view.updateBaseBetModalTotal(gameState);
 
-  //add "view side bets btn and side bet field"
-
   gameState.betObj.toggleSideBetPlacedModalActive(true);
   view.toggleSideBetPlacedBtn(true, gameState);
   view.activateSideBetsPlacedModal(gameState);
@@ -559,7 +522,6 @@ export function initDisplayInitialSideBetOutcome(event, gameState) {
   view.toggleCheckSideBetBtn(false);
 
   determineBeginGameRoutineOrder(gameState);
-  //   view.displayInitialSideBetOutcome(gameState);
 }
 
 // "Extra Bet" and "House Money" Modal functions
@@ -609,7 +571,6 @@ export function placeExtraBet(event, gameState) {
   const sideBet = document.querySelector(`.extra-bet-modal__main`).dataset
     .sidebet;
 
-  // let betObj = gameState.betObj;
   let sideBetObj;
 
   if (sideBet == `extraBetBlackjack`) {
@@ -663,8 +624,6 @@ export function decideHouseMoney(event, gameState) {
       console.log(`Error: House Money Modal Parlay Btns`);
   }
 
-  // view.resetHouseMoneyModal();
-
   beginGameRoutine(gameState);
 }
 
@@ -702,9 +661,6 @@ export function hitAction(event, gameState) {
 }
 
 export function standAction(e, gameState) {
-  // if (checkForNaturals(gameState)) return;
-  // changeBtnsAvailable(gameState);
-
   gameState.toggleEnableActionBtns = {
     split: false,
     doubleDown: false,
@@ -768,13 +724,10 @@ function executeDoubleDown(gameState) {
 
   let hitClbk = player.executeHit.bind(player);
 
-  // Wait 3 Sec
-
   let gameTimer = setTimeout(hitClbk, 1500, gameState);
 }
 
 export function surrenderAction(event, gameState) {
-  //disable game buttons
   gameState.toggleEnableActionBtns = {
     split: false,
     hit: false,
@@ -787,7 +740,6 @@ export function surrenderAction(event, gameState) {
   let player = gameState.player;
   let dealer = gameState.dealer;
   let activeHand = player.currentSplitHand;
-  // let handCount = player.splitHands.length;
   let handHolder, gameTimer, nextAction;
   let earlySurrender;
 
@@ -809,15 +761,7 @@ export function surrenderAction(event, gameState) {
     nextAction = `endRound`;
   }
 
-  //Notice Text: Player Surrendered
-  //Render Hand Outcome: Surrender
   gameState.updateNoticeText = `${handHolder} surrendered`;
-
-  //Check if dealer has a natural
-  //IF yes: Player loses, render player outcome as Lose/dealer as natural, end round
-  //IF no: Player outcome as surrender,
-
-  //End Round
 
   if (dealer.hand.outcome == `natural` && !earlySurrender)
     hand.outcome = `surrenderFail`;
@@ -825,20 +769,6 @@ export function surrenderAction(event, gameState) {
 
   gameTimer = setTimeout(nextPlayerAction, 2500, nextAction, gameState);
 }
-
-// export function renderPlayerOutcome(nextAction, gameState) {
-//   let player = gameState.player;
-//   let activeHand = player.currentSplitHand;
-//   let hand;
-
-//   if (activeHand == 0) hand = player.hand;
-//   else hand = player.getSplitHand(activeHand);
-
-//   view.renderPlayerHands(player);
-//   // view.renderPlayerHandOutcome(hand, `player`);
-
-//   let gameTimer = setTimeout(nextPlayerAction, 3000, nextAction, gameState);
-// }
 
 export function nextPlayerAction(nextAction, gameState) {
   let player = gameState.player;
@@ -873,12 +803,9 @@ export function nextPlayerAction(nextAction, gameState) {
       break;
     case `endRound`:
       gameState.updateNoticeText = `Round Ends...`;
-      //Begin End Round Sequence (Mystery Jackpot, Side Bets, Round Outcome)
       determineEndGameRoutineOrder(gameState);
       break;
     default:
-      // view.renderPlayerHands(player);
-
       let btnObj = {
         hit: true,
         stand: true,
@@ -895,8 +822,6 @@ export function executeDealerTurn(gameState) {
   let dealer = gameState.dealer;
 
   dealer.determineContinueStatus(dealer.hand, gameState);
-
-  // dealer.executeHit(gameState);
 }
 
 export function nextDealerAction(nextAction, gameState) {

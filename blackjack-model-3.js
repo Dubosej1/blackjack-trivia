@@ -952,7 +952,7 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
     .then(function (cardsObj) {
       // console.log(cardsObj);
       currentPlayer.hand.addCardToHand = cardsObj.card1;
-      // currentPlayer.hand.addCardToHand = cardsObj.card2;
+      currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect Pair
@@ -1013,8 +1013,11 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.diamondKing;
 
       //Test Lucky Ladies Queen Pair
-      currentPlayer.hand.addCardToHand = testCard.spadeQueen;
       // currentPlayer.hand.addCardToHand = testCard.spadeQueen;
+      // currentPlayer.hand.addCardToHand = testCard.spadeQueen;
+      // currentPlayer.hand.addCardToHand = testCard.heart9;
+      // currentPlayer.hand.addCardToHand = testCard.spadeJack;
+      // currentPlayer.hand.addCardToHand = testCard.spadeJack;
 
       //Test Lucky Ladies Queen Hearts Pair
       // currentPlayer.hand.addCardToHand = testCard.heartQueen;
