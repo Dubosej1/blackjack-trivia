@@ -221,12 +221,18 @@ class Bet {
   }
 
   initInitialSideBetSequence(gameState) {
+    let dealerNatural = false;
+
+    if (gameState.dealer.hand.outcome == `natural`) dealerNatural = true;
+
     this.initialSideBetSequence = this.sideBetObjs.filter(
       (obj) => obj.sequencePlacement == `initial`
     );
+
     if (!this.initialSideBetSequence) return false;
 
     this.initialSideBetSequence.forEach(function (obj) {
+      if (obj.key == `houseMoney`) return;
       obj.initSideBet(gameState);
     });
 
@@ -235,7 +241,7 @@ class Bet {
     );
 
     let winningsArr = this.initialSideBetSequence.map(function (obj) {
-      if (obj.key == `houseMoney`) return 0;
+      // if (obj.key == `houseMoney` && !dealerNatural) return 0;
       return obj.winnings;
     });
 
@@ -793,6 +799,7 @@ export function generateSideBetObj(name) {
       sideBet = new SideBet(sideBetMod.houseMoney);
       sideBet.checkModalNeeded = sideBetFunc.checkHouseMoneyModalNeeded;
       sideBet.generateParlayPackage = sideBetFunc.generateParlayPackage;
+      sideBet.changeWinnings = sideBetFunc.changeHouseMoneyWinnings;
       // sideBet.collectHouseMoneyWinnings = collectHouseMoneyWinnings;
       break;
     case `luckyLadies`:

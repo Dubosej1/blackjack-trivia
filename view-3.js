@@ -1326,11 +1326,23 @@ export function displayHouseMoneyModal(gameState) {
   const parlayAllField = document.querySelector(
     `.house-money-modal__parlay-all-value`
   );
+  const playerCardsField = document.querySelector(
+    `.house-money-modal__player-cards`
+  );
+  const winConditionField = document.querySelector(
+    `.house-money-modal__win-condition`
+  );
+  const payoutField = document.querySelector(`.house-money-modal__payout`);
 
   let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
   let baseBet = gameState.betObj.baseBet;
   let sideBet = houseMoneyObj.bet;
   let parlayPackage = houseMoneyObj.parlayPackage;
+  let playerHand = gameState.player.hand;
+
+  playerCardsField.innerHTML = playerHand.simpleImages.join();
+  winConditionField.textContent = houseMoneyObj.outcomePackage.winCondition;
+  payoutField.textContent = houseMoneyObj.outcomePackage.payout;
 
   sideBetField.textContent = sideBet;
   baseBetField.textContent = baseBet;

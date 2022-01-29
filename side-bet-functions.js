@@ -435,6 +435,14 @@ export function generateParlayPackage(gameState) {
   this.parlayPackage.parlayAll = parlayAll;
 }
 
+export function changeHouseMoneyWinnings(str) {
+  if (str == `bet`) this.winnings -= this.bet;
+  if (str == `winnings`) this.winnings = this.bet;
+  if (str == `all`) this.winnings = 0;
+
+  this.outcomePackage.winnings = this.winnings;
+}
+
 function calcExtraBetBlackjack() {}
 
 // function calcExtraBetFee() {

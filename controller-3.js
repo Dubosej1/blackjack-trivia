@@ -143,6 +143,14 @@ export function determineBeginGameRoutineOrder(gameState) {
 
   gameState.beginGameRoutineOrder = beginGameRoutineOrder;
 
+  let houseMoneyExists = betObj.checkSideBetExists(`houseMoney`);
+
+  if (houseMoneyExists) {
+    let houseMoneyObj = betObj.getSideBet(`houseMoney`);
+
+    houseMoneyObj.initSideBet(gameState);
+  }
+
   beginGameRoutine(gameState);
 }
 
@@ -159,6 +167,10 @@ export function beginGameRoutine(gameState) {
       order.perfect11sDiceRoll = false;
       //   gameState.betObj.collectPerfect11DiceRolls(diceRolls);
       break;
+    case order.houseMoney:
+      view.displayHouseMoneyModal(gameState);
+      order.houseMoney = false;
+      break;
     case order.sideBetSequence:
       gameState.betObj.initInitialSideBetSequence(gameState);
       let winnings = gameState.betObj.getInitialSideBetWinnings();
@@ -169,10 +181,6 @@ export function beginGameRoutine(gameState) {
     case order.extraBet:
       view.displayExtraBetModal(gameState);
       order.extraBet = false;
-      break;
-    case order.houseMoney:
-      view.displayHouseMoneyModal(gameState);
-      order.houseMoney = false;
       break;
     default:
       //if end round early?
@@ -633,16 +641,19 @@ export function decideHouseMoney(event, gameState) {
       gameState.updateWinningsToBank(winnings);
       break;
     case `parlay-bet`:
-      bet = houseMoneyObj.total;
+      bet = houseMoneyObj.bet;
       betObj.parlayToBaseBet(bet);
+      houseMoneyObj.changeWinnings(`bet`);
       break;
     case `parlay-winnings`:
       winnings = houseMoneyObj.winnings;
       betObj.parlayToBaseBet(winnings);
+      houseMoneyObj.changeWinnings(`winnings`);
       break;
     case `parlay-all`:
-      total = houseMoneyObj.winnings + houseMoneyObj.total;
+      total = houseMoneyObj.winnings + houseMoneyObj.bet;
       betObj.parlayToBaseBet(total);
+      houseMoneyObj.changeWinnings(`all`);
       break;
     default:
       console.log(`Error: House Money Modal Parlay Btns`);
