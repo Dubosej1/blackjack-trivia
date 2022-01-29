@@ -964,8 +964,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Split Functionality (regularHand)
-      // currentPlayer.hand.addCardToHand = testCard.heart7;
-      // currentPlayer.hand.addCardToHand = testCard.spade7;
+      currentPlayer.hand.addCardToHand = testCard.heart7;
+      currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test Perfect 11s (regularHand)
       // currentPlayer.hand.addCardToHand = testCard.heart7;
@@ -976,8 +976,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.addCardToHand = testCard.heart4;
 
       //Test House Money
-      currentPlayer.hand.addCardToHand = testCard.diamondKing;
-      currentPlayer.hand.addCardToHand = testCard.diamondAce;
+      // currentPlayer.hand.addCardToHand = testCard.diamondKing;
+      // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Player Blackjack/Even Money (replace original 2)
       // currentPlayer.addCardToHand = dealerInsTestCard;

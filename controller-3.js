@@ -63,6 +63,7 @@ export function startNewRound(bank, options, specialNum) {
 }
 
 export function startDealCardsRoutine(event, gameState) {
+  gameState.updateNoticeText = `Cards Dealt...`;
   gameState.betObj.lockInBets();
   let newBank = gameState.betObj.getBank();
   let newBaseBet = gameState.betObj.getBaseBet();
@@ -211,11 +212,13 @@ export function beginGameRoutinePart2(gameState) {
 
   switch (true) {
     case gameState.evenMoneyAvailable:
-      view.activateEvenMoneyModal();
+      gameTimer = setTimeout(view.activateEvenMoneyModal, 3000);
+      // view.activateEvenMoneyModal();
       gameState.evenMoneyAvailable = false;
       break;
     case gameState.insuranceAvailable:
-      view.activateInsuranceModal();
+      gameTimer = setTimeout(view.activateInsuranceModal, 3000);
+      // view.activateInsuranceModal();
       gameState.insuranceAvailable = false;
       break;
     case order.natural:
@@ -227,7 +230,7 @@ export function beginGameRoutinePart2(gameState) {
 
       gameState.updateNoticeText = `${playerText} Natural`;
 
-      gameTimer = setTimeout(determineEndGameRoutineOrder, 2000, gameState);
+      gameTimer = setTimeout(determineEndGameRoutineOrder, 3000, gameState);
       order.natural = false;
       break;
     case order.earlySurrender:
@@ -300,7 +303,7 @@ export function determineEndGameRoutineOrder(gameState) {
 
   gameState.endGameRoutineOrder = endGameRoutineOrder;
 
-  endGameRoutine(gameState);
+  let gameTimer = setTimeout(endGameRoutine, 3500, gameState);
 }
 
 export function endGameRoutine(gameState) {
@@ -817,7 +820,7 @@ export function surrenderAction(event, gameState) {
     hand.outcome = `surrenderFail`;
   else hand.outcome = `surrender`;
 
-  gameTimer = setTimeout(nextPlayerAction, 1500, nextAction, gameState);
+  gameTimer = setTimeout(nextPlayerAction, 2500, nextAction, gameState);
 }
 
 // export function renderPlayerOutcome(nextAction, gameState) {
