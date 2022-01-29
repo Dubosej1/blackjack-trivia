@@ -672,14 +672,16 @@ export function initEvenMoneyBet(event, gameState) {
   gameState.deductHalfBetFromBank();
 
   let outcome = betModel.generateEvenMoneyObj(gameState);
-  view.renderEvenMoneyOutcome(outcome);
+  view.removeSideBetDecideBtns();
+  view.renderEvenMoneyOutcome(outcome, gameState);
 }
 
 export function initInsuranceBet(event, gameState) {
   gameState.deductHalfBetFromBank();
 
   let outcome = betModel.generateInsuranceObj(gameState);
-  view.renderInsuranceOutcome(outcome);
+  view.removeSideBetDecideBtns();
+  view.renderInsuranceOutcome(outcome, gameState);
 }
 
 export function splitAction(event, gameState) {

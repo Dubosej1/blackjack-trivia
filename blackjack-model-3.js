@@ -951,8 +951,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       // console.log(cardsObj);
-      // currentPlayer.hand.addCardToHand = cardsObj.card1;
-      // currentPlayer.hand.addCardToHand = cardsObj.card2;
+      currentPlayer.hand.addCardToHand = cardsObj.card1;
+      currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Split Ace Functionality
@@ -972,8 +972,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.heart4;
 
       //Test Extra Bet Blackjack
-      currentPlayer.hand.addCardToHand = testCard.diamondKing;
-      currentPlayer.hand.addCardToHand = testCard.heart4;
+      // currentPlayer.hand.addCardToHand = testCard.diamondKing;
+      // currentPlayer.hand.addCardToHand = testCard.heart4;
 
       //Test House Money
       // currentPlayer.hand.addCardToHand = testCard.diamondKing;
@@ -1021,8 +1021,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
 function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
-      currentDealer.hand.addCardToHand = cardsObj.card1;
-      currentDealer.hand.addCardToHand = cardsObj.card2;
+      // currentDealer.hand.addCardToHand = cardsObj.card1;
+      // currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -1040,8 +1040,8 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // currentDealer.hand.addCardToHand = testCard.spade6;
 
       //Test Natural Functionality
-      // currentDealer.hand.addCardToHand = testCard.spadeKing;
-      // currentDealer.hand.addCardToHand = testCard.heartAce;
+      currentDealer.hand.addCardToHand = testCard.spadeKing;
+      currentDealer.hand.addCardToHand = testCard.heartAce;
 
       // return dealerHand;
     })

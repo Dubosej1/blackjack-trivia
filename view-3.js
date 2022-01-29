@@ -1465,6 +1465,7 @@ export function activateEvenMoneyModal() {
   const outcomeContent = document.createTextNode(` `);
   outcomeElem.classList.add(`generic-modal__outcome-text`);
 
+  headingElem.classList.add(`generic-modal__side-bet-heading`);
   btnContainer.classList.add(`generic-modal__side-bet-title`);
   acceptBetBtn.classList.add(`btn-side-bet-action__accept-even-money`);
   acceptBetBtn.classList.add(`btn-side-bet-action`);
@@ -1514,6 +1515,7 @@ export function activateInsuranceModal() {
   outcomeElem.appendChild(outcomeContent);
   outcomeElem.classList.add(`generic-modal__outcome-text`);
 
+  headingElem.classList.add(`generic-modal__side-bet-heading`);
   btnContainer.classList.add(`generic-modal__side-bet-title`);
   acceptBetBtn.classList.add(`btn-side-bet-action__accept-insurance`);
   acceptBetBtn.classList.add(`btn-side-bet-action`);
@@ -1532,34 +1534,56 @@ export function activateInsuranceModal() {
   popbox.open(`generic-modal`);
 }
 
-export function renderEvenMoneyOutcome(outcome) {
+export function renderEvenMoneyOutcome(outcome, gameState) {
   const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const headingElem = document.querySelector(
+    `.generic-modal__side-bet-heading`
+  );
+  let dealerHand = gameState.dealer.hand;
 
   nextBtn.style.display = `inline-block`;
 
   if (outcome == `win`) {
-    outcomeField.textContent = `Dealer Blackjack, Round Over.  You win Even Money!`;
+    headingElem.textContent = `You win Even Money!`;
+    outcomeField.textContent = `Dealer Blackjack.  Round Ends...`;
+    renderPlayerHandOutcome(dealerHand, `dealer`);
   } else {
-    outcomeField.textContent = `Round Over.  You lose Even Money`;
+    headingElem.textContent = `You lose Even Money`;
+    outcomeField.textContent = `No Dealer Blackjack.  Round Ends...`;
   }
 }
 
-export function renderInsuranceOutcome(outcome) {
+export function renderInsuranceOutcome(outcome, gameState) {
   const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+  const headingElem = document.querySelector(
+    `.generic-modal__side-bet-heading`
+  );
+  let dealerHand = gameState.dealer.hand;
 
   nextBtn.style.display = `inline-block`;
 
   if (outcome == `win`) {
-    outcomeField.textContent = `Dealer Blackjack, Round Over.  You win Insurance Bet!`;
+    headingElem.textContent = `You win Insurance Bet`;
+    outcomeField.textContent = `Dealer Blackjack, Round Ends...`;
+    renderPlayerHandOutcome(dealerHand, `dealer`);
     listeners.addInsuranceNextBtnListener(outcome);
   } else {
-    outcomeField.textContent = `You lose Insurance Bet.  Round continues...`;
+    headingElem.textContent = `You lose Insurance Bet`;
+    outcomeField.textContent = `No Dealer Blackjack.  Round continues...`;
     listeners.addInsuranceNextBtnListener(outcome);
   }
 
   // listeners.removeInsuranceModalListeners();
+}
+
+export function removeSideBetDecideBtns() {
+  // const acceptBtn = document.querySelector(`.btn-side-bet-action__accept-even-money`);
+  // const declineBtn = document.querySelector(`.btn-side-bet-action__decline-even-money`);
+  const btnContainer = document.querySelector(`.generic-modal__side-bet-title`);
+
+  btnContainer.style.display = `none`;
 }
 
 export function renderSingleHandOutcome(gameState) {
