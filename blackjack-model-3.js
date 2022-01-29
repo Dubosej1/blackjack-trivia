@@ -956,13 +956,13 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect Pair
-      currentPlayer.hand.addCardToHand = testCard.spade7;
+      // currentPlayer.hand.addCardToHand = testCard.spade7;
       // currentPlayer.hand.addCardToHand = testCard.spade7;
       // currentPlayer.hand.addCardToHand = testCard.club7;
-      currentPlayer.hand.addCardToHand = testCard.heart7;
+      // currentPlayer.hand.addCardToHand = testCard.heart7;
 
       //Test Split Ace Functionality
-      // currentPlayer.hand.addCardToHand = testCard.heartAce;
+      currentPlayer.hand.addCardToHand = testCard.heartAce;
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Natural Functionality
@@ -973,8 +973,14 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.heart7;
       // currentPlayer.hand.addCardToHand = testCard.spade7;
 
+      //Test 21+3 3 Kind (normal)
+      // currentPlayer.hand.addCardToHand = testCard.spade7;
+      // currentPlayer.hand.addCardToHand = testCard.spade7;
+      // currentPlayer.hand.addCardToHand = testCard.spadeJack;
+      // currentPlayer.hand.addCardToHand = testCard.spadeJack;
+
       //Test Perfect 11s (regularHand)
-      // currentPlayer.hand.addCardToHand = testCard.heart7;
+      // currentPlayer.hand.addCardToHand = testCard.diamond7;
       // currentPlayer.hand.addCardToHand = testCard.heart4;
 
       //Test Extra Bet Blackjack
@@ -1003,7 +1009,7 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.spadeKing;
 
       //Test Lucky Ladies Functionality
-      // currentPlayer.hand.addCardToHand = testCard.diamondKing;
+      currentPlayer.hand.addCardToHand = testCard.diamondKing;
       // currentPlayer.hand.addCardToHand = testCard.diamondKing;
 
       //Test Lucky Ladies Queen Pair
@@ -1052,6 +1058,11 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       //Test Natural Functionality
       // currentDealer.hand.addCardToHand = testCard.spadeKing;
       // currentDealer.hand.addCardToHand = testCard.heartAce;
+
+      //Test 21+3 King 3 Kind
+      // currentDealer.hand.addCardToHand = testCard.diamondKing;
+      // currentDealer.hand.addCardToHand = testCard.spade7;
+      // currentDealer.hand.addCardToHand = testCard.spadeJack;
 
       // return dealerHand;
     })

@@ -335,6 +335,7 @@ export function calcPerfect11s(playerHand) {
   let winHand;
   let natural;
   let infinityCount = this.infinityCount;
+  // let infinityCount = 3;
 
   playerHand.outcome == `natural` ? (natural = true) : (natural = false);
 

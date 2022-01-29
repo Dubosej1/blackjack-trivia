@@ -494,7 +494,7 @@ class SideBet extends Bet {
   //Check For Specific Sequence of properties
 
   checkStraightSequence(cardArr) {
-    let straightMatch;
+    let straightMatch, straightAceLowMatch, straightAceHighMatch;
     let aceInHand = cardArr.some((obj) => obj.value == "ACE");
 
     if (aceInHand) {
@@ -505,17 +505,21 @@ class SideBet extends Bet {
         this.convertCardValue(obj.value, `acehigh`)
       );
       this.checkOrder(valueArrAceLow)
+        ? (straightAceLowMatch = true)
+        : (straightAceLowMatch = false);
+      this.checkOrder(valueArrAceHigh)
+        ? (straightAceHighMatch = true)
+        : (straightAceHighMatch = false);
+
+      straightAceLowMatch || straightAceHighMatch
         ? (straightMatch = true)
         : (straightMatch = false);
-      this.checkOrder(valueArrAceHigh)
+    } else {
+      let valueArr = cardArr.map((obj) => this.convertCardValue(obj.value));
+      this.checkOrder(valueArr)
         ? (straightMatch = true)
         : (straightMatch = false);
     }
-
-    let valueArr = cardArr.map((obj) => this.convertCardValue(obj.value));
-    this.checkOrder(valueArr)
-      ? (straightMatch = true)
-      : (straightMatch = false);
     return straightMatch;
   }
 
