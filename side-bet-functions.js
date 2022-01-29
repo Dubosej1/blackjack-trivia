@@ -443,7 +443,51 @@ export function changeHouseMoneyWinnings(str) {
   this.outcomePackage.winnings = this.winnings;
 }
 
-function calcExtraBetBlackjack() {}
+export function initExtraBetBlackjackSequence(gameState) {
+  let baseBet = gameState.betObj.baseBet;
+  // let playerHand = gameState.player.hand;
+  // let dealerHand = gameState.dealer.hand;
+
+  this.baseBet = baseBet;
+  this.calcSideBet(gameState);
+  this.calcPayout();
+  this.getConditionText();
+  this.generateOutcomePackage();
+}
+
+export function calcExtraBetBlackjack(gameState) {
+  let dealerHand = gameState.dealer.hand;
+  let activeHand = gameState.player.currentSplitHand;
+  let playerHand;
+
+  if (activeHand == 0) playerHand = gameState.player.hand;
+  else playerHand = gameState.player.splitHands[0];
+
+  playerHand.playerType = `player`;
+  dealerHand.playerType = `dealer`;
+
+  let winKey;
+  let winHand = [`player`, `dealer`];
+  let handArr = [playerHand, dealerHand];
+
+  if (
+    playerHand.roundOutcome == `win` ||
+    playerHand.roundOutcome == `natural`
+  ) {
+    this.winKey = `win`;
+    this.outcome = `win`;
+  } else if (playerHand.roundOutcome == `push`) {
+    this.winKey = `push`;
+    this.outcome = `push`;
+  } else {
+    this.winKey = `lose`;
+    this.outcome = `lose`;
+  }
+
+  if (this.winKey == `lose`) return;
+
+  this.generateWinHand(winHand, handArr);
+}
 
 // function calcExtraBetFee() {
 //   this.fee = this.tempTotal * 0.2;
@@ -451,7 +495,7 @@ function calcExtraBetBlackjack() {}
 // }
 export function calcExtraBetFee() {
   this.fee = this.tempValue.bet * 0.2;
-  this.tempValue.bank = this.tempValue.bet - this.fee;
+  this.tempValue.bank -= this.fee;
 }
 
 export function initLuckyLadies(gameState) {

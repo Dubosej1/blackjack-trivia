@@ -359,7 +359,8 @@ class SideBet extends Bet {
   getSideBetAmountInfoText() {
     let text;
 
-    if (this.key == `extraBetBlackjack`) text = `${this.name} : Bet Activated`;
+    if (this.key == `extraBetBlackjack`)
+      text = `${this.name} : Bet Activated <br>`;
     else text = `${this.name} : $${this.tempValue.bet} Bet <br>`;
 
     return text;
@@ -793,6 +794,7 @@ export function generateSideBetObj(name) {
       break;
     case `extraBetBlackjack`:
       sideBet = new SideBet(sideBetMod.extraBetBlackjack);
+      sideBet.checkValidBet = sideBetFunc.checkValidExtraBetBlackjack;
       sideBet.calcExtraBetFee = sideBetFunc.calcExtraBetFee;
       break;
     case `houseMoney`:

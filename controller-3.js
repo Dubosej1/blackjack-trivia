@@ -137,7 +137,7 @@ export function determineBeginGameRoutineOrder(gameState) {
   let extraBetBJExists = betObj.checkSideBetExists(`extraBetBlackjack`);
   if (extraBetBJExists) {
     let extraBetBJObj = betObj.getSideBet(`extraBetBlackjack`);
-    extraBetBJObj.initSideBet(playerHand)
+    extraBetBJObj.checkValidBet(playerHand)
       ? (beginGameRoutineOrder.extraBet = true)
       : (beginGameRoutineOrder.extraBet = false);
   }
@@ -616,6 +616,7 @@ export function placeExtraBet(event, gameState) {
     sideBetObj = gameState.betObj.getSideBet(`extraBetBlackjack`);
     let bank = sideBetObj.lockInExtraBet();
     gameState.betObj.bank = bank;
+    gameState.updateBank(bank);
   }
   if (sideBet == `raiseTheRoof`) {
     sideBetObj = gameState.betObj.getSideBet(`raiseTheRoof`);

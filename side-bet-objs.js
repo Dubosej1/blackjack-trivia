@@ -103,10 +103,14 @@ export const extraBetBlackjack = {
   key: `extraBetBlackjack`,
   rules: `rules`,
   beginningSideBetCheck: true,
-  sequencePlacement: `end`,
+  sequencePlacement: `ending`,
   naturalEnd: false,
-  outcomeTable: { payout: `0`, text: `n/a` },
-  initSideBet: sideBetFunc.checkValidExtraBetBlackjack,
+  outcomeTable: {
+    win: { payout: `2:1`, text: `Player wins hand` },
+    push: { payout: `1:1`, text: `Player pushes hand` },
+    lose: { payout: `0`, text: `Player loses hand` },
+  },
+  initSideBet: sideBetFunc.initExtraBetBlackjackSequence,
   calcSideBet: sideBetFunc.calcExtraBetBlackjack,
 };
 
