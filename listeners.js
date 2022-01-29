@@ -573,7 +573,7 @@ function clearSideBetChipAmountCallback(event) {
 }
 
 function placeSideBetsBtnCallback(event) {
-  view.updateBasicBetInfo(globalState);
+  view.baseBetModal.updateModalInfo(globalState);
   controller.placeSideBets(event, globalState);
 }
 

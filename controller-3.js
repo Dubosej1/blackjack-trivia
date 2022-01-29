@@ -44,7 +44,7 @@ export function startNewRound(bank, options, specialNum) {
 
   // gameState.toggleGameActive(true);
 
-  view.openBaseBetModal(gameState);
+  view.baseBetModal.openModal(gameState);
   bjModel.initDeck(gameState);
 
   return;
@@ -366,7 +366,7 @@ export function clearRoundData(gameState) {
   let gameTimer;
 
   view.resetUI();
-  view.resetBasicBetModal(gameState);
+  view.baseBetModal.resetModal(gameState);
   state.addStateToLog(gameState);
   listeners.removeRoundEventListeners();
   listeners.addBeginGameOptionsBtnListener();
@@ -458,12 +458,12 @@ export function updateBaseBetChips(event, gameState) {
   let addend = parseInt(event.target.dataset.value, 10);
 
   gameState.betObj.addToTempBaseBet(addend);
-  view.updateBaseBetModalTotal(gameState);
+  view.baseBetModal.updateModalTotal(gameState);
 }
 
 export function clearBaseBetChips(event, gameState) {
   gameState.betObj.clearTempBaseBet();
-  view.updateBaseBetModalTotal(gameState);
+  view.baseBetModal.updateModalTotal(gameState);
 }
 
 export function updateSideBetContainer(event, gameState) {
@@ -501,10 +501,10 @@ export function placeSideBets(event, gameState) {
   let sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
   let bank = gameState.betObj.getTempBank();
 
-  view.updateBaseBetModalTotal(gameState);
+  view.baseBetModal.updateModalTotal(gameState);
 
   gameState.betObj.toggleSideBetPlacedModalActive(true);
-  view.toggleSideBetPlacedBtn(true, gameState);
+  view.baseBetModal.toggleSideBetPlacedBtn(true, gameState);
   view.activateSideBetsPlacedModal(gameState);
 }
 
@@ -528,8 +528,8 @@ export function clearAllSideBets(event, gameState) {
   view.resetSideBetModal(gameState);
 
   if (modalActive) {
-    view.updateBaseBetModalTotal(gameState);
-    view.toggleSideBetPlacedBtn(false);
+    view.baseBetModal.updateModalTotal(gameState);
+    view.baseBetModal.toggleSideBetPlacedBtn(false);
     view.deactivateSideBetsPlacedModal();
     gameState.betObj.toggleSideBetPlacedModalActive(false);
   }

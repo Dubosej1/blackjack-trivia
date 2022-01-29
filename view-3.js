@@ -52,72 +52,120 @@ export let gameInfoFields = {
   },
 };
 
-// export function updateBank(bank) {
-//   const bankField = document.querySelector(`.bank__value`);
-//   bankField.textContent = bank;
-// }
+export let baseBetModal = {
+  bankValue: document.querySelector(`.basic-bet-modal__bank-value`),
+  baseBetValue: document.querySelector(`.basic-bet-modal__bet-value`),
+  sideBetPlacedBtn: document.querySelector(
+    `.btn-basic-bet-modal__side-bet-placed`
+  ),
+  chipBtns: document.querySelectorAll(`.btn-basic-bet-modal__chip`),
 
-// export function updateBaseBet(bet) {
-//   const baseBetField = document.querySelector(`.bet__value`);
-//   baseBetField.textContent = bet;
-// }
+  enableChipBtn: enableChipBtn,
+  disableChipBtn: disableChipBtn,
 
-// export function toggleDoubleDownMarker(boolean) {
-//   const doubleDownMarker = document.querySelector(
-//     `.round-info__double-down-marker`
+  //replaces openBaseBetModal
+  openModal(gameState) {
+    let bank = gameState.bank;
+
+    this.bankValue.textContent = bank;
+
+    this.checkChipBtnsValid(bank);
+
+    popbox.open(`basic-bet-modal`);
+  },
+
+  //replace checkBasicBetChipBtnsValid
+  checkChipBtnsValid(value) {
+    this.chipBtns.forEach(function (btn) {
+      value >= btn.dataset.value
+        ? this.enableChipBtn(btn)
+        : this.disableChipBtn(btn);
+    }, this);
+  },
+
+  //replaces updateBaseBetModalTotal
+  updateModalTotal(gameState) {
+    let betTotal = gameState.betObj.getTempBaseBet();
+    this.baseBetValue.textContent = betTotal;
+
+    let bank = gameState.betObj.getTempBank();
+    this.bankValue.textContent = bank;
+
+    this.checkChipBtnsValid(bank);
+  },
+
+  //replaces updateBasicBetInfo
+  updateModalInfo(gameState) {
+    this.bankValue.textContent = gameState.bank;
+  },
+
+  //replaces resetBasicBetModal
+  resetModal(gameState) {
+    this.bankValue.textContent = gameState.bank;
+    this.baseBetValue.textContent = 0;
+    this.toggleSideBetPlacedBtn(false);
+  },
+
+  //replaces toggleSideBetPlacedBtn
+  toggleSideBetPlacedBtn(toggle, gameState = null) {
+    if (toggle) {
+      const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
+      this.sideBetPlacedBtn.style.display = `inline-block`;
+      this.sideBetPlacedBtn.textContent = `Side Bets Placed $${sideBetTotal}`;
+    } else {
+      this.sideBetPlacedBtn.style.display = `none`;
+      this.sideBetPlacedBtn.textContent = `Side Bets Placed`;
+    }
+  },
+};
+
+// export function openBaseBetModal(gameState) {
+//   const basicBetModal__BankValue = document.querySelector(
+//     ".basic-bet-modal__bank-value"
 //   );
 
-//   if (boolean) doubleDownMarker.style.display = `inline`;
-//   else doubleDownMarker.style.display = `none`;
+//   let bank = gameState.bank;
+
+//   basicBetModal__BankValue.textContent = bank;
+
+//   checkBasicBetChipBtnsValid(bank);
+
+//   popbox.open(`basic-bet-modal`);
 // }
 
-export function openBaseBetModal(gameState) {
-  const basicBetModal__BankValue = document.querySelector(
-    ".basic-bet-modal__bank-value"
-  );
+// export function updateBaseBetModalTotal(gameState) {
+//   const basicBetModal__BankValue = document.querySelector(
+//     ".basic-bet-modal__bank-value"
+//   );
+//   const basicBetModal__BetValue = document.querySelector(
+//     ".basic-bet-modal__bet-value"
+//   );
 
-  let bank = gameState.bank;
+//   // let betTotal = gameState.betObj.tempBaseBet;
+//   let betTotal = gameState.betObj.getTempBaseBet();
+//   // let bank = gameState.betObj.tempBank;
+//   let bank = gameState.betObj.getTempBank();
 
-  basicBetModal__BankValue.textContent = bank;
+//   basicBetModal__BankValue.textContent = bank;
+//   basicBetModal__BetValue.textContent = betTotal;
 
-  checkBasicBetChipBtnsValid(bank);
+//   checkBasicBetChipBtnsValid(bank);
+// }
 
-  popbox.open(`basic-bet-modal`);
-}
+// export function updateBasicBetInfo(gameState) {
+//   const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
 
-export function updateBaseBetModalTotal(gameState) {
-  const basicBetModal__BankValue = document.querySelector(
-    ".basic-bet-modal__bank-value"
-  );
-  const basicBetModal__BetValue = document.querySelector(
-    ".basic-bet-modal__bet-value"
-  );
+//   bankValue.textContent = gameState.betObj.tempValue.bank;
+// }
 
-  // let betTotal = gameState.betObj.tempBaseBet;
-  let betTotal = gameState.betObj.getTempBaseBet();
-  // let bank = gameState.betObj.tempBank;
-  let bank = gameState.betObj.getTempBank();
+// export function resetBasicBetModal(gameState) {
+//   const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
+//   const betValue = document.querySelector(`.basic-bet-modal__bet-value`);
 
-  basicBetModal__BankValue.textContent = bank;
-  basicBetModal__BetValue.textContent = betTotal;
-
-  checkBasicBetChipBtnsValid(bank);
-}
-
-export function updateBasicBetInfo(gameState) {
-  const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
-
-  bankValue.textContent = gameState.betObj.tempValue.bank;
-}
-
-export function resetBasicBetModal(gameState) {
-  const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
-  const betValue = document.querySelector(`.basic-bet-modal__bet-value`);
-
-  bankValue.textContent = gameState.bank;
-  betValue.textContent = 0;
-  toggleSideBetPlacedBtn(false);
-}
+//   bankValue.textContent = gameState.bank;
+//   betValue.textContent = 0;
+//   toggleSideBetPlacedBtn(false);
+// }
 
 export function collectSideBet() {
   const elem = document.querySelector(`.side-bet-modal__active-bet`);
@@ -252,19 +300,19 @@ export function resetSideBetModal(gameState) {
   });
 }
 
-export function toggleSideBetPlacedBtn(boolean, gameState = null) {
-  const sideBetPlacedBtn = document.querySelector(
-    `.btn-basic-bet-modal__side-bet-placed`
-  );
-  if (boolean) {
-    const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-    sideBetPlacedBtn.style.display = `inline-block`;
-    sideBetPlacedBtn.textContent = `Side Bets Placed $${sideBetTotal}`;
-  } else {
-    sideBetPlacedBtn.style.display = `none`;
-    sideBetPlacedBtn.textContent = `Side Bets Placed`;
-  }
-}
+// export function toggleSideBetPlacedBtn(boolean, gameState = null) {
+//   const sideBetPlacedBtn = document.querySelector(
+//     `.btn-basic-bet-modal__side-bet-placed`
+//   );
+//   if (boolean) {
+//     const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
+//     sideBetPlacedBtn.style.display = `inline-block`;
+//     sideBetPlacedBtn.textContent = `Side Bets Placed $${sideBetTotal}`;
+//   } else {
+//     sideBetPlacedBtn.style.display = `none`;
+//     sideBetPlacedBtn.textContent = `Side Bets Placed`;
+//   }
+// }
 
 export function activateSideBetsPlacedModal(gameState) {
   const modalTitleField = document.querySelector(`.generic-modal__title`);
