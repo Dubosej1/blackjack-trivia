@@ -47,6 +47,8 @@ export function startNewRound(bank, options, specialNum) {
   view.openBaseBetModal(gameState);
   bjModel.initDeck(gameState);
 
+  return;
+
   function initializeGameObjs(bank, options, specialNum) {
     let gameState = state.initNewState(bank, options, specialNum);
 
@@ -74,20 +76,35 @@ export function startNewRound(bank, options, specialNum) {
 
 export function startDealCardsRoutine(event, gameState) {
   gameState.updateNoticeText = `Cards Dealt...`;
-  gameState.betObj.lockInBets();
-  let newBank = gameState.betObj.getBank();
-  let newBaseBet = gameState.betObj.getBaseBet();
-  gameState.updateBank(newBank);
-  view.updateBaseBet(newBaseBet);
 
-  gameState.updatePlayer = gameState.player;
-  gameState.updateDealer = gameState.dealer;
-  let playerHand = gameState.player.hand;
-  let dealerHand = gameState.dealer.hand;
+  updateGameStateBetInfo(gameState);
 
-  if (gameState.betObj.checkForBeginningSideBetBtn())
-    view.toggleCheckSideBetBtn(true);
-  else beginGameRoutinePart2(gameState);
+  updateGameStateCardHolderObjs(gameState);
+
+  prepareBeginGameRoutine(gameState);
+
+  return;
+
+  function updateGameStateBetInfo(gameState) {
+    gameState.betObj.lockInBets();
+
+    let newBank = gameState.betObj.getBank();
+    gameState.updateBank(newBank);
+
+    let newBaseBet = gameState.betObj.getBaseBet();
+    view.updateBaseBet(newBaseBet);
+  }
+
+  function updateGameStateCardHolderObjs(gameState) {
+    gameState.updatePlayer = gameState.player;
+    gameState.updateDealer = gameState.dealer;
+  }
+
+  function prepareBeginGameRoutine(gameState) {
+    if (gameState.betObj.checkForBeginningSideBetBtn())
+      view.toggleCheckSideBetBtn(true);
+    else beginGameRoutinePart2(gameState);
+  }
 }
 
 export function determineBeginGameRoutineOrder(gameState) {
