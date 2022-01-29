@@ -92,7 +92,7 @@ export function addNewRoundEventListeners(gameState) {
     surrender: surrenderBtnListenerCallback,
   };
 
-  view.addGameActionBtnListeners(gameActionBtnClbkObj);
+  view.gameActionBtns.toggleEventListeners(gameActionBtnClbkObj, `add`);
 }
 
 export function removeRoundEventListeners() {

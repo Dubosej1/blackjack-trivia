@@ -1,5 +1,38 @@
 import * as listeners from "./listeners.js";
 
+export let gameActionBtns = {
+  hit: document.querySelector(`.btn-action__hit`),
+  stand: document.querySelector(`.btn-action__stand`),
+  doubleDown: document.querySelector(`.btn-action__doubleDown`),
+  split: document.querySelector(`.btn-action__split`),
+  surrender: document.querySelector(`.btn-action__surrender`),
+
+  renderBtns(btnState) {
+    let changeArr = Object.entries(btnState);
+
+    changeArr.forEach(function (arr) {
+      let [key, boolean] = arr;
+
+      this.toggleEnableBtn(this[key], boolean);
+    }, this);
+  },
+
+  toggleEnableBtn(prop, boolean) {
+    prop.disabled = !boolean;
+  },
+
+  toggleEventListeners(funcObj, toggle) {
+    let keysArr = Object.entries(funcObj);
+
+    keysArr.forEach(function (arr) {
+      let [key, clbk] = arr;
+
+      if (toggle == `add`) this[key].addEventListener(`click`, clbk);
+      else this[key].removeEventListener(`click`, clbk);
+    }, this);
+  },
+};
+
 export function updateBank(bank) {
   const bankField = document.querySelector(`.bank__value`);
   bankField.textContent = bank;
@@ -1387,47 +1420,6 @@ export function displayHouseMoneyModal(gameState) {
 //     elem.disabled = !boolean;
 //   }
 // }
-
-let gameActionBtns = {
-  hit: document.querySelector(`.btn-action__hit`),
-  stand: document.querySelector(`.btn-action__stand`),
-  doubleDown: document.querySelector(`.btn-action__doubleDown`),
-  split: document.querySelector(`.btn-action__split`),
-  surrender: document.querySelector(`.btn-action__surrender`),
-
-  renderGameActionBtns(btnState) {
-    let changeArr = Object.entries(btnState);
-
-    changeArr.forEach(function (arr) {
-      let [key, boolean] = arr;
-
-      this.toggleEnableBtn(this[key], boolean);
-    }, this);
-  },
-
-  toggleEnableBtn(prop, boolean) {
-    prop.disabled = !boolean;
-  },
-
-  toggleEventListeners(funcObj, toggle) {
-    let keysArr = Object.entries(funcObj);
-
-    keysArr.forEach(function (arr) {
-      let [key, clbk] = arr;
-
-      if (toggle == `add`) this[key].addEventListener(`click`, clbk);
-      else this[key].removeEventListener(`click`, clbk);
-    }, this);
-  },
-};
-
-export function renderGameActionBtns(btnState) {
-  gameActionBtns.renderGameActionBtns(btnState);
-}
-
-export function addGameActionBtnListeners(funcObj) {
-  gameActionBtns.toggleEventListeners(funcObj, `add`);
-}
 
 export function renderNoticeText(str) {
   const noticeField = document.querySelector(`.game-message__text`);

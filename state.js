@@ -222,7 +222,8 @@ class State {
 
   set toggleEnableActionBtns(obj) {
     this.actionBtnState = { ...this.actionBtnState, ...obj };
-    view.renderGameActionBtns(this.actionBtnState);
+    // view.renderGameActionBtns(this.actionBtnState);
+    view.gameActionBtns.renderBtns(this.actionBtnState);
   }
 
   set updateNoticeText(str) {
