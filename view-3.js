@@ -119,227 +119,317 @@ export let baseBetModal = {
   },
 };
 
-// export function openBaseBetModal(gameState) {
-//   const basicBetModal__BankValue = document.querySelector(
-//     ".basic-bet-modal__bank-value"
-//   );
+export let sideBetModal = {
+  bankValue: document.querySelector(`.side-bet-modal__bank-value`),
+  totalValue: document.querySelector(`.side-bet-modal__total-value`),
+  activeBetElem: document.querySelector(`.side-bet-modal__active-bet`),
+  activeValueElem: document.querySelector(`.side-bet-modal__active-value`),
+  chipBtns: document.querySelectorAll(`.btn-side-bet-modal__chip`),
+  activateBetBtn: document.querySelector(`.btn-side-bet-modal__activate-bet`),
+  sideBetValueFields: document.querySelectorAll(
+    `.side-bet-modal__side-bet-value`
+  ),
+  chipBtns: document.querySelectorAll(`.btn-side-bet-modal__chip`),
+  enableChipBtn: enableChipBtn,
+  disableChipBtn: disableChipBtn,
 
-//   let bank = gameState.bank;
+  //replaces updateSideBetModalInfo
+  updateModalInfo(gameState) {
+    this.bankValue.textContent = gameState.betObj.tempValue.bank;
+  },
 
-//   basicBetModal__BankValue.textContent = bank;
+  //replaces clearSideBetModal
+  clearModal(gameState) {
+    this.totalValue.textContent = 0;
+    this.bankValue.textContent = 0;
+    this.sideBetValueFields.forEach(function (elem) {
+      elem.textContent = 0;
+    });
+  },
 
-//   checkBasicBetChipBtnsValid(bank);
+  //replaces resetSideBetModal
+  resetModal(gameState) {
+    const bank = gameState.betObj.getTempBank();
 
-//   popbox.open(`basic-bet-modal`);
-// }
+    this.totalValue.textContent = 0;
+    this.bankValue.textContent = bank;
+    this.sideBetValueFields.forEach(function (elem) {
+      elem.textContent = 0;
+    });
+  },
 
-// export function updateBaseBetModalTotal(gameState) {
-//   const basicBetModal__BankValue = document.querySelector(
-//     ".basic-bet-modal__bank-value"
-//   );
-//   const basicBetModal__BetValue = document.querySelector(
-//     ".basic-bet-modal__bet-value"
-//   );
+  //replaces updateSideBetModalTotals
+  updateModalTotals(sideBet, gameState) {
+    let sideBetObj = gameState.betObj.getSideBet(sideBet);
+    let sideBetValue = sideBetObj.getTempBet();
+    let sideBetTotalValue = gameState.betObj.getTempSideBetTotalValue();
+    let bank = gameState.betObj.getTempBank();
 
-//   // let betTotal = gameState.betObj.tempBaseBet;
-//   let betTotal = gameState.betObj.getTempBaseBet();
-//   // let bank = gameState.betObj.tempBank;
-//   let bank = gameState.betObj.getTempBank();
+    this.activeValueElem.textContent = sideBetValue;
+    this.totalValue.textContent = sideBetTotalValue;
+    this.bankValue.textContent = bank;
+    this.checkChipBtnsValid(bank);
+  },
 
-//   basicBetModal__BankValue.textContent = bank;
-//   basicBetModal__BetValue.textContent = betTotal;
+  collectSideBet() {
+    const elem = document.querySelector(`.side-bet-modal__active-bet`);
 
-//   checkBasicBetChipBtnsValid(bank);
-// }
+    const sideBet = elem.dataset.sidebet;
+    return sideBet;
+  },
 
-// export function updateBasicBetInfo(gameState) {
-//   const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
+  activateSideBetSelectedText(sideBet) {
+    switch (sideBet) {
+      case "extraBetBlackjack":
+        document.querySelector(
+          `.extra-bet-blackjack__value`
+        ).textContent = `Activated`;
+        break;
+      default:
+        console.log(`ERROR: activateSideBetSelectedText`);
+    }
+  },
 
-//   bankValue.textContent = gameState.betObj.tempValue.bank;
-// }
+  addActiveElementToBetContainer(event) {
+    removeActiveFieldClasses(this);
 
-// export function resetBasicBetModal(gameState) {
-//   const bankValue = document.querySelector(`.basic-bet-modal__bank-value`);
-//   const betValue = document.querySelector(`.basic-bet-modal__bet-value`);
+    const elem = event.target.closest(`.side-bet-modal__side-bet-div`);
+    const elemBetField = elem.querySelector(`.side-bet-modal__side-bet-value`);
 
-//   bankValue.textContent = gameState.bank;
-//   betValue.textContent = 0;
-//   toggleSideBetPlacedBtn(false);
-// }
+    if (elem.dataset.betType == `no-chip`) toggleActivateSideBetBtn(true, this);
+    else toggleActivateSideBetBtn(false, this);
 
-export function collectSideBet() {
-  const elem = document.querySelector(`.side-bet-modal__active-bet`);
+    elem.classList.add(`side-bet-modal__active-bet`);
+    elemBetField.classList.add(`side-bet-modal__active-value`);
 
-  const sideBet = elem.dataset.sidebet;
-  return sideBet;
-}
+    this.activeBetElem = elem;
+    this.activeValueElem = elemBetField;
 
-export function activateSideBetSelectedText(sideBet) {
-  switch (sideBet) {
-    case "extraBetBlackjack":
-      document.querySelector(
-        `.extra-bet-blackjack__value`
-      ).textContent = `Activated`;
-      break;
-    default:
-      console.log(`ERROR: activateSideBetSelectedText`);
-  }
-}
+    function removeActiveFieldClasses(modalObj) {
+      modalObj.activeBetElem.classList.remove(`side-bet-modal__active-bet`);
+      modalObj.activeValueElem.classList.remove(`side-bet-modal__active-value`);
+    }
 
-export function addActiveElementToBetContainer(event) {
-  const activeBetElem = document.querySelector(`.side-bet-modal__active-bet`);
+    function toggleActivateSideBetBtn(toggle, modalObj) {
+      if (toggle) {
+        modalObj.chipBtns.forEach(function (elem) {
+          elem.style.display = `none`;
+        });
+        modalObj.activateBetBtn.style.display = `inline-block`;
+      } else {
+        modalObj.chipBtns.forEach(function (elem) {
+          elem.style.display = `inline-block`;
+        });
+        modalObj.activateBetBtn.style.display = `none`;
+      }
+    }
+  },
 
-  activeBetElem.classList.remove(`side-bet-modal__active-bet`);
+  checkChipBtnsValid(value) {
+    this.chipBtns.forEach(function (btn) {
+      value >= btn.dataset.value
+        ? this.enableChipBtn(btn)
+        : this.disableChipBtn(btn);
+    }, this);
+  },
+};
 
-  const activeValueElem = document.querySelector(
-    `.side-bet-modal__active-value`
-  );
+export let sideBetPlacedModal = {
+  titleField: document.querySelector(`.generic-modal__title`),
+  mainContainer: document.querySelector(`.generic-modal__main`),
+  nextBtn: document.querySelector(`.btn-generic-modal__next`),
+  closeBtn: document.querySelector(`.btn-generic-modal__close`),
+  toggleDisplayBtn: toggleDisplayBtn,
 
-  activeValueElem.classList.remove(`side-bet-modal__active-value`);
-
-  //   const elem = event.target;
-  const elem = event.target.closest(`.side-bet-modal__side-bet-div`);
-  const elemBetField = elem.querySelector(`.side-bet-modal__side-bet-value`);
-
-  if (elem.dataset.betType == `no-chip`) toggleActivateSideBetBtn(true);
-  else toggleActivateSideBetBtn(false);
-
-  elem.classList.add(`side-bet-modal__active-bet`);
-  elemBetField.classList.add(`side-bet-modal__active-value`);
-
-  function toggleActivateSideBetBtn(toggle) {
-    const chipBtns = document.querySelectorAll(`.btn-side-bet-modal__chip`);
-    const activateBetBtn = document.querySelector(
-      `.btn-side-bet-modal__activate-bet`
-    );
+  //replaces both activateSideBetPlacedModal (true) & deactivateSideBetPlacedModal (false)
+  toggleActivateModal(toggle, gameState = null) {
+    let dataObj = {
+      closeBtn: true,
+    };
 
     if (toggle) {
-      chipBtns.forEach(function (elem) {
-        elem.style.display = `none`;
-      });
-      activateBetBtn.style.display = `inline-block`;
+      dataObj.titleText = `Side Bets Placed`;
+      dataObj.modalText = gameState.betObj.getSideBetsPlacedModalText();
+      dataObj.nextBtn = false;
     } else {
-      chipBtns.forEach(function (elem) {
-        elem.style.display = `inline-block`;
-      });
-      activateBetBtn.style.display = `none`;
+      dataObj.titleText = `Generic Modal`;
+      dataObj.modalText = ` `;
+      dataObj.nextBtn = true;
     }
-  }
+
+    this.renderModalFields(dataObj);
+  },
+
+  renderModalFields(dataObj) {
+    this.titleField.textContent = dataObj.titleText;
+    this.mainContainer.innerHTML = dataObj.modalText;
+
+    this.toggleDisplayBtn(this.nextBtn, dataObj.nextBtn);
+    this.toggleDisplayBtn(this.closeBtn, dataObj.closeBtn);
+  },
+};
+
+function toggleDisplayBtn(elem, toggle) {
+  toggle
+    ? (elem.style.display = `inline-block`)
+    : (elem.style.display = `none`);
 }
 
-export function updateSideBetModalTotals(sideBet, gameState) {
-  const activeSideBetValueField = document.querySelector(
-    `.side-bet-modal__active-value`
-  );
-  const sideBetTotalField = document.querySelector(
-    `.side-bet-modal__total-value`
-  );
+// export function collectSideBet() {
+//   const elem = document.querySelector(`.side-bet-modal__active-bet`);
 
-  const sideBetBankField = document.querySelector(
-    `.side-bet-modal__bank-value`
-  );
+//   const sideBet = elem.dataset.sidebet;
+//   return sideBet;
+// }
 
-  let sideBetObj = gameState.betObj.getSideBet(sideBet);
-  // let sideBetValue = sideBetObj.getTempTotal();
-  let sideBetValue = sideBetObj.getTempBet();
-  let sideBetTotalValue = gameState.betObj.getTempSideBetTotalValue();
-  // let bank = gameState.betObj.tempBank;
-  let bank = gameState.betObj.getTempBank();
-
-  activeSideBetValueField.textContent = sideBetValue;
-  sideBetTotalField.textContent = sideBetTotalValue;
-  sideBetBankField.textContent = bank;
-  checkSideBetChipBtnsValid(bank);
-}
-
-export function updateSideBetModalInfo(gameState) {
-  const sideBetBankField = document.querySelector(
-    `.side-bet-modal__bank-value`
-  );
-
-  sideBetBankField.textContent = gameState.betObj.tempValue.bank;
-}
-
-export function clearSideBetModal(gameState) {
-  const sideBetTotalField = document.querySelector(
-    `.side-bet-modal__total-value`
-  );
-
-  const sideBetBankField = document.querySelector(
-    `.side-bet-modal__bank-value`
-  );
-  const sideBetValueFields = document.querySelectorAll(
-    `.side-bet-modal__side-bet-value`
-  );
-  // const bank = gameState.betObj.getTempBank();
-
-  sideBetTotalField.textContent = 0;
-  sideBetBankField.textContent = 0;
-  sideBetValueFields.forEach(function (elem) {
-    elem.textContent = 0;
-  });
-}
-
-export function resetSideBetModal(gameState) {
-  const sideBetTotalField = document.querySelector(
-    `.side-bet-modal__total-value`
-  );
-
-  const sideBetBankField = document.querySelector(
-    `.side-bet-modal__bank-value`
-  );
-  const sideBetValueFields = document.querySelectorAll(
-    `.side-bet-modal__side-bet-value`
-  );
-  const bank = gameState.betObj.getTempBank();
-
-  sideBetTotalField.textContent = 0;
-  sideBetBankField.textContent = bank;
-  sideBetValueFields.forEach(function (elem) {
-    elem.textContent = 0;
-  });
-}
-
-// export function toggleSideBetPlacedBtn(boolean, gameState = null) {
-//   const sideBetPlacedBtn = document.querySelector(
-//     `.btn-basic-bet-modal__side-bet-placed`
-//   );
-//   if (boolean) {
-//     const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-//     sideBetPlacedBtn.style.display = `inline-block`;
-//     sideBetPlacedBtn.textContent = `Side Bets Placed $${sideBetTotal}`;
-//   } else {
-//     sideBetPlacedBtn.style.display = `none`;
-//     sideBetPlacedBtn.textContent = `Side Bets Placed`;
+// export function activateSideBetSelectedText(sideBet) {
+//   switch (sideBet) {
+//     case "extraBetBlackjack":
+//       document.querySelector(
+//         `.extra-bet-blackjack__value`
+//       ).textContent = `Activated`;
+//       break;
+//     default:
+//       console.log(`ERROR: activateSideBetSelectedText`);
 //   }
 // }
 
-export function activateSideBetsPlacedModal(gameState) {
-  const modalTitleField = document.querySelector(`.generic-modal__title`);
-  const modalTextField = document.querySelector(`.generic-modal__main`);
-  const modalNextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const modalCloseBtn = document.querySelector(`.btn-generic-modal__close`);
-  modalTitleField.textContent = `Side Bets Placed`;
+// export function addActiveElementToBetContainer(event) {
+//   const activeBetElem = document.querySelector(`.side-bet-modal__active-bet`);
 
-  let modalText = gameState.betObj.getSideBetsPlacedModalText();
-  modalTextField.innerHTML = modalText;
+//   activeBetElem.classList.remove(`side-bet-modal__active-bet`);
 
-  modalNextBtn.style.display = `none`;
-  modalCloseBtn.style.display = `inline-block`;
-}
+//   const activeValueElem = document.querySelector(
+//     `.side-bet-modal__active-value`
+//   );
 
-export function deactivateSideBetsPlacedModal() {
-  const modalTitleField = document.querySelector(`.generic-modal__title`);
-  const modalTextField = document.querySelector(`.generic-modal__main`);
-  const modalNextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const modalCloseBtn = document.querySelector(`.btn-generic-modal__close`);
-  modalTitleField.textContent = `Generic Modal`;
+//   activeValueElem.classList.remove(`side-bet-modal__active-value`);
 
-  modalTextField.innerHTML = ` `;
+//   const elem = event.target.closest(`.side-bet-modal__side-bet-div`);
+//   const elemBetField = elem.querySelector(`.side-bet-modal__side-bet-value`);
 
-  modalNextBtn.style.display = "inline-block";
-  modalCloseBtn.style.display = `inline-block`;
-}
+//   if (elem.dataset.betType == `no-chip`) toggleActivateSideBetBtn(true);
+//   else toggleActivateSideBetBtn(false);
+
+//   elem.classList.add(`side-bet-modal__active-bet`);
+//   elemBetField.classList.add(`side-bet-modal__active-value`);
+
+//   function toggleActivateSideBetBtn(toggle) {
+//     const chipBtns = document.querySelectorAll(`.btn-side-bet-modal__chip`);
+//     const activateBetBtn = document.querySelector(
+//       `.btn-side-bet-modal__activate-bet`
+//     );
+
+//     if (toggle) {
+//       chipBtns.forEach(function (elem) {
+//         elem.style.display = `none`;
+//       });
+//       activateBetBtn.style.display = `inline-block`;
+//     } else {
+//       chipBtns.forEach(function (elem) {
+//         elem.style.display = `inline-block`;
+//       });
+//       activateBetBtn.style.display = `none`;
+//     }
+//   }
+// }
+
+// export function updateSideBetModalTotals(sideBet, gameState) {
+//   const activeSideBetValueField = document.querySelector(
+//     `.side-bet-modal__active-value`
+//   );
+//   const sideBetTotalField = document.querySelector(
+//     `.side-bet-modal__total-value`
+//   );
+
+//   const sideBetBankField = document.querySelector(
+//     `.side-bet-modal__bank-value`
+//   );
+
+//   let sideBetObj = gameState.betObj.getSideBet(sideBet);
+//   let sideBetValue = sideBetObj.getTempBet();
+//   let sideBetTotalValue = gameState.betObj.getTempSideBetTotalValue();
+//   let bank = gameState.betObj.getTempBank();
+
+//   activeSideBetValueField.textContent = sideBetValue;
+//   sideBetTotalField.textContent = sideBetTotalValue;
+//   sideBetBankField.textContent = bank;
+//   checkSideBetChipBtnsValid(bank);
+// }
+
+// export function updateSideBetModalInfo(gameState) {
+//   const sideBetBankField = document.querySelector(
+//     `.side-bet-modal__bank-value`
+//   );
+
+//   sideBetBankField.textContent = gameState.betObj.tempValue.bank;
+// }
+
+// export function clearSideBetModal(gameState) {
+//   const sideBetTotalField = document.querySelector(
+//     `.side-bet-modal__total-value`
+//   );
+
+//   const sideBetBankField = document.querySelector(
+//     `.side-bet-modal__bank-value`
+//   );
+//   const sideBetValueFields = document.querySelectorAll(
+//     `.side-bet-modal__side-bet-value`
+//   );
+
+//   sideBetTotalField.textContent = 0;
+//   sideBetBankField.textContent = 0;
+//   sideBetValueFields.forEach(function (elem) {
+//     elem.textContent = 0;
+//   });
+// }
+
+// export function resetSideBetModal(gameState) {
+//   const sideBetTotalField = document.querySelector(
+//     `.side-bet-modal__total-value`
+//   );
+
+//   const sideBetBankField = document.querySelector(
+//     `.side-bet-modal__bank-value`
+//   );
+//   const sideBetValueFields = document.querySelectorAll(
+//     `.side-bet-modal__side-bet-value`
+//   );
+//   const bank = gameState.betObj.getTempBank();
+
+//   sideBetTotalField.textContent = 0;
+//   sideBetBankField.textContent = bank;
+//   sideBetValueFields.forEach(function (elem) {
+//     elem.textContent = 0;
+//   });
+// }
+
+// export function activateSideBetsPlacedModal(gameState) {
+//   const modalTitleField = document.querySelector(`.generic-modal__title`);
+//   const modalTextField = document.querySelector(`.generic-modal__main`);
+//   const modalNextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const modalCloseBtn = document.querySelector(`.btn-generic-modal__close`);
+//   modalTitleField.textContent = `Side Bets Placed`;
+
+//   let modalText = gameState.betObj.getSideBetsPlacedModalText();
+//   modalTextField.innerHTML = modalText;
+
+//   modalNextBtn.style.display = `none`;
+//   modalCloseBtn.style.display = `inline-block`;
+// }
+
+// export function deactivateSideBetsPlacedModal() {
+//   const modalTitleField = document.querySelector(`.generic-modal__title`);
+//   const modalTextField = document.querySelector(`.generic-modal__main`);
+//   const modalNextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const modalCloseBtn = document.querySelector(`.btn-generic-modal__close`);
+//   modalTitleField.textContent = `Generic Modal`;
+
+//   modalTextField.innerHTML = ` `;
+
+//   modalNextBtn.style.display = "inline-block";
+//   modalCloseBtn.style.display = `inline-block`;
+// }
 
 // export function updateBasicBetChipAmount(event) {
 //   const basicBetModal__BankValue = document.querySelector(
@@ -1948,7 +2038,7 @@ export function resetUI() {
     `.grid__split-stages-container`
   );
 
-  clearSideBetModal();
+  sideBetModal.clearModal();
 
   gameInfoFields.toggleDoubleDownMarker(false);
 

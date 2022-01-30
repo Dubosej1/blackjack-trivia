@@ -467,7 +467,7 @@ export function clearBaseBetChips(event, gameState) {
 }
 
 export function updateSideBetContainer(event, gameState) {
-  view.addActiveElementToBetContainer(event);
+  view.sideBetModal.addActiveElementToBetContainer(event);
 }
 
 //"Choose Side Bet" Modal functions
@@ -475,7 +475,7 @@ export function updateSideBetContainer(event, gameState) {
 export function updateSideBetChips(event, gameState) {
   //Need error for when betAmount > bank
   let betObj = gameState.betObj;
-  let sideBet = view.collectSideBet();
+  let sideBet = view.sideBetModal.collectSideBet();
 
   if (!betObj.checkSideBetExists(sideBet)) {
     let sideBetObj = betModel.generateSideBetObj(sideBet);
@@ -486,15 +486,16 @@ export function updateSideBetChips(event, gameState) {
   let addend = parseInt(event.target.dataset.value, 10);
 
   gameState.betObj.updateSideBetAmount(sideBet, addend);
-  view.updateSideBetModalTotals(sideBet, gameState);
+  view.sideBetModal.updateModalTotals(sideBet, gameState);
 }
 
 export function clearSideBetChips(event, gameState) {
-  let sideBet = view.collectSideBet();
+  let sideBet = view.sideBetModal.collectSideBet();
   let betObj = gameState.betObj;
 
   betObj.clearTempSideBetAmount(sideBet);
-  view.updateSideBetModalTotals(sideBet, gameState);
+  view.sideBetModal.updateModalTotals(sideBet, gameState);
+  betObj.removeSideBetObj(sideBet);
 }
 
 export function placeSideBets(event, gameState) {
@@ -505,12 +506,12 @@ export function placeSideBets(event, gameState) {
 
   gameState.betObj.toggleSideBetPlacedModalActive(true);
   view.baseBetModal.toggleSideBetPlacedBtn(true, gameState);
-  view.activateSideBetsPlacedModal(gameState);
+  view.sideBetPlacedModal.toggleActivateModal(true, gameState);
 }
 
 export function activateSideBet(event, gameState) {
   let betObj = gameState.betObj;
-  let sideBet = view.collectSideBet();
+  let sideBet = view.sideBetModal.collectSideBet();
 
   if (!betObj.checkSideBetExists(sideBet)) {
     let sideBetObj = betModel.generateSideBetObj(sideBet);
@@ -518,19 +519,19 @@ export function activateSideBet(event, gameState) {
     gameState.betObj.addSideBetObj(sideBetObj);
   }
 
-  view.activateSideBetSelectedText(sideBet);
+  view.sideBetModal.activateSideBetSelectedText(sideBet);
 }
 
 export function clearAllSideBets(event, gameState) {
   let modalActive = gameState.betObj.sideBetPlacedModalActive;
 
   gameState.betObj.clearSideBetObjs();
-  view.resetSideBetModal(gameState);
+  view.sideBetModal.resetModal(gameState);
 
   if (modalActive) {
     view.baseBetModal.updateModalTotal(gameState);
     view.baseBetModal.toggleSideBetPlacedBtn(false);
-    view.deactivateSideBetsPlacedModal();
+    view.sideBetPlacedModal.toggleActivateModal(false);
     gameState.betObj.toggleSideBetPlacedModalActive(false);
   }
 }

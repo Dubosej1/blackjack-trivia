@@ -740,5 +740,5 @@ function endGameBtnCallback(event) {
 }
 
 function sideBetMenuBtnListener(event) {
-  view.updateSideBetModalInfo(globalState);
+  view.sideBetModal.updateModalInfo(globalState);
 }

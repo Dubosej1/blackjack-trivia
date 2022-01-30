@@ -113,6 +113,12 @@ class Bet {
     else return false;
   }
 
+  removeSideBetObj(sideBet) {
+    this.sideBetObjs.forEach(function (obj, index, arr) {
+      if (obj.key == sideBet) arr.splice(index, 1);
+    });
+  }
+
   clearSideBetObjs() {
     //   let length = this.sideBet.length;
 
