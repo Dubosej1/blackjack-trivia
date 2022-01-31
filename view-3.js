@@ -863,202 +863,462 @@ export const optionsModal = {
   // },
 };
 
-export function collectOptions() {
-  let options = {};
+// export function collectOptions() {
+//   let options = {};
 
-  let form = document.querySelector(`.options-modal__form`);
-  let formData = new FormData(form);
+//   let form = document.querySelector(`.options-modal__form`);
+//   let formData = new FormData(form);
 
-  if (formData.get(`toggle-trivia`) == `trivia-off`) options.triviaMode = false;
-  else options.triviaMode = true;
+//   if (formData.get(`toggle-trivia`) == `trivia-off`) options.triviaMode = false;
+//   else options.triviaMode = true;
 
-  if (formData.get(`toggle-side-bets`) == `side-bets-off`)
-    options.sideBets = false;
-  else options.sideBets = true;
+//   if (formData.get(`toggle-side-bets`) == `side-bets-off`)
+//     options.sideBets = false;
+//   else options.sideBets = true;
 
-  if (formData.get(`blackjack-payout`) == `blackjack-2-to-1`)
-    options.blackjackPayout = `2:1`;
-  else if (formData.get(`blackjack-payout`) == `blackjack-6-to-5`)
-    options.blackjackPayout = `6:5`;
-  else options.blackjackPayout = `3:2`;
+//   if (formData.get(`blackjack-payout`) == `blackjack-2-to-1`)
+//     options.blackjackPayout = `2:1`;
+//   else if (formData.get(`blackjack-payout`) == `blackjack-6-to-5`)
+//     options.blackjackPayout = `6:5`;
+//   else options.blackjackPayout = `3:2`;
 
-  if (formData.get(`dealer-stands`) == `soft-16`)
-    options.dealerStandsOn = `soft16`;
-  else if (formData.get(`dealer-stands`) == `hard-16`)
-    options.dealerStandsOn = `hard16`;
-  else if (formData.get(`dealer-stands`) == `hard-17`)
-    options.dealerStandsOn = `hard17`;
-  else options.dealerStandsOn = `soft17`;
+//   if (formData.get(`dealer-stands`) == `soft-16`)
+//     options.dealerStandsOn = `soft16`;
+//   else if (formData.get(`dealer-stands`) == `hard-16`)
+//     options.dealerStandsOn = `hard16`;
+//   else if (formData.get(`dealer-stands`) == `hard-17`)
+//     options.dealerStandsOn = `hard17`;
+//   else options.dealerStandsOn = `soft17`;
 
-  let deckCount = formData.get(`deck-count`);
-  if (deckCount) options.deckCount = deckCount;
-  else options.deckCount = 6;
+//   let deckCount = formData.get(`deck-count`);
+//   if (deckCount) options.deckCount = deckCount;
+//   else options.deckCount = 6;
 
-  if (formData.get(`disable-five-card-charlie`) == `true`)
-    options.fiveCardCharlie = false;
-  else options.fiveCardCharlie = true;
+//   if (formData.get(`disable-five-card-charlie`) == `true`)
+//     options.fiveCardCharlie = false;
+//   else options.fiveCardCharlie = true;
 
-  if (formData.get(`split-any-ten`) == `true`) options.splitAnyTens = true;
-  else options.splitAnyTens = false;
+//   if (formData.get(`split-any-ten`) == `true`) options.splitAnyTens = true;
+//   else options.splitAnyTens = false;
 
-  if (formData.get(`double-after-split`) == `true`)
-    options.doubleAfterSplit = true;
-  else options.doubleAfterSplit = false;
+//   if (formData.get(`double-after-split`) == `true`)
+//     options.doubleAfterSplit = true;
+//   else options.doubleAfterSplit = false;
 
-  if (formData.get(`resplit-on`) == `true`) options.resplitting = true;
-  else options.resplitting = false;
+//   if (formData.get(`resplit-on`) == `true`) options.resplitting = true;
+//   else options.resplitting = false;
 
-  if (formData.get(`resplit-aces-on`) == `true`) options.resplitAces = true;
-  else options.resplitAces = false;
+//   if (formData.get(`resplit-aces-on`) == `true`) options.resplitAces = true;
+//   else options.resplitAces = false;
 
-  if (formData.get(`split-aces-on`) == `true`) options.splitAces = true;
-  else options.splitAces = false;
+//   if (formData.get(`split-aces-on`) == `true`) options.splitAces = true;
+//   else options.splitAces = false;
 
-  if (formData.get(`split-ace-draw-limit-on`) == `true`)
-    options.draw1SplitAce = true;
-  else options.draw1SplitAce = false;
+//   if (formData.get(`split-ace-draw-limit-on`) == `true`)
+//     options.draw1SplitAce = true;
+//   else options.draw1SplitAce = false;
 
-  if (formData.get(`double-after-split-ace`) == `true`)
-    options.doubleAfterSplitAces = true;
-  else options.doubleAfterSplitAces = false;
+//   if (formData.get(`double-after-split-ace`) == `true`)
+//     options.doubleAfterSplitAces = true;
+//   else options.doubleAfterSplitAces = false;
 
-  if (formData.get(`resplit-after-split-aces`) == `true`)
-    options.resplitAfterSplitAces = true;
-  else options.resplitAfterSplitAces = false;
+//   if (formData.get(`resplit-after-split-aces`) == `true`)
+//     options.resplitAfterSplitAces = true;
+//   else options.resplitAfterSplitAces = false;
 
-  if (formData.get(`disable-surrender`) == `true`)
-    options.surrenderEnabled = false;
-  else options.surrenderEnabled = true;
+//   if (formData.get(`disable-surrender`) == `true`)
+//     options.surrenderEnabled = false;
+//   else options.surrenderEnabled = true;
 
-  if (formData.get(`surrender-options`) == `early-surrender`)
-    options.surrenderType = `early`;
-  else options.surrenderType = `late`;
+//   if (formData.get(`surrender-options`) == `early-surrender`)
+//     options.surrenderType = `early`;
+//   else options.surrenderType = `late`;
 
-  if (formData.get(`disable-insurance`) == `true`)
-    options.insuranceEnabled = false;
-  else options.insuranceEnabled = true;
+//   if (formData.get(`disable-insurance`) == `true`)
+//     options.insuranceEnabled = false;
+//   else options.insuranceEnabled = true;
 
-  if (formData.get(`disable-even-money`) == `true`)
-    options.evenMoneyEnabled = false;
-  else options.evenMoneyEnabled = true;
+//   if (formData.get(`disable-even-money`) == `true`)
+//     options.evenMoneyEnabled = false;
+//   else options.evenMoneyEnabled = true;
 
-  return options;
+//   return options;
+// }
+
+// export function doubleAfterSplitAcesHandler(event) {
+//   const doubleAfterSplitBox = document.querySelector(`#double-after-split`);
+//   const splitAcesBox = document.querySelector(`#split-aces-on`);
+//   const draw1AfterSplitAceBox = document.querySelector(
+//     `#split-ace-draw-limit-on`
+//   );
+
+//   if (event.target.checked) {
+//     doubleAfterSplitBox.checked = true;
+//     splitAcesBox.checked = true;
+//     draw1AfterSplitAceBox.checked = false;
+//   }
+// }
+
+// export function draw1AfterSplitAcesHandler(event) {
+//   const splitAcesBox = document.querySelector(`#split-aces-on`);
+//   const doubleAfterSplitAcesBox = document.querySelector(
+//     `#double-after-split-ace`
+//   );
+
+//   if (event.target.checked) {
+//     splitAcesBox.checked = true;
+//     doubleAfterSplitAcesBox.checked = false;
+//   }
+// }
+
+// export function resplitAcesHandler(event) {
+//   const resplitBox = document.querySelector(`#resplit-on`);
+//   const splitAcesBox = document.querySelector(`#split-aces-on`);
+
+//   if (event.target.checked) {
+//     resplitBox.checked = true;
+//     splitAcesBox.checked = true;
+//   }
+// }
+
+// export function resplitAfterSplitAcesHandler(event) {
+//   const resplitBox = document.querySelector(`#resplit-on`);
+//   const splitAcesBox = document.querySelector(`#split-aces-on`);
+
+//   if (event.target.checked) {
+//     resplitBox.checked = true;
+//     splitAcesBox.checked = true;
+//   }
+// }
+
+// export function disableSurrenderHandler(event) {
+//   const earlySurrenderRadio = document.querySelector(`#early-surrender`);
+//   const lateSurrenderRadio = document.querySelector(`#late-surrender`);
+
+//   if (event.target.checked) {
+//     earlySurrenderRadio.disabled = true;
+//     lateSurrenderRadio.disabled = true;
+//   } else {
+//     earlySurrenderRadio.disabled = false;
+//     lateSurrenderRadio.disabled = false;
+//   }
+// }
+
+// export function resetOptionsMenuInputs(event) {
+//   const triviaOnRadio = document.querySelector(`#trivia-on`);
+//   const sideBetsOnRadio = document.querySelector(`#side-bets-on`);
+//   const blackjack3To2Radio = document.querySelector(`#blackjack-3-to-2`);
+//   const dealerSoft17Radio = document.querySelector(`#soft-17`);
+//   const sixDeckRadio = document.querySelector(`#six-deck`);
+//   const disableFiveCharlieBox = document.querySelector(
+//     `#disable-five-card-charlie`
+//   );
+
+//   const splitAnyTenBox = document.querySelector(`#split-any-ten`);
+
+//   const doubleAfterSplitBox = document.querySelector(`#double-after-split`);
+//   const resplitBox = document.querySelector(`#resplit-on`);
+//   const splitAcesBox = document.querySelector(`#split-aces-on`);
+//   const doubleAfterSplitAcesBox = document.querySelector(
+//     `#double-after-split-ace`
+//   );
+//   const draw1AfterSplitAcesBox = document.querySelector(
+//     `#split-ace-draw-limit-on`
+//   );
+//   const resplitAcesBox = document.querySelector(`#resplit-aces-on`);
+//   const resplitAfterSplitAcesBox = document.querySelector(
+//     `#resplit-after-split-aces`
+//   );
+//   const disableSurrenderBox = document.querySelector(`#disable-surrender`);
+//   const earlySurrenderRadio = document.querySelector(`#early-surrender`);
+//   const lateSurrenderRadio = document.querySelector(`#late-surrender`);
+//   const disableInsuranceBox = document.querySelector(`#disable-insurance`);
+//   const disableEvenMoneyBox = document.querySelector(`#disable-even-money`);
+
+//   triviaOnRadio.checked = true;
+//   sideBetsOnRadio.checked = true;
+//   blackjack3To2Radio.checked = true;
+//   dealerSoft17Radio.checked = true;
+//   sixDeckRadio.checked = true;
+//   disableFiveCharlieBox.checked = false;
+//   splitAnyTenBox.checked = false;
+//   doubleAfterSplitBox.checked = false;
+//   resplitBox.checked = false;
+//   splitAcesBox.checked = false;
+//   doubleAfterSplitAcesBox.checked = false;
+//   draw1AfterSplitAcesBox.checked = false;
+//   resplitAcesBox.checked = false;
+//   resplitAfterSplitAcesBox.checked = false;
+//   disableInsuranceBox.checked = false;
+//   disableEvenMoneyBox.checked = false;
+
+//   if (disableSurrenderBox.checked) {
+//     disableSurrenderBox.checked = false;
+//     earlySurrenderRadio.disabled = false;
+//     lateSurrenderRadio.disabled = false;
+//   }
+
+//   lateSurrenderRadio.checked = true;
+// }
+export let playerField = {
+  cardsContainer: document.querySelector(".player-cards__container"),
+  total: document.querySelector(".player-total__value"),
+  label: document.querySelector(`.player-total__label`),
+  handNum: document.querySelector(`.player-total__hand-num`),
+  messageContainer: document.querySelector(`.player-message__container`),
+  messageText: document.querySelector(`.player-message__text`),
+  renderOutcome: renderCardHolderOutcome,
+  removeOutcomeModifierClass: removeOutcomeModifierClass,
+
+  //replaces renderPlayerField
+  renderField(hand) {
+    let handNum = hand.handNum;
+    let finalImages = [...hand.images, ...hand.endTags];
+
+    this.cardsContainer.innerHTML = finalImages.join(``);
+
+    this.total.textContent = hand.total;
+
+    if (handNum > 0) this.togglePlayerFieldLabel(handNum);
+  },
+
+  togglePlayerFieldLabel(handNum) {
+    let dataObj = {};
+
+    if (handNum == 0) {
+      dataObj.playerLabel = `Player`;
+      dataObj.handNumDisplay = `none`;
+    } else {
+      dataObj.playerLabel = `Hand `;
+      dataObj.handNumDisplay = `inline`;
+      dataObj.handNumText = handNum;
+    }
+
+    renderPlayerLabelField(dataObj, this);
+
+    function renderPlayerLabelField(dataObj, gameField) {
+      gameField.label.textContent = dataObj.playerLabel;
+      gameField.handNum.style.display = dataObj.handNumDisplay;
+      gameField.handNum.textContent = dataObj.handNumText;
+    }
+  },
+
+  resetOutcomeField() {
+    this.removeOutcomeModifierClass(this.messageContainer);
+    this.messageText.textContent = ``;
+  },
+};
+
+export let dealerField = {
+  cardsContainer: document.querySelector(".dealer-cards__container"),
+  total: document.querySelector(".dealer-total__value"),
+  messageContainer: document.querySelector(`.dealer-message__container`),
+  messageText: document.querySelector(`.dealer-message__text`),
+
+  renderOutcome: renderCardHolderOutcome,
+  removeOutcomeModifierClass: removeOutcomeModifierClass,
+
+  renderField(hand) {
+    let finalImages = [...hand.images, ...hand.endTags];
+
+    this.cardsContainer.innerHTML = finalImages.join(``);
+    this.total.textContent = hand.visibleTotal;
+  },
+
+  resetOutcomeField() {
+    this.removeOutcomeModifierClass(this.messageContainer);
+    this.messageText.textContent = ``;
+  },
+};
+
+export let splitStageField = {
+  stageContainer: document.querySelector(`.grid__split-stages-container`),
+  stage1: {
+    container: document.querySelector(`.split-stage-1__container`),
+    handNum: document.querySelector(`.split-stage-1__hand-num`),
+    cards: document.querySelector(`.split-stage-1__cards`),
+    total: document.querySelector(`.split-stage-1__total`),
+    result: document.querySelector(`.split-stage-1__result`),
+  },
+
+  stage2: {
+    container: document.querySelector(`.split-stage-2__container`),
+    handNum: document.querySelector(`.split-stage-2__hand-num`),
+    cards: document.querySelector(`.split-stage-1__cards`),
+    total: document.querySelector(`.split-stage-1__total`),
+    result: document.querySelector(`.split-stage-2__result`),
+  },
+
+  stage3: {
+    container: document.querySelector(`.split-stage-3__container`),
+    handNum: document.querySelector(`.split-stage-2__hand-num`),
+    cards: document.querySelector(`.split-stage-1__cards`),
+    total: document.querySelector(`.split-stage-1__total`),
+    result: document.querySelector(`.split-stage-3__result`),
+  },
+  removeOutcomeModifierClass: removeOutcomeModifierClass,
+
+  renderOutcome(splitStageNum, outcome, outcomeText) {
+    if (splitStageNum == 1)
+      changeSplitStageResult(this.stage1.result, outcome, outcomeText);
+    if (splitStageNum == 2)
+      changeSplitStageResult(this.stage2.result, outcome, outcomeText);
+    if (splitStageNum == 3)
+      changeSplitStageResult(this.stage3.result, outcome, outcomeText);
+
+    function changeSplitStageResult(elem, outcome, outcomeText) {
+      elem.classList.add(`split-stage__result--${outcome}`);
+      elem.textContent = outcomeText;
+    }
+  },
+
+  renderStage(hand, stageNum) {
+    this.stageContainer.style.display = `flex`;
+
+    if (stageNum == 1) changeSplitStageField(this.stage1, hand, `split-1`);
+    if (stageNum == 2) changeSplitStageField(this.stage2, hand, `split-2`);
+    if (stageNum == 3) changeSplitStageField(this.stage3, hand, `split-3`);
+
+    function changeSplitStageField(elemObj, hand, splitHandField) {
+      let { handNum, codes, total } = hand;
+
+      elemObj.container.style.display = `block`;
+      elemObj.handNum.textContent = handNum;
+      elemObj.cards.textContent = codes.join(` `);
+      elemObj.total.textContent = total;
+    }
+  },
+
+  resetOutcomeField(stageNum) {
+    if (stageNum == 1) changeOutcomeField(this.split1.result);
+    if (stageNum == 2) changeOutcomeField(this.split2.result);
+    if (stageNum == 3) changeOutcomeField(this.split3.result);
+
+    function changeOutcomeField(elem) {
+      splitStageField.removeOutcomeModifierClass(elem);
+      elem.textContent = ``;
+    }
+  },
+};
+
+function renderCardHolderOutcome(outcome, outcomeText) {
+  this.messageContainer.classList.add(`--${outcome}`);
+  this.messageText.textContent = outcomeText;
 }
 
-export function doubleAfterSplitAcesHandler(event) {
-  const doubleAfterSplitBox = document.querySelector(`#double-after-split`);
-  const splitAcesBox = document.querySelector(`#split-aces-on`);
-  const draw1AfterSplitAceBox = document.querySelector(
-    `#split-ace-draw-limit-on`
-  );
+export let gameField = {
+  player: playerField,
+  dealer: dealerField,
+  splitStages: splitStageField,
 
-  if (event.target.checked) {
-    doubleAfterSplitBox.checked = true;
-    splitAcesBox.checked = true;
-    draw1AfterSplitAceBox.checked = false;
-  }
-}
+  //replaces renderPlayerHandOutcome
+  renderHandOutcome(hand, field) {
+    if (!hand.outcome) return;
 
-export function draw1AfterSplitAcesHandler(event) {
-  const splitAcesBox = document.querySelector(`#split-aces-on`);
-  const doubleAfterSplitAcesBox = document.querySelector(
-    `#double-after-split-ace`
-  );
+    let outcome = hand.outcome;
+    let outcomeText = chooseOutcomeText(outcome, hand);
 
-  if (event.target.checked) {
-    splitAcesBox.checked = true;
-    doubleAfterSplitAcesBox.checked = false;
-  }
-}
+    if (field == `player`) this.player.renderOutcome(outcome, outcomeText);
+    if (field == `dealer`) this.dealer.renderOutcome(outcome, outcomeText);
+    if (field == `split-stage-1`)
+      this.splitStages.renderOutcome(1, outcome, outcomeText);
+    if (field == `split-stage-2`)
+      this.splitStages.renderOutcome(2, outcome, outcomeText);
+    if (field == `split-stage-3`)
+      this.splitStages.renderOutcome(3, outcome, outcomeText);
 
-export function resplitAcesHandler(event) {
-  const resplitBox = document.querySelector(`#resplit-on`);
-  const splitAcesBox = document.querySelector(`#split-aces-on`);
+    function chooseOutcomeText(outcome, hand) {
+      let outcomeText;
 
-  if (event.target.checked) {
-    resplitBox.checked = true;
-    splitAcesBox.checked = true;
-  }
-}
+      if (outcome == `bust`) outcomeText = `Bust`;
+      if (outcome == `charlie`)
+        outcomeText = `${hand.charlieType} Card Charlie`;
+      if (outcome == `natural`) outcomeText = `Blackjack!`;
+      if (outcome == `stand`) outcomeText = `Stand`;
+      if (outcome == `dealerHit`) outcomeText = `Hitting...`;
 
-export function resplitAfterSplitAcesHandler(event) {
-  const resplitBox = document.querySelector(`#resplit-on`);
-  const splitAcesBox = document.querySelector(`#split-aces-on`);
+      return outcomeText;
+    }
+  },
 
-  if (event.target.checked) {
-    resplitBox.checked = true;
-    splitAcesBox.checked = true;
-  }
-}
+  //replaces renderPlayerHands
+  renderPlayerHands(player, reset = null) {
+    let active = player.currentSplitHand;
+    let count;
+    if (player.type == "split player") count = player.splitHands.length;
 
-export function disableSurrenderHandler(event) {
-  const earlySurrenderRadio = document.querySelector(`#early-surrender`);
-  const lateSurrenderRadio = document.querySelector(`#late-surrender`);
+    if (reset) this.resetOutcomeField(0);
 
-  if (event.target.checked) {
-    earlySurrenderRadio.disabled = true;
-    lateSurrenderRadio.disabled = true;
-  } else {
-    earlySurrenderRadio.disabled = false;
-    lateSurrenderRadio.disabled = false;
-  }
-}
+    if (active == 0) {
+      this.player.renderField(player.hand);
+      this.renderHandOutcome(player.hand, `player`);
+      return;
+    }
 
-export function resetOptionsMenuInputs(event) {
-  const triviaOnRadio = document.querySelector(`#trivia-on`);
-  const sideBetsOnRadio = document.querySelector(`#side-bets-on`);
-  const blackjack3To2Radio = document.querySelector(`#blackjack-3-to-2`);
-  const dealerSoft17Radio = document.querySelector(`#soft-17`);
-  const sixDeckRadio = document.querySelector(`#six-deck`);
-  const disableFiveCharlieBox = document.querySelector(
-    `#disable-five-card-charlie`
-  );
+    let stageOrderArr = createStageOrderArr(player, count);
 
-  const splitAnyTenBox = document.querySelector(`#split-any-ten`);
+    reorderStageOrderArr(stageOrderArr, active);
 
-  const doubleAfterSplitBox = document.querySelector(`#double-after-split`);
-  const resplitBox = document.querySelector(`#resplit-on`);
-  const splitAcesBox = document.querySelector(`#split-aces-on`);
-  const doubleAfterSplitAcesBox = document.querySelector(
-    `#double-after-split-ace`
-  );
-  const draw1AfterSplitAcesBox = document.querySelector(
-    `#split-ace-draw-limit-on`
-  );
-  const resplitAcesBox = document.querySelector(`#resplit-aces-on`);
-  const resplitAfterSplitAcesBox = document.querySelector(
-    `#resplit-after-split-aces`
-  );
-  const disableSurrenderBox = document.querySelector(`#disable-surrender`);
-  const earlySurrenderRadio = document.querySelector(`#early-surrender`);
-  const lateSurrenderRadio = document.querySelector(`#late-surrender`);
-  const disableInsuranceBox = document.querySelector(`#disable-insurance`);
-  const disableEvenMoneyBox = document.querySelector(`#disable-even-money`);
+    renderCardFields(stageOrderArr);
 
-  triviaOnRadio.checked = true;
-  sideBetsOnRadio.checked = true;
-  blackjack3To2Radio.checked = true;
-  dealerSoft17Radio.checked = true;
-  sixDeckRadio.checked = true;
-  disableFiveCharlieBox.checked = false;
-  splitAnyTenBox.checked = false;
-  doubleAfterSplitBox.checked = false;
-  resplitBox.checked = false;
-  splitAcesBox.checked = false;
-  doubleAfterSplitAcesBox.checked = false;
-  draw1AfterSplitAcesBox.checked = false;
-  resplitAcesBox.checked = false;
-  resplitAfterSplitAcesBox.checked = false;
-  disableInsuranceBox.checked = false;
-  disableEvenMoneyBox.checked = false;
+    renderOutcomeFields(stageOrderArr);
 
-  if (disableSurrenderBox.checked) {
-    disableSurrenderBox.checked = false;
-    earlySurrenderRadio.disabled = false;
-    lateSurrenderRadio.disabled = false;
-  }
+    function renderCardFields(stageOrderArr) {
+      gameField.player.renderField(stageOrderArr[0]);
+      gameField.splitStages.renderStage(stageOrderArr[1], 1);
+      if (count >= 3) gameField.splitStages.renderStage(stageOrderArr[2], 2);
+      if (count == 4) gameField.splitStages.renderStage(stageOrderArr[3], 3);
+    }
 
-  lateSurrenderRadio.checked = true;
+    function renderOutcomeFields(stageOrderArr) {
+      gameField.renderHandOutcome(stageOrderArr[0], `player`);
+      gameField.renderHandOutcome(stageOrderArr[1], `split-stage-1`);
+      if (count >= 3)
+        gameField.renderHandOutcome(stageOrderArr[2], `split-stage-2`);
+      if (count == 4)
+        gameField.renderHandOutcome(stageOrderArr[3], `split-stage-3`);
+    }
+
+    function createStageOrderArr(player, count) {
+      let stageOrderArr = [];
+
+      stageOrderArr.push(player.getSplitHand(1));
+      stageOrderArr.push(player.getSplitHand(2));
+      if (count >= 3) stageOrderArr.push(player.getSplitHand(3));
+      if (count == 4) stageOrderArr.push(player.getSplitHand(4));
+
+      return stageOrderArr;
+    }
+
+    function reorderStageOrderArr(stageOrderArr, active) {
+      if (active == 1) return;
+      if (active == 2) changeArrOrder(1, stageOrderArr);
+      if (active == 3) changeArrOrder(2, stageOrderArr);
+      if (active == 4) changeArrOrder(3, stageOrderArr);
+
+      function changeArrOrder(index, arr) {
+        let handArr = arr.splice(index, 1);
+        arr.unshift(handArr[0]);
+      }
+    }
+  },
+
+  //replaces resetOutcomeField
+  resetOutcomeField(stageNum) {
+    if (stageNum == 0) this.player.resetOutcomeField();
+    if (stageNum == 10) this.dealer.resetOutcomeField();
+    if (stageNum == 1) this.splitStages.resetOutcomeField(1);
+    if (stageNum == 2) this.splitStages.resetOutcomeField(2);
+    if (stageNum == 3) this.splitStages.resetOutcomeField(3);
+  },
+};
+
+function removeOutcomeModifierClass(elem) {
+  let classesArr = [`natural`, `bust`, `charlie`, `stand`];
+
+  classesArr.forEach(function (str) {
+    elem.classList.remove(`--${str}`);
+  });
 }
 
 export function renderPlayerHands(player, reset = null) {

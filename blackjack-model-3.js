@@ -951,8 +951,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       // console.log(cardsObj);
-      currentPlayer.hand.addCardToHand = cardsObj.card1;
-      currentPlayer.hand.addCardToHand = cardsObj.card2;
+      // currentPlayer.hand.addCardToHand = cardsObj.card1;
+      // currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect Pair
@@ -970,8 +970,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Split Functionality (regularHand)
-      // currentPlayer.hand.addCardToHand = testCard.heart7;
-      // currentPlayer.hand.addCardToHand = testCard.spade7;
+      currentPlayer.hand.addCardToHand = testCard.heart7;
+      currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test 21+3 3 Kind (normal)
       // currentPlayer.hand.addCardToHand = testCard.spade7;

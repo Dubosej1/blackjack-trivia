@@ -708,7 +708,7 @@ export function standAction(e, gameState) {
 
   if (!outcomeCharlie) hand.outcome = `stand`;
 
-  view.renderPlayerHands(player);
+  view.gameField.renderPlayerHands(player);
 
   let gameTimer = setTimeout(nextPlayerAction, 1500, nextAction, gameState);
 }
@@ -805,7 +805,7 @@ export function nextPlayerAction(nextAction, gameState) {
 
       gameState.updateNoticeText = `Hand ${activeHand}'s Turn`;
 
-      view.renderPlayerHands(player, true);
+      view.gameField.renderPlayerHands(player, true);
 
       beginSplitHandActions(gameState);
       break;
@@ -849,7 +849,7 @@ export function nextDealerAction(nextAction, gameState) {
   let gameTimer;
   let dealer = gameState.dealer;
 
-  view.renderPlayerHandOutcome(dealer.hand, `dealer`);
+  view.gameField.renderHandOutcome(dealer.hand, `dealer`);
 
   let hitClbk = dealer.executeHit.bind(dealer);
 

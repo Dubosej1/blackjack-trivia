@@ -81,14 +81,14 @@ class State {
     console.log(hand);
 
     this.checkForJackpotAce(hand);
-    view.renderPlayerHands(this.player);
+    view.gameField.renderPlayerHands(this.player);
     // view.renderPlayerField(this.player.hand);
   }
 
   set updateDealer(dealer) {
     this.dealer = dealer;
     this.checkForJackpotAce(this.dealer.hand);
-    view.renderDealerField(this.dealer.hand);
+    view.dealerField.renderField(this.dealer.hand);
     console.log(this.dealer.hand);
   }
 
@@ -418,7 +418,7 @@ class State {
 
   revealDealerFaceDown() {
     this.dealer.hand.revealFaceDownCard();
-    view.renderDealerField(this.dealer.hand);
+    view.dealerField.renderField(this.dealer.hand);
   }
 
   calculateTotalWinnings() {
