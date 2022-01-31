@@ -481,39 +481,39 @@ function toggleDisplayBtn(elem, toggle) {
 //   checkSideBetChipBtnsValid(bank);
 // }
 
-function checkBasicBetChipBtnsValid(value) {
-  // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
-  const chip1 = document.querySelector(`.btn-basic-bet-modal__1`);
-  const chip5 = document.querySelector(`.btn-basic-bet-modal__5`);
-  const chip10 = document.querySelector(`.btn-basic-bet-modal__10`);
-  const chip25 = document.querySelector(`.btn-basic-bet-modal__25`);
-  const chip100 = document.querySelector(`.btn-basic-bet-modal__100`);
-  const chip500 = document.querySelector(`.btn-basic-bet-modal__500`);
-  // const bank = basicBetModal__BankValue.textContent;
+// function checkBasicBetChipBtnsValid(value) {
+//   // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
+//   const chip1 = document.querySelector(`.btn-basic-bet-modal__1`);
+//   const chip5 = document.querySelector(`.btn-basic-bet-modal__5`);
+//   const chip10 = document.querySelector(`.btn-basic-bet-modal__10`);
+//   const chip25 = document.querySelector(`.btn-basic-bet-modal__25`);
+//   const chip100 = document.querySelector(`.btn-basic-bet-modal__100`);
+//   const chip500 = document.querySelector(`.btn-basic-bet-modal__500`);
+//   // const bank = basicBetModal__BankValue.textContent;
 
-  value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
-  value >= 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
-  value >= 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
-  value >= 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
-  value >= 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
-  value >= 500 ? enableChipBtn(chip500) : disableChipBtn(chip500);
-}
+//   value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
+//   value >= 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
+//   value >= 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
+//   value >= 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
+//   value >= 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
+//   value >= 500 ? enableChipBtn(chip500) : disableChipBtn(chip500);
+// }
 
-function checkSideBetChipBtnsValid(value) {
-  // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
-  const chip1 = document.querySelector(`.btn-side-bet-modal__1`);
-  const chip5 = document.querySelector(`.btn-side-bet-modal__5`);
-  const chip10 = document.querySelector(`.btn-side-bet-modal__10`);
-  const chip25 = document.querySelector(`.btn-side-bet-modal__25`);
-  const chip100 = document.querySelector(`.btn-side-bet-modal__100`);
-  // const bank = basicBetModal__BankValue.textContent;
+// function checkSideBetChipBtnsValid(value) {
+//   // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
+//   const chip1 = document.querySelector(`.btn-side-bet-modal__1`);
+//   const chip5 = document.querySelector(`.btn-side-bet-modal__5`);
+//   const chip10 = document.querySelector(`.btn-side-bet-modal__10`);
+//   const chip25 = document.querySelector(`.btn-side-bet-modal__25`);
+//   const chip100 = document.querySelector(`.btn-side-bet-modal__100`);
+//   // const bank = basicBetModal__BankValue.textContent;
 
-  value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
-  value >= 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
-  value >= 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
-  value >= 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
-  value >= 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
-}
+//   value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
+//   value >= 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
+//   value >= 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
+//   value >= 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
+//   value >= 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
+// }
 
 function checkExtraBetChipBtnsValid(value, sideBet, baseBet) {
   // const basicBetModal__BankValue = document.querySelector('.basic-bet-modal__bank-value');
@@ -591,6 +591,277 @@ function disableChipBtn(element) {
 //   document.querySelector(`.side-bet-modal__total-value`).textContent = 0;
 //   document.querySelector(`.side-bet-modal__active-bet`).textContent = 0;
 // }
+
+export const optionsModal = {
+  formElem: document.querySelector(`.options-modal__form`),
+  // formData,
+  // options,
+  // optionsTemplate: {
+  //   triviaMode: [`trivia-on`, true],
+  //   sideBets: [`side-bets-on`, true],
+  //   blackjackPayout: [`blackjack-3-to-2`, null],
+  //   dealerStandsOn: [`soft-16`, null],
+  //   deckCount: [6, null],
+  //   fiveCardCharlie: [`disable-five-card-charlie`, false],
+  //   splitAnyTen: []
+  //   doubleAfterSplit:
+
+  // },
+
+  get inputElems() {
+    return this.formElem.querySelectorAll(`input`);
+  },
+
+  collectOptions() {
+    // let options = {};
+    let formData = new FormData(this.formElem);
+    this.formData = formData;
+
+    this.generateNewOptionsObj();
+
+    return this.options;
+  },
+
+  generateNewOptionsObj() {
+    this.options = {};
+
+    this.generateOptionsProps();
+
+    // Object.entries(this.optionsTemplate).forEach(this.forEachCallback, this);
+  },
+
+  generateOptionsProps() {
+    if (this.formData.get(`toggle-trivia`) == `trivia-off`)
+      this.options.triviaMode = false;
+    else this.options.triviaMode = true;
+
+    if (this.formData.get(`toggle-side-bets`) == `side-bets-off`)
+      this.options.sideBets = false;
+    else this.options.sideBets = true;
+
+    if (this.formData.get(`blackjack-payout`) == `blackjack-2-to-1`)
+      this.options.blackjackPayout = `2:1`;
+    else if (this.formData.get(`blackjack-payout`) == `blackjack-6-to-5`)
+      this.options.blackjackPayout = `6:5`;
+    else this.options.blackjackPayout = `3:2`;
+
+    if (this.formData.get(`dealer-stands`) == `soft-16`)
+      this.options.dealerStandsOn = `soft16`;
+    else if (this.formData.get(`dealer-stands`) == `hard-16`)
+      this.options.dealerStandsOn = `hard16`;
+    else if (this.formData.get(`dealer-stands`) == `hard-17`)
+      this.options.dealerStandsOn = `hard17`;
+    else this.options.dealerStandsOn = `soft17`;
+
+    let deckCount = this.formData.get(`deck-count`);
+    if (deckCount) this.options.deckCount = deckCount;
+    else this.options.deckCount = 6;
+
+    if (this.formData.get(`disable-five-card-charlie`) == `true`)
+      this.options.fiveCardCharlie = false;
+    else this.options.fiveCardCharlie = true;
+
+    if (this.formData.get(`split-any-ten`) == `true`)
+      this.options.splitAnyTens = true;
+    else this.options.splitAnyTens = false;
+
+    if (this.formData.get(`double-after-split`) == `true`)
+      this.options.doubleAfterSplit = true;
+    else this.options.doubleAfterSplit = false;
+
+    if (this.formData.get(`resplit-on`) == `true`)
+      this.options.resplitting = true;
+    else this.options.resplitting = false;
+
+    if (this.formData.get(`resplit-aces-on`) == `true`)
+      this.options.resplitAces = true;
+    else this.options.resplitAces = false;
+
+    if (this.formData.get(`split-aces-on`) == `true`)
+      this.options.splitAces = true;
+    else this.options.splitAces = false;
+
+    if (this.formData.get(`split-ace-draw-limit-on`) == `true`)
+      this.options.draw1SplitAce = true;
+    else this.options.draw1SplitAce = false;
+
+    if (this.formData.get(`double-after-split-ace`) == `true`)
+      this.options.doubleAfterSplitAces = true;
+    else this.options.doubleAfterSplitAces = false;
+
+    if (this.formData.get(`resplit-after-split-aces`) == `true`)
+      this.options.resplitAfterSplitAces = true;
+    else this.options.resplitAfterSplitAces = false;
+
+    if (this.formData.get(`disable-surrender`) == `true`)
+      this.options.surrenderEnabled = false;
+    else this.options.surrenderEnabled = true;
+
+    if (this.formData.get(`surrender-options`) == `early-surrender`)
+      this.options.surrenderType = `early`;
+    else this.options.surrenderType = `late`;
+
+    if (this.formData.get(`disable-insurance`) == `true`)
+      this.options.insuranceEnabled = false;
+    else this.options.insuranceEnabled = true;
+
+    if (this.formData.get(`disable-even-money`) == `true`)
+      this.options.evenMoneyEnabled = false;
+    else this.options.evenMoneyEnabled = true;
+  },
+
+  doubleAfterSplitAcesHandler(event) {
+    if (!event.target.checked) return;
+
+    optionsModal.inputElems.forEach(function (elem) {
+      if (elem.id == `double-after-split`) elem.checked = true;
+      if (elem.id == `split-aces-on`) elem.checked = true;
+      if (elem.id == `split-ace-draw-limit-on`) elem.checked = true;
+    });
+  },
+
+  draw1AfterSplitAcesHandler(event) {
+    if (!event.target.checked) return;
+
+    optionsModal.inputElems.forEach(function (elem) {
+      if (elem.id == `double-after-split-ace`) elem.checked = false;
+      if (elem.id == `split-aces-on`) elem.checked = true;
+    });
+  },
+
+  resplitAcesHandler(event) {
+    if (!event.target.checked) return;
+
+    optionsModal.inputElems.forEach(function (elem) {
+      if (elem.id == `resplit-on`) elem.checked = true;
+      if (elem.id == `split-aces-on`) elem.checked = true;
+    });
+  },
+
+  resplitAfterSplitAcesHandler(event) {
+    if (!event.target.checked) return;
+
+    optionsModal.inputElems.forEach(function (elem) {
+      if (elem.id == `resplit-on`) elem.checked = true;
+      if (elem.id == `split-aces-on`) elem.checked = true;
+    });
+  },
+
+  disableSurrenderHandler(event) {
+    // if (event.target.checked) return;
+
+    optionsModal.inputElems.forEach(function (elem) {
+      // if (elem.id != `early-surrender` || elem.id != `late-surrender`)
+      let guard = xor(
+        elem.id != `early-surrender`,
+        elem.id != `late-surrender`
+      );
+      if (!guard) return;
+
+      if (event.target.checked) optionsModal.toggleDisableInputElem(elem, true);
+      else optionsModal.toggleDisableInputElem(elem, false);
+    });
+
+    function xor(a, b) {
+      return (a || b) && !(a && b);
+    }
+  },
+
+  toggleDisableInputElem(elem, toggle) {
+    elem.disabled = toggle;
+  },
+
+  resetOptionsMenuInputs(event) {
+    optionsModal.inputElems.forEach(checkDefaultOptions);
+
+    function checkDefaultOptions(elem) {
+      switch (elem.id) {
+        case `trivia-on`:
+          elem.checked = true;
+          break;
+        case `side-bets-on`:
+          elem.checked = true;
+          break;
+        case `blackjack-3-to-2`:
+          elem.checked = true;
+          break;
+        case `soft-17`:
+          elem.checked = true;
+          break;
+        case `six-deck`:
+          elem.checked = true;
+          break;
+        case `disable-surrender`:
+          elem.checked = false;
+          document.querySelector(`#early-surrender`).disabled = false;
+          document.querySelector(`#late-surrender`).disabled = false;
+          break;
+        case `late-surrender`:
+          elem.checked = true;
+          break;
+        default:
+          elem.checked = false;
+      }
+    }
+  },
+
+  // forEachCallback(item) {
+  //   let [key, value] = item;
+  //   let result;
+
+  //   if (key == `blackjack-payout`) result = this.getBlackjackPayout();
+  //   else if (key == `dealerStandsOn`) result = this.getDealerStandsOn();
+  //   else result = this.checkFormValueExists(value);
+
+  //   this.options[key] = result;
+  // },
+
+  // checkFormValueExists(value) {
+  //   let arr = this.formData.values();
+  //   let valuesArr = Array.from(arr);
+
+  //   return valuesArr.includes(value);
+  // },
+
+  // getBlackjackPayout() {
+  //   let valuesArr = this.formData.values();
+  //   let result;
+
+  //   let compareArr = [
+  //     [`blackjack-2-to-1`, `2:1`],
+  //     [`blackjack-3-to-2`, `3:2`],
+  //     [`blackjack-6-to-5`, `6:5`],
+  //   ];
+
+  //   compareArr.forEach(function (item) {
+  //     let [formValue, payout] = item;
+
+  //     if (valuesArr.includes(formValue)) result = payout;
+  //   });
+
+  //   return result;
+  // },
+
+  // getDealerStandsOn() {
+  //   let valuesArr = this.formData.values();
+  //   let result;
+
+  //   let compareArr = [
+  //     [`soft-16`, `soft16`],
+  //     [`hard-16`, `hard16`],
+  //     [`soft-17`, `soft17`],
+  //     [`hard-17`, `hard17`],
+  //   ];
+
+  //   compareArr.forEach(function (item) {
+  //     let [formValue, payout] = item;
+
+  //     if (valuesArr.includes(formValue)) result = payout;
+  //   });
+
+  //   return result;
+  // },
+};
 
 export function collectOptions() {
   let options = {};

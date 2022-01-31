@@ -1,6 +1,7 @@
 import * as bjModel from "./blackjack-model-3.js";
 import * as triviaModel from "./trivia-model.js";
 import * as view from "./view-3.js";
+// import { optionsObj } from "./view-3.js";
 import * as listeners from "./listeners.js";
 import * as betModel from "./bet-model.js";
 import * as state from "./state.js";
@@ -442,7 +443,8 @@ export function beginSplitHandActions(gameState) {
 }
 
 export function submitOptions(event, gameState = null) {
-  let options = view.collectOptions();
+  // let options = view.collectOptions();
+  let options = view.optionsModal.collectOptions();
 
   if (!gameState) optionsPlaceholder = options;
   else gameState.updateOptions(options);
@@ -917,9 +919,11 @@ function init() {
   listeners.addOptionsMenuInputListeners();
   listeners.addStartNextRoundBtnListener();
   listeners.addTriviaBtnListeners();
-  submitOptions();
+  // view.initOptionsModal();
+
   let credits = triviaObj.getTriviaCredits();
   view.renderTriviaCredits(credits);
+  submitOptions();
 }
 
 init();

@@ -261,19 +261,28 @@ export function addOptionsMenuInputListeners() {
 
   doubleAfterSplitAcesBox.addEventListener(
     `click`,
-    view.doubleAfterSplitAcesHandler
+    view.optionsModal.doubleAfterSplitAcesHandler
   );
   draw1AfterSplitAcesBox.addEventListener(
     `click`,
-    view.draw1AfterSplitAcesHandler
+    view.optionsModal.draw1AfterSplitAcesHandler
   );
-  resplitAcesBox.addEventListener("click", view.resplitAcesHandler);
+  resplitAcesBox.addEventListener(
+    "click",
+    view.optionsModal.resplitAcesHandler
+  );
   resplitAfterSplitAcesBox.addEventListener(
     `click`,
-    view.resplitAfterSplitAcesHandler
+    view.optionsModal.resplitAfterSplitAcesHandler
   );
-  disableSurrenderBox.addEventListener(`click`, view.disableSurrenderHandler);
-  resetDefaultOptionsBtn.addEventListener(`click`, view.resetOptionsMenuInputs);
+  disableSurrenderBox.addEventListener(
+    `click`,
+    view.optionsModal.disableSurrenderHandler
+  );
+  resetDefaultOptionsBtn.addEventListener(
+    `click`,
+    view.optionsModal.resetOptionsMenuInputs
+  );
 }
 
 export function addSystemBtnListeners(gameState) {
