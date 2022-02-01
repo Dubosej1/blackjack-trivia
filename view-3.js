@@ -1572,7 +1572,7 @@ export let sideBetOutcomeModal = {
     let betObj = gameState.betObj;
 
     //clears modal content from previous use
-    this.mainContainer.innerHTML = ` `;
+    this.clearModal();
 
     createSummaryField(betObj, phase);
 
@@ -1714,115 +1714,106 @@ export let sideBetOutcomeModal = {
       return winningsSpan;
     }
   },
+
+  clearModal() {
+    this.mainContainer.innerHTML = ` `;
+  },
 };
 
-export function displayInitialSideBetOutcome(gameState) {
-  const summaryField = document.querySelector(`.summary-modal__main`);
-  const summaryTitle = document.querySelector(`.summary-modal__title`);
-  const closeBtn = document.querySelector(`.btn-summary-modal__close`);
-  const nextBtn = document.querySelector(`.btn-summary-modal__next`);
+// export function displayInitialSideBetOutcome(gameState) {
+//   const summaryField = document.querySelector(`.summary-modal__main`);
+//   const summaryTitle = document.querySelector(`.summary-modal__title`);
+//   const closeBtn = document.querySelector(`.btn-summary-modal__close`);
+//   const nextBtn = document.querySelector(`.btn-summary-modal__next`);
 
-  closeBtn.style.display = "none";
-  nextBtn.style.display = `inline-block`;
-  //   let buttonCountArr = [];
+//   closeBtn.style.display = "none";
+//   nextBtn.style.display = `inline-block`;
 
-  summaryTitle.textContent = `Side Bet Outcome`;
+//   summaryTitle.textContent = `Side Bet Outcome`;
 
-  summaryField.innerHTML = ` `;
+//   summaryField.innerHTML = ` `;
 
-  let outcomeArr = gameState.betObj.initialOutcomePackages;
-  let totalWinnings = gameState.betObj.getInitialSideBetWinnings();
+//   let outcomeArr = gameState.betObj.initialOutcomePackages;
+//   let totalWinnings = gameState.betObj.getInitialSideBetWinnings();
 
-  outcomeArr.forEach(function (obj) {
-    let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
+//   outcomeArr.forEach(function (obj) {
+//     let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
 
-    //   buttonCountArr.push(buttonCount);
+//     summaryField.appendChild(outcomeElem);
+//   });
 
-    summaryField.appendChild(outcomeElem);
-  });
+//   let winningsField = document.createElement(`h1`);
+//   let winningsFieldContent = document.createTextNode(
+//     `Total Winnings: ${totalWinnings}`
+//   );
+//   winningsField.appendChild(winningsFieldContent);
+//   summaryField.appendChild(winningsField);
 
-  let winningsField = document.createElement(`h1`);
-  let winningsFieldContent = document.createTextNode(
-    `Total Winnings: ${totalWinnings}`
-  );
-  winningsField.appendChild(winningsFieldContent);
-  summaryField.appendChild(winningsField);
+//   listeners.addSummaryModalDisplayHandListener(gameState);
+//   popbox.open(`summary-modal`);
+// }
 
-  listeners.addSummaryModalDisplayHandListener(gameState);
-  popbox.open(`summary-modal`);
-}
+// function createSummaryFieldElements(outcomeObj) {
+//   const summaryField = document.querySelector(`.summary-modal__main`);
+//   let buttonCount;
 
-function createSummaryFieldElements(outcomeObj) {
-  const summaryField = document.querySelector(`.summary-modal__main`);
-  let buttonCount;
+//   let { name, outcome, winCondition } = outcomeObj;
 
-  let { name, outcome, winCondition } = outcomeObj;
+//   const newDiv = document.createElement(`div`);
 
-  const newDiv = document.createElement(`div`);
+//   const nameSpan = document.createElement(`span`);
+//   let nameSpanContent = document.createTextNode(`${name} `);
+//   nameSpan.appendChild(nameSpanContent);
 
-  const nameSpan = document.createElement(`span`);
-  let nameSpanContent = document.createTextNode(`${name} `);
-  nameSpan.appendChild(nameSpanContent);
+//   const outcomeDiv = document.createElement(`div`);
+//   outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
+//   let outcomeDivContent = document.createTextNode(`${outcome} `);
+//   outcomeDiv.appendChild(outcomeDivContent);
 
-  const outcomeDiv = document.createElement(`div`);
-  outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
-  let outcomeDivContent = document.createTextNode(`${outcome} `);
-  outcomeDiv.appendChild(outcomeDivContent);
+//   const winConditionSpan = document.createElement(`span`);
+//   const winConditionSpanContent = document.createTextNode(`${winCondition}  `);
+//   winConditionSpan.appendChild(winConditionSpanContent);
 
-  const winConditionSpan = document.createElement(`span`);
-  const winConditionSpanContent = document.createTextNode(`${winCondition}  `);
-  winConditionSpan.appendChild(winConditionSpanContent);
+//   newDiv.appendChild(nameSpan);
+//   newDiv.appendChild(outcomeDiv);
+//   newDiv.appendChild(outcomeDivContent);
 
-  // summaryField.appendChild(newDiv);
-  newDiv.appendChild(nameSpan);
-  newDiv.appendChild(outcomeDiv);
-  newDiv.appendChild(outcomeDivContent);
-  // newDiv.insertAdjacentHTML(`afterend` `<br>`);
+//   if (outcome == `lose`) {
 
-  if (outcome == `lose`) {
-    // let { sideBetKey } = outcomeObj;
+//     newDiv.appendChild(winConditionSpan);
 
-    // const checkHandBtn = document.createElement(`button`);
-    // checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
-    // checkHandBtn.dataset.sideBet = sideBetKey;
-    // checkHandBtn.dataset.popboxTarget = `winning-hand-modal`;
-    // let checkHandBtnContent = document.createTextNode(`Check Hand`);
-    // checkHandBtn.appendChild(checkHandBtnContent);
+//     winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
 
-    newDiv.appendChild(winConditionSpan);
-    // newDiv.appendChild(checkHandBtn);
-    winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+//     buttonCount = 0;
 
-    buttonCount = 0;
+//     return [newDiv, buttonCount];
+//   }
 
-    return [newDiv, buttonCount];
-  }
+//   let { winnings, sideBetKey } = outcomeObj;
 
-  let { winnings, sideBetKey } = outcomeObj;
+//   const checkHandBtn = document.createElement(`button`);
+//   checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
 
-  const checkHandBtn = document.createElement(`button`);
-  checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
-  //   checkHandBtn.classList.add(`${sideBetKey}`);
-  checkHandBtn.dataset.sideBet = sideBetKey;
-  //   checkHandBtn.dataset.popboxTarget = `winning-hand-modal`;
-  let checkHandBtnContent = document.createTextNode(`Check Hand`);
-  checkHandBtn.appendChild(checkHandBtnContent);
+//   checkHandBtn.dataset.sideBet = sideBetKey;
 
-  //summary-modal__winnings-value
-  const winningsSpan = document.createElement(`span`);
-  winningsSpan.classList.add(`summary-modal__winnings-value`);
-  let winningsSpanContent = document.createTextNode(`${winnings}`);
-  winningsSpan.appendChild(winningsSpanContent);
+//   let checkHandBtnContent = document.createTextNode(`Check Hand`);
+//   checkHandBtn.appendChild(checkHandBtnContent);
 
-  newDiv.appendChild(checkHandBtn);
-  newDiv.appendChild(winConditionSpan);
-  winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
-  newDiv.appendChild(winningsSpan);
+//   //summary-modal__winnings-value
+//   const winningsSpan = document.createElement(`span`);
+//   winningsSpan.classList.add(`summary-modal__winnings-value`);
+//   let winningsSpanContent = document.createTextNode(`${winnings}`);
+//   winningsSpan.appendChild(winningsSpanContent);
 
-  buttonCount = 1;
+//   newDiv.appendChild(checkHandBtn);
+//   newDiv.appendChild(winConditionSpan);
+//   winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+//   newDiv.appendChild(winningsSpan);
 
-  return [newDiv, buttonCount];
-}
+//   buttonCount = 1;
+
+//   return [newDiv, buttonCount];
+// }
 
 export const winningHandModal = {
   titleField: document.querySelector(`.winning-hand-modal__title`),
@@ -1901,132 +1892,114 @@ export const winningHandModal = {
   },
 };
 
-export function displayInitialSideBetOutcomeWinHand(event, gameState) {
-  //   const displayHandBtn = document.querySelector(
-  //     `.btn-summary-modal__display-hand`
-  //   );
-  const titleField = document.querySelector(`.winning-hand-modal__title`);
-  const sideBetNameField = document.querySelector(
-    `.winning-hand-modal__side-bet-name`
-  );
-  const dealerCardsContainer = document.querySelector(
-    `.winning-hand-modal__dealer-cards-container`
-  );
-  const playerCardsContainer = document.querySelector(
-    `.winning-hand-modal__player-cards-container`
-  );
-  const dealerCardsField = document.querySelector(
-    `.winning-hand-modal__dealer-cards`
-  );
-  const playerCardsField = document.querySelector(
-    `.winning-hand-modal__player-cards`
-  );
-  const payoutField = document.querySelector(`.winning-hand-modal__payout`);
-  const winConditionField = document.querySelector(
-    `.winning-hand-modal__winning-hand-name`
-  );
+// export function displayInitialSideBetOutcomeWinHand(event, gameState) {
+//   const titleField = document.querySelector(`.winning-hand-modal__title`);
+//   const sideBetNameField = document.querySelector(
+//     `.winning-hand-modal__side-bet-name`
+//   );
+//   const dealerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__dealer-cards-container`
+//   );
+//   const playerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__player-cards-container`
+//   );
+//   const dealerCardsField = document.querySelector(
+//     `.winning-hand-modal__dealer-cards`
+//   );
+//   const playerCardsField = document.querySelector(
+//     `.winning-hand-modal__player-cards`
+//   );
+//   const payoutField = document.querySelector(`.winning-hand-modal__payout`);
+//   const winConditionField = document.querySelector(
+//     `.winning-hand-modal__winning-hand-name`
+//   );
 
-  let outcomeArr = gameState.betObj.initialOutcomePackages;
-  let key = event.target.dataset.sideBet;
+//   let outcomeArr = gameState.betObj.initialOutcomePackages;
+//   let key = event.target.dataset.sideBet;
 
-  let [outcomeObj] = outcomeArr.filter((obj) => obj.sideBetKey == key);
+//   let [outcomeObj] = outcomeArr.filter((obj) => obj.sideBetKey == key);
 
-  titleField.textContent = `Winning Hand Info`;
-  sideBetNameField.textContent = outcomeObj.name;
+//   titleField.textContent = `Winning Hand Info`;
+//   sideBetNameField.textContent = outcomeObj.name;
 
-  //   if (outcomeObj.winHand.playersArr.includes(`dealer`)) dealerCardsContainer.style.display = `block`;
-  //   else dealerCardsContainer.style.display = `none`;
+//   if (outcomeObj.outcome != `lose`) {
+//     outcomeObj.winHand.playersArr.includes(`dealer`)
+//       ? (dealerCardsContainer.style.display = `block`)
+//       : (dealerCardsContainer.style.display = `none`);
+//     outcomeObj.winHand.playersArr.includes(`player`)
+//       ? (playerCardsContainer.style.display = `block`)
+//       : (playerCardsContainer.style.display = `none`);
 
-  //   if (outcomeObj.winHand.playersArr.includes(`player`)) playerCardsContainer.style.display = `block`;
-  //   else playerCardsContainer.style.display = `none`;
+//     if (outcomeObj.winHand.player) {
+//       playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
+//     }
 
-  if (outcomeObj.outcome != `lose`) {
-    outcomeObj.winHand.playersArr.includes(`dealer`)
-      ? (dealerCardsContainer.style.display = `block`)
-      : (dealerCardsContainer.style.display = `none`);
-    outcomeObj.winHand.playersArr.includes(`player`)
-      ? (playerCardsContainer.style.display = `block`)
-      : (playerCardsContainer.style.display = `none`);
+//     if (outcomeObj.winHand.dealer) {
+//       dealerCardsField.innerHTML = gameState.dealer.hand.simpleImages.join();
+//     }
+//   }
 
-    if (outcomeObj.winHand.player) {
-      playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
-    }
+//   payoutField.textContent = outcomeObj.payout;
+//   winConditionField.textContent = outcomeObj.winCondition;
 
-    if (outcomeObj.winHand.dealer) {
-      dealerCardsField.innerHTML = gameState.dealer.hand.simpleImages.join();
-    }
-  }
+//   popbox.open(`winning-hand-modal`);
+// }
 
-  payoutField.textContent = outcomeObj.payout;
-  winConditionField.textContent = outcomeObj.winCondition;
+// export function displayEndingSideBetOutcomeWinHand(event, gameState) {
+//   const titleField = document.querySelector(`.winning-hand-modal__title`);
+//   const sideBetNameField = document.querySelector(
+//     `.winning-hand-modal__side-bet-name`
+//   );
+//   const dealerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__dealer-cards-container`
+//   );
+//   const playerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__player-cards-container`
+//   );
+//   const dealerCardsField = document.querySelector(
+//     `.winning-hand-modal__dealer-cards`
+//   );
+//   const playerCardsField = document.querySelector(
+//     `.winning-hand-modal__player-cards`
+//   );
+//   const payoutField = document.querySelector(`.winning-hand-modal__payout`);
+//   const winConditionField = document.querySelector(
+//     `.winning-hand-modal__winning-hand-name`
+//   );
 
-  popbox.open(`winning-hand-modal`);
-}
+//   let dealerHand = gameState.dealer.hand;
 
-export function displayEndingSideBetOutcomeWinHand(event, gameState) {
-  //   const displayHandBtn = document.querySelector(
-  //     `.btn-summary-modal__display-hand`
-  //   );
-  const titleField = document.querySelector(`.winning-hand-modal__title`);
-  const sideBetNameField = document.querySelector(
-    `.winning-hand-modal__side-bet-name`
-  );
-  const dealerCardsContainer = document.querySelector(
-    `.winning-hand-modal__dealer-cards-container`
-  );
-  const playerCardsContainer = document.querySelector(
-    `.winning-hand-modal__player-cards-container`
-  );
-  const dealerCardsField = document.querySelector(
-    `.winning-hand-modal__dealer-cards`
-  );
-  const playerCardsField = document.querySelector(
-    `.winning-hand-modal__player-cards`
-  );
-  const payoutField = document.querySelector(`.winning-hand-modal__payout`);
-  const winConditionField = document.querySelector(
-    `.winning-hand-modal__winning-hand-name`
-  );
+//   let outcomeArr = gameState.betObj.endingOutcomePackages;
+//   let key = event.target.dataset.sideBet;
 
-  let dealerHand = gameState.dealer.hand;
+//   let [outcomeObj] = outcomeArr.filter((obj) => obj.sideBetKey == key);
 
-  let outcomeArr = gameState.betObj.endingOutcomePackages;
-  let key = event.target.dataset.sideBet;
+//   titleField.textContent = `Winning Hand Info`;
+//   sideBetNameField.textContent = outcomeObj.name;
 
-  let [outcomeObj] = outcomeArr.filter((obj) => obj.sideBetKey == key);
+//   if (outcomeObj.outcome != `lose`) {
+//     outcomeObj.winHand.playersArr.includes(`dealer`)
+//       ? (dealerCardsContainer.style.display = `block`)
+//       : (dealerCardsContainer.style.display = `none`);
+//     outcomeObj.winHand.playersArr.includes(`player`)
+//       ? (playerCardsContainer.style.display = `block`)
+//       : (playerCardsContainer.style.display = `none`);
 
-  titleField.textContent = `Winning Hand Info`;
-  sideBetNameField.textContent = outcomeObj.name;
+//     if (outcomeObj.winHand.player) {
+//       playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
+//     }
 
-  //   if (outcomeObj.winHand.playersArr.includes(`dealer`)) dealerCardsContainer.style.display = `block`;
-  //   else dealerCardsContainer.style.display = `none`;
+//     if (outcomeObj.winHand.dealer) {
+//       dealerHand.simpleImages[0] = dealerHand.simpleUnrevealedCard;
+//       dealerCardsField.innerHTML = dealerHand.simpleImages.join();
+//     }
+//   }
 
-  //   if (outcomeObj.winHand.playersArr.includes(`player`)) playerCardsContainer.style.display = `block`;
-  //   else playerCardsContainer.style.display = `none`;
+//   payoutField.textContent = outcomeObj.payout;
+//   winConditionField.textContent = outcomeObj.winCondition;
 
-  if (outcomeObj.outcome != `lose`) {
-    outcomeObj.winHand.playersArr.includes(`dealer`)
-      ? (dealerCardsContainer.style.display = `block`)
-      : (dealerCardsContainer.style.display = `none`);
-    outcomeObj.winHand.playersArr.includes(`player`)
-      ? (playerCardsContainer.style.display = `block`)
-      : (playerCardsContainer.style.display = `none`);
-
-    if (outcomeObj.winHand.player) {
-      playerCardsField.innerHTML = gameState.player.hand.simpleImages.join();
-    }
-
-    if (outcomeObj.winHand.dealer) {
-      dealerHand.simpleImages[0] = dealerHand.simpleUnrevealedCard;
-      dealerCardsField.innerHTML = dealerHand.simpleImages.join();
-    }
-  }
-
-  payoutField.textContent = outcomeObj.payout;
-  winConditionField.textContent = outcomeObj.winCondition;
-
-  popbox.open(`winning-hand-modal`);
-}
+//   popbox.open(`winning-hand-modal`);
+// }
 
 export function displayPerfect11sDiceRoll(diceRolls) {
   const modalTitle = document.querySelector(`.generic-modal__title`);
@@ -2519,41 +2492,39 @@ export function renderSplitHandOutcome(gameState) {
   }
 }
 
-export function displayEndingSideBetOutcome(gameState) {
-  const summaryField = document.querySelector(`.summary-modal__main`);
-  const summaryTitle = document.querySelector(`.summary-modal__title`);
-  const closeBtn = document.querySelector(`.btn-summary-modal__close`);
-  const nextBtn = document.querySelector(`.btn-summary-modal__next`);
+// export function displayEndingSideBetOutcome(gameState) {
+//   const summaryField = document.querySelector(`.summary-modal__main`);
+//   const summaryTitle = document.querySelector(`.summary-modal__title`);
+//   const closeBtn = document.querySelector(`.btn-summary-modal__close`);
+//   const nextBtn = document.querySelector(`.btn-summary-modal__next`);
 
-  closeBtn.style.display = "none";
-  nextBtn.style.display = `inline-block`;
-  //   let buttonCountArr = [];
+//   closeBtn.style.display = "none";
+//   nextBtn.style.display = `inline-block`;
+//   //   let buttonCountArr = [];
 
-  summaryTitle.textContent = `Side Bet Outcome`;
+//   summaryTitle.textContent = `Side Bet Outcome`;
 
-  summaryField.innerHTML = ` `;
+//   summaryField.innerHTML = ` `;
 
-  let outcomeArr = gameState.betObj.endingOutcomePackages;
-  let totalWinnings = gameState.betObj.getEndingSideBetWinnings();
+//   let outcomeArr = gameState.betObj.endingOutcomePackages;
+//   let totalWinnings = gameState.betObj.getEndingSideBetWinnings();
 
-  outcomeArr.forEach(function (obj) {
-    let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
+//   outcomeArr.forEach(function (obj) {
+//     let [outcomeElem, buttonCount] = createSummaryFieldElements(obj);
 
-    //   buttonCountArr.push(buttonCount);
+//     summaryField.appendChild(outcomeElem);
+//   });
 
-    summaryField.appendChild(outcomeElem);
-  });
+//   let winningsField = document.createElement(`h1`);
+//   let winningsFieldContent = document.createTextNode(
+//     `Total Winnings: ${totalWinnings}`
+//   );
+//   winningsField.appendChild(winningsFieldContent);
+//   summaryField.appendChild(winningsField);
 
-  let winningsField = document.createElement(`h1`);
-  let winningsFieldContent = document.createTextNode(
-    `Total Winnings: ${totalWinnings}`
-  );
-  winningsField.appendChild(winningsFieldContent);
-  summaryField.appendChild(winningsField);
-
-  listeners.addSummaryModalEndingDisplayHandListener(gameState);
-  popbox.open(`summary-modal`);
-}
+//   listeners.addSummaryModalEndingDisplayHandListener(gameState);
+//   popbox.open(`summary-modal`);
+// }
 
 export function displayTotalWinningsModal(gameState) {
   const winningsField = document.querySelector(
