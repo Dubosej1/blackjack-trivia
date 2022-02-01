@@ -1817,6 +1817,9 @@ export let sideBetOutcomeModal = {
 
 export const winningHandModal = {
   titleField: document.querySelector(`.winning-hand-modal__title`),
+  sideBetContainer: document.querySelector(
+    `.winning-hand-modal__side-bet-name-container`
+  ),
   sideBetNameField: document.querySelector(
     `.winning-hand-modal__side-bet-name`
   ),
@@ -1828,9 +1831,20 @@ export const winningHandModal = {
   ),
   dealerCardsField: document.querySelector(`.winning-hand-modal__dealer-cards`),
   playerCardsField: document.querySelector(`.winning-hand-modal__player-cards`),
+  winningsContainer: document.querySelector(
+    `.winning-hand-modal__winnings-info-container`
+  ),
   payoutField: document.querySelector(`.winning-hand-modal__payout`),
   winConditionField: document.querySelector(
     `.winning-hand-modal__winning-hand-name`
+  ),
+  closeBtn: document.querySelector(`.btn-winning-hand-modal__close`),
+  nextBtn: document.querySelector(`.btn-winning-hand-modal__next`),
+  acceptEarlySurrenderBtn: document.querySelector(
+    `.btn-winning-hand-modal__accept-early-surrender`
+  ),
+  declineEarlySurrenderBtn: document.querySelector(
+    `.btn-winning-hand-modal__decline-early-surrender`
   ),
 
   //replaces both initialSideBetOutcomeWinHand and endingsideBetOutcomeWinHand
@@ -1889,6 +1903,22 @@ export const winningHandModal = {
         elem.innerHTML = hand.simpleImages.join();
       }
     }
+  },
+
+  resetModal() {
+    this.titleField.textContent = `Winning Hand`;
+
+    this.sideBetContainer.style.display = `block`;
+    this.dealerContainer.style.display = `block`;
+    this.playerContainer.style.display = `block`;
+    this.winningsContainer.style.display = `block`;
+    this.closeBtn.style.display = `inline`;
+    this.nextBtn.style.display = `none`;
+    this.acceptEarlySurrenderBtn.style.display = `none`;
+    this.declineEarlySurrenderBtn.style.display = `none`;
+
+    this.dealerCardsField.innerHTML = ` `;
+    this.playerCardsField.innerHTML = ` `;
   },
 };
 
@@ -3093,83 +3123,46 @@ export function activateEarlySurrenderModal(gameState) {
   popbox.open(`winning-hand-modal`);
 }
 
-export function resetWinningHandModal() {
-  const titleField = document.querySelector(`.winning-hand-modal__title`);
-  const sideBetContainer = document.querySelector(
-    `.winning-hand-modal__side-bet-name-container`
-  );
-  const dealerCardsContainer = document.querySelector(
-    `.winning-hand-modal__dealer-cards-container`
-  );
-  const playerCardsContainer = document.querySelector(
-    `.winning-hand-modal__player-cards-container`
-  );
-  const dealerField = document.querySelector(
-    `.winning-hand-modal__dealer-cards`
-  );
-  const playerField = document.querySelector(
-    `.winning-hand-modal__player-cards`
-  );
-  const winningsInfoContainer = document.querySelector(
-    `.winning-hand-modal__winnings-info-container`
-  );
-  const closeBtn = document.querySelector(`.btn-winning-hand-modal__close`);
-  const nextBtn = document.querySelector(`.btn-winning-hand-modal__next`);
-  const acceptBtn = document.querySelector(
-    `.btn-winning-hand-modal__accept-early-surrender`
-  );
-  const declineBtn = document.querySelector(
-    `.btn-winning-hand-modal__decline-early-surrender`
-  );
-
-  titleField.textContent = `Winning Hand`;
-
-  sideBetContainer.style.display = `block`;
-  dealerCardsContainer.style.display = `block`;
-  playerCardsContainer.style.display = `block`;
-  winningsInfoContainer.style.display = `block`;
-  closeBtn.style.display = `inline`;
-  nextBtn.style.display = `none`;
-  acceptBtn.style.display = `none`;
-  declineBtn.style.display = `none`;
-
-  dealerField.innerHTML = ` `;
-  playerField.innerHTML = ` `;
-}
-
-// export function resetSideBetModal() {
-//   const sideBetValueFields = document.querySelectorAll(
-//     `.side-bet-modal__side-bet-value`
+// export function resetWinningHandModal() {
+//   const titleField = document.querySelector(`.winning-hand-modal__title`);
+//   const sideBetContainer = document.querySelector(
+//     `.winning-hand-modal__side-bet-name-container`
+//   );
+//   const dealerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__dealer-cards-container`
+//   );
+//   const playerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__player-cards-container`
+//   );
+//   const dealerField = document.querySelector(
+//     `.winning-hand-modal__dealer-cards`
+//   );
+//   const playerField = document.querySelector(
+//     `.winning-hand-modal__player-cards`
+//   );
+//   const winningsInfoContainer = document.querySelector(
+//     `.winning-hand-modal__winnings-info-container`
+//   );
+//   const closeBtn = document.querySelector(`.btn-winning-hand-modal__close`);
+//   const nextBtn = document.querySelector(`.btn-winning-hand-modal__next`);
+//   const acceptBtn = document.querySelector(
+//     `.btn-winning-hand-modal__accept-early-surrender`
+//   );
+//   const declineBtn = document.querySelector(
+//     `.btn-winning-hand-modal__decline-early-surrender`
 //   );
 
-//   sideBetValueFields.forEach(function (elem) {
-//     elem.textContent = 0;
-//   });
+//   titleField.textContent = `Winning Hand`;
+
+//   sideBetContainer.style.display = `block`;
+//   dealerCardsContainer.style.display = `block`;
+//   playerCardsContainer.style.display = `block`;
+//   winningsInfoContainer.style.display = `block`;
+//   closeBtn.style.display = `inline`;
+//   nextBtn.style.display = `none`;
+//   acceptBtn.style.display = `none`;
+//   declineBtn.style.display = `none`;
+
+//   dealerField.innerHTML = ` `;
+//   playerField.innerHTML = ` `;
 // }
-
-// if (document.querySelector(`#trivia-on`).value == true) options.triviaModeEnabled = true;
-// if (document.querySelector(`#trivia-off`).value == true) options.triviaModeEnabled = false;
-// if (document.querySelector(`#side-bet-on`).value == true) options.sideBetsEnabled = true;
-// if (document.querySelector(`#side-bet-off`).value == true) options.sideBetsEnabled = false;
-// if (document.querySelector(`#blackjack-2-to-1`).value == true) options.blackjackPayout = `2:1`;
-// if (document.querySelector(`#blackjack-2-to-1`).value == true) options.blackjackPayout = `2:1`;
-
-// options.triviaModeEnabled = document.querySelector(`#trivia-on`).value;
-// options.sideBetsEnabled = document.querySelector(`#trivia-on`).value;
-// blackjackWinnings: `3:2`,
-// dealerStandsOn: `hard17`,
-// deckCount: 6,
-// fiveCardCharlieEnabled: true,
-// doubleAfterSplitEnabled: false,
-// splitAnyTensEnabled: false,
-// resplittingEnabled: false,
-// resplittingAcesEnabled: false,
-// draw1AfterSplitAceEnabled: false,
-// redoubleAfterSplitAcesEnabled: false,
-// resplitAfterSplitAcesEnabled: false,
-// surrenderEnabled: true,
-// earlySurrenderEnabled: false,
-// lateSurrenderEnabled: true,
-// evenMoneyEnabled: true,
-
-// options.

@@ -737,12 +737,13 @@ function answerBtnCallback(event) {
 }
 
 function acceptEarlySurrenderCallback(event) {
-  view.resetWinningHandModal();
+  view.winningHandModal.resetModal();
   controller.surrenderAction(event, globalState);
 }
 
 function declineEarlySurrenderCallback(event) {
-  view.resetWinningHandModal();
+  // view.resetWinningHandModal();
+  view.winningHandModal.resetModal();
   controller.beginGameRoutinePart2(globalState);
 }
 
