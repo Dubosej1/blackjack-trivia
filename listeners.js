@@ -599,11 +599,13 @@ function checkSideBetBtnListenerCallback(event) {
 }
 
 function initialSideBetOutcomeWinHandCallback(event) {
-  view.displayInitialSideBetOutcomeWinHand(event, globalState);
+  view.winningHandModal.displayModal(event, globalState, `beginning`);
+  // view.displayInitialSideBetOutcomeWinHand(event, globalState);
 }
 
 function endingSideBetOutcomeWinHandCallback(event) {
-  view.displayEndingSideBetOutcomeWinHand(event, globalState);
+  // view.displayEndingSideBetOutcomeWinHand(event, globalState);
+  view.winningHandModal.displayModal(event, globalState, `ending`);
 }
 
 function displayStopInfinityDiceCallback(event) {

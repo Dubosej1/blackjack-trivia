@@ -1321,305 +1321,234 @@ function removeOutcomeModifierClass(elem) {
   });
 }
 
-export function renderPlayerHands(player, reset = null) {
-  let active = player.currentSplitHand;
-  let count;
-  if (player.type == "split player") count = player.splitHands.length;
+// export function renderPlayerHands(player, reset = null) {
+//   let active = player.currentSplitHand;
+//   let count;
+//   if (player.type == "split player") count = player.splitHands.length;
 
-  if (reset) resetOutcomeField(0);
+//   if (reset) resetOutcomeField(0);
 
-  if (active == 0) {
-    renderPlayerField(player.hand);
-    return;
-  }
-  let splitHand1, splitHand2, splitHand3, splitHand4;
+//   if (active == 0) {
+//     renderPlayerField(player.hand);
+//     return;
+//   }
+//   let splitHand1, splitHand2, splitHand3, splitHand4;
 
-  splitHand1 = player.getSplitHand(1);
-  splitHand2 = player.getSplitHand(2);
-  if (count >= 3) splitHand3 = player.getSplitHand(3);
-  if (count == 4) splitHand4 = player.getSplitHand(4);
+//   splitHand1 = player.getSplitHand(1);
+//   splitHand2 = player.getSplitHand(2);
+//   if (count >= 3) splitHand3 = player.getSplitHand(3);
+//   if (count == 4) splitHand4 = player.getSplitHand(4);
 
-  switch (active) {
-    case 1:
-      renderPlayerField(splitHand1);
-      if (count == 4) renderSplitStage(splitHand4, 3);
-      if (count >= 3) renderSplitStage(splitHand3, 2);
-      if (count >= 2) renderSplitStage(splitHand2, 1);
-      break;
-    case 2:
-      renderPlayerField(splitHand2);
-      renderSplitStage(splitHand1, 1);
-      if (count == 4) renderSplitStage(splitHand4, 3);
-      if (count >= 3) renderSplitStage(splitHand3, 2);
-      break;
-    case 3:
-      renderPlayerField(splitHand3);
-      renderSplitStage(splitHand1, 1);
-      renderSplitStage(splitHand2, 2);
-      if (count == 4) renderSplitStage(splitHand4, 3);
-      break;
-    case 4:
-      renderPlayerField(splitHand4);
-      renderSplitStage(splitHand1, 1);
-      renderSplitStage(splitHand2, 2);
-      renderSplitStage(splitHand3, 3);
-      break;
-    default:
-      console.log(`ERROR: Rendering split hands to view`);
-  }
-}
-
-export function renderPlayerHandOutcome(hand, field) {
-  // let active = player.currentSplitHand;
-  // let count;
-  // if (player.type == "split player") count = player.splitHands.length;
-
-  // if (active == 0) {
-  //   renderPlayerField(player.hand);
-  //   return;
-  // }
-  // let splitHand1, splitHand2, splitHand3, splitHand4;
-
-  let outcome = hand.outcome;
-  let outcomeText;
-
-  if (outcome == `bust`) outcomeText = `Bust`;
-  if (outcome == `charlie`) outcomeText = `${hand.charlieType} Card Charlie`;
-  if (outcome == `natural`) outcomeText = `Blackjack!`;
-  if (outcome == `stand`) outcomeText = `Stand`;
-  if (outcome == `dealerHit`) outcomeText = `Hitting...`;
-
-  switch (field) {
-    case `player`:
-      document
-        .querySelector(`.player-message__container`)
-        .classList.add(`player-message__container--${outcome}`);
-      document.querySelector(`.player-message__text`).textContent = outcomeText;
-      break;
-    case `split-1`:
-      const splitStage1Result = document.querySelector(
-        `.split-stage-1__result`
-      );
-      splitStage1Result.classList.add(`split-stage-1__result--${outcome}`);
-      splitStage1Result.textContent = outcomeText;
-      break;
-    case `split-2`:
-      const splitStage2Result = document.querySelector(
-        `.split-stage-2__result`
-      );
-      splitStage2Result.classList.add(`split-stage-2__result--${outcome}`);
-      splitStage2Result.textContent = outcomeText;
-      break;
-    case `split-3`:
-      const splitStage3Result = document.querySelector(
-        `.split-stage-3__result`
-      );
-      splitStage3Result.classList.add(`split-stage-3__result--${outcome}`);
-      splitStage3Result.textContent = outcomeText;
-      break;
-    case `dealer`:
-      document
-        .querySelector(`.dealer-message__container`)
-        .classList.add(`dealer-message__container--${outcome}`);
-      document.querySelector(`.dealer-message__text`).textContent = outcomeText;
-      break;
-    default:
-      console.log(`ERROR: Rendering Outcome Fields`);
-  }
-}
-
-export function resetOutcomeField(stageNum) {
-  const playerMessageContainer = document.querySelector(
-    `.player-message__container`
-  );
-  const playerMessageText = document.querySelector(`.player-message__text`);
-  const splitStage1Result = document.querySelector(`.split-stage-1__result`);
-  const splitStage2Result = document.querySelector(`.split-stage-2__result`);
-  const splitStage3Result = document.querySelector(`.split-stage-3__result`);
-  const dealerMessageContainer = document.querySelector(
-    `.dealer-message__container`
-  );
-  const dealerMessageText = document.querySelector(`.dealer-message__text`);
-
-  switch (stageNum) {
-    case 0:
-      removeOutcomeModifierClasses(playerMessageContainer);
-      playerMessageText.textContent = ``;
-      break;
-    case 10:
-      removeOutcomeModifierClasses(dealerMessageContainer);
-      dealerMessageText.textContent = ``;
-      break;
-    case 1:
-      removeOutcomeModifierClasses(splitStage1Result);
-      splitStage1Result.textContent = ``;
-      break;
-    case 2:
-      removeOutcomeModifierClasses(splitStage2Result);
-      splitStage2Result.textContent = ``;
-      break;
-    case 3:
-      removeOutcomeModifierClasses(splitStage3Result);
-      splitStage3Result.textContent = ``;
-      break;
-    default:
-      removeOutcomeModifierClasses(splitStage1Result);
-      splitStage1Result.textContent = ``;
-
-      removeOutcomeModifierClasses(splitStage2Result);
-      splitStage2Result.textContent = ``;
-
-      removeOutcomeModifierClasses(splitStage3Result);
-      splitStage3Result.textContent = ``;
-  }
-}
-
-function removeOutcomeModifierClasses(elem) {
-  let classesArr = [`natural`, `bust`, `charlie`, `stand`];
-
-  classesArr.forEach(function (str) {
-    elem.classList.remove(`player-message__container--${str}`);
-  });
-}
-
-export function renderPlayerField(hand) {
-  let handNum = hand.handNum;
-  let finalImages = [...hand.images, ...hand.endTags];
-
-  document.querySelector(".player-cards__container").innerHTML =
-    finalImages.join(``);
-  document.querySelector(".player-total__value").textContent = hand.total;
-
-  if (handNum > 0) togglePlayerFieldLabel(handNum);
-
-  if (hand.outcome) renderPlayerHandOutcome(hand, `player`);
-  // else resetPlayerHandOutcome(hand, `reset`);
-}
-
-function togglePlayerFieldLabel(handNum) {
-  const playerLabel = document.querySelector(`.player-total__label`);
-  const handNumField = document.querySelector(`.player-total__hand-num`);
-
-  if (handNum == 0) {
-    playerLabel.textContent = `Player `;
-    handNumField.style.display = `none`;
-  } else {
-    playerLabel.textContent = `Hand `;
-    handNumField.style.display = `inline`;
-    handNumField.textContent = handNum;
-  }
-}
-
-export function renderDealerField(hand) {
-  let finalImages = [...hand.images, ...hand.endTags];
-  //   document.querySelector(".dealer-cards__container").innerHTML = hand.images.join();
-  document.querySelector(".dealer-cards__container").innerHTML =
-    finalImages.join(``);
-  document.querySelector(".dealer-total__value").textContent =
-    hand.visibleTotal;
-
-  // if (hand.outcome) renderPlayerHandOutcome(hand, `dealer`);
-}
-
-export function renderSplitStage(hand, stageNum) {
-  const splitStageField = document.querySelector(
-    `.grid__split-stages-container`
-  );
-  let { handNum, codes, total } = hand;
-
-  splitStageField.style.display = `flex`;
-
-  switch (stageNum) {
-    case 1:
-      document.querySelector(
-        `.split-stage-1__container`
-      ).style.display = `block`;
-      document.querySelector(`.split-stage-1__hand-num`).textContent = handNum;
-      document.querySelector(`.split-stage-1__cards`).textContent =
-        codes.join(` `);
-      document.querySelector(`.split-stage-1__total`).textContent = total;
-      if (hand.outcome) renderPlayerHandOutcome(hand, `split-1`);
-      break;
-    case 2:
-      document.querySelector(
-        `.split-stage-2__container`
-      ).style.display = `block`;
-      document.querySelector(`.split-stage-2__hand-num`).textContent = handNum;
-      document.querySelector(`.split-stage-2__cards`).textContent =
-        codes.join(` `);
-      document.querySelector(`.split-stage-2__total`).textContent = total;
-      if (hand.outcome) renderPlayerHandOutcome(hand, `split-2`);
-      break;
-    case 3:
-      document.querySelector(
-        `.split-stage-3__container`
-      ).style.display = `block`;
-      document.querySelector(`.split-stage-3__hand-num`).textContent = handNum;
-      document.querySelector(`.split-stage-3__cards`).textContent =
-        codes.join(` `);
-      document.querySelector(`.split-stage-3__total`).textContent = total;
-      if (hand.outcome) renderPlayerHandOutcome(hand, `split-3`);
-      break;
-    default:
-      console.log(`ERROR: Rendering Split Stage`);
-  }
-}
-
-// export function renderSplitStage1(hand) {
-//   // let finalImages = [...hand.images, ...hand.endTags];
-//   const container = document.querySelector(`.split-stage-1__container`);
-//   const handNumField = document.querySelector(`.split-stage-1__hand-num`);
-//   const cardsField = document.querySelector(`.split-stage-1__cards`);
-//   const totalField = document.querySelector(`.split-stage-1__total`);
-
-//   // let outcome = hand.outcome;
-
-//   container.style.display = `block`;
-//   handNumField.textContent = hand.handNum;
-//   cardsField.textContent = hand.codes.join(` `);
-//   totalField.textContent = hand.total;
-
-//   // if (!hand.outcome) return;
-
-//   //Outcomes: Bust, # Card Charlie, Stand, Win, Lose, Push
+//   switch (active) {
+//     case 1:
+//       renderPlayerField(splitHand1);
+//       if (count == 4) renderSplitStage(splitHand4, 3);
+//       if (count >= 3) renderSplitStage(splitHand3, 2);
+//       if (count >= 2) renderSplitStage(splitHand2, 1);
+//       break;
+//     case 2:
+//       renderPlayerField(splitHand2);
+//       renderSplitStage(splitHand1, 1);
+//       if (count == 4) renderSplitStage(splitHand4, 3);
+//       if (count >= 3) renderSplitStage(splitHand3, 2);
+//       break;
+//     case 3:
+//       renderPlayerField(splitHand3);
+//       renderSplitStage(splitHand1, 1);
+//       renderSplitStage(splitHand2, 2);
+//       if (count == 4) renderSplitStage(splitHand4, 3);
+//       break;
+//     case 4:
+//       renderPlayerField(splitHand4);
+//       renderSplitStage(splitHand1, 1);
+//       renderSplitStage(splitHand2, 2);
+//       renderSplitStage(splitHand3, 3);
+//       break;
+//     default:
+//       console.log(`ERROR: Rendering split hands to view`);
+//   }
 // }
 
-// export function renderSplitStage2(hand) {
-//   // let finalImages = [...hand.images, ...hand.endTags];
-//   const container = document.querySelector(`.split-stage-2__container`);
-//   const handNumField = document.querySelector(`.split-stage-2__hand-num`);
-//   const cardsField = document.querySelector(`.split-stage-2__cards`);
-//   const totalField = document.querySelector(`.split-stage-2__total`);
+// export function renderPlayerHandOutcome(hand, field) {
+//   let outcome = hand.outcome;
+//   let outcomeText;
 
-//   // let outcome = hand.outcome;
+//   if (outcome == `bust`) outcomeText = `Bust`;
+//   if (outcome == `charlie`) outcomeText = `${hand.charlieType} Card Charlie`;
+//   if (outcome == `natural`) outcomeText = `Blackjack!`;
+//   if (outcome == `stand`) outcomeText = `Stand`;
+//   if (outcome == `dealerHit`) outcomeText = `Hitting...`;
 
-//   container.style.display = `block`;
-//   handNumField.textContent = hand.handNum;
-//   cardsField.textContent = hand.codes.join(` `);
-//   totalField.textContent = hand.total;
-
-//   // if (!hand.outcome) return;
-
-//   //Outcomes: Bust, # Card Charlie, Stand, Win, Lose, Push
+//   switch (field) {
+//     case `player`:
+//       document
+//         .querySelector(`.player-message__container`)
+//         .classList.add(`player-message__container--${outcome}`);
+//       document.querySelector(`.player-message__text`).textContent = outcomeText;
+//       break;
+//     case `split-1`:
+//       const splitStage1Result = document.querySelector(
+//         `.split-stage-1__result`
+//       );
+//       splitStage1Result.classList.add(`split-stage-1__result--${outcome}`);
+//       splitStage1Result.textContent = outcomeText;
+//       break;
+//     case `split-2`:
+//       const splitStage2Result = document.querySelector(
+//         `.split-stage-2__result`
+//       );
+//       splitStage2Result.classList.add(`split-stage-2__result--${outcome}`);
+//       splitStage2Result.textContent = outcomeText;
+//       break;
+//     case `split-3`:
+//       const splitStage3Result = document.querySelector(
+//         `.split-stage-3__result`
+//       );
+//       splitStage3Result.classList.add(`split-stage-3__result--${outcome}`);
+//       splitStage3Result.textContent = outcomeText;
+//       break;
+//     case `dealer`:
+//       document
+//         .querySelector(`.dealer-message__container`)
+//         .classList.add(`dealer-message__container--${outcome}`);
+//       document.querySelector(`.dealer-message__text`).textContent = outcomeText;
+//       break;
+//     default:
+//       console.log(`ERROR: Rendering Outcome Fields`);
+//   }
 // }
 
-// export function renderSplitStage3(hand) {
-//   // let finalImages = [...hand.images, ...hand.endTags];
-//   const container = document.querySelector(`.split-stage-3__container`);
-//   const handNumField = document.querySelector(`.split-stage-3__hand-num`);
-//   const cardsField = document.querySelector(`.split-stage-3__cards`);
-//   const totalField = document.querySelector(`.split-stage-3__total`);
+// export function resetOutcomeField(stageNum) {
+//   const playerMessageContainer = document.querySelector(
+//     `.player-message__container`
+//   );
+//   const playerMessageText = document.querySelector(`.player-message__text`);
+//   const splitStage1Result = document.querySelector(`.split-stage-1__result`);
+//   const splitStage2Result = document.querySelector(`.split-stage-2__result`);
+//   const splitStage3Result = document.querySelector(`.split-stage-3__result`);
+//   const dealerMessageContainer = document.querySelector(
+//     `.dealer-message__container`
+//   );
+//   const dealerMessageText = document.querySelector(`.dealer-message__text`);
 
-//   // let outcome = hand.outcome;
+//   switch (stageNum) {
+//     case 0:
+//       removeOutcomeModifierClasses(playerMessageContainer);
+//       playerMessageText.textContent = ``;
+//       break;
+//     case 10:
+//       removeOutcomeModifierClasses(dealerMessageContainer);
+//       dealerMessageText.textContent = ``;
+//       break;
+//     case 1:
+//       removeOutcomeModifierClasses(splitStage1Result);
+//       splitStage1Result.textContent = ``;
+//       break;
+//     case 2:
+//       removeOutcomeModifierClasses(splitStage2Result);
+//       splitStage2Result.textContent = ``;
+//       break;
+//     case 3:
+//       removeOutcomeModifierClasses(splitStage3Result);
+//       splitStage3Result.textContent = ``;
+//       break;
+//     default:
+//       removeOutcomeModifierClasses(splitStage1Result);
+//       splitStage1Result.textContent = ``;
 
-//   container.style.display = `block`;
-//   handNumField.textContent = hand.handNum;
-//   cardsField.textContent = hand.codes.join(` `);
-//   totalField.textContent = hand.total;
+//       removeOutcomeModifierClasses(splitStage2Result);
+//       splitStage2Result.textContent = ``;
 
-//   // if (!hand.outcome) return;
+//       removeOutcomeModifierClasses(splitStage3Result);
+//       splitStage3Result.textContent = ``;
+//   }
+// }
 
-//   //Outcomes: Bust, # Card Charlie, Stand, Win, Lose, Push
+// function removeOutcomeModifierClasses(elem) {
+//   let classesArr = [`natural`, `bust`, `charlie`, `stand`];
+
+//   classesArr.forEach(function (str) {
+//     elem.classList.remove(`player-message__container--${str}`);
+//   });
+// }
+
+// export function renderPlayerField(hand) {
+//   let handNum = hand.handNum;
+//   let finalImages = [...hand.images, ...hand.endTags];
+
+//   document.querySelector(".player-cards__container").innerHTML =
+//     finalImages.join(``);
+//   document.querySelector(".player-total__value").textContent = hand.total;
+
+//   if (handNum > 0) togglePlayerFieldLabel(handNum);
+
+//   if (hand.outcome) renderPlayerHandOutcome(hand, `player`);
+// }
+
+// function togglePlayerFieldLabel(handNum) {
+//   const playerLabel = document.querySelector(`.player-total__label`);
+//   const handNumField = document.querySelector(`.player-total__hand-num`);
+
+//   if (handNum == 0) {
+//     playerLabel.textContent = `Player `;
+//     handNumField.style.display = `none`;
+//   } else {
+//     playerLabel.textContent = `Hand `;
+//     handNumField.style.display = `inline`;
+//     handNumField.textContent = handNum;
+//   }
+// }
+
+// export function renderDealerField(hand) {
+//   let finalImages = [...hand.images, ...hand.endTags];
+//   document.querySelector(".dealer-cards__container").innerHTML =
+//     finalImages.join(``);
+//   document.querySelector(".dealer-total__value").textContent =
+//     hand.visibleTotal;
+// }
+
+// export function renderSplitStage(hand, stageNum) {
+//   const splitStageField = document.querySelector(
+//     `.grid__split-stages-container`
+//   );
+//   let { handNum, codes, total } = hand;
+
+//   splitStageField.style.display = `flex`;
+
+//   switch (stageNum) {
+//     case 1:
+//       document.querySelector(
+//         `.split-stage-1__container`
+//       ).style.display = `block`;
+//       document.querySelector(`.split-stage-1__hand-num`).textContent = handNum;
+//       document.querySelector(`.split-stage-1__cards`).textContent =
+//         codes.join(` `);
+//       document.querySelector(`.split-stage-1__total`).textContent = total;
+//       if (hand.outcome) renderPlayerHandOutcome(hand, `split-1`);
+//       break;
+//     case 2:
+//       document.querySelector(
+//         `.split-stage-2__container`
+//       ).style.display = `block`;
+//       document.querySelector(`.split-stage-2__hand-num`).textContent = handNum;
+//       document.querySelector(`.split-stage-2__cards`).textContent =
+//         codes.join(` `);
+//       document.querySelector(`.split-stage-2__total`).textContent = total;
+//       if (hand.outcome) renderPlayerHandOutcome(hand, `split-2`);
+//       break;
+//     case 3:
+//       document.querySelector(
+//         `.split-stage-3__container`
+//       ).style.display = `block`;
+//       document.querySelector(`.split-stage-3__hand-num`).textContent = handNum;
+//       document.querySelector(`.split-stage-3__cards`).textContent =
+//         codes.join(` `);
+//       document.querySelector(`.split-stage-3__total`).textContent = total;
+//       if (hand.outcome) renderPlayerHandOutcome(hand, `split-3`);
+//       break;
+//     default:
+//       console.log(`ERROR: Rendering Split Stage`);
+//   }
 // }
 
 export function toggleCheckSideBetBtn(toggle) {
@@ -1631,6 +1560,161 @@ export function toggleCheckSideBetBtn(toggle) {
     ? (checkSideBetBtn.style.display = `inline-block`)
     : (checkSideBetBtn.style.display = `none`);
 }
+
+export let sideBetOutcomeModal = {
+  mainContainer: document.querySelector(`.summary-modal__main`),
+  titleField: document.querySelector(`.summary-modal__title`),
+  closeBtn: document.querySelector(`.btn-summary-modal__close`),
+  nextBtn: document.querySelector(`.btn-summary-modal__next`),
+
+  //replaces displayInitialSideBetOutcome and displayEndingSideBetOutcome
+  displayModal(gameState, phase) {
+    let betObj = gameState.betObj;
+
+    //clears modal content from previous use
+    this.mainContainer.innerHTML = ` `;
+
+    createSummaryField(betObj, phase);
+
+    createWinningsField(betObj, phase);
+
+    addCheckHandBtnListeners(gameState, phase);
+
+    initModal();
+
+    function initModal() {
+      sideBetOutcomeModal.closeBtn.style.display = "none";
+      sideBetOutcomeModal.nextBtn.style.display = `inline-block`;
+
+      sideBetOutcomeModal.titleField.textContent = `Side Bet Outcome`;
+
+      popbox.open(`summary-modal`);
+    }
+
+    function createSummaryField(betObj, phase) {
+      let outcomeArr;
+
+      phase == `beginning`
+        ? (outcomeArr = betObj.initialOutcomePackages)
+        : (outcomeArr = betObj.endingOutcomePackages);
+
+      outcomeArr.forEach(function (obj) {
+        let outcomeElem = sideBetOutcomeModal.createSummaryElements(obj);
+
+        sideBetOutcomeModal.mainContainer.appendChild(outcomeElem);
+      });
+    }
+
+    function createWinningsField(betObj, phase) {
+      let totalWinnings = getWinnings(betObj, phase);
+
+      let winningsField = document.createElement(`h1`);
+      let winningsFieldContent = document.createTextNode(
+        `Total Winnings: ${totalWinnings}`
+      );
+      winningsField.appendChild(winningsFieldContent);
+      sideBetOutcomeModal.mainContainer.appendChild(winningsField);
+
+      function getWinnings(betObj, phase) {
+        let winnings;
+
+        phase == `beginning`
+          ? (winnings = betObj.getInitialSideBetWinnings())
+          : (winnings = betObj.getEndingSideBetWinnings());
+
+        return winnings;
+      }
+    }
+
+    function addCheckHandBtnListeners(gameState, phase) {
+      phase == `beginning`
+        ? listeners.addSummaryModalDisplayHandListener(gameState)
+        : listeners.addSummaryModalEndingDisplayHandListener(gameState);
+    }
+  },
+
+  //replaces createSummaryFieldElements
+  createSummaryElements(outcomeObj) {
+    let { name, outcome, winCondition } = outcomeObj;
+
+    const newDiv = document.createElement(`div`);
+
+    const nameSpan = createNameElement(name);
+
+    const outcomeDiv = createOutcomeElement(outcome);
+
+    const winConditionSpan = createWinConditionElement(winCondition);
+
+    newDiv.appendChild(nameSpan);
+    newDiv.appendChild(outcomeDiv);
+    // newDiv.appendChild(outcomeDivContent);
+
+    if (outcome == `lose`) {
+      newDiv.appendChild(winConditionSpan);
+      winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+      return newDiv;
+    }
+
+    let { winnings, sideBetKey } = outcomeObj;
+
+    const checkHandBtn = createCheckHandBtnElement(sideBetKey);
+
+    const winningsSpan = createWinningsElement(winnings);
+
+    newDiv.appendChild(checkHandBtn);
+    newDiv.appendChild(winConditionSpan);
+    winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+    newDiv.appendChild(winningsSpan);
+
+    return newDiv;
+
+    function createNameElement(name) {
+      const nameSpan = document.createElement(`span`);
+      let nameSpanContent = document.createTextNode(`${name} `);
+      nameSpan.appendChild(nameSpanContent);
+
+      return nameSpan;
+    }
+
+    function createOutcomeElement(outcome) {
+      const outcomeDiv = document.createElement(`div`);
+      outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
+      let outcomeDivContent = document.createTextNode(`${outcome} `);
+      outcomeDiv.appendChild(outcomeDivContent);
+
+      return outcomeDiv;
+    }
+
+    function createWinConditionElement(winCondition) {
+      const winConditionSpan = document.createElement(`span`);
+      const winConditionSpanContent = document.createTextNode(
+        `${winCondition}  `
+      );
+      winConditionSpan.appendChild(winConditionSpanContent);
+
+      return winConditionSpan;
+    }
+
+    function createCheckHandBtnElement(sideBetKey) {
+      const checkHandBtn = document.createElement(`button`);
+      checkHandBtn.classList.add(`btn-summary-modal__display-hand`);
+      checkHandBtn.dataset.sideBet = sideBetKey;
+      let checkHandBtnContent = document.createTextNode(`Check Hand`);
+      checkHandBtn.appendChild(checkHandBtnContent);
+
+      return checkHandBtn;
+    }
+
+    function createWinningsElement(winnings) {
+      const winningsSpan = document.createElement(`span`);
+      winningsSpan.classList.add(`summary-modal__winnings-value`);
+      let winningsSpanContent = document.createTextNode(`${winnings}`);
+      winningsSpan.appendChild(winningsSpanContent);
+
+      return winningsSpan;
+    }
+  },
+};
 
 export function displayInitialSideBetOutcome(gameState) {
   const summaryField = document.querySelector(`.summary-modal__main`);
@@ -1740,16 +1824,82 @@ function createSummaryFieldElements(outcomeObj) {
   return [newDiv, buttonCount];
 }
 
-// let str;
-// let { name, outcome, winCondition } = obj;
+export const winningHandModal = {
+  titleField: document.querySelector(`.winning-hand-modal__title`),
+  sideBetNameField: document.querySelector(
+    `.winning-hand-modal__side-bet-name`
+  ),
+  dealerContainer: document.querySelector(
+    `.winning-hand-modal__dealer-cards-container`
+  ),
+  playerContainer: document.querySelector(
+    `.winning-hand-modal__player-cards-container`
+  ),
+  dealerCardsField: document.querySelector(`.winning-hand-modal__dealer-cards`),
+  playerCardsField: document.querySelector(`.winning-hand-modal__player-cards`),
+  payoutField: document.querySelector(`.winning-hand-modal__payout`),
+  winConditionField: document.querySelector(
+    `.winning-hand-modal__winning-hand-name`
+  ),
 
-// if (outcome == `lose`) {
-//   str = `<span>${name}  <div class="summary-modal__outcome--lose"> ${outcome} </div><br><span>"${winCondition}"</span><br>`;
-// } else {
-//   let { winnings } = obj;
-//   str = `<span>${name} </span><div class="summary-modal__outcome--${outcome}"> ${outcome} </div><button class="btn-summary-modal__display-hand" data-sideBet="${sideBetKey}" data-popbox-target="winning-hand-modal">Hand / Payout</button><br><span>${winCondition} </span><span class="summary-modal__winnings-value"> ${winnings}</span><br>`;
-// }
-// contentStr.push(str);
+  //replaces both initialSideBetOutcomeWinHand and endingsideBetOutcomeWinHand
+  displayModal(event, gameState, phase) {
+    let key = event.target.dataset.sideBet;
+
+    let outcomeObj = generateOutcomeObj(key, phase, gameState);
+
+    this.titleField.textContent = `Winning Hand Info`;
+    this.sideBetNameField.textContent = outcomeObj.name;
+    this.payoutField.textContent = outcomeObj.payout;
+    this.winConditionField.textContent = outcomeObj.winCondition;
+
+    renderCardField(outcomeObj, gameState, phase);
+
+    popbox.open(`winning-hand-modal`);
+
+    function generateOutcomeObj(key, phase, gameState) {
+      let betObj = gameState.betObj;
+      let outcomeArr;
+
+      phase == `beginning`
+        ? (outcomeArr = betObj.initialOutcomePackages)
+        : (outcomeArr = betObj.endingOutcomePackages);
+      let [outcomeObj] = outcomeArr.filter((obj) => obj.sideBetKey == key);
+
+      return outcomeObj;
+    }
+
+    function renderCardField(outcomeObj, gameState, phase) {
+      if (outcomeObj.outcome == `lose`) return;
+
+      outcomeObj.winHand.playersArr.includes(`dealer`)
+        ? toggleDisplayField(winningHandModal.dealerContainer, true)
+        : toggleDisplayField(winningHandModal.dealerContainer, false);
+      outcomeObj.winHand.playersArr.includes(`player`)
+        ? toggleDisplayField(winningHandModal.playerContainer, true)
+        : toggleDisplayField(winningHandModal.playerContainer, false);
+
+      if (outcomeObj.winHand.player) {
+        let playerHand = gameState.player.hand;
+        displayCards(winningHandModal.playerCardsField, playerHand, phase);
+      }
+
+      if (outcomeObj.winHand.dealer) {
+        let dealerHand = gameState.dealer.hand;
+        displayCards(winningHandModal.dealerCardsField, dealerHand, phase);
+      }
+
+      function toggleDisplayField(elem, toggle) {
+        toggle ? (elem.style.display = `block`) : (elem.style.display = `none`);
+      }
+
+      function displayCards(elem, hand, phase) {
+        if (phase == `ending`) hand.simpleImages[0] = hand.simpleUnrevealedCard;
+        elem.innerHTML = hand.simpleImages.join();
+      }
+    }
+  },
+};
 
 export function displayInitialSideBetOutcomeWinHand(event, gameState) {
   //   const displayHandBtn = document.querySelector(

@@ -183,7 +183,8 @@ export function beginGameRoutine(gameState) {
       gameState.betObj.initInitialSideBetSequence(gameState);
       let winnings = gameState.betObj.getInitialSideBetWinnings();
       gameState.updateWinningsToBank(winnings);
-      view.displayInitialSideBetOutcome(gameState);
+      // view.displayInitialSideBetOutcome(gameState);
+      view.sideBetOutcomeModal.displayModal(gameState, `beginning`);
       order.sideBetSequence = false;
       break;
     case order.extraBet:
@@ -330,7 +331,8 @@ export function endGameRoutine(gameState) {
       gameState.betObj.initEndingSideBetSequence(gameState);
       let winnings = gameState.betObj.getEndingSideBetWinnings();
       gameState.updateWinningsToBank(winnings);
-      view.displayEndingSideBetOutcome(gameState);
+      // view.displayEndingSideBetOutcome(gameState);
+      view.sideBetOutcomeModal.displayModal(gameState, `ending`);
       order.sideBetSequence = false;
       break;
     case order.totalWinnings:
