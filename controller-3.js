@@ -868,18 +868,18 @@ export function processTriviaDifficulty(event, gameState) {
   let difficulty = event.target.dataset.difficulty;
 
   triviaObj.selectTriviaDifficulty(difficulty);
-  view.renderTriviaQuestion(triviaObj.activeQuestion);
+  view.triviaModal.renderQuestion(triviaObj.activeQuestion);
 }
 
 export function processTriviaAnswer(event, gameState) {
-  view.toggleDisableTriviaAnswerBtns();
+  view.triviaModal.toggleDisableAnswerBtns();
 
   let selectedAnswer = event.target.dataset.ans;
 
   let answerCorrectly = triviaObj.determineCorrectAnswer(selectedAnswer);
   let [credits, modifier] = triviaObj.updateTriviaCredits(answerCorrectly);
-  view.displayTriviaCorrectAnswer(triviaObj.activeQuestion);
-  view.renderTriviaCredits(credits, modifier);
+  view.triviaModal.displayCorrectAnswer(triviaObj.activeQuestion);
+  view.triviaModal.renderCredits(credits, modifier);
   updateTriviaResult(answerCorrectly, event, gameState);
 
   function updateTriviaResult(answerCorrectly, event, gameState) {
@@ -887,13 +887,14 @@ export function processTriviaAnswer(event, gameState) {
 
     if (answerCorrectly) {
       //Player Hits
-      view.renderTriviaCorrectAnswer();
+      view.triviaModal.renderPlayerCorrectResult();
     } else {
       //Player Stands
-      view.renderTriviaIncorrectAnswer(event);
+      view.triviaModal.renderPlayerIncorrectResult(event);
     }
+    let resetTriviaModal = view.triviaModal.resetModal.bind(view.triviaModal);
 
-    gameTimer = setTimeout(view.resetTriviaModal, 5000, answerCorrectly);
+    gameTimer = setTimeout(resetTriviaModal, 5000, answerCorrectly);
 
     nextTriviaAction(answerCorrectly, gameState);
 
@@ -924,7 +925,7 @@ function init() {
   // view.initOptionsModal();
 
   let credits = triviaObj.getTriviaCredits();
-  view.renderTriviaCredits(credits);
+  view.triviaModal.renderCredits(credits);
   submitOptions();
 }
 
