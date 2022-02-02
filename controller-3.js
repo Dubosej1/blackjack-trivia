@@ -171,7 +171,7 @@ export function beginGameRoutine(gameState) {
     case order.perfect11sDiceRoll:
       let perfect11sObj = betObj.getSideBet(`perfect11s`);
       let diceRolls = perfect11sObj.rollInfinityDice();
-      view.displayPerfect11sDiceRoll(diceRolls);
+      view.perfect11sDiceModal.displayModal(diceRolls);
       order.perfect11sDiceRoll = false;
       //   gameState.betObj.collectPerfect11DiceRolls(diceRolls);
       break;

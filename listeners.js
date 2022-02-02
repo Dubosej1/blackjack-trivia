@@ -609,7 +609,7 @@ function endingSideBetOutcomeWinHandCallback(event) {
 }
 
 function displayStopInfinityDiceCallback(event) {
-  view.displayStopInfinityDice(event);
+  view.perfect11sDiceModal.displayStopInfinityDice(event);
 }
 
 function nextBeginGameRoutineCallback(event) {
