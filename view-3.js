@@ -2321,6 +2321,61 @@ export function deactivateExtraBetModal() {
   listeners.removeExtraBetBlackjackModalListeners();
 }
 
+export const houseMoneyModal = {
+  sideBetField: document.querySelector(`.house-money-modal__side-bet-value`),
+  baseBetField: document.querySelector(`.house-money-modal__base-bet-value`),
+  valueFields: {
+    winnings: document.querySelector(`.house-money-modal__winnings-value`),
+    parlayWinnings: document.querySelector(
+      `.house-money-modal__parlay-winnings-value`
+    ),
+    parlayBet: document.querySelector(`.house-money-modal__parlay-bet-value`),
+    parlayAll: document.querySelector(`.house-money-modal__parlay-all-value`),
+  },
+
+  playerCardsField: document.querySelector(`.house-money-modal__player-cards`),
+  winConditionField: document.querySelector(
+    `.house-money-modal__win-condition`
+  ),
+  payoutField: document.querySelector(`.house-money-modal__payout`),
+
+  //replaces displayHouseMoneyModal
+  displayModal(gameState) {
+    let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
+    let baseBet = gameState.betObj.baseBet;
+    let sideBet = houseMoneyObj.bet;
+    let parlayPackage = houseMoneyObj.parlayPackage;
+    let playerHand = gameState.player.hand;
+
+    renderSideBetInfo(houseMoneyObj, playerHand);
+
+    renderParlayInfo(sideBet, baseBet, parlayPackage);
+
+    popbox.open(`house-money-modal`);
+
+    function renderSideBetInfo(houseMoneyObj, playerHand) {
+      houseMoneyModal.playerCardsField.innerHTML =
+        playerHand.simpleImages.join();
+      houseMoneyModal.winConditionField.textContent =
+        houseMoneyObj.outcomePackage.winCondition;
+      houseMoneyModal.payoutField.textContent =
+        houseMoneyObj.outcomePackage.payout;
+    }
+
+    function renderParlayInfo(sideBet, baseBet, parlayPackage) {
+      houseMoneyModal.sideBetField.textContent = sideBet;
+      houseMoneyModal.baseBetField.textContent = baseBet;
+      houseMoneyModal.valueFields.winnings.textContent = parlayPackage.winnings;
+      houseMoneyModal.valueFields.parlayWinnings.textContent =
+        parlayPackage.parlayWinnings;
+      houseMoneyModal.valueFields.parlayBet.textContent =
+        parlayPackage.parlayBet;
+      houseMoneyModal.valueFields.parlayAll.textContent =
+        parlayPackage.parlayAll;
+    }
+  },
+};
+
 export function displayHouseMoneyModal(gameState) {
   const sideBetField = document.querySelector(
     `.house-money-modal__side-bet-value`

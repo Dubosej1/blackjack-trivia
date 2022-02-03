@@ -176,7 +176,7 @@ export function beginGameRoutine(gameState) {
       //   gameState.betObj.collectPerfect11DiceRolls(diceRolls);
       break;
     case order.houseMoney:
-      view.displayHouseMoneyModal(gameState);
+      view.houseMoneyModal.displayModal(gameState);
       order.houseMoney = false;
       break;
     case order.sideBetSequence:
