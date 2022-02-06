@@ -2758,108 +2758,221 @@ export const evenMoneyInsuranceModal = {
 //   btnContainer.style.display = `none`;
 // }
 
-export function renderSingleHandOutcome(gameState) {
-  let player = gameState.player;
-  let outcomePackage = player.hand.outcomePackage;
-  let roundOutcome = outcomePackage.roundOutcome;
-  let noticeText;
+export const baseRoundOutcomeModal = {
+  mainContainer: document.querySelector(`.generic-modal__main`),
+  titleField: document.querySelector(`.generic-modal__title`),
+  nextBtn: document.querySelector(`.btn-generic-modal__next`),
+  closeBtn: document.querySelector(`.btn-generic-modal__close`),
 
-  const displayField = document.querySelector(`.generic-modal__main`);
-  const displayTitle = document.querySelector(`.generic-modal__title`);
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+  //replaces renderSingleHandOutcome
+  renderSingleHandOutcome(gameState) {
+    let player = gameState.player;
+    let outcomePackage = player.hand.outcomePackage;
+    let roundOutcome = outcomePackage.roundOutcome;
 
-  nextBtn.style.display = `inline-block`;
-  closeBtn.style.display = `none`;
+    this.prepareModal();
 
-  if (roundOutcome == `win`) noticeText = `WIN!`;
-  if (roundOutcome == `lose`) noticeText = `Lose`;
-  if (roundOutcome == `push`) noticeText = `Push`;
-  if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
-  if (roundOutcome == `surrender`) noticeText = `Surrender`;
+    let roundOutcomeHeading = createRoundOutcomeElement(roundOutcome);
 
-  displayTitle.textContent = `Round Outcome`;
+    let outcomeHeading = createOutcomeHeadingElement();
 
-  displayField.innerHTML = ` `;
+    let winningsHeading = createWinningsElement();
 
-  const roundOutcomeHeading = document.createElement(`h1`);
-  const roundOutcomeHeadingContent = document.createTextNode(noticeText);
-  roundOutcomeHeading.appendChild(roundOutcomeHeadingContent);
+    this.mainContainer.appendChild(roundOutcomeHeading);
+    this.mainContainer.appendChild(outcomeHeading);
+    this.mainContainer.appendChild(winningsHeading);
 
-  const outcomeHeading = document.createElement(`h2`);
-  const outcomeHeadingContent = document.createTextNode(
-    outcomePackage.outcomeText
-  );
-  outcomeHeading.appendChild(outcomeHeadingContent);
+    listeners.addBaseRoundOutcomeModalListener();
 
-  const winningsHeading = document.createElement(`h2`);
-  const winningsHeadingContent = document.createTextNode(
-    `Winnings: ${outcomePackage.winnings}`
-  );
-  winningsHeading.appendChild(winningsHeadingContent);
+    popbox.open(`generic-modal`);
 
-  // displayTitle.insertAdjacentElement(`afterend`, outcomeHeading);
-  // outcomeHeading.insertAdjacentElement(`afterend`, winningsHeading);
+    function createRoundOutcomeElement(roundOutcome) {
+      let noticeText = baseRoundOutcomeModal.createNoticeText(roundOutcome);
 
-  displayField.appendChild(roundOutcomeHeading);
-  displayField.appendChild(outcomeHeading);
-  displayField.appendChild(winningsHeading);
+      const roundOutcomeHeading = document.createElement(`h1`);
+      const roundOutcomeHeadingContent = document.createTextNode(noticeText);
+      roundOutcomeHeading.appendChild(roundOutcomeHeadingContent);
 
-  listeners.addBaseRoundOutcomeModalListener();
+      return roundOutcomeHeading;
+    }
 
-  popbox.open(`generic-modal`);
-}
+    function createOutcomeHeadingElement() {
+      const outcomeHeading = document.createElement(`h2`);
+      const outcomeHeadingContent = document.createTextNode(
+        outcomePackage.outcomeText
+      );
+      outcomeHeading.appendChild(outcomeHeadingContent);
 
-export function renderSplitHandOutcome(gameState) {
-  let player = gameState.player;
-  let splitHands = player.splitHands;
+      return outcomeHeading;
+    }
 
-  const displayField = document.querySelector(`.generic-modal__main`);
-  const displayTitle = document.querySelector(`.generic-modal__title`);
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+    function createWinningsElement() {
+      const winningsHeading = document.createElement(`h2`);
+      const winningsHeadingContent = document.createTextNode(
+        `Winnings: ${outcomePackage.winnings}`
+      );
+      winningsHeading.appendChild(winningsHeadingContent);
 
-  nextBtn.style.display = `inline-block`;
-  closeBtn.style.display = `none`;
+      return winningsHeading;
+    }
+  },
 
-  displayTitle.textContent = `Round Outcome`;
+  //replaces renderSplitHandOutcome
+  renderSplitHandOutcome(gameState) {
+    let splitHands = gameState.player.splitHands;
 
-  displayField.innerHTML = ` `;
+    this.prepareModal();
 
-  let handElems = splitHands.map((obj) => renderSplitOutcomeText(obj));
+    let handElems = splitHands.map((obj) => renderSplitOutcomeText(obj));
 
-  handElems.forEach(function (elem, index, array) {
-    // if (index == 0) noticeTitle.insertAdjacentElement(`afterend`, elem);
-    // else array[index - 1].insertAdjacentElement(`afterend`, elem);
-    displayField.appendChild(elem);
-  });
+    handElems.forEach(function (elem) {
+      this.mainContainer.appendChild(elem);
+    }, this);
 
-  listeners.addBaseRoundOutcomeModalListener();
+    listeners.addBaseRoundOutcomeModalListener();
 
-  popbox.open(`generic-modal`);
+    popbox.open(`generic-modal`);
 
-  function renderSplitOutcomeText(hand) {
-    let handNum = hand.handNum;
-    let roundOutcome = hand.roundOutcome;
-    let outcomeText = hand.outcomePackage.outcomeText;
-    let winnings = hand.outcomePackage.winnings;
+    function renderSplitOutcomeText(hand) {
+      let handNum = hand.handNum;
+      let roundOutcome = hand.roundOutcome;
+      let outcomeText = hand.outcomePackage.outcomeText;
+      let winnings = hand.outcomePackage.winnings;
+
+      let noticeText = baseRoundOutcomeModal.createNoticeText(roundOutcome);
+
+      const outcomeHeading = document.createElement(`h2`);
+      const outcomeHeadingContent = document.createTextNode(
+        `Hand ${handNum}: ${noticeText}  ${outcomeText}  Winnings: $${winnings}`
+      );
+      outcomeHeading.appendChild(outcomeHeadingContent);
+
+      return outcomeHeading;
+    }
+  },
+
+  clearModal() {
+    this.mainContainer.innerHTML = ` `;
+  },
+
+  prepareModal() {
+    this.titleField.textContent = `Round Outcome`;
+    this.nextBtn.style.display = `inline-block`;
+    this.closeBtn.style.display = `none`;
+
+    this.clearModal();
+  },
+
+  createNoticeText(roundOutcome) {
     let noticeText;
 
     if (roundOutcome == `win`) noticeText = `WIN!`;
-    if (roundOutcome == `lose`) noticeText = `Lose.`;
-    if (roundOutcome == `push`) noticeText = `Push.`;
+    if (roundOutcome == `lose`) noticeText = `Lose`;
+    if (roundOutcome == `push`) noticeText = `Push`;
     if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
-    if (roundOutcome == `surrender`) noticeText = `Surrender.`;
+    if (roundOutcome == `surrender`) noticeText = `Surrender`;
 
-    const outcomeHeading = document.createElement(`h2`);
-    const outcomeHeadingContent = document.createTextNode(
-      `Hand ${handNum}: ${noticeText}  ${outcomeText}  Winnings: $${winnings}`
-    );
-    outcomeHeading.appendChild(outcomeHeadingContent);
+    return noticeText;
+  },
+};
 
-    return outcomeHeading;
-  }
-}
+// export function renderSingleHandOutcome(gameState) {
+//   let player = gameState.player;
+//   let outcomePackage = player.hand.outcomePackage;
+//   let roundOutcome = outcomePackage.roundOutcome;
+//   let noticeText;
+
+//   const displayField = document.querySelector(`.generic-modal__main`);
+//   const displayTitle = document.querySelector(`.generic-modal__title`);
+//   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+
+//   nextBtn.style.display = `inline-block`;
+//   closeBtn.style.display = `none`;
+
+//   if (roundOutcome == `win`) noticeText = `WIN!`;
+//   if (roundOutcome == `lose`) noticeText = `Lose`;
+//   if (roundOutcome == `push`) noticeText = `Push`;
+//   if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
+//   if (roundOutcome == `surrender`) noticeText = `Surrender`;
+
+//   displayTitle.textContent = `Round Outcome`;
+
+//   displayField.innerHTML = ` `;
+
+//   const roundOutcomeHeading = document.createElement(`h1`);
+//   const roundOutcomeHeadingContent = document.createTextNode(noticeText);
+//   roundOutcomeHeading.appendChild(roundOutcomeHeadingContent);
+
+//   const outcomeHeading = document.createElement(`h2`);
+//   const outcomeHeadingContent = document.createTextNode(
+//     outcomePackage.outcomeText
+//   );
+//   outcomeHeading.appendChild(outcomeHeadingContent);
+
+//   const winningsHeading = document.createElement(`h2`);
+//   const winningsHeadingContent = document.createTextNode(
+//     `Winnings: ${outcomePackage.winnings}`
+//   );
+//   winningsHeading.appendChild(winningsHeadingContent);
+
+//   displayField.appendChild(roundOutcomeHeading);
+//   displayField.appendChild(outcomeHeading);
+//   displayField.appendChild(winningsHeading);
+
+//   listeners.addBaseRoundOutcomeModalListener();
+
+//   popbox.open(`generic-modal`);
+// }
+
+// export function renderSplitHandOutcome(gameState) {
+//   let player = gameState.player;
+//   let splitHands = player.splitHands;
+
+//   const displayField = document.querySelector(`.generic-modal__main`);
+//   const displayTitle = document.querySelector(`.generic-modal__title`);
+//   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+
+//   nextBtn.style.display = `inline-block`;
+//   closeBtn.style.display = `none`;
+
+//   displayTitle.textContent = `Round Outcome`;
+
+//   displayField.innerHTML = ` `;
+
+//   let handElems = splitHands.map((obj) => renderSplitOutcomeText(obj));
+
+//   handElems.forEach(function (elem, index, array) {
+//     displayField.appendChild(elem);
+//   });
+
+//   listeners.addBaseRoundOutcomeModalListener();
+
+//   popbox.open(`generic-modal`);
+
+//   function renderSplitOutcomeText(hand) {
+//     let handNum = hand.handNum;
+//     let roundOutcome = hand.roundOutcome;
+//     let outcomeText = hand.outcomePackage.outcomeText;
+//     let winnings = hand.outcomePackage.winnings;
+//     let noticeText;
+
+//     if (roundOutcome == `win`) noticeText = `WIN!`;
+//     if (roundOutcome == `lose`) noticeText = `Lose.`;
+//     if (roundOutcome == `push`) noticeText = `Push.`;
+//     if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
+//     if (roundOutcome == `surrender`) noticeText = `Surrender.`;
+
+//     const outcomeHeading = document.createElement(`h2`);
+//     const outcomeHeadingContent = document.createTextNode(
+//       `Hand ${handNum}: ${noticeText}  ${outcomeText}  Winnings: $${winnings}`
+//     );
+//     outcomeHeading.appendChild(outcomeHeadingContent);
+
+//     return outcomeHeading;
+//   }
+// }
 
 // export function displayEndingSideBetOutcome(gameState) {
 //   const summaryField = document.querySelector(`.summary-modal__main`);

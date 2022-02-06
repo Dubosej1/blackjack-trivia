@@ -324,8 +324,9 @@ export function endGameRoutine(gameState) {
   switch (true) {
     case order.roundOutcome:
       //Base Round Outcome Modal
-      if (activeHand == 0) view.renderSingleHandOutcome(gameState);
-      else view.renderSplitHandOutcome(gameState);
+      if (activeHand == 0)
+        view.baseRoundOutcomeModal.renderSingleHandOutcome(gameState);
+      else view.baseRoundOutcomeModal.renderSplitHandOutcome(gameState);
 
       gameState.updateWinningsToBank(gameState.playerWinnings);
 
