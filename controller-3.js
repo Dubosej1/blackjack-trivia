@@ -200,7 +200,7 @@ export function beginGameRoutinePart2(gameState) {
   let order = gameState.beginGameRoutineOrder;
   let playerHand = gameState.player.hand;
   let dealerHand = gameState.dealer.hand;
-  let gameTimer;
+  let gameTimer, modalType;
 
   if (!gameState.beginningRoundChecksDone) {
     gameState.checkSplitAvailable(playerHand);
@@ -213,13 +213,13 @@ export function beginGameRoutinePart2(gameState) {
 
   switch (true) {
     case gameState.evenMoneyAvailable:
-      gameTimer = setTimeout(view.activateEvenMoneyModal, 3000);
-      // view.activateEvenMoneyModal();
+      modalType = `evenMoney`;
+      activateSideBetModal(modalType);
       gameState.evenMoneyAvailable = false;
       break;
     case gameState.insuranceAvailable:
-      gameTimer = setTimeout(view.activateInsuranceModal, 3000);
-      // view.activateInsuranceModal();
+      modalType = `insurance`;
+      activateSideBetModal(modalType);
       gameState.insuranceAvailable = false;
       break;
     case order.natural:
@@ -258,6 +258,14 @@ export function beginGameRoutinePart2(gameState) {
 
       gameState.toggleEnableActionBtns = obj;
       gameState.updateNoticeText = `Player's Turn`;
+  }
+
+  function activateSideBetModal(modalType) {
+    let activateModal = view.evenMoneyInsuranceModal.activateModal.bind(
+      view.evenMoneyInsuranceModal
+    );
+
+    gameTimer = setTimeout(activateModal, 3000, modalType);
   }
 
   function dealerPeekAction(gameState) {
@@ -653,16 +661,22 @@ export function initEvenMoneyBet(event, gameState) {
   gameState.deductHalfBetFromBank();
 
   let outcome = betModel.generateEvenMoneyObj(gameState);
-  view.removeSideBetDecideBtns();
-  view.renderEvenMoneyOutcome(outcome, gameState);
+  view.evenMoneyInsuranceModal.removeSideBetDecideBtns();
+
+  let modalType = `evenMoney`;
+  view.evenMoneyInsuranceModal.renderOutcome(modalType, outcome, gameState);
+  // view.renderEvenMoneyOutcome(outcome, gameState);
 }
 
 export function initInsuranceBet(event, gameState) {
   gameState.deductHalfBetFromBank();
 
   let outcome = betModel.generateInsuranceObj(gameState);
-  view.removeSideBetDecideBtns();
-  view.renderInsuranceOutcome(outcome, gameState);
+  view.evenMoneyInsuranceModal.removeSideBetDecideBtns();
+
+  let modalType = `insurance`;
+  view.evenMoneyInsuranceModal.renderOutcome(modalType, outcome, gameState);
+  // view.renderInsuranceOutcome(outcome, gameState);
 }
 
 export function splitAction(event, gameState) {

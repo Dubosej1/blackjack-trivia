@@ -2376,54 +2376,52 @@ export const houseMoneyModal = {
   },
 };
 
-export function displayHouseMoneyModal(gameState) {
-  const sideBetField = document.querySelector(
-    `.house-money-modal__side-bet-value`
-  );
-  const baseBetField = document.querySelector(
-    `.house-money-modal__base-bet-value`
-  );
-  const winningsField = document.querySelector(
-    `.house-money-modal__winnings-value`
-  );
-  const parlayWinningsField = document.querySelector(
-    `.house-money-modal__parlay-winnings-value`
-  );
-  const parlayBetField = document.querySelector(
-    `.house-money-modal__parlay-bet-value`
-  );
-  const parlayAllField = document.querySelector(
-    `.house-money-modal__parlay-all-value`
-  );
-  const playerCardsField = document.querySelector(
-    `.house-money-modal__player-cards`
-  );
-  const winConditionField = document.querySelector(
-    `.house-money-modal__win-condition`
-  );
-  const payoutField = document.querySelector(`.house-money-modal__payout`);
+// export function displayHouseMoneyModal(gameState) {
+//   const sideBetField = document.querySelector(
+//     `.house-money-modal__side-bet-value`
+//   );
+//   const baseBetField = document.querySelector(
+//     `.house-money-modal__base-bet-value`
+//   );
+//   const winningsField = document.querySelector(
+//     `.house-money-modal__winnings-value`
+//   );
+//   const parlayWinningsField = document.querySelector(
+//     `.house-money-modal__parlay-winnings-value`
+//   );
+//   const parlayBetField = document.querySelector(
+//     `.house-money-modal__parlay-bet-value`
+//   );
+//   const parlayAllField = document.querySelector(
+//     `.house-money-modal__parlay-all-value`
+//   );
+//   const playerCardsField = document.querySelector(
+//     `.house-money-modal__player-cards`
+//   );
+//   const winConditionField = document.querySelector(
+//     `.house-money-modal__win-condition`
+//   );
+//   const payoutField = document.querySelector(`.house-money-modal__payout`);
 
-  let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
-  let baseBet = gameState.betObj.baseBet;
-  let sideBet = houseMoneyObj.bet;
-  let parlayPackage = houseMoneyObj.parlayPackage;
-  let playerHand = gameState.player.hand;
+//   let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
+//   let baseBet = gameState.betObj.baseBet;
+//   let sideBet = houseMoneyObj.bet;
+//   let parlayPackage = houseMoneyObj.parlayPackage;
+//   let playerHand = gameState.player.hand;
 
-  playerCardsField.innerHTML = playerHand.simpleImages.join();
-  winConditionField.textContent = houseMoneyObj.outcomePackage.winCondition;
-  payoutField.textContent = houseMoneyObj.outcomePackage.payout;
+//   playerCardsField.innerHTML = playerHand.simpleImages.join();
+//   winConditionField.textContent = houseMoneyObj.outcomePackage.winCondition;
+//   payoutField.textContent = houseMoneyObj.outcomePackage.payout;
 
-  sideBetField.textContent = sideBet;
-  baseBetField.textContent = baseBet;
-  winningsField.textContent = parlayPackage.winnings;
-  parlayWinningsField.textContent = parlayPackage.parlayWinnings;
-  parlayBetField.textContent = parlayPackage.parlayBet;
-  parlayAllField.textContent = parlayPackage.parlayAll;
+//   sideBetField.textContent = sideBet;
+//   baseBetField.textContent = baseBet;
+//   winningsField.textContent = parlayPackage.winnings;
+//   parlayWinningsField.textContent = parlayPackage.parlayWinnings;
+//   parlayBetField.textContent = parlayPackage.parlayBet;
+//   parlayAllField.textContent = parlayPackage.parlayAll;
 
-  popbox.open(`house-money-modal`);
-}
-
-// export function resetHouseMoneyModal() {}
+//   popbox.open(`house-money-modal`);
+// }
 
 // export function renderGameActionBtns(btnState) {
 //   const hitBtn = document.querySelector(`.btn-action__hit`);
@@ -2463,156 +2461,302 @@ export function renderNoticeText(str) {
   noticeField.textContent = str;
 }
 
-export function activateEvenMoneyModal() {
-  const modalContainer = document.querySelector(`.generic-modal__main`);
-  modalContainer.innerHTML = ` `;
-  const modalTitle = document.querySelector(`.generic-modal__title`);
-  modalTitle.textContent = `Decide Side Bet`;
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+export const evenMoneyInsuranceModal = {
+  modalContainer: document.querySelector(`.generic-modal__main`),
+  title: document.querySelector(`.generic-modal__title`),
+  nextBtn: document.querySelector(`.btn-generic-modal__next`),
+  closeBtn: document.querySelector(`.btn-generic-modal__close`),
 
-  nextBtn.dataset.sidebet = `evenMoney`;
+  //replaces activateEvenMoneyModal and activateInsuranceModal
+  activateModal(modalType) {
+    //modalType either evenMoney or insurance
+    this.title.textContent = `Decide Side Bet`;
 
-  nextBtn.style.display = "none";
-  closeBtn.style.display = "none";
+    changeModalBtnStatus(modalType);
 
-  const headingElem = document.createElement(`h1`);
-  const headingText = document.createTextNode(`Even Money?`);
-  headingElem.appendChild(headingText);
+    let headingElem = createHeadingElement(modalType);
 
-  const btnContainer = document.createElement(`div`);
-  const acceptBetBtn = document.createElement(`button`);
-  const declineBetBtn = document.createElement(`button`);
+    let btnContainer = createBtnElements(modalType);
 
-  const acceptBetContent = document.createTextNode(`Accept Bet`);
-  const declineBetContent = document.createTextNode(`Decline Bet`);
-  acceptBetBtn.appendChild(acceptBetContent);
-  declineBetBtn.appendChild(declineBetContent);
+    let outcomeElem = createOutcomeElement();
 
-  const outcomeElem = document.createElement(`h1`);
-  const outcomeContent = document.createTextNode(` `);
-  outcomeElem.classList.add(`generic-modal__outcome-text`);
+    this.modalContainer.appendChild(headingElem);
+    this.modalContainer.appendChild(btnContainer);
+    this.modalContainer.appendChild(outcomeElem);
 
-  headingElem.classList.add(`generic-modal__side-bet-heading`);
-  btnContainer.classList.add(`generic-modal__side-bet-title`);
-  acceptBetBtn.classList.add(`btn-side-bet-action__accept-even-money`);
-  acceptBetBtn.classList.add(`btn-side-bet-action`);
-  declineBetBtn.classList.add(`btn-side-bet-action__decline-even-money`);
-  declineBetBtn.classList.add(`btn-side-bet-action`);
+    addModalBtnListeners(modalType);
 
-  btnContainer.appendChild(acceptBetBtn);
-  btnContainer.appendChild(declineBetBtn);
+    popbox.open(`generic-modal`);
 
-  modalContainer.appendChild(headingElem);
-  modalContainer.appendChild(btnContainer);
-  modalContainer.appendChild(outcomeElem);
+    function changeModalBtnStatus(modalType) {
+      evenMoneyInsuranceModal.nextBtn.dataset.sidebet = modalType;
 
-  listeners.addEvenMoneyModalListeners();
+      evenMoneyInsuranceModal.nextBtn.style.display = "none";
+      evenMoneyInsuranceModal.closeBtn.style.display = "none";
+    }
 
-  popbox.open(`generic-modal`);
-}
+    function createHeadingElement(modalType) {
+      const headingElem = document.createElement(`h1`);
+      headingElem.classList.add(`generic-modal__side-bet-heading`);
 
-export function activateInsuranceModal() {
-  const modalContainer = document.querySelector(`.generic-modal__main`);
-  modalContainer.innerHTML = ` `;
-  const modalTitle = document.querySelector(`.generic-modal__title`);
-  modalTitle.textContent = `Decide Side Bet`;
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+      let text;
 
-  nextBtn.dataset.sidebet = `insurance`;
+      modalType == `evenMoney` ? (text = `Even Money?`) : (text = `Insurance?`);
 
-  nextBtn.style.display = "none";
-  closeBtn.style.display = "none";
+      const headingText = document.createTextNode(text);
 
-  const headingElem = document.createElement(`h1`);
-  const headingText = document.createTextNode(`Insurance?`);
-  headingElem.appendChild(headingText);
+      headingElem.appendChild(headingText);
 
-  const btnContainer = document.createElement(`div`);
-  const acceptBetBtn = document.createElement(`button`);
-  const declineBetBtn = document.createElement(`button`);
+      return headingElem;
+    }
 
-  const acceptBetContent = document.createTextNode(`Accept Bet`);
-  const declineBetContent = document.createTextNode(`Decline Bet`);
-  acceptBetBtn.appendChild(acceptBetContent);
-  declineBetBtn.appendChild(declineBetContent);
+    function createBtnElements() {
+      const btnContainer = document.createElement(`div`);
+      btnContainer.classList.add(`generic-modal__side-bet-title`);
 
-  const outcomeElem = document.createElement(`h1`);
-  const outcomeContent = document.createTextNode(` `);
-  outcomeElem.appendChild(outcomeContent);
-  outcomeElem.classList.add(`generic-modal__outcome-text`);
+      let acceptBetBtn = createBtn(modalType, `Accept`);
 
-  headingElem.classList.add(`generic-modal__side-bet-heading`);
-  btnContainer.classList.add(`generic-modal__side-bet-title`);
-  acceptBetBtn.classList.add(`btn-side-bet-action__accept-insurance`);
-  acceptBetBtn.classList.add(`btn-side-bet-action`);
-  declineBetBtn.classList.add(`btn-side-bet-action__decline-insurance`);
-  declineBetBtn.classList.add(`btn-side-bet-action`);
+      let declineBetBtn = createBtn(modalType, `Decline`);
 
-  btnContainer.appendChild(acceptBetBtn);
-  btnContainer.appendChild(declineBetBtn);
+      btnContainer.appendChild(acceptBetBtn);
+      btnContainer.appendChild(declineBetBtn);
 
-  modalContainer.appendChild(headingElem);
-  modalContainer.appendChild(btnContainer);
-  modalContainer.appendChild(outcomeElem);
+      return btnContainer;
 
-  listeners.addInsuranceModalListeners();
+      function createBtn(modalType, btnType) {
+        const btn = document.createElement(`button`);
 
-  popbox.open(`generic-modal`);
-}
+        const btnContent = document.createTextNode(`${btnType} Bet`);
+        btn.appendChild(btnContent);
 
-export function renderEvenMoneyOutcome(outcome, gameState) {
-  const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const headingElem = document.querySelector(
-    `.generic-modal__side-bet-heading`
-  );
-  let dealerHand = gameState.dealer.hand;
+        let actionName = btnType.toLowerCase();
 
-  nextBtn.style.display = `inline-block`;
+        let sideBetName;
 
-  if (outcome == `win`) {
-    headingElem.textContent = `You win Even Money!`;
-    outcomeField.textContent = `Dealer Blackjack.  Round Ends...`;
-    renderPlayerHandOutcome(dealerHand, `dealer`);
-  } else {
-    headingElem.textContent = `You lose Even Money`;
-    outcomeField.textContent = `No Dealer Blackjack.  Round Ends...`;
-  }
-}
+        modalType == `evenMoney`
+          ? (sideBetName = `even-money`)
+          : (sideBetName = `insurance`);
 
-export function renderInsuranceOutcome(outcome, gameState) {
-  const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-  const headingElem = document.querySelector(
-    `.generic-modal__side-bet-heading`
-  );
-  let dealerHand = gameState.dealer.hand;
+        btn.classList.add(`btn-side-bet-action__${actionName}-${sideBetName}`);
+        btn.classList.add(`btn-side-bet-action`);
 
-  nextBtn.style.display = `inline-block`;
+        return btn;
+      }
+    }
 
-  if (outcome == `win`) {
-    headingElem.textContent = `You win Insurance Bet`;
-    outcomeField.textContent = `Dealer Blackjack, Round Ends...`;
-    renderPlayerHandOutcome(dealerHand, `dealer`);
-    listeners.addInsuranceNextBtnListener(outcome);
-  } else {
-    headingElem.textContent = `You lose Insurance Bet`;
-    outcomeField.textContent = `No Dealer Blackjack.  Round continues...`;
-    listeners.addInsuranceNextBtnListener(outcome);
-  }
+    function createOutcomeElement() {
+      const outcomeElem = document.createElement(`h1`);
+      outcomeElem.classList.add(`generic-modal__outcome-text`);
 
-  // listeners.removeInsuranceModalListeners();
-}
+      return outcomeElem;
+    }
 
-export function removeSideBetDecideBtns() {
-  // const acceptBtn = document.querySelector(`.btn-side-bet-action__accept-even-money`);
-  // const declineBtn = document.querySelector(`.btn-side-bet-action__decline-even-money`);
-  const btnContainer = document.querySelector(`.generic-modal__side-bet-title`);
+    function addModalBtnListeners(modalType) {
+      if (modalType == `evenMoney`) listeners.addEvenMoneyModalListeners();
+      else listeners.addInsuranceModalListeners();
+    }
+  },
 
-  btnContainer.style.display = `none`;
-}
+  //replaces renderEvenMoneyOutcome and renderInsuranceOutcome
+  renderOutcome(modalType, outcome, gameState) {
+    const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
+    const headingElem = document.querySelector(
+      `.generic-modal__side-bet-heading`
+    );
+    let dealerHand = gameState.dealer.hand;
+
+    this.nextBtn.style.display = `inline-block`;
+
+    gameField.renderHandOutcome(dealerHand, `dealer`);
+
+    changeHeadingElem(headingElem, outcome, modalType);
+
+    changeOutcomeElem(outcomeField, outcome, modalType);
+
+    if (modalType == `insurance`)
+      listeners.addInsuranceNextBtnListener(outcome);
+
+    function changeHeadingElem(headingElem, outcome, modalType) {
+      let text;
+      modalType == `evenMoney` ? (text = `Even Money`) : (text = `Insurance`);
+      headingElem.textContent = `You ${outcome} ${text} Bet`;
+    }
+
+    function changeOutcomeElem(outcomeField, outcome, modalType) {
+      let outcomeText;
+      let roundStatusText = `Ends`;
+
+      if (outcome == `lose` && modalType == `insurance`)
+        roundStatusStr = `Continues`;
+
+      outcome == `win`
+        ? (outcomeText = `Dealer Blackjack, Round Ends...`)
+        : (outcomeText = `No Dealer Blackjack.  Round ${roundStatusText}...`);
+
+      outcomeField.textContent = outcomeText;
+    }
+  },
+
+  //replaces removeSideBetDecideBtns
+  removeSideBetDecideBtns() {
+    const btnContainer = document.querySelector(
+      `.generic-modal__side-bet-title`
+    );
+
+    btnContainer.style.display = `none`;
+  },
+
+  clearModal() {
+    this.modalContainer.innerHTML = ` `;
+  },
+};
+
+// export function activateEvenMoneyModal() {
+//   const modalContainer = document.querySelector(`.generic-modal__main`);
+//   modalContainer.innerHTML = ` `;
+//   const modalTitle = document.querySelector(`.generic-modal__title`);
+//   modalTitle.textContent = `Decide Side Bet`;
+//   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+
+//   nextBtn.dataset.sidebet = `evenMoney`;
+
+//   nextBtn.style.display = "none";
+//   closeBtn.style.display = "none";
+
+//   const headingElem = document.createElement(`h1`);
+//   const headingText = document.createTextNode(`Even Money?`);
+//   headingElem.appendChild(headingText);
+
+//   const btnContainer = document.createElement(`div`);
+//   const acceptBetBtn = document.createElement(`button`);
+//   const declineBetBtn = document.createElement(`button`);
+
+//   const acceptBetContent = document.createTextNode(`Accept Bet`);
+//   const declineBetContent = document.createTextNode(`Decline Bet`);
+//   acceptBetBtn.appendChild(acceptBetContent);
+//   declineBetBtn.appendChild(declineBetContent);
+
+//   const outcomeElem = document.createElement(`h1`);
+//   const outcomeContent = document.createTextNode(` `);
+//   outcomeElem.classList.add(`generic-modal__outcome-text`);
+
+//   headingElem.classList.add(`generic-modal__side-bet-heading`);
+//   btnContainer.classList.add(`generic-modal__side-bet-title`);
+//   acceptBetBtn.classList.add(`btn-side-bet-action__accept-even-money`);
+//   acceptBetBtn.classList.add(`btn-side-bet-action`);
+//   declineBetBtn.classList.add(`btn-side-bet-action__decline-even-money`);
+//   declineBetBtn.classList.add(`btn-side-bet-action`);
+
+//   btnContainer.appendChild(acceptBetBtn);
+//   btnContainer.appendChild(declineBetBtn);
+
+//   modalContainer.appendChild(headingElem);
+//   modalContainer.appendChild(btnContainer);
+//   modalContainer.appendChild(outcomeElem);
+
+//   listeners.addEvenMoneyModalListeners();
+
+//   popbox.open(`generic-modal`);
+// }
+
+// export function activateInsuranceModal() {
+//   const modalContainer = document.querySelector(`.generic-modal__main`);
+//   modalContainer.innerHTML = ` `;
+//   const modalTitle = document.querySelector(`.generic-modal__title`);
+//   modalTitle.textContent = `Decide Side Bet`;
+//   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const closeBtn = document.querySelector(`.btn-generic-modal__close`);
+
+//   nextBtn.dataset.sidebet = `insurance`;
+
+//   nextBtn.style.display = "none";
+//   closeBtn.style.display = "none";
+
+//   const headingElem = document.createElement(`h1`);
+//   const headingText = document.createTextNode(`Insurance?`);
+//   headingElem.appendChild(headingText);
+
+//   const btnContainer = document.createElement(`div`);
+//   const acceptBetBtn = document.createElement(`button`);
+//   const declineBetBtn = document.createElement(`button`);
+
+//   const acceptBetContent = document.createTextNode(`Accept Bet`);
+//   const declineBetContent = document.createTextNode(`Decline Bet`);
+//   acceptBetBtn.appendChild(acceptBetContent);
+//   declineBetBtn.appendChild(declineBetContent);
+
+//   const outcomeElem = document.createElement(`h1`);
+//   const outcomeContent = document.createTextNode(` `);
+//   outcomeElem.appendChild(outcomeContent);
+//   outcomeElem.classList.add(`generic-modal__outcome-text`);
+
+//   headingElem.classList.add(`generic-modal__side-bet-heading`);
+//   btnContainer.classList.add(`generic-modal__side-bet-title`);
+//   acceptBetBtn.classList.add(`btn-side-bet-action__accept-insurance`);
+//   acceptBetBtn.classList.add(`btn-side-bet-action`);
+//   declineBetBtn.classList.add(`btn-side-bet-action__decline-insurance`);
+//   declineBetBtn.classList.add(`btn-side-bet-action`);
+
+//   btnContainer.appendChild(acceptBetBtn);
+//   btnContainer.appendChild(declineBetBtn);
+
+//   modalContainer.appendChild(headingElem);
+//   modalContainer.appendChild(btnContainer);
+//   modalContainer.appendChild(outcomeElem);
+
+//   listeners.addInsuranceModalListeners();
+
+//   popbox.open(`generic-modal`);
+// }
+
+// export function renderEvenMoneyOutcome(outcome, gameState) {
+//   const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
+//   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const headingElem = document.querySelector(
+//     `.generic-modal__side-bet-heading`
+//   );
+//   let dealerHand = gameState.dealer.hand;
+
+//   nextBtn.style.display = `inline-block`;
+
+//   if (outcome == `win`) {
+//     headingElem.textContent = `You win Even Money!`;
+//     outcomeField.textContent = `Dealer Blackjack.  Round Ends...`;
+//     renderPlayerHandOutcome(dealerHand, `dealer`);
+//   } else {
+//     headingElem.textContent = `You lose Even Money`;
+//     outcomeField.textContent = `No Dealer Blackjack.  Round Ends...`;
+//   }
+// }
+
+// export function renderInsuranceOutcome(outcome, gameState) {
+//   const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
+//   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+//   const headingElem = document.querySelector(
+//     `.generic-modal__side-bet-heading`
+//   );
+//   let dealerHand = gameState.dealer.hand;
+
+//   nextBtn.style.display = `inline-block`;
+
+//   if (outcome == `win`) {
+//     headingElem.textContent = `You win Insurance Bet`;
+//     outcomeField.textContent = `Dealer Blackjack, Round Ends...`;
+//     renderPlayerHandOutcome(dealerHand, `dealer`);
+//     listeners.addInsuranceNextBtnListener(outcome);
+//   } else {
+//     headingElem.textContent = `You lose Insurance Bet`;
+//     outcomeField.textContent = `No Dealer Blackjack.  Round continues...`;
+//     listeners.addInsuranceNextBtnListener(outcome);
+//   }
+// }
+
+// export function removeSideBetDecideBtns() {
+//   const btnContainer = document.querySelector(`.generic-modal__side-bet-title`);
+
+//   btnContainer.style.display = `none`;
+// }
 
 export function renderSingleHandOutcome(gameState) {
   let player = gameState.player;
