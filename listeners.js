@@ -721,7 +721,7 @@ function roundOutcomeModalNextBtnListenerCallback(event) {
 }
 
 function winSummaryBtnListenerCallback(event) {
-  view.displayWinSummaryModal(globalState);
+  view.winSummaryModal.displayModal(globalState);
 }
 
 function winningsModalCloseBtnListenerCallback(event) {

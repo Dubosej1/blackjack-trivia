@@ -3018,146 +3018,358 @@ export function displayTotalWinningsModal(gameState) {
   popbox.open(`winnings-modal`);
 }
 
-export function displayWinSummaryModal(gameState) {
-  const summaryField = document.querySelector(`.summary-modal__main`);
-  const summaryTitle = document.querySelector(`.summary-modal__title`);
-  const closeBtn = document.querySelector(`.btn-summary-modal__close`);
-  const nextBtn = document.querySelector(`.btn-summary-modal__next`);
+export const winSummaryModal = {
+  mainContainer: document.querySelector(`.summary-modal__main`),
+  titleField: document.querySelector(`.summary-modal__title`),
+  closeBtn: document.querySelector(`.btn-summary-modal__close`),
+  nextBtn: document.querySelector(`.btn-summary-modal__next`),
 
-  let initialOutcomePackages = gameState.betObj.initialOutcomePackages;
-  let endingOutcomePackages = gameState.betObj.endingOutcomePackages;
+  //replaces displayWinSummaryModal
+  displayModal(gameState) {
+    this.prepareModal();
 
-  closeBtn.style.display = "inline-block";
-  nextBtn.style.display = `none`;
+    let baseGameDiv = this.createBaseGameSummaryElements(gameState);
 
-  summaryTitle.textContent = `Win Summary`;
+    this.mainContainer.appendChild(baseGameDiv);
 
-  summaryField.innerHTML = ` `;
+    let initialOutcomePackages = gameState.betObj.initialOutcomePackages;
+    let endingOutcomePackages = gameState.betObj.endingOutcomePackages;
 
-  let baseGameDiv = createBaseGameSummaryElements(gameState);
+    if (initialOutcomePackages)
+      initialOutcomePackages.forEach(generateSummaryElements, this);
 
-  summaryField.appendChild(baseGameDiv);
+    if (endingOutcomePackages)
+      endingOutcomePackages.forEach(generateSummaryElements, this);
 
-  if (initialOutcomePackages)
-    initialOutcomePackages.forEach(generateSummaryElements);
+    popbox.open(`summary-modal`);
 
-  if (endingOutcomePackages)
-    endingOutcomePackages.forEach(generateSummaryElements);
+    function generateSummaryElements(outcomeObj) {
+      let sideBetDiv = winSummaryModal.createSideBetSummaryElements(outcomeObj);
 
-  function generateSummaryElements(outcomeObj) {
-    let sideBetDiv = createSideBetSummaryElements(outcomeObj);
+      winSummaryModal.mainContainer.appendChild(sideBetDiv);
+    }
+  },
 
-    summaryField.appendChild(sideBetDiv);
-  }
+  //replaces createBaseGameSummaryElements
+  createBaseGameSummaryElements(gameState) {
+    let player = gameState.player;
+    let blackjackPayout = gameState.options.blackjackPayout;
+    let outcomeElem;
 
-  popbox.open(`summary-modal`);
-}
+    const newDiv = document.createElement(`div`);
 
-function createSideBetSummaryElements(outcomeObj) {
-  let { name, outcome, payout, winCondition, winnings } = outcomeObj;
+    let roundLabel = createRoundLabelElement();
 
-  const newDiv = document.createElement(`div`);
+    let outcomeElems = createOutcomeElems(player);
 
-  const nameSpan = document.createElement(`span`);
-  const nameSpanContent = document.createTextNode(`${name}`);
-  nameSpan.appendChild(nameSpanContent);
+    newDiv.appendChild(roundLabel);
+    roundLabel.insertAdjacentHTML(`afterend`, `<br>`);
 
-  const outcomeDiv = document.createElement(`div`);
-  outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
-  outcomeDiv.style.display = `inline-block`;
-  let outcomeDivContent = document.createTextNode(`${outcome} `);
-  outcomeDiv.appendChild(outcomeDivContent);
-
-  const payoutSpan = document.createElement(`span`);
-  const payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
-  payoutSpan.appendChild(payoutSpanContent);
-
-  const winConditionSpan = document.createElement(`span`);
-  const winConditionSpanContent = document.createTextNode(`${winCondition}`);
-  winConditionSpan.appendChild(winConditionSpanContent);
-
-  const winningsSpan = document.createElement(`span`);
-  const winningsSpanContent = document.createTextNode(`+ $${winnings}`);
-  winningsSpan.appendChild(winningsSpanContent);
-
-  newDiv.appendChild(nameSpan);
-  newDiv.appendChild(outcomeDiv);
-  newDiv.appendChild(payoutSpan);
-  payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
-  newDiv.appendChild(winConditionSpan);
-  newDiv.appendChild(winningsSpan);
-
-  return newDiv;
-}
-
-function createBaseGameSummaryElements(gameState) {
-  let player = gameState.player;
-  let activeHand = player.currentSplitHand;
-  let outcomeObj;
-  let blackjackPayout = gameState.options.blackjackPayout;
-
-  const newDiv = document.createElement(`div`);
-
-  const roundLabel = document.createElement(`span`);
-  let roundLabelContent = document.createTextNode(`Base Round`);
-  roundLabel.appendChild(roundLabelContent);
-
-  newDiv.appendChild(roundLabel);
-  roundLabel.insertAdjacentHTML(`afterend`, `<br>`);
-
-  if (activeHand == 0) {
-    let hand = player.hand;
-    let outcomeElem = createPlayerSummaryFieldElements(hand, blackjackPayout);
-
-    newDiv.appendChild(outcomeElem);
-  } else {
-    player.splitHands.forEach(function (hand) {
-      let outcomeElem = createPlayerSummaryFieldElements(hand, blackjackPayout);
-
-      newDiv.appendChild(outcomeElem);
+    outcomeElems.forEach(function (elem) {
+      newDiv.appendChild(elem);
     });
-  }
 
-  return newDiv;
-}
+    return newDiv;
 
-function createPlayerSummaryFieldElements(hand, blackjackPayout) {
-  let { name, roundOutcome, winnings } = hand.outcomePackage;
+    function createRoundLabelElement() {
+      const roundLabel = document.createElement(`span`);
+      let roundLabelContent = document.createTextNode(`Base Round`);
+      roundLabel.appendChild(roundLabelContent);
 
-  let payout;
-  if (roundOutcome == `win`) payout = `2:1`;
-  else if (roundOutcome == `natural`) payout = blackjackPayout;
-  else if (roundOutcome == `push`) payout = `Bet Returned`;
-  else if (roundOutcome == `surrender`) payout = `1/2 Bet Returned`;
-  else payout = `0:0`;
+      return roundLabel;
+    }
 
-  const playerDiv = document.createElement(`div`);
+    function createOutcomeElems(player, blackjackPayout) {
+      let activeHand = player.currentSplitHand;
+      let outcomeElems = [];
 
-  const nameSpan = document.createElement(`span`);
-  let nameSpanContent = document.createTextNode(`${name} `);
-  nameSpan.appendChild(nameSpanContent);
+      if (activeHand == 0) {
+        let hand = player.hand;
+        outcomeElems.push(
+          winSummaryModal.createPlayerSummaryFieldElements(
+            hand,
+            blackjackPayout
+          )
+        );
+      } else {
+        player.splitHands.forEach(function (hand) {
+          outcomeElems.push(
+            this.createPlayerSummaryFieldElements(hand, blackjackPayout)
+          );
+        }, winSummaryModal);
+      }
 
-  const outcomeDiv = document.createElement(`div`);
-  outcomeDiv.classList.add(`summary-modal__outcome--${roundOutcome}`);
-  let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
-  outcomeDiv.style.display = `inline-block`;
-  outcomeDiv.appendChild(outcomeDivContent);
+      return outcomeElems;
+    }
+  },
 
-  const payoutSpan = document.createElement(`span`);
-  let payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
-  payoutSpan.appendChild(payoutSpanContent);
+  //replaces createPlayerSummaryFieldElements
+  createPlayerSummaryFieldElements(hand, blackjackPayout) {
+    let { name, roundOutcome, winnings } = hand.outcomePackage;
 
-  const winningsSpan = document.createElement(`span`);
-  let winningsSpanContent = document.createTextNode(`+ $${winnings}`);
-  winningsSpan.appendChild(winningsSpanContent);
+    const playerDiv = document.createElement(`div`);
 
-  playerDiv.appendChild(nameSpan);
-  playerDiv.appendChild(outcomeDiv);
-  playerDiv.appendChild(payoutSpan);
-  playerDiv.appendChild(winningsSpan);
+    let nameSpan = this.createNameElement(name);
 
-  return playerDiv;
-}
+    let outcomeDiv = this.createOutcomeElement(roundOutcome);
+
+    let payoutSpan = createPayoutElement(roundOutcome, blackjackPayout);
+
+    let winningsSpan = this.createWinningsElement(winnings);
+
+    playerDiv.appendChild(nameSpan);
+    playerDiv.appendChild(outcomeDiv);
+    playerDiv.appendChild(payoutSpan);
+    playerDiv.appendChild(winningsSpan);
+
+    return playerDiv;
+
+    function createPayoutElement(roundOutcome, blackjackPayout) {
+      let payout = determinePayoutText(roundOutcome, blackjackPayout);
+
+      const payoutSpan = document.createElement(`span`);
+      let payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+      payoutSpan.appendChild(payoutSpanContent);
+
+      return payoutSpan;
+
+      function determinePayoutText(roundOutcome, blackjackPayout) {
+        let payout;
+        if (roundOutcome == `win`) payout = `2:1`;
+        else if (roundOutcome == `natural`) payout = blackjackPayout;
+        else if (roundOutcome == `push`) payout = `Bet Returned`;
+        else if (roundOutcome == `surrender`) payout = `1/2 Bet Returned`;
+        else payout = `0:0`;
+
+        return payout;
+      }
+    }
+  },
+
+  //replaces createSideBetSummaryElements
+  createSideBetSummaryElements(outcomeObj) {
+    let { name, outcome, payout, winCondition, winnings } = outcomeObj;
+
+    const newDiv = document.createElement(`div`);
+
+    let nameSpan = this.createNameElement(name);
+
+    let outcomeDiv = this.createOutcomeElement(outcome);
+
+    let payoutSpan = createPayoutElement(payout);
+
+    let winConditionSpan = createWinConditionElement(winCondition);
+
+    let winningsSpan = this.createWinningsElement(winnings);
+
+    newDiv.appendChild(nameSpan);
+    newDiv.appendChild(outcomeDiv);
+    newDiv.appendChild(payoutSpan);
+    payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
+    newDiv.appendChild(winConditionSpan);
+    newDiv.appendChild(winningsSpan);
+
+    return newDiv;
+
+    function createPayoutElement(payout) {
+      const payoutSpan = document.createElement(`span`);
+      const payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+      payoutSpan.appendChild(payoutSpanContent);
+
+      return payoutSpan;
+    }
+
+    function createWinConditionElement(winCondition) {
+      const winConditionSpan = document.createElement(`span`);
+      const winConditionSpanContent = document.createTextNode(
+        `${winCondition}`
+      );
+      winConditionSpan.appendChild(winConditionSpanContent);
+
+      return winConditionSpan;
+    }
+  },
+
+  createNameElement(name) {
+    const nameSpan = document.createElement(`span`);
+    let nameSpanContent = document.createTextNode(`${name} `);
+    nameSpan.appendChild(nameSpanContent);
+
+    return nameSpan;
+  },
+
+  createOutcomeElement(roundOutcome) {
+    const outcomeDiv = document.createElement(`div`);
+    outcomeDiv.classList.add(`summary-modal__outcome--${roundOutcome}`);
+    let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
+    outcomeDiv.style.display = `inline-block`;
+    outcomeDiv.appendChild(outcomeDivContent);
+
+    return outcomeDiv;
+  },
+
+  createWinningsElement(winnings) {
+    const winningsSpan = document.createElement(`span`);
+    let winningsSpanContent = document.createTextNode(`+ $${winnings}`);
+    winningsSpan.appendChild(winningsSpanContent);
+
+    return winningsSpan;
+  },
+
+  clearModal() {
+    this.mainContainer.innerHTML = ` `;
+  },
+
+  prepareModal() {
+    this.closeBtn.style.display = "inline-block";
+    this.nextBtn.style.display = `none`;
+
+    this.titleField.textContent = `Win Summary`;
+
+    this.clearModal();
+  },
+};
+
+// export function displayWinSummaryModal(gameState) {
+//   const summaryField = document.querySelector(`.summary-modal__main`);
+//   const summaryTitle = document.querySelector(`.summary-modal__title`);
+//   const closeBtn = document.querySelector(`.btn-summary-modal__close`);
+//   const nextBtn = document.querySelector(`.btn-summary-modal__next`);
+
+//   let initialOutcomePackages = gameState.betObj.initialOutcomePackages;
+//   let endingOutcomePackages = gameState.betObj.endingOutcomePackages;
+
+//   closeBtn.style.display = "inline-block";
+//   nextBtn.style.display = `none`;
+
+//   summaryTitle.textContent = `Win Summary`;
+
+//   summaryField.innerHTML = ` `;
+
+//   let baseGameDiv = createBaseGameSummaryElements(gameState);
+
+//   summaryField.appendChild(baseGameDiv);
+
+//   if (initialOutcomePackages)
+//     initialOutcomePackages.forEach(generateSummaryElements);
+
+//   if (endingOutcomePackages)
+//     endingOutcomePackages.forEach(generateSummaryElements);
+
+//   function generateSummaryElements(outcomeObj) {
+//     let sideBetDiv = createSideBetSummaryElements(outcomeObj);
+
+//     summaryField.appendChild(sideBetDiv);
+//   }
+
+//   popbox.open(`summary-modal`);
+// }
+
+// function createSideBetSummaryElements(outcomeObj) {
+//   let { name, outcome, payout, winCondition, winnings } = outcomeObj;
+
+//   const newDiv = document.createElement(`div`);
+
+//   const nameSpan = document.createElement(`span`);
+//   const nameSpanContent = document.createTextNode(`${name}`);
+//   nameSpan.appendChild(nameSpanContent);
+
+//   const outcomeDiv = document.createElement(`div`);
+//   outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
+//   outcomeDiv.style.display = `inline-block`;
+//   let outcomeDivContent = document.createTextNode(`${outcome} `);
+//   outcomeDiv.appendChild(outcomeDivContent);
+
+//   const payoutSpan = document.createElement(`span`);
+//   const payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+//   payoutSpan.appendChild(payoutSpanContent);
+
+//   const winConditionSpan = document.createElement(`span`);
+//   const winConditionSpanContent = document.createTextNode(`${winCondition}`);
+//   winConditionSpan.appendChild(winConditionSpanContent);
+
+//   const winningsSpan = document.createElement(`span`);
+//   const winningsSpanContent = document.createTextNode(`+ $${winnings}`);
+//   winningsSpan.appendChild(winningsSpanContent);
+
+//   newDiv.appendChild(nameSpan);
+//   newDiv.appendChild(outcomeDiv);
+//   newDiv.appendChild(payoutSpan);
+//   payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
+//   newDiv.appendChild(winConditionSpan);
+//   newDiv.appendChild(winningsSpan);
+
+//   return newDiv;
+// }
+
+// function createBaseGameSummaryElements(gameState) {
+//   let player = gameState.player;
+//   let activeHand = player.currentSplitHand;
+//   let outcomeObj;
+//   let blackjackPayout = gameState.options.blackjackPayout;
+
+//   const newDiv = document.createElement(`div`);
+
+//   const roundLabel = document.createElement(`span`);
+//   let roundLabelContent = document.createTextNode(`Base Round`);
+//   roundLabel.appendChild(roundLabelContent);
+
+//   newDiv.appendChild(roundLabel);
+//   roundLabel.insertAdjacentHTML(`afterend`, `<br>`);
+
+//   if (activeHand == 0) {
+//     let hand = player.hand;
+//     let outcomeElem = createPlayerSummaryFieldElements(hand, blackjackPayout);
+
+//     newDiv.appendChild(outcomeElem);
+//   } else {
+//     player.splitHands.forEach(function (hand) {
+//       let outcomeElem = createPlayerSummaryFieldElements(hand, blackjackPayout);
+
+//       newDiv.appendChild(outcomeElem);
+//     });
+//   }
+
+//   return newDiv;
+// }
+
+// function createPlayerSummaryFieldElements(hand, blackjackPayout) {
+//   let { name, roundOutcome, winnings } = hand.outcomePackage;
+
+//   let payout;
+//   if (roundOutcome == `win`) payout = `2:1`;
+//   else if (roundOutcome == `natural`) payout = blackjackPayout;
+//   else if (roundOutcome == `push`) payout = `Bet Returned`;
+//   else if (roundOutcome == `surrender`) payout = `1/2 Bet Returned`;
+//   else payout = `0:0`;
+
+//   const playerDiv = document.createElement(`div`);
+
+//   const nameSpan = document.createElement(`span`);
+//   let nameSpanContent = document.createTextNode(`${name} `);
+//   nameSpan.appendChild(nameSpanContent);
+
+//   const outcomeDiv = document.createElement(`div`);
+//   outcomeDiv.classList.add(`summary-modal__outcome--${roundOutcome}`);
+//   let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
+//   outcomeDiv.style.display = `inline-block`;
+//   outcomeDiv.appendChild(outcomeDivContent);
+
+//   const payoutSpan = document.createElement(`span`);
+//   let payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+//   payoutSpan.appendChild(payoutSpanContent);
+
+//   const winningsSpan = document.createElement(`span`);
+//   let winningsSpanContent = document.createTextNode(`+ $${winnings}`);
+//   winningsSpan.appendChild(winningsSpanContent);
+
+//   playerDiv.appendChild(nameSpan);
+//   playerDiv.appendChild(outcomeDiv);
+//   playerDiv.appendChild(payoutSpan);
+//   playerDiv.appendChild(winningsSpan);
+
+//   return playerDiv;
+// }
 
 export function resetUI() {
   const dealerCardsField = document.querySelector(`.dealer-cards__container`);
