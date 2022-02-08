@@ -19,7 +19,6 @@ class Bet {
 
   constructor(bank) {
     this.bank = bank;
-    // this.tempBank = bank;
     this.tempValue.bank = bank;
   }
 
@@ -120,8 +119,6 @@ class Bet {
   }
 
   clearSideBetObjs() {
-    //   let length = this.sideBet.length;
-
     for (let i = 0; i <= this.sideBetObjs.length; i++) {
       this.sideBetObjs.pop();
     }
@@ -180,18 +177,6 @@ class Bet {
         console.log(`ERROR: Split Bets`);
     }
 
-    // if (currentSplitHand == 0) splitBets.splitHand2 = this.baseBet;
-
-    // if (currentSplitHand == 1) splitBets.splitHand3 = this.baseBet;
-
-    // if (currentSplitHand == 2 && totalSplitHands == 2)
-    //   splitBets.splitHand3 = this.baseBet;
-
-    // if (currentSplitHand == 2 && totalSplitHands == 3)
-    //   splitBets.splitHand4 = this.baseBet;
-
-    // if (currentSplitHand == 3) splitBets.splitHand4 = this.baseBet;
-
     this.bank = this.bank - this.baseBet;
     this.splitBets = splitBets;
   }
@@ -247,7 +232,6 @@ class Bet {
     );
 
     let winningsArr = this.initialSideBetSequence.map(function (obj) {
-      // if (obj.key == `houseMoney` && !dealerNatural) return 0;
       return obj.winnings;
     });
 
@@ -255,9 +239,6 @@ class Bet {
       (prev, curr) => prev + curr
     );
 
-    // console.log(this.totalSideBetWinnings);
-
-    // console.log(this.initialOutcomePackages);
     return true;
   }
 
@@ -266,32 +247,13 @@ class Bet {
       (obj) => obj.sequencePlacement == `ending`
     );
 
-    // let naturalExists = gameState.checkForNaturalHands();
-    // let naturalArr;
-
-    // if (naturalExists) {
-    //   naturalArr = this.sideBetObjs.filter((obj) => obj.naturalEnd == true);
-    //   naturalArr.forEach(function (obj) {
-    //     this.endingSideBetSequence.push(obj);
-    //   });
-    // }
     return this.endingSideBetSequence.length != 0 ? true : false;
   }
 
   initEndingSideBetSequence(gameState) {
-    // let naturalExists = gameState.checkForNaturalHands();
-    // let naturalArr;
-
     this.endingSideBetSequence = this.sideBetObjs.filter(
       (obj) => obj.sequencePlacement == `ending`
     );
-
-    // if (naturalExists) {
-    //   naturalArr = this.sideBetObjs.filter((obj) => obj.naturalEnding == true);
-    //   naturalArr.forEach(function (obj) {
-    //     this.endingSideBetSequence.push(obj);
-    //   });
-    // }
 
     if (!this.endingSideBetSequence) return false;
 
@@ -313,9 +275,7 @@ class Bet {
     this.endingSideBetWinnings = winningsArr.reduce(
       (prev, curr) => prev + curr
     );
-    // console.log(this.totalSideBetWinnings);
 
-    // console.log(this.initialOutcomePackages);
     return true;
   }
 }
@@ -586,7 +546,6 @@ class SideBet extends Bet {
 
   //Calculating Outcome Methods
   calcPayout() {
-    // if (this.winKey == `lose`) return;
     this.winPayout = this.outcomeTable[this.winKey].payout;
 
     this.getWinnings();
@@ -663,15 +622,11 @@ export function generateSpecialNums() {
 
   let specialNum = {
     mysteryJackpot: mysteryJackpotNumber,
-    // jackpotAce: jackpotAceNum,
-    jackpotAce: 1,
+    jackpotAce: jackpotAceNum,
     jackpotAceCounter: 1,
     jackpotAceFound: false,
 
     trackJackpotAce(hand) {
-      // let playerCards = this.player.hand.cards;
-      // let dealerCards = this.dealer.hand.cards;
-
       let jackpotNum = this.jackpotAce;
       let counter = this.jackpotAceCounter;
       let jackpotFound = false;
@@ -693,24 +648,6 @@ export function generateSpecialNums() {
       this.jackpotAceCounter = counter;
 
       if (this.jackpotAceCounter == 6) this.jackpotAceCounter = 1;
-
-      // checkJackpotAce(playerCards);
-      // checkJackpotAce(dealerCards);
-
-      // function checkJackpotAce(cardsArr) {
-      //   cardsArr.forEach(function (card) {
-      //     if (card.checked) return;
-      //     if (card.value == "ACE" && card.suit == "SPADES") {
-      //       if (this.jackpotAceNum == this.jackpotAceCounter) {
-      //         card.jackpot = true;
-      //         this.jackpotAceFound = true;
-      //       }
-      //       card.checked = true;
-      //       this.jackpotAceCounter++;
-      //       if (this.jackpotAceCounter > 6) this.jackpotAceCounter = 0;
-      //     }
-      //   });
-      // }
     },
   };
 
@@ -721,48 +658,10 @@ export function generateRandomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// function collectDiceRolls(diceRolls) {
-//   let sideBetObj = this.sideBet.filter((obj) => obj.key == `perfect11s`);
-//   this.diceRolls = diceRolls;
-// }
-
 export function initBaseBet(bank) {
   let bet = new Bet(bank);
   return bet;
 }
-
-// export function generateSideBetObj(name) {
-//   let sideBet;
-
-//   switch (name) {
-//     case "perfectPair":
-//       sideBet = new SideBet(perfectPair);
-//       break;
-//     case `21Plus3`:
-//       sideBet = new SideBet(twentyOnePlusThree);
-//       break;
-//     case `perfect11s`:
-//       sideBet = new SideBet(perfect11s);
-//       sideBet.checkSuited11 = checkSuited11;
-//       sideBet.checkDiceRollNeeded = checkPerfect11sDiceRollNeeded;
-//       sideBet.rollInfinityDice = rollInfinityDice;
-//       break;
-//     case `extraBetBlackjack`:
-//       sideBet = new SideBet(extraBetBlackjack);
-//       sideBet.calcExtraBetFee = calcExtraBetFee;
-//       break;
-//     case `houseMoney`:
-//       sideBet = new SideBet(houseMoney);
-//       sideBet.checkModalNeeded = checkHouseMoneyModalNeeded;
-//       sideBet.generateParlayPackage = generateParlayPackage;
-//       // sideBet.collectHouseMoneyWinnings = collectHouseMoneyWinnings;
-//       break;
-//     default:
-//       console.log(`no side bet`);
-//   }
-
-//   return sideBet;
-// }
 
 export function generateEvenMoneyObj(gameState) {
   let evenMoneyObj = new SideBet(sideBetMod.evenMoney);
@@ -812,7 +711,6 @@ export function generateSideBetObj(name) {
       sideBet.checkModalNeeded = sideBetFunc.checkHouseMoneyModalNeeded;
       sideBet.generateParlayPackage = sideBetFunc.generateParlayPackage;
       sideBet.changeWinnings = sideBetFunc.changeHouseMoneyWinnings;
-      // sideBet.collectHouseMoneyWinnings = collectHouseMoneyWinnings;
       break;
     case `luckyLadies`:
       sideBet = new SideBet(sideBetMod.luckyLadies);
