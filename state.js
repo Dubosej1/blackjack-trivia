@@ -32,11 +32,6 @@ class State {
     this.dealer = dealer;
   }
 
-  // addWinnings(winnings) {
-  //   this.bank = this.bank + winnings;
-  //   view.updateBank(bank);
-  // }
-
   updateBank(bank) {
     this.bank = bank;
     view.gameInfoFields.updateBank(this.bank);
@@ -53,7 +48,6 @@ class State {
 
   toggleGameActive(toggle) {
     toggle ? (this.gameActive = true) : (this.gameActive = false);
-    // bjModel.updateGameActive(toggle);
   }
 
   updateOptions(optionsObj) {
@@ -82,7 +76,6 @@ class State {
 
     this.checkForJackpotAce(hand);
     view.gameField.renderPlayerHands(this.player);
-    // view.renderPlayerField(this.player.hand);
   }
 
   set updateDealer(dealer) {
@@ -122,16 +115,6 @@ class State {
       : false;
   }
 
-  // checkSplitAvailable() {
-  //   if (this.bank - this.betObj.baseBet <= 0) {
-  //     this.splitAvailable = false;
-  //     return;
-  //   }
-
-  //   if (this.player.checkValidSplit(this.options)) this.splitAvailable = true;
-  //   else this.splitAvailable = false;
-  // }
-
   checkSplitAvailable(hand) {
     let player = this.player;
     let activeHand = player.currentSplitHand;
@@ -148,19 +131,12 @@ class State {
       }
     }
 
-    // let hand = this.player.hand;
-
     if (this.player.currentSplitHand == 0)
       this.player.checkValidSplit(hand, this.options);
 
     if (hand.splitValid) this.splitAvailable = true;
     else this.splitAvailable = false;
   }
-
-  // checkDoubleDownAvailable() {
-  //   if (this.bank - this.betObj.baseBet < 0) this.doubleDownAvailable = false;
-  //   else this.doubleDownAvailable = true;
-  // }
 
   checkDoubleDownAvailable(hand) {
     if (this.bank - this.betObj.baseBet < 0) {
@@ -178,13 +154,10 @@ class State {
   }
 
   checkValidInsurance() {
-    // if (insuranceAlreadyChecked) return;
-    // insuranceAlreadyChecked = true;
     let dealerInitialFaceUpCard = this.dealer.hand.cards[1].value;
     let bank = this.player.bank;
     let betAmount = this.betObj.baseBet;
 
-    // if (this.evenMoneyAvailable == true) return;
     if (this.evenMoneyAvailable || !this.options.insuranceEnabled) {
       this.insuranceAvailable = false;
       return;
@@ -199,8 +172,6 @@ class State {
   }
 
   checkValidEvenMoney() {
-    // if (insuranceAlreadyChecked) return;
-    // insuranceAlreadyChecked = true;
     let dealerInitialFaceUpCard = this.dealer.hand.cards[1].value;
     let playerHandOutcome = this.player.hand.outcome;
 
@@ -222,7 +193,6 @@ class State {
 
   set toggleEnableActionBtns(obj) {
     this.actionBtnState = { ...this.actionBtnState, ...obj };
-    // view.renderGameActionBtns(this.actionBtnState);
     view.gameActionBtns.renderBtns(this.actionBtnState);
   }
 
@@ -237,13 +207,6 @@ class State {
     this.updateBank(this.bank);
   }
 
-  // updateSplitBet() {
-  //   let currentSplitHand = this.player.currentSplitHand;
-  //   let totalSplitHands = this.player.totalSplitHands;
-
-  //   this.betObj.splitBet(currentSplitHand, totalSplitHands);
-  //   this.subtractSplitBetFromBank();
-  // }
   updateSplitBet() {
     let currentSplitHand = this.player.currentSplitHand;
     let totalSplitHands = this.player.splitHands.length;
@@ -255,11 +218,8 @@ class State {
   updateDoubleDownBet() {
     this.betObj.applyDoubleDown(this.player.currentSplitHand);
     this.subtractBaseBetFromBank();
-    // view.updateBaseBet(this.betObj.baseBet);
     view.gameInfoFields.toggleDoubleDownMarker(true);
   }
-
-  //Possible Outcomes: Win, Lose, Push or Surrender (for each hand)
 
   determineBaseRoundOutcome() {
     let player = this.player;
@@ -293,42 +253,7 @@ class State {
     }
 
     this.playerWinnings = winnings.reduce((prev, curr) => prev + curr);
-
-    // switch (handCount) {
-    //   case 1:
-    //     hand = player.hand;
-    //     this.calculateHandMatchup(hand, dealerHand);
-    //     break;
-    //   case 2:
-    //     hand = player.getSplitHand(1);
-    //     hand2 = player.getSplitHand(2);
-    //     this.calculateHandMatchup(hand, dealerHand);
-    //     this.calculateHandMatchup(hand2, dealerHand);
-    //     break;
-    //   case 3:
-    //     hand = player.getSplitHand(1);
-    //     hand2 = player.getSplitHand(2);
-    //     hand3 = player.getSplitHand(3);
-    //     this.calculateHandMatchup(hand, dealerHand);
-    //     this.calculateHandMatchup(hand2, dealerHand);
-    //     this.calculateHandMatchup(hand3, dealerHand);
-    //     break;
-    //   case 4:
-    //     hand = player.getSplitHand(1);
-    //     hand2 = player.getSplitHand(2);
-    //     hand3 = player.getSplitHand(3);
-    //     hand4 = player.getSplitHand(4);
-    //     this.calculateHandMatchup(hand, dealerHand);
-    //     this.calculateHandMatchup(hand2, dealerHand);
-    //     this.calculateHandMatchup(hand3, dealerHand);
-    //     this.calculateHandMatchup(hand4, dealerHand);
-    //     break;
-    //   default:
-    //     console.log(`ERROR: calculating hand outcomes`);
-    // }
   }
-
-  //Pre existing outcomes: Bust, Charlie, Blackjack, Stand
 
   calculateHandMatchup(hand, dealerHand) {
     let playerOutcome = hand.getFinalOutcome();
@@ -337,15 +262,9 @@ class State {
     let roundOutcomeText;
     let handNum = hand.handNum;
 
-    // let player;
-
-    // if (handNum == 0) player = `Player`;
-    // else player = `Hand ${handNum}`;
-
     switch (true) {
       case playerOutcome == `surrender`:
         roundOutcome = `surrender`;
-        // roundOutcomeText = `${player} has surrendered`;
         roundOutcomeText = `Player has surrendered`;
         break;
       case playerOutcome == `surrenderFail`:
@@ -355,13 +274,11 @@ class State {
       case playerOutcome == dealerOutcome:
         if (playerOutcome == `bust`) {
           roundOutcome = `lose`;
-          // roundOutcomeText = `${player} busts...`;
           roundOutcomeText = `Player busts...`;
         } else roundOutcome = "push";
         break;
       case playerOutcome == `bust`:
         roundOutcome = `lose`;
-        // roundOutcomeText = `${player} busts...`;
         roundOutcomeText = `Player busts...`;
         break;
       case dealerOutcome == `bust`:
@@ -370,7 +287,6 @@ class State {
         break;
       case playerOutcome == `natural`:
         roundOutcome = `natural`;
-        // roundOutcomeText = `${player} has Blackjack!!!`;
         roundOutcomeText = `Player has Blackjack!!!`;
         break;
       case dealerOutcome == `natural`:
@@ -379,7 +295,6 @@ class State {
         break;
       case playerOutcome == `charlie`:
         roundOutcome = `win`;
-        // roundOutcomeText = `${player} has ${hand.charlieType} Card Charlie`;
         roundOutcomeText = `Player has ${hand.charlieType} Card Charlie`;
         break;
       case dealerOutcome == `charlie`:
