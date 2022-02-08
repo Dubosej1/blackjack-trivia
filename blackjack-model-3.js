@@ -10,66 +10,9 @@ class Cardholder {
     this.hand = hand;
   }
 
-  // set addCardToHand(card) {
-  //   this.hand.cards.push(card);
-  //   this.hand.total = this.calculateHandTotal(this.hand.cards);
-  // }
-
   get getHand() {
     return this.hand;
   }
-
-  // calculateHandTotal(cards) {
-  //   let handValueArr = cards.map((card) => card.value);
-  //   // let numberArr = handValue.map(getCardValue);
-
-  //   return getHandValue(handValueArr);
-
-  //   function getHandValue(arr) {
-  //     let total = arr.map(getCardValue).reduce((acc, cur) => acc + cur);
-
-  //     if (total > 21 && arr.includes("ACE")) {
-  //       let index = arr.indexOf("ACE");
-  //       arr[index] = "ACELOW";
-  //       total = getHandValue(arr);
-  //     }
-
-  //     return total;
-
-  //     function getCardValue(value) {
-  //       let num;
-
-  //       switch (value) {
-  //         case "JACK":
-  //           num = 10;
-  //           break;
-  //         case "QUEEN":
-  //           num = 10;
-  //           break;
-  //         case "KING":
-  //           num = 10;
-  //           break;
-  //         case "ACE":
-  //           num = 11;
-  //           break;
-  //         case "ACELOW":
-  //           num = 1;
-  //           break;
-  //         default:
-  //           num = Number(value);
-  //       }
-
-  //       return num;
-  //     }
-  //   }
-  // }
-
-  // addEndingCardTags(imageArr) {
-  //   let cardCount = this.hand.cards.length;
-  //   let endTags = `<li><ul>`;
-  //   let repeatedTags = endTags.repeat(cardCount);
-  //   this.hand.images.push(repeatedTags);
-  // }
 }
 
 class Hand {
@@ -89,8 +32,6 @@ class Hand {
     this.cards.push(card);
     this.total = this.calculateHandTotal(this.cards);
     this.addImagesToHand(card);
-    // this.hand.images.push(`<img src="${card.image}" class="card">`);
-    // this.hand.total = this.calculateHandTotal(this.hand.cards);
   }
 
   popCardFromHand() {
@@ -107,7 +48,6 @@ class Hand {
   calculateHandTotal(cards) {
     let handValueArr = cards.map((card) => card.value);
     let getCardValue = this.getCardValue;
-    // let numberArr = handValue.map(getCardValue);
 
     return getHandValue(handValueArr);
 
@@ -158,7 +98,6 @@ class Hand {
   }
 
   cardHit(cardHolder, gameState) {
-    // let player = gameState.player;
     let hand = this;
 
     drawSingleCard(gameInfo.deckID)
@@ -169,46 +108,9 @@ class Hand {
       .finally(function () {
         hand.performHandChecks(gameState);
         controller.updateStatePlayers(cardHolder, gameState);
-        // controller.checkPlayerNextAvailableAction(gameState);
         cardHolder.determineContinueStatus(hand, gameState);
       });
-    // player.performHandChecks();
-
-    // controller.updateStatePlayers(player, gameState);
-    // controller.checkPlayerNextAvailableAction(player, gameState);
   }
-
-  // playerHit(gameState) {
-  //   let player = gameState.player;
-  //   let hand = this;
-
-  //   drawSingleCard(gameInfo.deckID)
-  //     .then(function (cardsObj) {
-  //       hand.addCardToHand = cardsObj;
-  //     })
-  //     .catch((err) => alert(`error executePlayerHit`))
-  //     .finally(function () {
-  //       hand.performHandChecks(gameState);
-  //       controller.updateStatePlayers(player, gameState);
-  //       player.determineContinueStatus(hand, gameState);
-  //     });
-  // }
-
-  // dealerHit(gameState) {
-  //   let dealer = gameState.dealer;
-  //   let hand = this;
-
-  //   drawSingleCard(gameInfo.deckID)
-  //     .then(function (cardsObj) {
-  //       hand.addCardToHand = cardsObj;
-  //     })
-  //     .catch((err) => alert(`error executeDealerHit`))
-  //     .finally(function () {
-  //       hand.performHandChecks(gameState);
-  //       controller.updateStatePlayers(dealer, gameState);
-  //       dealer.determineContinueStatus(hand, gameState);
-  //     });
-  // }
 
   performHandChecks(gameState) {
     let options = gameState.options;
@@ -276,8 +178,6 @@ class Hand {
         winnings = 0;
     }
 
-    //Need option to not add base bet to winnings (based on side bet option)
-
     this.winnings = winnings;
   }
 
@@ -316,68 +216,12 @@ class Player extends Cardholder {
   betAmount = 0;
   type = `player`;
   splitHands = [];
-  // splitHand1 = {
-  //   cards: [],
-  //   images: [],
-  //   simpleImages: [],
-  //   endTags: [],
-  //   code: [],
-  //   total: 0,
-  // };
-  // splitHand2 = {
-  //   cards: [],
-  //   images: [],
-  //   simpleImages: [],
-  //   endTags: [],
-  //   code: [],
-  //   total: 0,
-  // };
-  // splitHand3 = {
-  //   cards: [],
-  //   images: [],
-  //   simpleImages: [],
-  //   endTags: [],
-  //   code: [],
-  //   total: 0,
-  // };
-  // splitHand4 = {
-  //   cards: [],
-  //   images: [],
-  //   simpleImages: [],
-  //   endTags: [],
-  //   code: [],
-  //   total: 0,
-  // };
-  // totalSplitHands = 1;
   currentSplitHand = 0;
 
   constructor(bank) {
     super();
     this.bank = bank;
   }
-
-  // addImagesToHand(card) {
-  //   this.hand.images.push(
-  //     `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-  //   );
-  //   this.hand.endTags.push(`</li></ul>`);
-  //   this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
-  //   console.log(this.hand);
-  // }
-
-  // set addCardToHand(card) {
-  //   super.addCardToHand = card;
-  //   // this.hand.images.push(
-  //   //   `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-  //   // );
-  //   // this.hand.endTags.push(`</li></ul>`);
-  //   // this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
-  //   // console.log(this.hand);
-  // }
-
-  // get getHand() {
-  //   return this.hand;
-  // }
 
   checkHandForNatural(hand) {
     if (hand.cards.length !== 2) return false;
@@ -394,10 +238,6 @@ class Player extends Cardholder {
   set updateCurrentSplitHand(handNum) {
     this.currentSplitHand = handNum;
   }
-
-  // updateTotalSplitHands() {
-  //   this.totalSplitHands++;
-  // }
 
   getSplitHand(handNum) {
     return this.splitHands.find((obj) => obj.handNum == handNum);
@@ -457,150 +297,6 @@ class Player extends Cardholder {
 
     hand.addCardToHand(newCard);
   }
-
-  // splitHand(newCards) {
-  //   let newCard1, newCard2;
-
-  //   if (newCards.length == 2) {
-  //     newCard1 = newCards.pop();
-  //     newCard2 = newCards.pop();
-  //   } else newCard1 = newCards.pop();
-
-  //   if (this.currentSplitHand == 0) {
-  //     let [splitCard1, splitCard2] = this.removeSplitCardsFromBaseHand();
-  //     this.addCardToSplitHand(1, splitCard1);
-  //     this.addCardToSplitHand(1, newCard1);
-  //     this.addCartdToSplitHand(2, splitCard2);
-  //     this.addCardToSplitHand(2, newCard2);
-  //   }
-
-  //   if (this.currentSplitHand == 1) {
-  //     let splitCard = this.removeSplitCardsFromSplitHand(1);
-  //     this.addCardToSplitHand(3, splitCard);
-  //     this.addCardToSplitHand(3, newCard1);
-  //   }
-
-  //   if (this.currentSplitHand == 2 && this.totalSplitHands == 2) {
-  //     let splitCard = this.removeSplitCardsFromSplitHand(2);
-  //     this.addCardToSplitHand(3, splitCard);
-  //     this.addCardToSplitHand(3, newCard1);
-  //   }
-
-  //   if (this.currentSplitHand == 2 && this.totalSplitHands == 3) {
-  //     let splitCard = this.removeSplitCardsFromSplitHand(2);
-  //     this.addCardToSplitHand(4, splitCard);
-  //     this.addCardToSplitHand(4, newCard1);
-  //   }
-
-  //   if (this.currentSplitHand == 3) {
-  //     let splitCard = this.removeSplitCardsFromSplitHand(3);
-  //     this.addCardToSplitHand(4, splitCard);
-  //     this.addCardToSplitHand(4, newCard1);
-  //   }
-
-  //   // this.checkForSplitAces(splitCard1, splitCard2);
-  // }
-
-  // removeSplitCardsFromBaseHand() {
-  //   this.hand.images.length = 0;
-  //   this.hand.total = 0;
-  //   let card1 = this.hand.cards.pop();
-  //   let card2 = this.hand.cards.pop();
-  //   return [card1, card2];
-  // }
-
-  // removeSplitCardsFromSplitHand(splitHand) {
-  //   let card;
-
-  //   if (splitHand == 1) card = this.splitHand1.cards.pop();
-  //   if (splitHand == 2) card = this.splitHand2.cards.pop();
-  //   if (splitHand == 3) card = this.splitHand3.cards.pop();
-
-  //   return card;
-  // }
-
-  // addCardToSplitHand(splitHand, card) {
-  //   if (splitHand == 1) {
-  //     this.splitHand1.cards.push(card);
-  //     this.splitHand1.images.push(
-  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-  //     );
-  //     this.splitHand1.simpleImages.push(
-  //       `<img src="${card.image}" class="card">`
-  //     );
-  //     this.splitHand1.endTags.push(`</li></ul>`);
-  //     this.splitHand1.codes.push(card.code);
-  //     this.splitHand1.total = this.calculateHandTotal(this.splitHand1.cards);
-  //   }
-
-  //   if (splitHand == 2) {
-  //     this.splitHand2.cards.push(card);
-  //     this.splitHand2.images.push(
-  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-  //     );
-  //     this.splitHand2.simpleImages.push(
-  //       `<img src="${card.image}" class="card">`
-  //     );
-  //     this.splitHand2.endTags.push(`</li></ul>`);
-  //     this.splitHand2.codes.push(card.code);
-  //     this.splitHand2.total = this.calculateHandTotal(this.splitHand2.cards);
-  //   }
-
-  //   if (splitHand == 3) {
-  //     this.splitHand3.cards.push(card);
-  //     this.splitHand3.images.push(
-  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-  //     );
-  //     this.splitHand3.simpleImages.push(
-  //       `<img src="${card.image}" class="card">`
-  //     );
-  //     this.splitHand3.endTags.push(`</li></ul>`);
-  //     this.splitHand3.codes.push(card.code);
-  //     this.splitHand3.total = this.calculateHandTotal(this.splitHand3.cards);
-  //   }
-
-  //   if (splitHand == 4) {
-  //     this.splitHand4.cards.push(card);
-  //     this.splitHand4.images.push(
-  //       `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-  //     );
-  //     this.splitHand4.simpleImages.push(
-  //       `<img src="${card.image}" class="card">`
-  //     );
-  //     this.splitHand4.endTags.push(`</li></ul>`);
-  //     this.splitHand4.codes.push(card.code);
-  //     this.splitHand4.total = this.calculateHandTotal(this.splitHand4.cards);
-  //   }
-  // }
-
-  //   checkValidSideBet() {
-  //     return this.bank - this.betAmount >= 0 ? true : false;
-  //   }
-
-  // checkValidSplit(options) {
-  //   let card1 = this.hand.cards[0].value;
-  //   let card2 = this.hand.cards[1].value;
-
-  //   if (options.splitAnyTens) {
-  //     card1 = convertTenValueCard(card1);
-  //     card2 = convertTenValueCard(card2);
-  //   }
-
-  //   if (!options.splitAces) {
-  //     if (card1 == "ACE" || card2 == "ACE") return false;
-  //   }
-
-  //   if (card1 == card2) return true;
-  //   return false;
-
-  //   function convertTenValueCard(value) {
-  //     let faceCards = ["JACK", "QUEEN", "KING"];
-  //     let result = faceCards.some((face) => face == value);
-
-  //     if (result) value = "10";
-  //     return value;
-  //   }
-  // }
 
   checkValidResplitActions(hand, options) {
     if (hand.splitChecked) return;
@@ -725,8 +421,6 @@ class Player extends Cardholder {
       nextAction,
       gameState
     );
-
-    // controller.renderPlayerOutcome(nextAction, gameState);
   }
 }
 
@@ -736,38 +430,6 @@ class Dealer extends Cardholder {
   constructor() {
     super();
   }
-
-  // constructor() {
-  //   super();
-  //   this.hand.type = `dealer`;
-  //   this.hand.visibleCards = [];
-  //   this.hand.visibleTotal = 0;
-  //   this.hand.unrevealedCard;
-  //   this.hand.simpleUnrevealedCard;
-  // }
-
-  // set addCardToHand(card) {
-  //   super.addCardToHand = card;
-
-  //   if (this.hand.cards.length == 1) {
-  //     this.hand.unrevealedCard = `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`;
-  //     this.hand.simpleUnrevealedCard = `<img src="${card.image}" class="card">`;
-  //     this.hand.images.push(
-  //       `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="img/playing-card-back.svg"/>`
-  //     );
-  //     this.hand.simpleImages.push(
-  //       `<img src='img/playing-card-back.svg' class='card'>`
-  //     );
-  //   } else {
-  //     this.hand.images.push(
-  //       `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${card.image}"/>`
-  //     );
-  //     this.hand.simpleImages.push(`<img src="${card.image}" class="card">`);
-  //     this.hand.visibleCards.push(card);
-  //     this.hand.visibleTotal = this.calculateHandTotal(this.hand.visibleCards);
-  //   }
-  //   this.hand.endTags.push(`</li></ul>`);
-  // }
 
   checkHandForNatural(hand) {
     if (hand.cards.length !== 2) return;
@@ -784,8 +446,6 @@ class Dealer extends Cardholder {
   }
 
   executeHit(gameState) {
-    // let options = gameState.options;
-
     this.hand.cardHit(this, gameState);
   }
 
@@ -794,11 +454,6 @@ class Dealer extends Cardholder {
     let outcome = hand.outcome;
     let dealerLimit = options.dealerStandsOn;
     let aces, nextAction;
-    // let activeHand = this.currentSplitHand;
-    // let handCount = 1;
-    // let nextAction;
-
-    // if (activeHand > 0) handCount = this.splitHands.length;
 
     if (outcome == `bust` || outcome == `charlie`) nextAction = `endRound`;
     else {
@@ -843,8 +498,6 @@ class Dealer extends Cardholder {
       nextAction,
       gameState
     );
-
-    // controller.renderPlayerOutcome(nextAction, gameState);
   }
 }
 
@@ -895,7 +548,6 @@ export function initDeck(gameState) {
     };
 
     getNewDeckID();
-    // gameInfo.updateDeckID = newDeckID;
   })(gameInfo.deckID);
 }
 
@@ -906,9 +558,7 @@ export function shuffleCards(deckCount) {
     .then(function (response) {
       return response.json();
     })
-    .then(function (data) {
-      // console.log(data);
-    })
+    .then(function (data) {})
     .catch((err) => console.log(`shuffle cards error`));
 }
 
@@ -941,9 +591,6 @@ function initNewHands(player, dealer) {
 
 function addPlayerHandMethods(playerHand) {
   playerHand.addImagesToHand = addPlayerImagesToHand;
-  // playerHand.splitInitialHand = splitPlayerInitialHand;
-  // playerHand.splitNewHand = splitPlayerNewHand;
-  // playerHand.addCardToSplitHand = addCardToPlayerSplitHand;
   playerHand.codes = [];
 }
 
@@ -951,8 +598,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       // console.log(cardsObj);
-      // currentPlayer.hand.addCardToHand = cardsObj.card1;
-      // currentPlayer.hand.addCardToHand = cardsObj.card2;
+      currentPlayer.hand.addCardToHand = cardsObj.card1;
+      currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect Pair
@@ -970,8 +617,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.diamondAce;
 
       //Test Split Functionality (regularHand)
-      currentPlayer.hand.addCardToHand = testCard.heart7;
-      currentPlayer.hand.addCardToHand = testCard.spade7;
+      // currentPlayer.hand.addCardToHand = testCard.heart7;
+      // currentPlayer.hand.addCardToHand = testCard.spade7;
 
       //Test 21+3 3 Kind (normal)
       // currentPlayer.hand.addCardToHand = testCard.spade7;
@@ -1022,18 +669,10 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       //Test Lucky Ladies Queen Hearts Pair
       // currentPlayer.hand.addCardToHand = testCard.heartQueen;
       // currentPlayer.hand.addCardToHand = testCard.heartQueen;
-
-      //   console.log(`dealPlayerCards`);
-      //   console.log(playerHand);
-      //   return playerHand;
     })
     .catch((err) => dealPlayerCards(deckID))
     .finally(function () {
       currentPlayer.checkHandForNatural(currentPlayer.hand);
-      //   controller.updateStatePlayers(currentPlayer, gameState);
-      //   controller.updateSplitToken(currentPlayer.checkValidSplit(), gameState);
-      //   controller.updateDoubleDownToken(currentPlayer.checkValidSideBet(), gameState);
-      // console.log(currentPlayer.hand);
     });
 }
 
@@ -1041,7 +680,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       currentDealer.hand.addCardToHand = cardsObj.card1;
-      // currentDealer.hand.addCardToHand = cardsObj.card2;
+      currentDealer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //To test Dealer Bust (keep original 2 cards)
@@ -1053,7 +692,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // currentDealer.hand.addCardToHand = testCard.spade7;
 
       // To test Insurance functionality (substitute card2)
-      currentDealer.hand.addCardToHand = testCard.heartAce;
+      // currentDealer.hand.addCardToHand = testCard.heartAce;
 
       //To test 5 Card Charlie (comment out all other dealerHands)
       // createFiveCardCharlieTestHand(`dealer`);
@@ -1076,24 +715,11 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // currentDealer.hand.addCardToHand = testCard.diamondKing;
       // currentDealer.hand.addCardToHand = testCard.spade7;
       // currentDealer.hand.addCardToHand = testCard.spadeJack;
-
-      // return dealerHand;
     })
-    // .then(function (dealerHand) {
-    //   updateDealerCards(dealerHand);
-    // })
     .catch((err) => dealDealerCards(deckID))
     .finally(function () {
       currentDealer.checkHandForNatural(currentDealer.hand);
       currentDealer.checkHandForPeek();
-      // controller.updateStatePlayers(currentDealer, gameState);
-      // gameState.checkValidEvenMoney();
-      // gameState.checkValidInsurance();
-      // controller.enableBeginRoundBtns(gameState);
-
-      // checkValidInsurance(dealerHand);
-      // cardObj = renderCardInfo(specialToken);
-      // console.log(currentDealer.hand);
     });
 }
 
@@ -1147,14 +773,12 @@ function drawSingleCard(deckID) {
 
 export function splitPlayerHand(gameState) {
   let player = gameState.player;
-  // let betObj = gameState.betObj;
   let num = player.currentSplitHand;
 
   gameState.updateSplitBet();
 
   if (num == 0) {
     player.updateType = `split player`;
-    // let hand = player.hand;
     checkForSplitAces(player.hand, player);
     player.updateCurrentSplitHand = 1;
   } else {
@@ -1166,40 +790,23 @@ export function splitPlayerHand(gameState) {
 
   generateNewSplitHand(num, player);
 
-  // currentPlayer.updateSplitBet();
-
-  // currentPlayer.updateType = `split player`;
-
-  // currentPlayer.updateCurrentSplitHand = 1;
-
   let newCards = [];
-
-  // let poppedCard = playerHand.pop();
-  // playerSplitHand.push(poppedCard);
 
   drawCards(gameInfo.deckID, 2)
     .then(function (cardsObj) {
-      // newCards.push(cardsObj.card1);
-      // newCards.push(cardsObj.card2);
+      newCards.push(cardsObj.card1);
+      newCards.push(cardsObj.card2);
       gameState.updateRemainingCards = cardsObj.remaining;
-      // currentPlayer.splitHand(newCards);
-      // player.addCardToSplitHand(1, cardsObj.card1);
-      // player.addCardToSplitHand(2, cardsObj.card2);
-
-      //To test Split Hand 2 Five Card Charlie (comment out playerSPlitHand)
-      // createFiveCardCharlieTestHand(`split`);
 
       //Testing Resplitting more hands
-      newCards.push(testCard.heartAce);
-      newCards.push(cardsObj.card2);
-
+      // newCards.push(testCard.heartAce);
+      // newCards.push(cardsObj.card2);
       return newCards;
     })
     .then(function (newCards) {
       player.splitHand(newCards);
     })
     .catch((err) => {
-      // splitPlayerHand();
       console.log(`Error: Split Hand Function`);
     })
     .finally(() => {
@@ -1231,8 +838,6 @@ export function splitPlayerHand(gameState) {
     }
 
     addPlayerHandMethods(splitHand);
-
-    // splitHand.addImagesToHand = addPlayerImagesToHand;
 
     if (currentSplitHand == 0) player.addInitialSplitHands(splitHand);
     else player.addNewSplitHand(splitHand);
@@ -1279,7 +884,6 @@ function addPlayerImagesToHand(card) {
   this.endTags.push(`</li></ul>`);
   this.simpleImages.push(`<img src="${card.image}" class="card">`);
   this.codes.push(card.code);
-  // console.log(this);
 }
 
 function revealDealerFaceDownCard() {
@@ -1287,14 +891,4 @@ function revealDealerFaceDownCard() {
 
   this.images.shift();
   this.images.unshift(this.unrevealedCard);
-  // this.endTags.push(`</li></ul>`);
 }
-
-// function addSplitImagesToHand(card) {
-//   this.images.push(
-//     `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${card.image}"/>`
-//   );
-//   this.simpleImages.push(`<img src="${card.image}" class="card">`);
-//   this.endTags.push(`</li></ul>`);
-//   this.codes.push(card.code);
-// }
