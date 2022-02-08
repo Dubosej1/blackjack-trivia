@@ -79,10 +79,8 @@ export function addNewRoundEventListeners(gameState) {
   addSideBetContainerListener(gameState);
   addSystemBtnListeners(gameState);
   addHouseMoneyModalBtnListeners(gameState);
-  // addGameActionBtnListeners(gameState);
   addWinningsModalListener(gameState);
   addEarlySurrenderModalListeners(gameState);
-  // addModalListeners(gameState);
 
   let gameActionBtnClbkObj = {
     hit: hitBtnListenerCallback,
@@ -120,9 +118,6 @@ export function addBaseBetModalBtnListeners(gameState) {
   const sideBetMenuBtn = document.querySelector(
     `.btn-basic-bet-modal__place-side-bets`
   );
-  // const checkSideBetsBtn = document.querySelector(
-  //   `.btn-basic-bet-modal__check-side-bets`
-  // );
 
   baseBetChipBtns.forEach(function (elem) {
     elem.addEventListener("click", updateBaseBetChipBtnCallback);
@@ -133,8 +128,6 @@ export function addBaseBetModalBtnListeners(gameState) {
   baseBetDealCardsBtn.addEventListener(`click`, dealCardsBtnListenerCallback);
 
   sideBetMenuBtn.addEventListener(`click`, sideBetMenuBtnListener);
-
-  // checkSideBetsBtn.addEventListener(`click`, checkSideBetsBtnListenerCallback);
 }
 
 function removeBaseBetModalBtnListeners() {
@@ -147,9 +140,6 @@ function removeBaseBetModalBtnListeners() {
   const baseBetDealCardsBtn = document.querySelector(
     `.btn-basic-bet-modal__deal-cards`
   );
-  // const checkSideBetsBtn = document.querySelector(
-  //   `.btn-basic-bet-modal__check-side-bets`
-  // );
 
   baseBetChipBtns.forEach(function (elem) {
     elem.removeEventListener("click", updateBaseBetChipBtnCallback);
@@ -649,8 +639,6 @@ function acceptEvenMoneyBtnCallback(event) {
 function declineEvenMoneyBtnCallback(event) {
   removeEvenMoneyModalListeners();
   popbox.close(`generic-modal`);
-  //Remove Even Money Info from Generic Modal
-  // controller.beginGameRoutinePart2(globalState);
 
   controller.determineEndGameRoutineOrder(globalState);
 }
@@ -662,7 +650,6 @@ function acceptInsuranceBtnCallback(event) {
 function declineInsuranceBtnCallback(event) {
   removeInsuranceModalListeners();
   popbox.close(`generic-modal`);
-  //Remove Insurance Info from Generic Modal
   controller.beginGameRoutinePart2(globalState);
 }
 
@@ -742,7 +729,6 @@ function acceptEarlySurrenderCallback(event) {
 }
 
 function declineEarlySurrenderCallback(event) {
-  // view.resetWinningHandModal();
   view.winningHandModal.resetModal();
   controller.beginGameRoutinePart2(globalState);
 }
