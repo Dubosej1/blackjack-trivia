@@ -1,7 +1,6 @@
 import * as bjModel from "./blackjack-model-3.js";
 import * as triviaModel from "./trivia-model.js";
 import * as view from "./view-3.js";
-// import { optionsObj } from "./view-3.js";
 import * as listeners from "./listeners.js";
 import * as betModel from "./bet-model.js";
 import * as state from "./state.js";
@@ -173,7 +172,6 @@ export function beginGameRoutine(gameState) {
       let diceRolls = perfect11sObj.rollInfinityDice();
       view.perfect11sDiceModal.displayModal(diceRolls);
       order.perfect11sDiceRoll = false;
-      //   gameState.betObj.collectPerfect11DiceRolls(diceRolls);
       break;
     case order.houseMoney:
       view.houseMoneyModal.displayModal(gameState);
@@ -183,7 +181,6 @@ export function beginGameRoutine(gameState) {
       gameState.betObj.initInitialSideBetSequence(gameState);
       let winnings = gameState.betObj.getInitialSideBetWinnings();
       gameState.updateWinningsToBank(winnings);
-      // view.displayInitialSideBetOutcome(gameState);
       view.sideBetOutcomeModal.displayModal(gameState, `beginning`);
       order.sideBetSequence = false;
       break;
@@ -223,7 +220,6 @@ export function beginGameRoutinePart2(gameState) {
       gameState.insuranceAvailable = false;
       break;
     case order.natural:
-      // add option for dealer to "check" for natural
       let playerText;
 
       if (playerHand.outcome == `natural`) playerText = `Player`;
@@ -340,7 +336,6 @@ export function endGameRoutine(gameState) {
       gameState.betObj.initEndingSideBetSequence(gameState);
       let winnings = gameState.betObj.getEndingSideBetWinnings();
       gameState.updateWinningsToBank(winnings);
-      // view.displayEndingSideBetOutcome(gameState);
       view.sideBetOutcomeModal.displayModal(gameState, `ending`);
       order.sideBetSequence = false;
       break;
@@ -454,7 +449,6 @@ export function beginSplitHandActions(gameState) {
 }
 
 export function submitOptions(event, gameState = null) {
-  // let options = view.collectOptions();
   let options = view.optionsModal.collectOptions();
 
   if (!gameState) optionsPlaceholder = options;
@@ -512,9 +506,6 @@ export function clearSideBetChips(event, gameState) {
 }
 
 export function placeSideBets(event, gameState) {
-  let sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-  let bank = gameState.betObj.getTempBank();
-
   view.baseBetModal.updateModalTotal(gameState);
 
   gameState.betObj.toggleSideBetPlacedModalActive(true);
@@ -582,7 +573,6 @@ export function clearExtraBetChips(event, gameState) {
   const sideBet = document.querySelector(`.extra-bet-modal__main`).dataset
     .sidebet;
 
-  // let betObj = gameState.betObj;
   let sideBetObj;
 
   if (sideBet == `extraBetBlackjack`) {
@@ -666,7 +656,6 @@ export function initEvenMoneyBet(event, gameState) {
 
   let modalType = `evenMoney`;
   view.evenMoneyInsuranceModal.renderOutcome(modalType, outcome, gameState);
-  // view.renderEvenMoneyOutcome(outcome, gameState);
 }
 
 export function initInsuranceBet(event, gameState) {
@@ -677,7 +666,6 @@ export function initInsuranceBet(event, gameState) {
 
   let modalType = `insurance`;
   view.evenMoneyInsuranceModal.renderOutcome(modalType, outcome, gameState);
-  // view.renderInsuranceOutcome(outcome, gameState);
 }
 
 export function splitAction(event, gameState) {
@@ -937,7 +925,6 @@ function init() {
   listeners.addOptionsMenuInputListeners();
   listeners.addStartNextRoundBtnListener();
   listeners.addTriviaBtnListeners();
-  // view.initOptionsModal();
 
   let credits = triviaObj.getTriviaCredits();
   view.triviaModal.renderCredits(credits);
