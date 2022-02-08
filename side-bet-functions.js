@@ -59,9 +59,7 @@ export function initInsuranceSequence(gameState) {
 }
 
 export function calcInsurance(dealerHand) {
-  // playerHand.playerType = `player`;
   dealerHand.playerType = `dealer`;
-  // let playerCards = playerHand.cards;
   let cardsArr = [dealerHand];
 
   let winKey, winHand;
@@ -106,7 +104,6 @@ export function initHouseMoney(gameState) {
 export function calcHouseMoney(playerHand) {
   playerHand.playerType = `player`;
   let playerCards = playerHand.cards;
-  // let cardsArr = [playerHand];
   let handArr = [playerHand];
 
   let suitedAceKing = false;
@@ -166,8 +163,6 @@ export function calcPerfectPair(playerHand, dealerHand) {
   let handArr = [playerHand, dealerHand];
   let playerCard1 = playerCards[0];
   let playerCard2 = playerCards[1];
-  //   let dealerCard1 = dealerHand.cards[0];
-  //   let dealerCard2 = dealerHand.cards[1];
   let dealerPerfectMatch = false;
   let playerPerfectMatch = false;
   let playerRankMatch = false;
@@ -234,7 +229,6 @@ export function calc21Plus3(playerHand, dealerHand) {
   let handArr = [playerHand, dealerHand];
   let targetArr = [playerCards[0], playerCards[1], dealerCards[1]];
 
-  //   let dealerCard2 = dealerHand.cards[1];
   let flush = false;
   let straight = false;
   let threeKind = false;
@@ -312,7 +306,7 @@ export function rollInfinityDice() {
   let finalArr = diceArr.map((num) => (num == 6 ? `INFINITY` : `BLANK`));
 
   this.infinityCount = finalArr.filter((value) => value == `INFINITY`).length;
-  //   this.diceRoll = finalArr;
+
   return finalArr;
 }
 
@@ -335,7 +329,6 @@ export function calcPerfect11s(playerHand) {
   let winHand;
   let natural;
   let infinityCount = this.infinityCount;
-  // let infinityCount = 3;
 
   playerHand.outcome == `natural` ? (natural = true) : (natural = false);
 
@@ -405,22 +398,6 @@ export function checkHouseMoneyModalNeeded(dealerHand, gameState) {
   this.generateParlayPackage(gameState);
 }
 
-// function generateParlayPackage(gameState) {
-//   let baseBet = gameState.betObj.baseBet;
-
-//   this.parlayPackage = {
-//     winnings: this.winnings,
-//   };
-
-//   let parlayWinnings = baseBet + this.winnings;
-//   let parlayBet = baseBet + this.total;
-//   let parlayAll = baseBet + this.winnings + this.total;
-
-//   this.parlayPackage.parlayWinnings = parlayWinnings;
-//   this.parlayPackage.parlayBet = parlayBet;
-//   this.parlayPackage.parlayAll = parlayAll;
-// }
-
 export function generateParlayPackage(gameState) {
   let baseBet = gameState.betObj.baseBet;
 
@@ -447,8 +424,6 @@ export function changeHouseMoneyWinnings(str) {
 
 export function initExtraBetBlackjackSequence(gameState) {
   let baseBet = gameState.betObj.baseBet;
-  // let playerHand = gameState.player.hand;
-  // let dealerHand = gameState.dealer.hand;
 
   this.baseBet = baseBet;
   this.calcSideBet(gameState);
@@ -491,10 +466,6 @@ export function calcExtraBetBlackjack(gameState) {
   this.generateWinHand(winHand, handArr);
 }
 
-// function calcExtraBetFee() {
-//   this.fee = this.tempTotal * 0.2;
-//   this.tempBank = this.tempBank - this.fee;
-// }
 export function calcExtraBetFee() {
   this.fee = this.tempValue.bet * 0.2;
   this.tempValue.bank -= this.fee;
