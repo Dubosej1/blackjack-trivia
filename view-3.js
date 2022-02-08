@@ -122,6 +122,12 @@ export let gameInfoFields = {
       ? (this.optionsBtn.style.display = `inline`)
       : (this.optionsBtn.style.display = `none`);
   },
+
+  clearRoundUI() {
+    this.toggleDoubleDownMarker(false);
+
+    this.baseBetField.textContent = 0;
+  },
 };
 
 export let baseBetModal = {
@@ -1179,6 +1185,12 @@ export let playerField = {
     this.removeOutcomeModifierClass(this.messageContainer);
     this.messageText.textContent = ``;
   },
+
+  clearRoundUI() {
+    this.cardsContainer.innerHTML = ` `;
+    this.total.textContent = 0;
+    this.messageText.textContent = ` `;
+  },
 };
 
 export let dealerField = {
@@ -1201,10 +1213,19 @@ export let dealerField = {
     this.removeOutcomeModifierClass(this.messageContainer);
     this.messageText.textContent = ``;
   },
+
+  clearRoundUI() {
+    this.cardsContainer.innerHTML = ` `;
+    this.total.textContent = 0;
+    this.messageText.textContent = ` `;
+  },
 };
 
 export let splitStageField = {
   stageContainer: document.querySelector(`.grid__split-stages-container`),
+  cardFields: document.querySelectorAll(`.split-stage__cards`),
+  totalFields: document.querySelectorAll(`.split-stage__total`),
+  resultFields: document.querySelectorAll(`.split-stage__result`),
   stage1: {
     container: document.querySelector(`.split-stage-1__container`),
     handNum: document.querySelector(`.split-stage-1__hand-num`),
@@ -1270,6 +1291,22 @@ export let splitStageField = {
       splitStageField.removeOutcomeModifierClass(elem);
       elem.textContent = ``;
     }
+  },
+
+  clearRoundUI() {
+    this.cardFields.forEach(function (elem) {
+      elem.innerHTML = ` `;
+    });
+
+    this.totalFields.forEach(function (elem) {
+      elem.textContent = 0;
+    });
+
+    this.resultFields.forEach(function (elem) {
+      elem.textContent = ` `;
+    });
+
+    this.stageContainer.style.display = `none`;
   },
 };
 
@@ -1382,6 +1419,45 @@ export let gameField = {
     if (stageNum == 1) this.splitStages.resetOutcomeField(1);
     if (stageNum == 2) this.splitStages.resetOutcomeField(2);
     if (stageNum == 3) this.splitStages.resetOutcomeField(3);
+  },
+
+  clearRoundUI() {
+    this.dealer.clearRoundUI();
+
+    this.player.clearRoundUI();
+
+    this.splitStages.clearRoundUI();
+
+    this.resetAllMessageFieldUI();
+  },
+
+  resetAllMessageFieldUI() {
+    let outcomeArr = [
+      `bust`,
+      `charlie`,
+      `natural`,
+      `stand`,
+      `surrender`,
+      `dealerHit`,
+    ];
+
+    outcomeArr.forEach(function (str) {
+      this.dealer.messageContainer.classList.remove(
+        `dealer-message__container--${str}`
+      );
+      this.player.messageContainer.classList.remove(
+        `player-message__container--${str}`
+      );
+      this.splitStages.stage1.result.classList.remove(
+        `split-stage-1__result--${str}`
+      );
+      this.splitStages.stage2.result.classList.remove(
+        `split-stage-2__result--${str}`
+      );
+      this.splitStages.stage3.result.classList.remove(
+        `split-stage-3__result--${str}`
+      );
+    }, this);
   },
 };
 
@@ -2538,6 +2614,8 @@ export const evenMoneyInsuranceModal = {
     //modalType either evenMoney or insurance
     this.title.textContent = `Decide Side Bet`;
 
+    this.clearModal();
+
     changeModalBtnStatus(modalType);
 
     let headingElem = createHeadingElement(modalType);
@@ -3435,83 +3513,128 @@ export const winSummaryModal = {
 //   return playerDiv;
 // }
 
-export function resetUI() {
-  const dealerCardsField = document.querySelector(`.dealer-cards__container`);
-  const playerCardsField = document.querySelector(`.player-cards__container`);
-  const betField = document.querySelector(`.bet__value`);
-  const dealerTotalField = document.querySelector(`.dealer-total__value`);
-  const playerTotalField = document.querySelector(`.player-total__value`);
-  const splitStageCardFields = document.querySelectorAll(`.split-stage__cards`);
-  const splitStageTotalFields =
-    document.querySelectorAll(`.split-stage__total`);
-  const splitStageField = document.querySelector(
-    `.grid__split-stages-container`
-  );
+// export function resetUI() {
+//   const dealerCardsField = document.querySelector(`.dealer-cards__container`);
+//   const playerCardsField = document.querySelector(`.player-cards__container`);
+//   const betField = document.querySelector(`.bet__value`);
+//   const dealerTotalField = document.querySelector(`.dealer-total__value`);
+//   const playerTotalField = document.querySelector(`.player-total__value`);
+//   const splitStageCardFields = document.querySelectorAll(`.split-stage__cards`);
+//   const splitStageTotalFields =
+//     document.querySelectorAll(`.split-stage__total`);
+//   const splitStageField = document.querySelector(
+//     `.grid__split-stages-container`
+//   );
 
+//   sideBetModal.clearModal();
+
+//   toggleDoubleDownMarker(false);
+
+//   betField.textContent = 0;
+
+//   dealerCardsField.innerHTML = ` `;
+//   playerCardsField.innerHTML = ` `;
+//   splitStageCardFields.forEach(function (elem) {
+//     elem.innerHTML = ` `;
+//   });
+
+//   dealerTotalField.textContent = 0;
+//   playerTotalField.textContent = 0;
+//   splitStageTotalFields.forEach(function (elem) {
+//     elem.textContent = 0;
+//   });
+
+//   resetMessageFieldUI();
+
+//   splitStageField.style.display = `none`;
+
+//   function resetMessageFieldUI() {
+//     const dealerMessageText = document.querySelector(`.dealer-message__text`);
+//     const dealerMessageField = document.querySelector(
+//       `.dealer-message__container`
+//     );
+//     const playerMessageText = document.querySelector(`.player-message__text`);
+//     const playerMessageField = document.querySelector(
+//       `.player-message__container`
+//     );
+//     const splitStage1ResultField = document.querySelector(
+//       `.split-stage-1__result`
+//     );
+//     const splitStage2ResultField = document.querySelector(
+//       `.split-stage-2__result`
+//     );
+//     const splitStage3ResultField = document.querySelector(
+//       `.split-stage-3__result`
+//     );
+
+//     dealerMessageText.textContent = ` `;
+//     playerMessageText.textContent = ` `;
+//     splitStage1ResultField.textContent = ` `;
+//     splitStage2ResultField.textContent = ` `;
+//     splitStage3ResultField.textContent = ` `;
+
+//     let outcomeArr = [
+//       `bust`,
+//       `charlie`,
+//       `natural`,
+//       `stand`,
+//       `surrender`,
+//       `dealerHit`,
+//     ];
+
+//     outcomeArr.forEach(function (str) {
+//       dealerMessageField.classList.remove(`dealer-message__container--${str}`);
+//       playerMessageField.classList.remove(`player-message__container--${str}`);
+//       splitStage1ResultField.classList.remove(`split-stage-1__result--${str}`);
+//       splitStage2ResultField.classList.remove(`split-stage-2__result--${str}`);
+//       splitStage3ResultField.classList.remove(`split-stage-3__result--${str}`);
+//     });
+//   }
+// }
+
+export function resetUI() {
   sideBetModal.clearModal();
 
-  gameInfoFields.toggleDoubleDownMarker(false);
+  gameInfoFields.clearRoundUI();
 
-  betField.textContent = 0;
+  gameField.clearRoundUI();
 
-  dealerCardsField.innerHTML = ` `;
-  playerCardsField.innerHTML = ` `;
-  splitStageCardFields.forEach(function (elem) {
-    elem.innerHTML = ` `;
+  // dealerField.clearRoundUI();
+
+  // playerField.clearRoundUI();
+
+  // splitStageField.clearRoundUI();
+
+  // resetAllMessageFieldUI();
+}
+
+function resetAllMessageFieldUI() {
+  let outcomeArr = [
+    `bust`,
+    `charlie`,
+    `natural`,
+    `stand`,
+    `surrender`,
+    `dealerHit`,
+  ];
+
+  outcomeArr.forEach(function (str) {
+    dealerField.messageContainer.classList.remove(
+      `dealer-message__container--${str}`
+    );
+    playerField.messageContainer.classList.remove(
+      `player-message__container--${str}`
+    );
+    splitStageField.stage1.result.classList.remove(
+      `split-stage-1__result--${str}`
+    );
+    splitStageField.stage2.result.classList.remove(
+      `split-stage-2__result--${str}`
+    );
+    splitStageField.stage3.result.classList.remove(
+      `split-stage-3__result--${str}`
+    );
   });
-
-  dealerTotalField.textContent = 0;
-  playerTotalField.textContent = 0;
-  splitStageTotalFields.forEach(function (elem) {
-    elem.textContent = 0;
-  });
-
-  resetMessageFieldUI();
-
-  splitStageField.style.display = `none`;
-
-  function resetMessageFieldUI() {
-    const dealerMessageText = document.querySelector(`.dealer-message__text`);
-    const dealerMessageField = document.querySelector(
-      `.dealer-message__container`
-    );
-    const playerMessageText = document.querySelector(`.player-message__text`);
-    const playerMessageField = document.querySelector(
-      `.player-message__container`
-    );
-    const splitStage1ResultField = document.querySelector(
-      `.split-stage-1__result`
-    );
-    const splitStage2ResultField = document.querySelector(
-      `.split-stage-2__result`
-    );
-    const splitStage3ResultField = document.querySelector(
-      `.split-stage-3__result`
-    );
-
-    dealerMessageText.textContent = ` `;
-    playerMessageText.textContent = ` `;
-    splitStage1ResultField.textContent = ` `;
-    splitStage2ResultField.textContent = ` `;
-    splitStage3ResultField.textContent = ` `;
-
-    let outcomeArr = [
-      `bust`,
-      `charlie`,
-      `natural`,
-      `stand`,
-      `surrender`,
-      `dealerHit`,
-    ];
-
-    outcomeArr.forEach(function (str) {
-      dealerMessageField.classList.remove(`dealer-message__container--${str}`);
-      playerMessageField.classList.remove(`player-message__container--${str}`);
-      splitStage1ResultField.classList.remove(`split-stage-1__result--${str}`);
-      splitStage2ResultField.classList.remove(`split-stage-2__result--${str}`);
-      splitStage3ResultField.classList.remove(`split-stage-3__result--${str}`);
-    });
-  }
 }
 
 export const triviaModal = {
