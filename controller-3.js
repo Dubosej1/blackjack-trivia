@@ -14,12 +14,12 @@ export let specialNumPlaceholder;
 //////////Game Flow functions//////////
 
 export function startNewGame(e) {
-  view.toggleDisplayNewGameBtn(false);
+  view.gameInfoFields.toggleDisplayNewGameBtn(false);
 
   triviaObj.generateTriviaQuestions();
   triviaObj.resetTriviaCredits();
 
-  view.renderNoticeText(`New Game Started...`);
+  view.gameInfoFields.renderNoticeText(`New Game Started...`);
 
   let bank = 1000;
   let options = optionsPlaceholder;
@@ -65,8 +65,8 @@ export function startNewRound(bank, options, specialNum) {
   }
 
   function changeSystemButtonVisibility() {
-    view.toggleDisplayStartNextRoundBtn(false);
-    view.toggleDisplayOptionsBtn(false);
+    view.gameInfoFields.toggleDisplayStartNextRoundBtn(false);
+    view.gameInfoFields.toggleDisplayOptionsBtn(false);
   }
 
   function addBeginningRoundListeners(gameState) {
@@ -350,13 +350,13 @@ export function endGameRoutine(gameState) {
       order.totalWinnings = false;
       break;
     default:
-      view.toggleDisplayOptionsBtn(true);
+      view.gameInfoFields.toggleDisplayOptionsBtn(true);
       let result = checkGameOver(gameState);
 
       if (result) {
         clearRoundData(gameState);
-        view.toggleDisplayNewGameBtn(true);
-      } else view.toggleDisplayStartNextRoundBtn(true);
+        view.gameInfoFields.toggleDisplayNewGameBtn(true);
+      } else view.gameInfoFields.toggleDisplayStartNextRoundBtn(true);
   }
 }
 
@@ -364,10 +364,10 @@ function checkGameOver(gameState) {
   let result;
 
   if (gameState.bank == 0) {
-    view.renderNoticeText(`Game Over...no money`);
+    view.gameInfoFields.renderNoticeText(`Game Over...no money`);
     result = true;
   } else if (triviaObj.credits == 0) {
-    view.renderNoticeText(`Game Over...no trivia credits`);
+    view.gameInfoFields.renderNoticeText(`Game Over...no trivia credits`);
     result = true;
   } else result = false;
 
@@ -385,13 +385,13 @@ export function clearRoundData(gameState) {
   bankPlaceholder = gameState.bank;
   specialNumPlaceholder = gameState.specialNum;
   optionsPlaceholder = gameState.options;
-  view.renderNoticeText(` `);
+  view.gameInfoFields.renderNoticeText(` `);
 
   if (gameState.gameAborted) {
-    view.renderNoticeText(`Game Ended.`);
+    view.gameInfoFields.renderNoticeText(`Game Ended.`);
     let bank = 0;
     view.gameInfoFields.updateBank(bank);
-    view.toggleDisplayNewGameBtn(true);
+    view.gameInfoFields.toggleDisplayNewGameBtn(true);
     gameState.toggleEnableActionBtns = {
       hit: false,
       stand: false,

@@ -228,7 +228,7 @@ class State {
 
   set updateNoticeText(str) {
     this.noticeText = str;
-    view.renderNoticeText(str);
+    view.gameInfoFields.renderNoticeText(str);
   }
 
   subtractBaseBetFromBank() {

@@ -33,10 +33,52 @@ export let gameActionBtns = {
   },
 };
 
+// export function renderNoticeText(str) {
+//   const noticeField = document.querySelector(`.game-message__text`);
+
+//   noticeField.textContent = str;
+// }
+
+// export function toggleDisplayStartNextRoundBtn(boolean) {
+//   const startNextRoundBtn = document.querySelector(
+//     `.btn-system__start-next-round`
+//   );
+
+//   boolean
+//     ? (startNextRoundBtn.style.display = `inline-block`)
+//     : (startNextRoundBtn.style.display = `none`);
+// }
+
+// export function toggleDisplayNewGameBtn(boolean) {
+//   const newGameBtn = document.querySelector(`.btn-system__new-game`);
+//   const endGameBtn = document.querySelector(`.btn-system__end-game`);
+
+//   if (boolean) {
+//     newGameBtn.style.display = `inline-block`;
+//     endGameBtn.style.display = `none`;
+//   } else {
+//     newGameBtn.style.display = `none`;
+//     endGameBtn.style.display = `inline-block`;
+//   }
+// }
+
+// export function toggleDisplayOptionsBtn(boolean) {
+//   const optionsBtn = document.querySelector(`.btn-system__settings`);
+
+//   boolean
+//     ? (optionsBtn.style.display = `inline`)
+//     : (optionsBtn.style.display = `none`);
+// }
+
 export let gameInfoFields = {
   bankField: document.querySelector(`.bank__value`),
   baseBetField: document.querySelector(`.bet__value`),
   doubleDownMarker: document.querySelector(`.round-info__double-down-marker`),
+  noticeField: document.querySelector(`.game-message__text`),
+  newGameBtn: document.querySelector(`.btn-system__new-game`),
+  endGameBtn: document.querySelector(`.btn-system__end-game`),
+  startNextRoundBtn: document.querySelector(`.btn-system__start-next-round`),
+  optionsBtn: document.querySelector(`.btn-system__settings`),
 
   updateBank(bank) {
     this.bankField.textContent = bank;
@@ -49,6 +91,36 @@ export let gameInfoFields = {
   toggleDoubleDownMarker(toggle) {
     if (toggle) this.doubleDownMarker.style.display = `inline`;
     else this.doubleDownMarker.style.display = `none`;
+  },
+
+  //replaces renderNoticeText
+  renderNoticeText(str) {
+    this.noticeField.textContent = str;
+  },
+
+  //replaces toggleDisplayStartNextRoundBtn
+  toggleDisplayStartNextRoundBtn(toggle) {
+    toggle
+      ? (this.startNextRoundBtn.style.display = `inline-block`)
+      : (this.startNextRoundBtn.style.display = `none`);
+  },
+
+  //replaces toggleDisplayNewGameBtn
+  toggleDisplayNewGameBtn(toggle) {
+    if (toggle) {
+      this.newGameBtn.style.display = `inline-block`;
+      this.endGameBtn.style.display = `none`;
+    } else {
+      this.newGameBtn.style.display = `none`;
+      this.endGameBtn.style.display = `inline-block`;
+    }
+  },
+
+  //replaces toggleDisplayOptionsBtn
+  toggleDisplayOptionsBtn(toggle) {
+    toggle
+      ? (this.optionsBtn.style.display = `inline`)
+      : (this.optionsBtn.style.display = `none`);
   },
 };
 
@@ -2455,12 +2527,6 @@ export const houseMoneyModal = {
 //   }
 // }
 
-export function renderNoticeText(str) {
-  const noticeField = document.querySelector(`.game-message__text`);
-
-  noticeField.textContent = str;
-}
-
 export const evenMoneyInsuranceModal = {
   modalContainer: document.querySelector(`.generic-modal__main`),
   title: document.querySelector(`.generic-modal__title`),
@@ -3053,8 +3119,6 @@ export const winSummaryModal = {
   //replaces createBaseGameSummaryElements
   createBaseGameSummaryElements(gameState) {
     let player = gameState.player;
-    let blackjackPayout = gameState.options.blackjackPayout;
-    let outcomeElem;
 
     const newDiv = document.createElement(`div`);
 
@@ -3448,37 +3512,6 @@ export function resetUI() {
       splitStage3ResultField.classList.remove(`split-stage-3__result--${str}`);
     });
   }
-}
-
-export function toggleDisplayStartNextRoundBtn(boolean) {
-  const startNextRoundBtn = document.querySelector(
-    `.btn-system__start-next-round`
-  );
-
-  boolean
-    ? (startNextRoundBtn.style.display = `inline-block`)
-    : (startNextRoundBtn.style.display = `none`);
-}
-
-export function toggleDisplayNewGameBtn(boolean) {
-  const newGameBtn = document.querySelector(`.btn-system__new-game`);
-  const endGameBtn = document.querySelector(`.btn-system__end-game`);
-
-  if (boolean) {
-    newGameBtn.style.display = `inline-block`;
-    endGameBtn.style.display = `none`;
-  } else {
-    newGameBtn.style.display = `none`;
-    endGameBtn.style.display = `inline-block`;
-  }
-}
-
-export function toggleDisplayOptionsBtn(boolean) {
-  const optionsBtn = document.querySelector(`.btn-system__settings`);
-
-  boolean
-    ? (optionsBtn.style.display = `inline`)
-    : (optionsBtn.style.display = `none`);
 }
 
 export const triviaModal = {
