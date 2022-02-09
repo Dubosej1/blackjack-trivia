@@ -12,6 +12,8 @@ export function initBaseSideBetSequence(gameState) {
   this.generateOutcomePackage();
 }
 
+//////////Even Money//////////
+
 export function initEvenMoneySequence(gameState) {
   let playerHand = gameState.player.hand;
   let dealerHand = gameState.dealer.hand;
@@ -49,6 +51,7 @@ export function calcEvenMoney(playerHand, dealerHand) {
   this.generateWinHand(winHand, handArr);
 }
 
+//////////Insurance//////////
 export function initInsuranceSequence(gameState) {
   let dealerHand = gameState.dealer.hand;
   this.addHalfBet();
@@ -88,6 +91,7 @@ export function checkValidExtraBetBlackjack(playerHand) {
   return tensArr.some((value) => value == 10);
 }
 
+//////////House Money//////////
 export function initHouseMoney(gameState) {
   let baseBet = gameState.betObj.baseBet;
   let playerHand = gameState.player.hand;
@@ -154,6 +158,39 @@ export function calcHouseMoney(playerHand) {
   this.generateWinHand(winHand, handArr);
 }
 
+//////////House Money//////////
+export function checkHouseMoneyModalNeeded(dealerHand, gameState) {
+  if (dealerHand.outcome == `natural`) return;
+  if (this.outcome == `lose`) return;
+  gameState.updateHouseMoneyModalNeeded(true);
+  this.generateParlayPackage(gameState);
+}
+
+export function generateParlayPackage(gameState) {
+  let baseBet = gameState.betObj.baseBet;
+
+  this.parlayPackage = {
+    winnings: this.winnings,
+  };
+
+  let parlayWinnings = baseBet + this.winnings;
+  let parlayBet = baseBet + this.bet;
+  let parlayAll = baseBet + this.winnings + this.bet;
+
+  this.parlayPackage.parlayWinnings = parlayWinnings;
+  this.parlayPackage.parlayBet = parlayBet;
+  this.parlayPackage.parlayAll = parlayAll;
+}
+
+export function changeHouseMoneyWinnings(str) {
+  if (str == `bet`) this.winnings -= this.bet;
+  if (str == `winnings`) this.winnings = this.bet;
+  if (str == `all`) this.winnings = 0;
+
+  this.outcomePackage.winnings = this.winnings;
+}
+
+//////////Perfect Pair//////////
 export function calcPerfectPair(playerHand, dealerHand) {
   playerHand.playerType = `player`;
   dealerHand.playerType = `dealer`;
@@ -221,6 +258,7 @@ export function calcPerfectPair(playerHand, dealerHand) {
   this.winKey = winKey;
 }
 
+//////////21 + 3//////////
 export function calc21Plus3(playerHand, dealerHand) {
   playerHand.playerType = `player`;
   dealerHand.playerType = `dealer`;
@@ -282,7 +320,7 @@ export function calc21Plus3(playerHand, dealerHand) {
   this.generateWinHand(winHand, handArr);
 }
 
-//Perfect 11s
+//////////Perfect 11s//////////
 export function checkSuited11(playerHand) {
   let playerCards = playerHand.cards;
   let total = playerHand.total;
@@ -391,37 +429,7 @@ export function calcPerfect11s(playerHand) {
   }
 }
 
-export function checkHouseMoneyModalNeeded(dealerHand, gameState) {
-  if (dealerHand.outcome == `natural`) return;
-  if (this.outcome == `lose`) return;
-  gameState.updateHouseMoneyModalNeeded(true);
-  this.generateParlayPackage(gameState);
-}
-
-export function generateParlayPackage(gameState) {
-  let baseBet = gameState.betObj.baseBet;
-
-  this.parlayPackage = {
-    winnings: this.winnings,
-  };
-
-  let parlayWinnings = baseBet + this.winnings;
-  let parlayBet = baseBet + this.bet;
-  let parlayAll = baseBet + this.winnings + this.bet;
-
-  this.parlayPackage.parlayWinnings = parlayWinnings;
-  this.parlayPackage.parlayBet = parlayBet;
-  this.parlayPackage.parlayAll = parlayAll;
-}
-
-export function changeHouseMoneyWinnings(str) {
-  if (str == `bet`) this.winnings -= this.bet;
-  if (str == `winnings`) this.winnings = this.bet;
-  if (str == `all`) this.winnings = 0;
-
-  this.outcomePackage.winnings = this.winnings;
-}
-
+//////////Extra Bet Blackjack//////////
 export function initExtraBetBlackjackSequence(gameState) {
   let baseBet = gameState.betObj.baseBet;
 
@@ -471,6 +479,7 @@ export function calcExtraBetFee() {
   this.tempValue.bank -= this.fee;
 }
 
+//////////Lucky Ladies//////////
 export function initLuckyLadies(gameState) {
   let baseBet = gameState.betObj.baseBet;
 
