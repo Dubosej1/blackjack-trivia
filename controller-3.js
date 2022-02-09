@@ -32,7 +32,7 @@ export function startNewRound(bank, options, specialNum) {
 
   changeSystemButtonVisibility();
 
-  addBeginningRoundListeners(gameState);
+  addBeginningRoundListeners();
 
   gameState.toggleEnableActionBtns = {
     hit: false,
@@ -68,9 +68,9 @@ export function startNewRound(bank, options, specialNum) {
     view.gameInfoFields.toggleDisplayOptionsBtn(false);
   }
 
-  function addBeginningRoundListeners(gameState) {
+  function addBeginningRoundListeners() {
     listeners.removeBeginGameOptionsBtnListener();
-    listeners.addNewRoundEventListeners(gameState);
+    listeners.addNewRoundEventListeners();
   }
 }
 
@@ -341,7 +341,7 @@ export function endGameRoutine(gameState) {
       break;
     case order.totalWinnings:
       gameState.calculateTotalWinnings();
-      view.displayTotalWinningsModal(gameState);
+      view.totalWinningsModal.displayModal(gameState);
       order.totalWinnings = false;
       break;
     default:
@@ -375,7 +375,6 @@ export function clearRoundData(gameState) {
   view.resetUI();
   view.baseBetModal.resetModal(gameState);
   state.addStateToLog(gameState);
-  listeners.removeRoundEventListeners();
   listeners.addBeginGameOptionsBtnListener();
   bankPlaceholder = gameState.bank;
   specialNumPlaceholder = gameState.specialNum;
@@ -932,12 +931,7 @@ export function processTriviaAnswer(event, gameState) {
 // Initializing Entire Program
 
 function init() {
-  listeners.addNewGameBtnListener();
-  listeners.addEndGameBtnListener();
-  listeners.addBeginGameOptionsBtnListener();
-  listeners.addOptionsMenuInputListeners();
-  listeners.addStartNextRoundBtnListener();
-  listeners.addTriviaBtnListeners();
+  listeners.addNewGameListeners();
 
   let credits = triviaObj.getTriviaCredits();
   view.triviaModal.renderCredits(credits);

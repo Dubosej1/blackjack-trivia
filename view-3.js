@@ -412,6 +412,7 @@ function disableChipBtn(element) {
 
 export const optionsModal = {
   formElem: document.querySelector(`.options-modal__form`),
+  applyOptionsBtn: document.querySelector(`.btn-options-modal__submit-options`),
 
   get inputElems() {
     return this.formElem.querySelectorAll(`input`);
@@ -1372,7 +1373,7 @@ export function displayExtraBetModal(gameState) {
   baseBetField.textContent = gameState.betObj.baseBet;
   mainContainer.dataset.sidebet = `extraBetBlackjack`;
 
-  listeners.addExtraBetBlackjackModalListeners();
+  // listeners.addExtraBetBlackjackModalListeners();
   popbox.open(`extra-bet-modal`);
 }
 

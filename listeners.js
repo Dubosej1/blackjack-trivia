@@ -33,18 +33,6 @@ export function addNewGameListeners() {
   }
 }
 
-// export function addNewGameBtnListener() {
-//   const newGameBtn = document.querySelector(`.btn-system__new-game`);
-
-//   newGameBtn.addEventListener("click", controller.startNewGame);
-// }
-
-// export function addEndGameBtnListener() {
-//   const endGameBtn = document.querySelector(`.btn-system__end-game`);
-
-//   endGameBtn.addEventListener("click", endGameBtnCallback);
-// }
-
 export function addBeginGameOptionsBtnListener(gameState = null) {
   const applyOptionsBtn = document.querySelector(
     `.btn-options-modal__submit-options`
@@ -52,17 +40,6 @@ export function addBeginGameOptionsBtnListener(gameState = null) {
 
   applyOptionsBtn.addEventListener(`click`, beginGameOptionsListenerCallback);
 }
-
-// export function addStartNextRoundBtnListener() {
-//   const startNextRoundBtn = document.querySelector(
-//     `.btn-system__start-next-round`
-//   );
-
-//   startNextRoundBtn.addEventListener(
-//     `click`,
-//     startNextRoundBtnListenerCallback
-//   );
-// }
 
 function startNextRoundBtnListenerCallback(event) {
   controller.clearRoundData(globalState);
@@ -90,32 +67,19 @@ export function removeOptionsBtnListener() {
   applyOptionsBtn.removeEventListener(`click`, optionsListenerCallback);
 }
 
-// export function addTriviaBtnListeners() {
-//   const difficultyBtns = document.querySelectorAll(`.btn__trivia-difficulty`);
-//   const answerBtns = document.querySelectorAll(`.btn__answer`);
-
-//   difficultyBtns.forEach(function (elem) {
-//     elem.addEventListener(`click`, difficultyBtnCallback);
-//   });
-
-//   answerBtns.forEach(function (elem) {
-//     elem.addEventListener(`click`, answerBtnCallback);
-//   });
-// }
-
-export function addNewRoundEventListeners(gameState) {
+export function addNewRoundEventListeners() {
   if (guard) return;
 
   addGameActionBtnListeners();
-  addBaseBetModalBtnListeners(gameState);
-  addSideBetChipBtnListeners(gameState);
-  // addSideBetContainerListener(gameState);
-  addSystemBtnListeners(gameState);
-  addHouseMoneyModalBtnListeners(gameState);
-  addWinningsModalListener(gameState);
+  addBaseBetModalBtnListeners();
+  addSideBetChipBtnListeners();
+  addSystemBtnListeners();
+  addHouseMoneyModalBtnListeners();
+  addWinningsModalListener();
 
-  addOptionsBtnListener(gameState);
-  addEarlySurrenderModalListeners(gameState);
+  addOptionsBtnListener();
+  addEarlySurrenderModalListeners();
+  addExtraBetBlackjackModalListeners();
 
   guard = true;
 
@@ -182,146 +146,14 @@ export function addNewRoundEventListeners(gameState) {
       `add`
     );
   }
-}
 
-export function removeRoundEventListeners() {
-  removeBaseBetModalBtnListeners();
-  removeSideBetChipBtnListeners();
-  removeSideBetContainerListener();
-  removeSystemBtnListeners();
-  removeHouseMoneyModalBtnListeners();
-  removeGameActionBtnListeners();
-  removeWinningsModalListener();
-  removeEarlySurrenderModalListeners();
-}
+  // function addOptionsBtnListener() {
+  //   let optionsModalClbkObj = {
+  //     applyOptionsBtn: optionsListenerCallback,
+  //   };
 
-// export function addBaseBetModalBtnListeners(gameState) {
-//   const baseBetChipBtns = document.querySelectorAll(
-//     `.btn-basic-bet-modal__chip`
-//   );
-//   const baseBetClearBtn = document.querySelector(
-//     `.btn-basic-bet-modal__clear-bet`
-//   );
-//   const baseBetDealCardsBtn = document.querySelector(
-//     `.btn-basic-bet-modal__deal-cards`
-//   );
-
-//   const sideBetMenuBtn = document.querySelector(
-//     `.btn-basic-bet-modal__place-side-bets`
-//   );
-
-//   baseBetChipBtns.forEach(function (elem) {
-//     elem.addEventListener("click", updateBaseBetChipBtnCallback);
-//   });
-
-//   baseBetClearBtn.addEventListener("click", clearBaseBetChipAmountCallback);
-
-//   baseBetDealCardsBtn.addEventListener(`click`, dealCardsBtnListenerCallback);
-
-//   sideBetMenuBtn.addEventListener(`click`, sideBetMenuBtnListener);
-// }
-
-function removeBaseBetModalBtnListeners() {
-  const baseBetChipBtns = document.querySelectorAll(
-    `.btn-basic-bet-modal__chip`
-  );
-  const baseBetClearBtn = document.querySelector(
-    `.btn-basic-bet-modal__clear-bet`
-  );
-  const baseBetDealCardsBtn = document.querySelector(
-    `.btn-basic-bet-modal__deal-cards`
-  );
-
-  baseBetChipBtns.forEach(function (elem) {
-    elem.removeEventListener("click", updateBaseBetChipBtnCallback);
-  });
-
-  baseBetClearBtn.removeEventListener("click", clearBaseBetChipAmountCallback);
-
-  baseBetDealCardsBtn.removeEventListener(
-    `click`,
-    dealCardsBtnListenerCallback
-  );
-}
-
-// export function addSideBetContainerListener() {
-//   const sideBetContainers = document.querySelectorAll(
-//     `.side-bet-modal__side-bet-div`
-//   );
-
-//   sideBetContainers.forEach(function (elem) {
-//     elem.addEventListener(`click`, sideBetContainerListenerCallback);
-//   });
-// }
-
-export function removeSideBetContainerListener() {
-  const sideBetContainers = document.querySelectorAll(
-    `.side-bet-modal__side-bet-div`
-  );
-
-  sideBetContainers.forEach(function (elem) {
-    elem.removeEventListener(`click`, sideBetContainerListenerCallback);
-  });
-}
-
-// export function addSideBetChipBtnListeners() {
-//   const sideBetChipBtns = document.querySelectorAll(
-//     `.btn-side-bet-modal__chip`
-//   );
-//   const sideBetClearBtn = document.querySelector(
-//     `.btn-side-bet-modal__clear-bet`
-//   );
-//   const placeSideBetsBtn = document.querySelector(
-//     `.btn-side-bet-modal__place-bets`
-//   );
-//   const sideBetClearAllBtn = document.querySelector(
-//     `.btn-side-bet-modal__clear-all`
-//   );
-//   const activateBetBtn = document.querySelector(
-//     `.btn-side-bet-modal__activate-bet`
-//   );
-
-//   sideBetChipBtns.forEach(function (elem) {
-//     elem.addEventListener("click", updateSideBetChipBtnCallback);
-//   });
-
-//   activateBetBtn.addEventListener(`click`, activateSideBetBtnCallback);
-
-//   sideBetClearBtn.addEventListener("click", clearSideBetChipAmountCallback);
-
-//   placeSideBetsBtn.addEventListener(`click`, placeSideBetsBtnCallback);
-
-//   sideBetClearAllBtn.addEventListener(`click`, clearAllSideBetsBtnCallback);
-// }
-
-export function removeSideBetChipBtnListeners() {
-  const sideBetChipBtns = document.querySelectorAll(
-    `.btn-side-bet-modal__chip`
-  );
-  const sideBetClearBtn = document.querySelector(
-    `.btn-side-bet-modal__clear-bet`
-  );
-  const placeSideBetsBtn = document.querySelector(
-    `.btn-side-bet-modal__place-bets`
-  );
-  const sideBetClearAllBtn = document.querySelector(
-    `.btn-side-bet-modal__clear-all`
-  );
-  const activateBetBtn = document.querySelector(
-    `.btn-side-bet-modal__activate-bet`
-  );
-
-  sideBetChipBtns.forEach(function (elem) {
-    elem.removeEventListener("click", updateSideBetChipBtnCallback);
-  });
-
-  activateBetBtn.removeEventListener(`click`, activateSideBetBtnCallback);
-
-  sideBetClearBtn.removeEventListener("click", clearSideBetChipAmountCallback);
-
-  placeSideBetsBtn.removeEventListener(`click`, placeSideBetsBtnCallback);
-
-  sideBetClearAllBtn.removeEventListener(`click`, clearAllSideBetsBtnCallback);
+  //   view.optionsModal.toggleEventListeners(optionsModalClbkObj, `add`);
+  // }
 }
 
 export function addOptionsMenuInputListeners() {
@@ -364,22 +196,6 @@ export function addOptionsMenuInputListeners() {
     `click`,
     view.optionsModal.resetOptionsMenuInputs
   );
-}
-
-// export function addSystemBtnListeners(gameState) {
-//   const checkSideBetBtn = document.querySelector(
-//     `.btn-system__check-side-bet-outcome`
-//   );
-
-//   checkSideBetBtn.addEventListener(`click`, checkSideBetBtnListenerCallback);
-// }
-
-export function removeSystemBtnListeners(gameState) {
-  const checkSideBetBtn = document.querySelector(
-    `.btn-system__check-side-bet-outcome`
-  );
-
-  checkSideBetBtn.removeEventListener(`click`, checkSideBetBtnListenerCallback);
 }
 
 export function addSummaryModalDisplayHandListener(gameState) {
@@ -441,26 +257,6 @@ export function addExtraBetBlackjackModalListeners() {
   declineBetBtn.addEventListener(`click`, declineExtraBetBtnCallback);
 }
 
-// function addHouseMoneyModalBtnListeners() {
-//   const actionBtns = document.querySelectorAll(
-//     `.btn-house-money-modal__action`
-//   );
-
-//   actionBtns.forEach(function (elem) {
-//     elem.addEventListener(`click`, decideHouseMoneyBtnsCallback);
-//   });
-// }
-
-function removeHouseMoneyModalBtnListeners() {
-  const actionBtns = document.querySelectorAll(
-    `.btn-house-money-modal__action`
-  );
-
-  actionBtns.forEach(function (elem) {
-    elem.removeEventListener(`click`, decideHouseMoneyBtnsCallback);
-  });
-}
-
 export function addEvenMoneyModalListeners() {
   const acceptBetBtn = document.querySelector(
     `.btn-side-bet-action__accept-even-money`
@@ -494,34 +290,10 @@ export function addInsuranceNextBtnListener(outcome) {
   else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
 }
 
-// export function addGameActionBtnListeners(gameState) {
-//   const hitBtn = document.querySelector(`.btn-action__hit`);
-//   const standBtn = document.querySelector(`.btn-action__stand`);
-//   const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
-//   const splitBtn = document.querySelector(`.btn-action__split`);
-//   const surrenderBtn = document.querySelector(`.btn-action__surrender`);
-
-//   hitBtn.addEventListener(`click`, hitBtnListenerCallback);
-//   standBtn.addEventListener(`click`, standBtnListenerCallback);
-//   doubleDownBtn.addEventListener(`click`, doubleDownBtnListenerCallback);
-//   splitBtn.addEventListener(`click`, splitBtnListenerCallback);
-//   surrenderBtn.addEventListener(`click`, surrenderBtnListenerCallback);
-// }
-
 export function addBaseRoundOutcomeModalListener() {
   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
 
   nextBtn.addEventListener(`click`, roundOutcomeModalNextBtnListenerCallback);
-}
-
-export function addWinningsModalListener(gameState) {
-  const winSummaryBtn = document.querySelector(
-    `.btn-winnings-modal__win-summary`
-  );
-  const closeBtn = document.querySelector(`.btn-winnings-modal__close`);
-
-  winSummaryBtn.addEventListener(`click`, winSummaryBtnListenerCallback);
-  closeBtn.addEventListener(`click`, winningsModalCloseBtnListenerCallback);
 }
 
 export function addEarlySurrenderModalListeners(gameState) {
@@ -534,28 +306,6 @@ export function addEarlySurrenderModalListeners(gameState) {
 
   acceptBtn.addEventListener(`click`, acceptEarlySurrenderCallback);
   declineBtn.addEventListener(`click`, declineEarlySurrenderCallback);
-}
-
-export function removeEarlySurrenderModalListeners(gameState) {
-  const acceptBtn = document.querySelector(
-    `.btn-winning-hand-modal__accept-early-surrender`
-  );
-  const declineBtn = document.querySelector(
-    `.btn-winning-hand-modal__decline-early-surrender`
-  );
-
-  acceptBtn.removeEventListener(`click`, acceptEarlySurrenderCallback);
-  declineBtn.removeEventListener(`click`, declineEarlySurrenderCallback);
-}
-
-export function removeWinningsModalListener(gameState) {
-  const winSummaryBtn = document.querySelector(
-    `.btn-winnings-modal__win-summary`
-  );
-  const closeBtn = document.querySelector(`.btn-winnings-modal__close`);
-
-  winSummaryBtn.removeEventListener(`click`, winSummaryBtnListenerCallback);
-  closeBtn.removeEventListener(`click`, winningsModalCloseBtnListenerCallback);
 }
 
 export function removeEvenMoneyModalListeners() {
@@ -614,20 +364,6 @@ export function removeExtraBetBlackjackModalListeners() {
   placeBetBtn.removeEventListener(`click`, placeExtraBetCallback);
 
   declineBetBtn.removeEventListener(`click`, declineExtraBetBtnCallback);
-}
-
-export function removeGameActionBtnListeners() {
-  const hitBtn = document.querySelector(`.btn-action__hit`);
-  const standBtn = document.querySelector(`.btn-action__stand`);
-  const doubleDownBtn = document.querySelector(`.btn-action__doubleDown`);
-  const splitBtn = document.querySelector(`.btn-action__split`);
-  const surrenderBtn = document.querySelector(`.btn-action__surrender`);
-
-  hitBtn.removeEventListener(`click`, hitBtnListenerCallback);
-  standBtn.removeEventListener(`click`, standBtnListenerCallback);
-  doubleDownBtn.removeEventListener(`click`, doubleDownBtnListenerCallback);
-  splitBtn.removeEventListener(`click`, splitBtnListenerCallback);
-  surrenderBtn.removeEventListener(`click`, surrenderBtnListenerCallback);
 }
 
 function beginGameOptionsListenerCallback(event) {
