@@ -6,6 +6,7 @@ export let gameActionBtns = {
   doubleDown: document.querySelector(`.btn-action__doubleDown`),
   split: document.querySelector(`.btn-action__split`),
   surrender: document.querySelector(`.btn-action__surrender`),
+  toggleEventListeners: toggleEventListeners,
 
   renderBtns(btnState) {
     let changeArr = Object.entries(btnState);
@@ -21,17 +22,46 @@ export let gameActionBtns = {
     prop.disabled = !boolean;
   },
 
-  toggleEventListeners(funcObj, toggle) {
-    let keysArr = Object.entries(funcObj);
+  // toggleEventListeners(funcObj, toggle) {
+  //   let keysArr = Object.entries(funcObj);
 
-    keysArr.forEach(function (arr) {
-      let [key, clbk] = arr;
+  //   keysArr.forEach(function (arr) {
+  //     let [key, clbk] = arr;
 
-      if (toggle == `add`) this[key].addEventListener(`click`, clbk);
-      else this[key].removeEventListener(`click`, clbk);
-    }, this);
-  },
+  //     if (toggle == `add`) this[key].addEventListener(`click`, clbk);
+  //     else this[key].removeEventListener(`click`, clbk);
+  //   }, this);
+  // },
 };
+
+function toggleEventListeners(funcObj, toggle) {
+  let keysArr = Object.entries(funcObj);
+
+  keysArr.forEach(function (arr) {
+    let [key, clbk] = arr;
+
+    if (this[key] instanceof NodeList)
+      addMultipleEventListeners(this[key], clbk, toggle);
+    else addSingleEventListener(this[key], clbk, toggle);
+  }, this);
+
+  function addMultipleEventListeners(elems, clbk, toggle) {
+    if (toggle == `add`) {
+      elems.forEach(function (elem) {
+        elem.addEventListener(`click`, clbk);
+      });
+    } else {
+      elems.forEach(function (elem) {
+        elem.removeEventListener(`click`, clbk);
+      });
+    }
+  }
+
+  function addSingleEventListener(elem, clbk, toggle) {
+    if (toggle == `add`) elem.addEventListener(`click`, clbk);
+    else elem.removeEventListener(`click`, clbk);
+  }
+}
 
 export let gameInfoFields = {
   bankField: document.querySelector(`.bank__value`),
@@ -42,6 +72,10 @@ export let gameInfoFields = {
   endGameBtn: document.querySelector(`.btn-system__end-game`),
   startNextRoundBtn: document.querySelector(`.btn-system__start-next-round`),
   optionsBtn: document.querySelector(`.btn-system__settings`),
+  checkSideBetBtn: document.querySelector(
+    `.btn-system__check-side-bet-outcome`
+  ),
+  toggleEventListeners: toggleEventListeners,
 
   updateBank(bank) {
     this.bankField.textContent = bank;
@@ -100,9 +134,17 @@ export let baseBetModal = {
     `.btn-basic-bet-modal__side-bet-placed`
   ),
   chipBtns: document.querySelectorAll(`.btn-basic-bet-modal__chip`),
-
+  clearBetBtn: document.querySelector(`.btn-basic-bet-modal__clear-bet`),
+  dealCardsBtn: document.querySelector(`.btn-basic-bet-modal__deal-cards`),
+  sideBetMenuBtn: document.querySelector(
+    `.btn-basic-bet-modal__place-side-bets`
+  ),
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
+  toggleEventListeners: toggleEventListeners,
+  //clearbtn
+  //dealcardsbtn
+  //sidebetmenubtn
 
   //replaces openBaseBetModal
   openModal(gameState) {
@@ -165,14 +207,21 @@ export let sideBetModal = {
   totalValue: document.querySelector(`.side-bet-modal__total-value`),
   activeBetElem: document.querySelector(`.side-bet-modal__active-bet`),
   activeValueElem: document.querySelector(`.side-bet-modal__active-value`),
+  sideBetContainers: document.querySelectorAll(`.side-bet-modal__side-bet-div`),
   chipBtns: document.querySelectorAll(`.btn-side-bet-modal__chip`),
   activateBetBtn: document.querySelector(`.btn-side-bet-modal__activate-bet`),
   sideBetValueFields: document.querySelectorAll(
     `.side-bet-modal__side-bet-value`
   ),
-  chipBtns: document.querySelectorAll(`.btn-side-bet-modal__chip`),
+  clearBetBtn: document.querySelector(`.btn-side-bet-modal__clear-bet`),
+  clearAllBetsBtn: document.querySelector(`.btn-side-bet-modal__clear-all`),
+  placeSideBetsBtn: document.querySelector(`.btn-side-bet-modal__place-bets`),
+  activateSideBetBtn: document.querySelector(
+    `.btn-side-bet-modal__activate-bet`
+  ),
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
+  toggleEventListeners: toggleEventListeners,
 
   //replaces updateSideBetModalInfo
   updateModalInfo(gameState) {
@@ -1378,6 +1427,8 @@ export const houseMoneyModal = {
     `.house-money-modal__win-condition`
   ),
   payoutField: document.querySelector(`.house-money-modal__payout`),
+  actionBtns: document.querySelectorAll(`.btn-house-money-modal__action`),
+  toggleEventListeners: toggleEventListeners,
 
   //replaces displayHouseMoneyModal
   displayModal(gameState) {
@@ -1686,15 +1737,29 @@ export const baseRoundOutcomeModal = {
   },
 };
 
-export function displayTotalWinningsModal(gameState) {
-  const winningsField = document.querySelector(
-    `.winnings-modal__winnings-value`
-  );
+export const totalWinningsModal = {
+  winningsField: document.querySelector(`.winnings-modal__winnings-value`),
+  winSummaryBtn: document.querySelector(`.btn-winnings-modal__win-summary`),
+  closeBtn: document.querySelector(`.btn-winnings-modal__close`),
+  toggleEventListeners: toggleEventListeners,
 
-  winningsField.textContent = gameState.totalWinnings;
+  //replaces displayTotalWinningsModal
+  displayModal(gameState) {
+    this.winningsField.textContent = gameState.totalWinnings;
 
-  popbox.open(`winnings-modal`);
-}
+    popbox.open(`winnings-modal`);
+  },
+};
+
+// export function displayTotalWinningsModal(gameState) {
+//   const winningsField = document.querySelector(
+//     `.winnings-modal__winnings-value`
+//   );
+
+//   winningsField.textContent = gameState.totalWinnings;
+
+//   popbox.open(`winnings-modal`);
+// }
 
 export const winSummaryModal = {
   mainContainer: document.querySelector(`.summary-modal__main`),
@@ -2182,6 +2247,26 @@ export const triviaModal = {
     this.answerBtns.allBtns.forEach(function (btn) {
       btn.disabled = disableValue;
     });
+  },
+
+  toggleEventListeners(funcObj, toggle) {
+    if (toggle == `add`) {
+      this.triviaDifficultyBtns.forEach(function (elem) {
+        elem.addEventListener(`click`, funcObj.triviaDifficultyBtns);
+      });
+
+      this.answerBtns.allBtns.forEach(function (elem) {
+        elem.addEventListener(`click`, funcObj.answerBtns);
+      });
+    } else {
+      this.triviaDifficultyBtns.forEach(function (elem) {
+        elem.removeEventListener(`click`, funcObj.triviaDifficultyBtns);
+      });
+
+      this.answerBtns.allBtns.forEach(function (elem) {
+        elem.removeEventListener(`click`, funcObj.answerBtns);
+      });
+    }
   },
 };
 
