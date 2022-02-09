@@ -26,12 +26,18 @@ class State {
     this.options = options;
   }
 
-  initialAddPlayers(arr) {
-    let [player, dealer] = arr;
-    this.player = player;
-    this.dealer = dealer;
+  //Manipulate Playing Field
+  set toggleEnableActionBtns(obj) {
+    this.actionBtnState = { ...this.actionBtnState, ...obj };
+    view.gameActionBtns.renderBtns(this.actionBtnState);
   }
 
+  set updateNoticeText(str) {
+    this.noticeText = str;
+    view.gameInfoFields.renderNoticeText(str);
+  }
+
+  //Manipulate Bank
   updateBank(bank) {
     this.bank = bank;
     view.gameInfoFields.updateBank(this.bank);
@@ -42,10 +48,37 @@ class State {
     view.gameInfoFields.updateBank(this.bank);
   }
 
+  subtractBaseBetFromBank() {
+    let betAmount = this.betObj.baseBet;
+    this.bank = this.bank - betAmount;
+    this.updateBank(this.bank);
+  }
+
+  deductHalfBetFromBank() {
+    let newBank = this.bank - Math.round(this.betObj.baseBet / 2);
+    this.updateBank(newBank);
+  }
+
+  //Manipulate Bet
   addBetObj(betObj) {
     this.betObj = betObj;
   }
 
+  updateSplitBet() {
+    let currentSplitHand = this.player.currentSplitHand;
+    let totalSplitHands = this.player.splitHands.length;
+
+    this.betObj.splitBet(currentSplitHand, totalSplitHands);
+    this.subtractBaseBetFromBank();
+  }
+
+  updateDoubleDownBet() {
+    this.betObj.applyDoubleDown(this.player.currentSplitHand);
+    this.subtractBaseBetFromBank();
+    view.gameInfoFields.toggleDoubleDownMarker(true);
+  }
+
+  //Game Data State
   toggleGameActive(toggle) {
     toggle ? (this.gameActive = true) : (this.gameActive = false);
   }
@@ -61,6 +94,21 @@ class State {
   set updateRemainingCards(num) {
     this.remainingCards = num;
     if (this.remainingCards <= 2) bjModel.shuffleCards(this.options.deckCount);
+  }
+
+  set addRoundNumber(num) {
+    this.roundNumber = num;
+  }
+
+  abortGame() {
+    this.gameAborted = true;
+  }
+
+  //Manipulate CardHolder State
+  initialAddPlayers(arr) {
+    let [player, dealer] = arr;
+    this.player = player;
+    this.dealer = dealer;
   }
 
   set updatePlayer(player) {
@@ -85,6 +133,12 @@ class State {
     console.log(this.dealer.hand);
   }
 
+  revealDealerFaceDown() {
+    this.dealer.hand.revealFaceDownCard();
+    view.dealerField.renderField(this.dealer.hand);
+  }
+
+  //Checks of Game Data
   checkForJackpotAce(cardPlayerHand) {
     let count = 0;
     let aceSpadeFound;
@@ -191,36 +245,7 @@ class State {
       : (this.beginGameRoutineOrder.houseMoney = false);
   }
 
-  set toggleEnableActionBtns(obj) {
-    this.actionBtnState = { ...this.actionBtnState, ...obj };
-    view.gameActionBtns.renderBtns(this.actionBtnState);
-  }
-
-  set updateNoticeText(str) {
-    this.noticeText = str;
-    view.gameInfoFields.renderNoticeText(str);
-  }
-
-  subtractBaseBetFromBank() {
-    let betAmount = this.betObj.baseBet;
-    this.bank = this.bank - betAmount;
-    this.updateBank(this.bank);
-  }
-
-  updateSplitBet() {
-    let currentSplitHand = this.player.currentSplitHand;
-    let totalSplitHands = this.player.splitHands.length;
-
-    this.betObj.splitBet(currentSplitHand, totalSplitHands);
-    this.subtractBaseBetFromBank();
-  }
-
-  updateDoubleDownBet() {
-    this.betObj.applyDoubleDown(this.player.currentSplitHand);
-    this.subtractBaseBetFromBank();
-    view.gameInfoFields.toggleDoubleDownMarker(true);
-  }
-
+  //Round Outcome Methods
   determineBaseRoundOutcome() {
     let player = this.player;
     let dealer = this.dealer;
@@ -331,29 +356,12 @@ class State {
     hand.roundOutcomeText = roundOutcomeText;
   }
 
-  revealDealerFaceDown() {
-    this.dealer.hand.revealFaceDownCard();
-    view.dealerField.renderField(this.dealer.hand);
-  }
-
+  //Winnings Data
   calculateTotalWinnings() {
     this.playerWinnings += this.betObj.initialSideBetWinnings;
     this.playerWinnings += this.betObj.endingSideBetWinnings;
 
     this.totalWinnings = this.playerWinnings;
-  }
-
-  set addRoundNumber(num) {
-    this.roundNumber = num;
-  }
-
-  abortGame() {
-    this.gameAborted = true;
-  }
-
-  deductHalfBetFromBank() {
-    let newBank = this.bank - Math.round(this.betObj.baseBet / 2);
-    this.updateBank(newBank);
   }
 }
 
