@@ -4,6 +4,7 @@ import { globalState } from "./state.js";
 
 let guard = false;
 
+//////////Add event listeners at the beginning of game and round//////////
 export function addNewGameListeners() {
   addGameInfoFieldsListeners();
 
@@ -31,40 +32,6 @@ export function addNewGameListeners() {
 
     view.triviaModal.toggleEventListeners(triviaModalClbkObj, `add`);
   }
-}
-
-export function addBeginGameOptionsBtnListener(gameState = null) {
-  const applyOptionsBtn = document.querySelector(
-    `.btn-options-modal__submit-options`
-  );
-
-  applyOptionsBtn.addEventListener(`click`, beginGameOptionsListenerCallback);
-}
-
-function startNextRoundBtnListenerCallback(event) {
-  controller.clearRoundData(globalState);
-
-  controller.startNewRound(
-    controller.bankPlaceholder,
-    controller.optionsPlaceholder,
-    controller.specialNumPlaceholder
-  );
-}
-
-export function addOptionsBtnListener(gameState) {
-  const applyOptionsBtn = document.querySelector(
-    `.btn-options-modal__submit-options`
-  );
-
-  applyOptionsBtn.addEventListener(`click`, optionsListenerCallback);
-}
-
-export function removeOptionsBtnListener() {
-  const applyOptionsBtn = document.querySelector(
-    `.btn-options-modal__submit-options`
-  );
-
-  applyOptionsBtn.removeEventListener(`click`, optionsListenerCallback);
 }
 
 export function addNewRoundEventListeners() {
@@ -156,6 +123,42 @@ export function addNewRoundEventListeners() {
   // }
 }
 
+//////////Adding and Removing Event Listeners from Options Btn and Modal//////////
+export function addBeginGameOptionsBtnListener(gameState = null) {
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
+
+  applyOptionsBtn.addEventListener(`click`, beginGameOptionsListenerCallback);
+}
+
+export function removeBeginGameOptionsBtnListener() {
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
+
+  applyOptionsBtn.removeEventListener(
+    `click`,
+    beginGameOptionsListenerCallback
+  );
+}
+
+export function addOptionsBtnListener(gameState) {
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
+
+  applyOptionsBtn.addEventListener(`click`, optionsListenerCallback);
+}
+
+export function removeOptionsBtnListener() {
+  const applyOptionsBtn = document.querySelector(
+    `.btn-options-modal__submit-options`
+  );
+
+  applyOptionsBtn.removeEventListener(`click`, optionsListenerCallback);
+}
+
 export function addOptionsMenuInputListeners() {
   const doubleAfterSplitAcesBox = document.querySelector(
     `#double-after-split-ace`
@@ -198,6 +201,8 @@ export function addOptionsMenuInputListeners() {
   );
 }
 
+//////////Adding Event Listeners to Side Bet Outcome Summary Modal//////////
+
 export function addSummaryModalDisplayHandListener(gameState) {
   const displayHandBtns = document.getElementsByClassName(
     `btn-summary-modal__display-hand`
@@ -224,6 +229,8 @@ export function addSummaryModalEndingDisplayHandListener(gameState) {
   nextBtn.addEventListener(`click`, nextEndGameRoutineCallback);
 }
 
+//////////Adding Event Listeners to Infinity Dice Modal//////////
+
 export function addInfinityDiceStopBtnListener() {
   const stopBtn = document.querySelector(`.btn-generic-modal__stop-dice`);
 
@@ -235,6 +242,8 @@ export function addBeginGameDiceModalNextBtnListener() {
 
   nextBtn.addEventListener(`click`, nextBeginGameRoutineCallback);
 }
+
+//////////Adding Event Listeners to Extra Blackjack Modal//////////
 
 export function addExtraBetBlackjackModalListeners() {
   const chipBtns = document.querySelectorAll(`.btn-extra-bet-modal__chip`);
@@ -257,6 +266,7 @@ export function addExtraBetBlackjackModalListeners() {
   declineBetBtn.addEventListener(`click`, declineExtraBetBtnCallback);
 }
 
+//////////Adding and Removing Event Listeners from Even Money/Insurance Modal//////////
 export function addEvenMoneyModalListeners() {
   const acceptBetBtn = document.querySelector(
     `.btn-side-bet-action__accept-even-money`
@@ -290,24 +300,6 @@ export function addInsuranceNextBtnListener(outcome) {
   else nextBtn.addEventListener(`click`, nextBtnContinueRoundCallback);
 }
 
-export function addBaseRoundOutcomeModalListener() {
-  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
-
-  nextBtn.addEventListener(`click`, roundOutcomeModalNextBtnListenerCallback);
-}
-
-export function addEarlySurrenderModalListeners(gameState) {
-  const acceptBtn = document.querySelector(
-    `.btn-winning-hand-modal__accept-early-surrender`
-  );
-  const declineBtn = document.querySelector(
-    `.btn-winning-hand-modal__decline-early-surrender`
-  );
-
-  acceptBtn.addEventListener(`click`, acceptEarlySurrenderCallback);
-  declineBtn.addEventListener(`click`, declineEarlySurrenderCallback);
-}
-
 export function removeEvenMoneyModalListeners() {
   const acceptBetBtn = document.querySelector(
     `.btn-side-bet-action__accept-even-money`
@@ -334,38 +326,82 @@ export function removeInsuranceModalListeners() {
   declineBetBtn.removeEventListener(`click`, declineInsuranceBtnCallback);
 }
 
-export function removeBeginGameOptionsBtnListener() {
-  const applyOptionsBtn = document.querySelector(
-    `.btn-options-modal__submit-options`
+//////////Adding Event Listener to Base Round Outcome Modal//////////
+
+export function addBaseRoundOutcomeModalListener() {
+  const nextBtn = document.querySelector(`.btn-generic-modal__next`);
+
+  nextBtn.addEventListener(`click`, roundOutcomeModalNextBtnListenerCallback);
+}
+
+//////////Adding Event Listeners to Early Surrender Modal//////////
+
+export function addEarlySurrenderModalListeners(gameState) {
+  const acceptBtn = document.querySelector(
+    `.btn-winning-hand-modal__accept-early-surrender`
+  );
+  const declineBtn = document.querySelector(
+    `.btn-winning-hand-modal__decline-early-surrender`
   );
 
-  applyOptionsBtn.removeEventListener(
-    `click`,
-    beginGameOptionsListenerCallback
+  acceptBtn.addEventListener(`click`, acceptEarlySurrenderCallback);
+  declineBtn.addEventListener(`click`, declineEarlySurrenderCallback);
+}
+
+//////////Event Listener Callback Functions//////////
+
+//Game Info Fields/System Btns
+function startNextRoundBtnListenerCallback(event) {
+  controller.clearRoundData(globalState);
+
+  controller.startNewRound(
+    controller.bankPlaceholder,
+    controller.optionsPlaceholder,
+    controller.specialNumPlaceholder
   );
 }
 
-export function removeExtraBetBlackjackModalListeners() {
-  const chipBtns = document.querySelectorAll(`.btn-extra-bet-modal__chip`);
-  const clearBetBtn = document.querySelector(`.btn-extra-bet-modal__clear-bet`);
-  const placeBetBtn = document.querySelector(
-    `.btn-extra-bet-modal__place-extra-bet`
-  );
-  const declineBetBtn = document.querySelector(
-    `.btn-extra-bet-modal__decline-bet`
-  );
-
-  chipBtns.forEach(function (elem) {
-    elem.removeEventListener(`click`, updateExtraBetChipBtnCallback);
-  });
-
-  clearBetBtn.removeEventListener(`click`, clearExtraBetChipsCallback);
-
-  placeBetBtn.removeEventListener(`click`, placeExtraBetCallback);
-
-  declineBetBtn.removeEventListener(`click`, declineExtraBetBtnCallback);
+function checkSideBetBtnListenerCallback(event) {
+  controller.initDisplayInitialSideBetOutcome(event, globalState);
 }
 
+function endGameBtnCallback(event) {
+  controller.endGameAction(globalState);
+}
+
+//Game Action Btns
+function hitBtnListenerCallback(event) {
+  controller.hitAction(event, globalState);
+}
+
+function standBtnListenerCallback(event) {
+  controller.standAction(event, globalState);
+}
+
+function doubleDownBtnListenerCallback(event) {
+  controller.doubleDownAction(event, globalState);
+}
+
+function splitBtnListenerCallback(event) {
+  controller.splitAction(event, globalState);
+}
+
+function surrenderBtnListenerCallback(event) {
+  controller.surrenderAction(event, globalState);
+}
+
+//General Game Flow Callbacks
+function nextBeginGameRoutineCallback(event) {
+  event.target.removeEventListener(`click`, nextBeginGameRoutineCallback);
+  controller.beginGameRoutine(globalState);
+}
+
+function nextEndGameRoutineCallback(event) {
+  event.target.removeEventListener(`click`, nextEndGameRoutineCallback);
+  controller.endGameRoutine(globalState);
+}
+
+//Options Modal
 function beginGameOptionsListenerCallback(event) {
   controller.submitOptions(event);
 }
@@ -374,6 +410,7 @@ function optionsListenerCallback(event) {
   controller.submitOptions(event, globalState);
 }
 
+//Base Bet Modal
 function updateBaseBetChipBtnCallback(event) {
   controller.updateBaseBetChips(event, globalState);
 }
@@ -382,6 +419,15 @@ function clearBaseBetChipAmountCallback(event) {
   controller.clearBaseBetChips(event, globalState);
 }
 
+function dealCardsBtnListenerCallback(event) {
+  controller.startDealCardsRoutine(event, globalState);
+}
+
+function sideBetMenuBtnListener(event) {
+  view.sideBetModal.updateModalInfo(globalState);
+}
+
+//Side Bet Modal
 function sideBetContainerListenerCallback(event) {
   controller.updateSideBetContainer(event, globalState);
 }
@@ -407,38 +453,12 @@ function clearAllSideBetsBtnCallback(event) {
   controller.clearAllSideBets(event, globalState);
 }
 
-function dealCardsBtnListenerCallback(event) {
-  controller.startDealCardsRoutine(event, globalState);
-}
-
-function checkSideBetBtnListenerCallback(event) {
-  controller.initDisplayInitialSideBetOutcome(event, globalState);
-}
-
-function initialSideBetOutcomeWinHandCallback(event) {
-  view.winningHandModal.displayModal(event, globalState, `beginning`);
-  // view.displayInitialSideBetOutcomeWinHand(event, globalState);
-}
-
-function endingSideBetOutcomeWinHandCallback(event) {
-  // view.displayEndingSideBetOutcomeWinHand(event, globalState);
-  view.winningHandModal.displayModal(event, globalState, `ending`);
-}
-
+//Infinity Dice Modal
 function displayStopInfinityDiceCallback(event) {
   view.perfect11sDiceModal.displayStopInfinityDice(event);
 }
 
-function nextBeginGameRoutineCallback(event) {
-  event.target.removeEventListener(`click`, nextBeginGameRoutineCallback);
-  controller.beginGameRoutine(globalState);
-}
-
-function nextEndGameRoutineCallback(event) {
-  event.target.removeEventListener(`click`, nextEndGameRoutineCallback);
-  controller.endGameRoutine(globalState);
-}
-
+//Extra Bet Modal
 function updateExtraBetChipBtnCallback(event) {
   controller.updateExtraBetChips(event, globalState);
 }
@@ -455,10 +475,12 @@ function declineExtraBetBtnCallback(event) {
   controller.declineExtraBet(event, globalState);
 }
 
+//House Money Modal
 function decideHouseMoneyBtnsCallback(event) {
   controller.decideHouseMoney(event, globalState);
 }
 
+//Even Money/Insurance Modal
 function acceptEvenMoneyBtnCallback(event) {
   controller.initEvenMoneyBet(event, globalState);
 }
@@ -503,26 +525,7 @@ function nextBtnContinueRoundCallback(event) {
   controller.beginGameRoutinePart2(globalState);
 }
 
-function hitBtnListenerCallback(event) {
-  controller.hitAction(event, globalState);
-}
-
-function standBtnListenerCallback(event) {
-  controller.standAction(event, globalState);
-}
-
-function doubleDownBtnListenerCallback(event) {
-  controller.doubleDownAction(event, globalState);
-}
-
-function splitBtnListenerCallback(event) {
-  controller.splitAction(event, globalState);
-}
-
-function surrenderBtnListenerCallback(event) {
-  controller.surrenderAction(event, globalState);
-}
-
+//Round Outcome Modal
 function roundOutcomeModalNextBtnListenerCallback(event) {
   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
 
@@ -534,6 +537,18 @@ function roundOutcomeModalNextBtnListenerCallback(event) {
   controller.endGameRoutine(globalState);
 }
 
+//Side Bet Outcome Modal
+function initialSideBetOutcomeWinHandCallback(event) {
+  view.winningHandModal.displayModal(event, globalState, `beginning`);
+  // view.displayInitialSideBetOutcomeWinHand(event, globalState);
+}
+
+function endingSideBetOutcomeWinHandCallback(event) {
+  // view.displayEndingSideBetOutcomeWinHand(event, globalState);
+  view.winningHandModal.displayModal(event, globalState, `ending`);
+}
+
+//Total Winnings Modal
 function winSummaryBtnListenerCallback(event) {
   view.winSummaryModal.displayModal(globalState);
 }
@@ -542,6 +557,7 @@ function winningsModalCloseBtnListenerCallback(event) {
   controller.endGameRoutine(globalState);
 }
 
+//Trivia Modal
 function difficultyBtnCallback(event) {
   controller.processTriviaDifficulty(event, globalState);
 }
@@ -550,6 +566,7 @@ function answerBtnCallback(event) {
   controller.processTriviaAnswer(event, globalState);
 }
 
+//Early Surrender Modal
 function acceptEarlySurrenderCallback(event) {
   view.winningHandModal.resetModal();
   controller.surrenderAction(event, globalState);
@@ -558,12 +575,4 @@ function acceptEarlySurrenderCallback(event) {
 function declineEarlySurrenderCallback(event) {
   view.winningHandModal.resetModal();
   controller.beginGameRoutinePart2(globalState);
-}
-
-function endGameBtnCallback(event) {
-  controller.endGameAction(globalState);
-}
-
-function sideBetMenuBtnListener(event) {
-  view.sideBetModal.updateModalInfo(globalState);
 }
