@@ -397,55 +397,14 @@ export function clearRoundData(gameState) {
   }
 }
 
-export function endGameAction(gameState) {
-  gameState.abortGame();
-  clearRoundData(gameState);
-}
-
 export function updateStatePlayers(player, gameState) {
   if (player.type == `dealer`) gameState.updateDealer = player;
   else gameState.updatePlayer = player;
 }
 
-export function continueRoundAfterSplit(gameState) {
-  let betObj = gameState.betObj;
-  let player = gameState.player;
-  let splitHands = player.splitHands;
-  let splitPlayerCount = gameState.player.splitHands.length;
-  let options = gameState.options;
-
-  switch (true) {
-    case betObj.checkSideBetExists(`21Magic`):
-      //activate 21 Magic Extra Bet Modal for new split hand
-      break;
-    default:
-      if (splitPlayerCount == 4)
-        player.checkValidResplitActions(splitHands[3], options);
-      if (splitPlayerCount == 3)
-        player.checkValidResplitActions(splitHands[2], options);
-      player.checkValidResplitActions(splitHands[1], options);
-      player.checkValidResplitActions(splitHands[0], options);
-
-      beginSplitHandActions(gameState);
-  }
-}
-
-export function beginSplitHandActions(gameState) {
-  let currentSplitHand = gameState.player.currentSplitHand;
-  let currHand = gameState.player.getSplitHand(currentSplitHand);
-
-  gameState.checkSplitAvailable(currHand);
-  gameState.checkDoubleDownAvailable(currHand);
-
-  let btnObj = { stand: true, surrender: true };
-
-  gameState.splitAvailable ? (btnObj.split = true) : (btnObj.split = false);
-  gameState.doubleDownAvailable
-    ? (btnObj.doubleDown = true)
-    : (btnObj.doubleDown = false);
-  currHand.resplitHit ? (btnObj.hit = true) : (btnObj.hit = false);
-
-  gameState.toggleEnableActionBtns = btnObj;
+export function endGameAction(gameState) {
+  gameState.abortGame();
+  clearRoundData(gameState);
 }
 
 export function submitOptions(event, gameState = null) {
@@ -454,6 +413,8 @@ export function submitOptions(event, gameState = null) {
   if (!gameState) optionsPlaceholder = options;
   else gameState.updateOptions(options);
 }
+
+//////////Split Game Flow Functions//////////
 
 /////////Betting Controls//////////
 
@@ -546,7 +507,7 @@ export function initDisplayInitialSideBetOutcome(event, gameState) {
   determineBeginGameRoutineOrder(gameState);
 }
 
-// "Extra Bet" and "House Money" Modal functions
+// "Extra Bet" Modal Functions
 
 export function updateExtraBetChips(event, gameState) {
   const sideBet = document.querySelector(`.extra-bet-modal__main`).dataset
@@ -614,6 +575,8 @@ export function declineExtraBet(event, gameState) {
   placeExtraBet(event, gameState);
 }
 
+//House Money Modal Function
+
 export function decideHouseMoney(event, gameState) {
   let choice = event.target.dataset.choice;
   let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
@@ -648,6 +611,8 @@ export function decideHouseMoney(event, gameState) {
   beginGameRoutine(gameState);
 }
 
+//Even Money and Insurance Side Bet Functions
+
 export function initEvenMoneyBet(event, gameState) {
   gameState.deductHalfBetFromBank();
 
@@ -668,6 +633,7 @@ export function initInsuranceBet(event, gameState) {
   view.evenMoneyInsuranceModal.renderOutcome(modalType, outcome, gameState);
 }
 
+//////////Game Action Btn Functions
 export function splitAction(event, gameState) {
   gameState.toggleEnableActionBtns = { split: false };
 
@@ -795,6 +761,9 @@ export function surrenderAction(event, gameState) {
   gameTimer = setTimeout(nextPlayerAction, 2500, nextAction, gameState);
 }
 
+//////////Next Cardholder Action Functions//////////
+
+//Player Actions
 export function nextPlayerAction(nextAction, gameState) {
   let player = gameState.player;
 
@@ -844,6 +813,49 @@ export function nextPlayerAction(nextAction, gameState) {
   }
 }
 
+//Split Hand Actions
+export function continueRoundAfterSplit(gameState) {
+  let betObj = gameState.betObj;
+  let player = gameState.player;
+  let splitHands = player.splitHands;
+  let splitPlayerCount = gameState.player.splitHands.length;
+  let options = gameState.options;
+
+  switch (true) {
+    case betObj.checkSideBetExists(`21Magic`):
+      //activate 21 Magic Extra Bet Modal for new split hand
+      break;
+    default:
+      if (splitPlayerCount == 4)
+        player.checkValidResplitActions(splitHands[3], options);
+      if (splitPlayerCount == 3)
+        player.checkValidResplitActions(splitHands[2], options);
+      player.checkValidResplitActions(splitHands[1], options);
+      player.checkValidResplitActions(splitHands[0], options);
+
+      beginSplitHandActions(gameState);
+  }
+}
+
+export function beginSplitHandActions(gameState) {
+  let currentSplitHand = gameState.player.currentSplitHand;
+  let currHand = gameState.player.getSplitHand(currentSplitHand);
+
+  gameState.checkSplitAvailable(currHand);
+  gameState.checkDoubleDownAvailable(currHand);
+
+  let btnObj = { stand: true, surrender: true };
+
+  gameState.splitAvailable ? (btnObj.split = true) : (btnObj.split = false);
+  gameState.doubleDownAvailable
+    ? (btnObj.doubleDown = true)
+    : (btnObj.doubleDown = false);
+  currHand.resplitHit ? (btnObj.hit = true) : (btnObj.hit = false);
+
+  gameState.toggleEnableActionBtns = btnObj;
+}
+
+//Dealer Actions
 export function executeDealerTurn(gameState) {
   let dealer = gameState.dealer;
 
@@ -867,6 +879,7 @@ export function nextDealerAction(nextAction, gameState) {
   }
 }
 
+//////////Trivia Mode Functions//////////
 export function processTriviaDifficulty(event, gameState) {
   let difficulty = event.target.dataset.difficulty;
 
