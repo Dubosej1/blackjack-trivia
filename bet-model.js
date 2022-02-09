@@ -616,6 +616,7 @@ class SideBet extends Bet {
   }
 }
 
+////////////Functions related to special numbers/////////
 export function generateSpecialNums() {
   let mysteryJackpotNumber = generateRandomNum(1, 100);
   let jackpotAceNum = generateRandomNum(1, 6);
@@ -658,11 +659,7 @@ export function generateRandomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function initBaseBet(bank) {
-  let bet = new Bet(bank);
-  return bet;
-}
-
+//////////Functions that generate new Side Bet Class Objs//////////
 export function generateEvenMoneyObj(gameState) {
   let evenMoneyObj = new SideBet(sideBetMod.evenMoney);
   evenMoneyObj.addHalfBet = sideBetFunc.addHalfBet;
@@ -719,4 +716,10 @@ export function generateSideBetObj(name) {
   }
 
   return sideBet;
+}
+
+//////////Initialzing New Bet Class Obj for New Round//////////
+export function initBaseBet(bank) {
+  let bet = new Bet(bank);
+  return bet;
 }
