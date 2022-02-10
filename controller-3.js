@@ -755,7 +755,10 @@ export function surrenderAction(event, gameState) {
 
   if (dealer.hand.outcome == `natural` && !earlySurrender)
     hand.outcome = `surrenderFail`;
-  else hand.outcome = `surrender`;
+  else {
+    hand.outcome = `surrender`;
+    view.gameField.renderHandOutcome(hand, `player`);
+  }
 
   gameTimer = setTimeout(nextPlayerAction, 2500, nextAction, gameState);
 }

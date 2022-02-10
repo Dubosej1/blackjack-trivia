@@ -360,6 +360,36 @@ body {
   color: white;
 }
 
+.--natural {
+  background: yellow;
+  color: black;
+}
+
+.--bust {
+  background: red;
+  color: white;
+}
+
+.--charlie {
+  background: orange;
+  color: white;
+}
+
+.--stand {
+  background: gray;
+  color: white;
+}
+
+.--surrender {
+  background: gray;
+  color: white;
+}
+
+.--dealerHit {
+  background: gray;
+  color: white;
+}
+
 .btn {
   display: inline-block;
 }

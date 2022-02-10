@@ -796,7 +796,10 @@ export let gameField = {
     let outcomeText = chooseOutcomeText(outcome, hand);
 
     if (field == `player`) this.player.renderOutcome(outcome, outcomeText);
-    if (field == `dealer`) this.dealer.renderOutcome(outcome, outcomeText);
+    if (field == `dealer`) {
+      this.dealer.removeOutcomeModifierClass(this.dealer.messageContainer);
+      this.dealer.renderOutcome(outcome, outcomeText);
+    }
     if (field == `split-stage-1`)
       this.splitStages.renderOutcome(1, outcome, outcomeText);
     if (field == `split-stage-2`)
@@ -813,6 +816,7 @@ export let gameField = {
       if (outcome == `natural`) outcomeText = `Blackjack!`;
       if (outcome == `stand`) outcomeText = `Stand`;
       if (outcome == `dealerHit`) outcomeText = `Hitting...`;
+      if (outcome == `surrender`) outcomeText = `Surrender`;
 
       return outcomeText;
     }
@@ -900,37 +904,50 @@ export let gameField = {
   },
 
   resetAllMessageFieldUI() {
-    let outcomeArr = [
-      `bust`,
-      `charlie`,
-      `natural`,
-      `stand`,
-      `surrender`,
-      `dealerHit`,
-    ];
+    // let outcomeArr = [
+    //   `bust`,
+    //   `charlie`,
+    //   `natural`,
+    //   `stand`,
+    //   `surrender`,
+    //   `dealerHit`,
+    // ];
 
-    outcomeArr.forEach(function (str) {
-      this.dealer.messageContainer.classList.remove(
-        `dealer-message__container--${str}`
-      );
-      this.player.messageContainer.classList.remove(
-        `player-message__container--${str}`
-      );
-      this.splitStages.stage1.result.classList.remove(
-        `split-stage-1__result--${str}`
-      );
-      this.splitStages.stage2.result.classList.remove(
-        `split-stage-2__result--${str}`
-      );
-      this.splitStages.stage3.result.classList.remove(
-        `split-stage-3__result--${str}`
-      );
-    }, this);
+    this.player.removeOutcomeModifierClass(this.player.messageContainer);
+    this.dealer.removeOutcomeModifierClass(this.dealer.messageContainer);
+    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage1.result);
+    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage2.result);
+    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage3.result);
+
+    // outcomeArr.forEach(function (str) {
+    //   this.dealer.messageContainer.classList.remove(
+    //     `dealer-message__container--${str}`
+    //   );
+    //   this.player.messageContainer.classList.remove(
+    //     `player-message__container--${str}`
+    //   );
+    //   this.splitStages.stage1.result.classList.remove(
+    //     `split-stage-1__result--${str}`
+    //   );
+    //   this.splitStages.stage2.result.classList.remove(
+    //     `split-stage-2__result--${str}`
+    //   );
+    //   this.splitStages.stage3.result.classList.remove(
+    //     `split-stage-3__result--${str}`
+    //   );
+    // }, this);
   },
 };
 
 function removeOutcomeModifierClass(elem) {
-  let classesArr = [`natural`, `bust`, `charlie`, `stand`];
+  let classesArr = [
+    `natural`,
+    `bust`,
+    `charlie`,
+    `stand`,
+    `dealerHit`,
+    `surrender`,
+  ];
 
   classesArr.forEach(function (str) {
     elem.classList.remove(`--${str}`);
