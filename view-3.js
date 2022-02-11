@@ -2001,6 +2001,9 @@ export const triviaModal = {
   titleField: document.querySelector(`.trivia-modal__title`),
   questionField: document.querySelector(`.trivia__question`),
   triviaDifficultyBtns: document.querySelectorAll(`.btn__trivia-difficulty`),
+  difficultyBtnContainer: document.querySelector(
+    `.trivia-modal__difficulty-btn-container`
+  ),
 
   credits: {
     //replaces creditsField
@@ -2036,12 +2039,18 @@ export const triviaModal = {
   answerBtns: {
     //replaces answerBtns
     allBtns: document.querySelectorAll(`.btn__answer`),
+    multChoiceBtnContainer: document.querySelector(
+      `.trivia-modal__multiple-choice-btn-container`
+    ),
     multChoiceBtns: document.querySelectorAll(`.btn__answer-multiple`),
     //replaces answerABtn - answerDBtn, trueBtn, falseBtn
     btnA: document.querySelector(`.btn__answer-a`),
     btnB: document.querySelector(`.btn__answer-b`),
     btnC: document.querySelector(`.btn__answer-c`),
     btnD: document.querySelector(`.btn__answer-d`),
+    boolChoiceBtnContainer: document.querySelector(
+      `.trivia-modal__boolean-choice-btn-container`
+    ),
     boolChoiceBtns: document.querySelectorAll(`.btn__answer-boolean`),
     btnTrue: document.querySelector(`.btn__answer-true`),
     btnFalse: document.querySelector(`.btn__answer-false`),
@@ -2052,10 +2061,12 @@ export const triviaModal = {
     field: document.querySelector(`.trivia-modal__answer-correct-container`),
     text: document.querySelector(`.trivia-modal__answer-correct`),
   },
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   //replaces renderTriviaQuestion
   renderQuestion(questionObj) {
-    this.toggleDisplayDifficultyBtns(false);
+    this.toggleDisplayElementOn(this.difficultyBtnContainer, false);
+    // this.toggleDisplayDifficultyBtns(false);
 
     displayQuestionInfo(questionObj);
 
@@ -2064,7 +2075,8 @@ export const triviaModal = {
     console.log(questionObj.correctAnswer);
 
     function displayQuestionInfo(questionObj) {
-      triviaModal.label.container.style.display = `flex`;
+      triviaModal.toggleDisplayElementOn(triviaModal.label.container, true);
+      // triviaModal.label.container.style.display = `flex`;
 
       triviaModal.label.categoryField.textContent = questionObj.category;
       triviaModal.label.difficultyField.textContent = questionObj.difficulty;
@@ -2090,7 +2102,11 @@ export const triviaModal = {
     setCorrectAnswerToBtn(questionObj);
 
     //reveals answerTable
-    this.answerTable.field.style.display = `flex`;
+    this.toggleDisplayElementOn(this.answerTable.field, true);
+    // this.answerTable.field.classList.remove(`display-none`);
+
+    //reveals multiple choice btn container
+    this.toggleDisplayElementOn(this.answerBtns.multChoiceBtnContainer, true);
 
     function setAnswersToBtnElements(questionObj) {
       triviaModal.answerBtns.btnA.setAttribute(
@@ -2112,10 +2128,10 @@ export const triviaModal = {
     }
 
     function setAnswersToModalFields(questionObj) {
-      triviaModal.answerTable.fieldA.innerHTML = questionObj.answerChoices[0];
-      triviaModal.answerTable.fieldB.innerHTML = questionObj.answerChoices[1];
-      triviaModal.answerTable.fieldC.innerHTML = questionObj.answerChoices[2];
-      triviaModal.answerTable.fieldD.innerHTML = questionObj.answerChoices[3];
+      triviaModal.answerTable.fieldA.textContent = questionObj.answerChoices[0];
+      triviaModal.answerTable.fieldB.textContent = questionObj.answerChoices[1];
+      triviaModal.answerTable.fieldC.textContent = questionObj.answerChoices[2];
+      triviaModal.answerTable.fieldD.textContent = questionObj.answerChoices[3];
     }
 
     function setCorrectAnswerToBtn(questionObj) {
@@ -2125,7 +2141,8 @@ export const triviaModal = {
           btn.classList.add("correctAnswer");
         }
 
-        btn.style.display = `inline-block`;
+        // triviaModal.toggleDisplayElementOn(btn, true);
+        // btn.style.display = `inline-block`;
       });
     }
   },
@@ -2145,43 +2162,81 @@ export const triviaModal = {
     }
 
     function displayBooleanChoiceBtns() {
-      triviaModal.answerBtns.boolChoiceBtns.forEach(function (btn) {
-        btn.style.display = `inline-block`;
-      });
+      triviaModal.toggleDisplayElementOn(
+        triviaModal.answerBtns.boolChoiceBtnContainer,
+        true
+      );
+      // triviaModal.answerBtns.boolChoiceBtns.forEach(function (btn) {
+      //   btn.style.display = `inline-block`;
+      // });
     }
   },
 
   //replaces toggleDisplayTriviaDifficultyBtns
   toggleDisplayDifficultyBtns(toggle) {
-    let displayValue;
+    this.toggleDisplayElementOn(this.difficultyBtnContainer, toggle);
+    // let displayValue;
 
-    toggle ? (displayValue = `inline-block`) : (displayValue = `none`);
+    // toggle ? (displayValue = `inline-block`) : (displayValue = `none`);
 
-    this.triviaDifficultyBtns.forEach(function (btn) {
-      btn.style.display = displayValue;
-    });
+    // this.triviaDifficultyBtns.forEach(function (btn) {
+    //   btn.style.display = displayValue;
+    // });
   },
 
   //replaces displayTriviaCorrectAnswer
   displayCorrectAnswer(questionObj) {
-    this.correctAnswer.field.style.display = `inline-block`;
+    this.toggleDisplayElementOn(this.correctAnswer.field, true);
+    // this.correctAnswer.field.style.display = `block`;
     this.correctAnswer.text.innerHTML = questionObj.correctAnswer;
   },
 
   //replaces renderTriviaCorrectAnswer
   renderPlayerCorrectResult() {
-    document.querySelector(".correctAnswer").style.backgroundColor = `green`;
+    this.toggleApplyCorrectAnswerColor(true);
+    // document.querySelector(".correctAnswer").style.backgroundColor = `green`;
     this.titleField.textContent = `Correct Answer!`;
-    this.titleField.style.color = `green`;
+    this.changeModalTitleState(`correctAnswer`);
+    // this.titleField.style.color = `green`;
   },
 
   //replaces renderTriviaIncorrectAnswer
   renderPlayerIncorrectResult(event) {
-    document.querySelector(".correctAnswer").style.backgroundColor = `green`;
-    event.target.id = `incorrectAnswer`;
+    this.toggleApplyCorrectAnswerColor(true);
+    // document.querySelector(".correctAnswer").style.backgroundColor = `green`;
+
+    this.toggleApplyIncorrectAnswerColor(true, event.target);
+    // event.target.id = `incorrectAnswer`;
 
     this.titleField.textContent = `Wrong Answer...`;
-    this.titleField.style.color = `red`;
+    this.changeModalTitleState(`incorrectAnswer`);
+    // this.titleField.style.color = `red`;
+  },
+
+  toggleApplyCorrectAnswerColor(toggle) {
+    toggle
+      ? document
+          .querySelector(`.correctAnswer`)
+          .classList.add(`correctAnswer--display`)
+      : document
+          .querySelector(`.correctAnswer`)
+          .classList.remove(`correctAnswer--display`);
+  },
+
+  toggleApplyIncorrectAnswerColor(toggle, elem = null) {
+    toggle
+      ? (elem.id = `incorrectAnswer`)
+      : document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
+  },
+
+  changeModalTitleState(state) {
+    let stateArr = [`correctAnswer`, `incorrectAnswer`];
+
+    if (state == `default`) {
+      stateArr.forEach(function (state) {
+        this.titleField.classList.remove(`trivia-modal__title--${state}`);
+      }, this);
+    } else this.titleField.classList.add(`trivia-modal__title--${state}`);
   },
 
   //replaces resetTriviaModal
@@ -2189,7 +2244,8 @@ export const triviaModal = {
     this.clearModalFields();
     this.clearAnswerBtnData(answerCorrectly);
     this.resetCreditsModifier();
-    this.toggleDisplayDifficultyBtns(true);
+    this.toggleDisplayElementOn(this.difficultyBtnContainer, true);
+    // this.toggleDisplayDifficultyBtns(true);
     this.resetAnswerBtns();
     popbox.close(`trivia-modal`);
   },
@@ -2201,14 +2257,18 @@ export const triviaModal = {
 
     this.label.categoryField.textContent = ``;
     this.label.difficultyField.textContent = ``;
-    this.label.container.style.display = `none`;
+    this.toggleDisplayElementOn(this.label.container, false);
+    // this.label.container.style.display = `none`;
 
     this.correctAnswer.text.innerHTML = ` `;
-    this.correctAnswer.field.style.display = `none`;
+    this.toggleDisplayElementOn(this.correctAnswer.field, false);
+    // this.correctAnswer.field.style.display = `none`;
 
     this.questionField.textContent = `Select Trivia Difficulty`;
+    this.changeModalTitleState(`default`);
 
-    this.answerTable.field.style.display = `none`;
+    this.toggleDisplayElementOn(this.answerTable.field, false);
+    // this.answerTable.field.classList.add(`display-none`);
     this.answerTable.answerValueFields.forEach(function (elem) {
       elem.textContent = ` `;
     });
@@ -2220,11 +2280,13 @@ export const triviaModal = {
       elem.removeAttribute(`data-ans`);
     });
 
-    document.querySelector(".correctAnswer").style.backgroundColor = `grey`;
+    this.toggleApplyCorrectAnswerColor(false);
+    // document.querySelector(".correctAnswer--style").style.backgroundColor = `grey`;
     document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
 
     if (!answerCorrectly) {
-      document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
+      this.toggleApplyIncorrectAnswerColor(false);
+      // document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
     }
   },
 
@@ -2233,27 +2295,30 @@ export const triviaModal = {
     this.credits.field.textContent = credits;
 
     if (modifier == `minus1`)
-      this.credits.minus1Modifier.style.display = `inline`;
+      this.toggleDisplayElementOn(this.credits.minus1Modifier, true);
     if (modifier == `plus1`)
-      this.credits.plus1Modifier.style.display = `inline`;
+      this.toggleDisplayElementOn(this.credits.plus1Modifier, true);
     if (modifier == `plus5`)
-      this.credits.plus5Modifier.style.display = `inline`;
+      this.toggleDisplayElementOn(this.credits.plus5Modifier, true);
   },
 
   //replaces resetTriviaCreditsModifier
   resetCreditsModifier() {
     this.credits.modifiers.forEach(function (elem) {
-      elem.style.display = `none`;
-    });
+      this.toggleDisplayElementOn(elem, false);
+    }, this);
   },
 
   //replaces resetTriviaBtns
   resetAnswerBtns() {
     this.toggleDisableAnswerBtns(false);
 
-    this.answerBtns.allBtns.forEach(function (btn) {
-      btn.style.display = `none`;
-    });
+    this.toggleDisplayElementOn(this.answerBtns.multChoiceBtnContainer, false);
+    this.toggleDisplayElementOn(this.answerBtns.boolChoiceBtnContainer, false);
+
+    // this.answerBtns.allBtns.forEach(function (btn) {
+    //   btn.style.display = `none`;
+    // });
   },
 
   //replaces toggleDisableTriviaAnswerBtns
@@ -2287,6 +2352,12 @@ export const triviaModal = {
     }
   },
 };
+
+function toggleDisplayElementOn(elem, toggle) {
+  toggle
+    ? elem.classList.remove(`display-none`)
+    : elem.classList.add(`display-none`);
+}
 
 export function activateEarlySurrenderModal(gameState) {
   const titleField = document.querySelector(`.winning-hand-modal__title`);

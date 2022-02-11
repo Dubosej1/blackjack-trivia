@@ -109,22 +109,6 @@ body {
   display: inline-flex;
   align-items: center;
 }
-.dealer-message__container--blackjack {
-  background: yellow;
-  color: black;
-}
-.dealer-message__container--bust {
-  background: red;
-  color: white;
-}
-.dealer-message__container--charlie {
-  background: orange;
-  color: white;
-}
-.dealer-message__container--stand {
-  background: gray;
-  color: white;
-}
 
 .grid__game-message {
   display: flex;
@@ -206,22 +190,6 @@ body {
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
-}
-.player-message__container--blackjack {
-  background: yellow;
-  color: black;
-}
-.player-message__container--bust {
-  background: red;
-  color: white;
-}
-.player-message__container--charlie {
-  background: orange;
-  color: white;
-}
-.player-message__container--stand {
-  background: gray;
-  color: white;
 }
 
 .player-message__text {
@@ -309,57 +277,6 @@ body {
   padding: 0rem 1rem;
 }
 
-.split-stage-1__result--blackjack {
-  background: yellow;
-  color: black;
-}
-.split-stage-1__result--bust {
-  background: red;
-  color: white;
-}
-.split-stage-1__result--charlie {
-  background: orange;
-  color: white;
-}
-.split-stage-1__result--stand {
-  background: gray;
-  color: white;
-}
-
-.split-stage-2__result--blackjack {
-  background: yellow;
-  color: black;
-}
-.split-stage-2__result--bust {
-  background: red;
-  color: white;
-}
-.split-stage-2__result--charlie {
-  background: orange;
-  color: white;
-}
-.split-stage-2__result--stand {
-  background: gray;
-  color: white;
-}
-
-.split-stage-3__result--blackjack {
-  background: yellow;
-  color: black;
-}
-.split-stage-3__result--bust {
-  background: red;
-  color: white;
-}
-.split-stage-3__result--charlie {
-  background: orange;
-  color: white;
-}
-.split-stage-3__result--stand {
-  background: gray;
-  color: white;
-}
-
 .--natural {
   background: yellow;
   color: black;
@@ -393,9 +310,21 @@ body {
 .btn {
   display: inline-block;
 }
+.btn__answer, .btn__trivia-difficulty {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 
 #incorrectAnswer {
-  background-color: red;
+  background-color: red !important;
+}
+
+.correctAnswer--display {
+  background-color: green !important;
 }
 
 .trivia__credits-modifier {
@@ -489,12 +418,75 @@ li {
   background-color: blue;
 }
 
-.base-bet-modal__container,
+.basic-bet-modal__container,
 .side-bet-modal__container,
 .generic-modal__container,
 .summary-modal__container,
-.winning-hand-modal__container {
+.winning-hand-modal__container,
+.trivia-modal__container {
   background-color: black;
+  border-style: double;
+  border-color: purple;
+  padding: 1rem;
+}
+.basic-bet-modal__title,
+.side-bet-modal__title,
+.generic-modal__title,
+.summary-modal__title,
+.winning-hand-modal__title,
+.trivia-modal__title {
+  text-align: center;
+}
+
+.display-none {
+  display: none !important;
+}
+
+.trivia-modal__credits-container, .trivia-modal__trivia-question-container, .trivia-modal__answer-correct-container, .trivia-modal__answer-correct {
+  text-align: center !important;
+}
+.trivia-modal__label {
+  color: purple;
+}
+.trivia-modal__title--correctAnswer {
+  color: green !important;
+}
+.trivia-modal__title--incorrectAnswer {
+  color: red !important;
+}
+.trivia-modal__answer-table {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  grid-template-areas: "item1 item2" "item3 item4";
+}
+.trivia-modal__answer-table-item-a {
+  grid-area: item1;
+}
+.trivia-modal__answer-table-item-b {
+  grid-area: item2;
+}
+.trivia-modal__answer-table-item-c {
+  grid-area: item3;
+}
+.trivia-modal__answer-table-item-d {
+  grid-area: item4;
+}
+.trivia-modal__label-container, .trivia-modal__trivia-question-container {
+  margin: auto;
+}
+.trivia-modal__label-container {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+.trivia-modal__trivia-question-container {
+  width: 100%;
+}
+.trivia-modal__multiple-choice-btn-container, .trivia-modal__boolean-choice-btn-container, .trivia-modal__difficulty-btn-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0rem;
 }
 
 .two-section-modal {

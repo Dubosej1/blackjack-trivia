@@ -253,36 +253,42 @@
         <div class="trivia-modal__main">
     
           <div class="trivia-modal__credits-container">
-            <span>Current Credits: <span class="trivia__credits"></span></span>
-            <span class="trivia__credits-modifier trivia__credits-modifier--minus-1">    -1</span>
-            <span class="trivia__credits-modifier trivia__credits-modifier--plus-1">     +1</span>
-            <span class="trivia__credits-modifier trivia__credits-modifier--plus-5">     +5</span>
+            <span><span class="trivia-modal__label">Current Credits:  </span><span class="trivia__credits"></span></span>
+            <span class="trivia__credits-modifier trivia__credits-modifier--minus-1 display-none">    -1</span>
+            <span class="trivia__credits-modifier trivia__credits-modifier--plus-1 display-none">     +1</span>
+            <span class="trivia__credits-modifier trivia__credits-modifier--plus-5 display-none">     +5</span>
           </div>
-          <div class="trivia-modal__label-container">
-            <div>Category: <span class="trivia__category"></span></div>
-            <div>Difficulty: <span class="trivia__difficulty"></span></div>
+          <div class="trivia-modal__label-container display-none">
+            <div><span class="trivia-modal__label">Category:  </span><span class="trivia__category"></span></div>
+            <div><span class="trivia-modal__label">Difficulty:  </span><span class="trivia__difficulty"></span></div>
           </div>
 
-          <div><h2 class="trivia__question">Select Trivia Difficulty</h2></div>
-          <div class="trivia-modal__answer-table">
-            <div class="trivia-modal__answer-table-item">A: <span class="trivia-modal__answer trivia-modal__answer-a"></span></div>
-            <div class="trivia-modal__answer-table-item">B: <span class="trivia-modal__answer trivia-modal__answer-b"></span></div><br /></br /><hr>
-            <div class="break"> </div>
-            <div class="trivia-modal__answer-table-item">C: <span class="trivia-modal__answer trivia-modal__answer-c"></span></div>
-            <div class="trivia-modal__answer-table-item">D: <span class="trivia-modal__answer trivia-modal__answer-d"></span></div>
+          <div class="trivia-modal__trivia-question-container"><h2 class="trivia__question">Select Trivia Difficulty</h2></div>
+          <div class="trivia-modal__answer-table display-none">
+            <div class="trivia-modal__answer-table-item-a"><span class="trivia-modal__label">A: </span><span class="trivia-modal__answer trivia-modal__answer-a"></span></div>
+            <div class="trivia-modal__answer-table-item-b"><span class="trivia-modal__label">B: </span><span class="trivia-modal__answer trivia-modal__answer-b"></span></div>
+            <!-- <div class="break"> </div> -->
+            <div class="trivia-modal__answer-table-item-c"><span class="trivia-modal__label">C: </span><span class="trivia-modal__answer trivia-modal__answer-c"></span></div>
+            <div class="trivia-modal__answer-table-item-d"><span class="trivia-modal__label">D: </span><span class="trivia-modal__answer trivia-modal__answer-d"></span></div>
           </div>
           <div class="trivia-modal__footer">
+            <div class="trivia-modal__multiple-choice-btn-container display-none">
             <button class="btn btn__answer btn__answer-multiple btn__answer-a">A</button>
             <button class="btn btn__answer btn__answer-multiple btn__answer-b">B</button>
             <button class="btn btn__answer btn__answer-multiple btn__answer-c">C</button>
-            <button class="btn btn__answer btn__answer-multiple btn__answer-d">D</button><br /><br />
+            <button class="btn btn__answer btn__answer-multiple btn__answer-d">D</button>
+            </div>
+            <div class="trivia-modal__boolean-choice-btn-container display-none">
             <button class="btn btn__answer btn__answer-boolean btn__answer-true" data-ans="True">True</button>
-            <button class="btn btn__answer btn__answer-boolean btn__answer-false" data-ans="False">False</button><br /><br />
+            <button class="btn btn__answer btn__answer-boolean btn__answer-false" data-ans="False">False</button>
+            </div>
+            <div class="trivia-modal__difficulty-btn-container">
             <button class="btn btn__trivia-difficulty btn__easy" data-difficulty="easy">Easy</button>
            <button class="btn btn__trivia-difficulty btn__medium" data-difficulty="medium">Medium</button>
            <button class="btn btn__trivia-difficulty btn__hard" data-difficulty="hard">Hard</button>
+           </div>
           </div>
-            <h2 class="trivia-modal__answer-correct-container">Correct Answer: <span class="trivia-modal__answer-correct"></span></h2>
+            <h2 class="trivia-modal__answer-correct-container display-none">Correct Answer: <span class="trivia-modal__answer-correct"></span></h2>
 
         </div>
       </div>
@@ -845,13 +851,12 @@
 
 
     <div data-popbox-id="side-bet-modal" class="popbox modal">
-    <!-- <div class="side-bet-modal modal"> -->
       <div class="side-bet-modal__container three-section-modal">
         <div class="side-bet-modal__header modal__header">
           <h1 class="side-bet-modal__title">Place Side Bets</h1>
           <div class="side-bet-modal__info-container">
             <div class="side-bet-modal__bank-container">
-              <span class="side-bet-modal__bank-label">Bank</div><br>
+              <span class="side-bet-modal__bank-label">Bank</span><br>
               <span class="side-bet-modal__bank-value"></span>
             </div>
             <div class="side-bet-modal__total-container">
@@ -950,7 +955,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <script type="module" src="/view-3.js" async defer></script>

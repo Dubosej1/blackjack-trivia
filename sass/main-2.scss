@@ -17,27 +17,27 @@ $font-size-default: 2rem;
   grid-row-end: $row-end;
 }
 
-@mixin outcomeClasses {
-  &--blackjack {
-    background: yellow;
-    color: black;
-  }
+// @mixin outcomeClasses {
+//   &--blackjack {
+//     background: yellow;
+//     color: black;
+//   }
 
-  &--bust {
-    background: red;
-    color: white;
-  }
+//   &--bust {
+//     background: red;
+//     color: white;
+//   }
 
-  &--charlie {
-    background: orange;
-    color: white;
-  }
+//   &--charlie {
+//     background: orange;
+//     color: white;
+//   }
 
-  &--stand {
-    background: gray;
-    color: white;
-  }
-}
+//   &--stand {
+//     background: gray;
+//     color: white;
+//   }
+// }
 
 * {
   margin: 0;
@@ -138,7 +138,7 @@ body {
   display: inline-flex;
   align-items: center;
 
-  @include outcomeClasses;
+  // @include outcomeClasses;
 }
 
 .grid__game-message {
@@ -218,7 +218,7 @@ body {
   display: inline-flex;
   align-items: center;
 
-  @include outcomeClasses;
+  // @include outcomeClasses;
 }
 
 .player-message__text {
@@ -298,20 +298,20 @@ body {
 .split-stage-1__result {
   // background-color: red;
 
-  @include outcomeClasses;
+  // @include outcomeClasses;
 }
 
 .split-stage-2__result {
   // background-color: orange;
 
-  @include outcomeClasses;
+  // @include outcomeClasses;
 }
 
 .split-stage-3__result {
   // background-color: yellow;
   // color: black;
 
-  @include outcomeClasses;
+  // @include outcomeClasses;
 }
 
 .--natural {
@@ -346,10 +346,27 @@ body {
 
 .btn {
   display: inline-block;
+
+  &__answer,
+  &__trivia-difficulty {
+    min-width: 3rem;
+    padding: 1rem 3rem;
+    font-weight: 700;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 #incorrectAnswer {
-  background-color: red;
+  background-color: red !important;
+}
+
+.correctAnswer {
+  &--display {
+    background-color: green !important;
+  }
 }
 
 .trivia__credits-modifier {
@@ -451,12 +468,96 @@ li {
   background-color: blue;
 }
 
-.base-bet-modal__container,
-.side-bet-modal__container,
-.generic-modal__container,
-.summary-modal__container,
-.winning-hand-modal__container {
-  background-color: black;
+.basic-bet-modal,
+.side-bet-modal,
+.generic-modal,
+.summary-modal,
+.winning-hand-modal,
+.trivia-modal {
+  &__container {
+    background-color: black;
+    border-style: double;
+    border-color: purple;
+    padding: 1rem;
+  }
+
+  &__title {
+    text-align: center;
+  }
+}
+
+.display-none {
+  display: none !important;
+}
+
+.trivia-modal {
+  &__credits-container,
+  &__trivia-question-container,
+  &__answer-correct-container,
+  &__answer-correct {
+    text-align: center !important;
+  }
+
+  &__label {
+    color: purple;
+  }
+
+  &__title {
+    &--correctAnswer {
+      color: green !important;
+    }
+
+    &--incorrectAnswer {
+      color: red !important;
+    }
+  }
+
+  &__answer-table {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "item1 item2"
+      "item3 item4";
+
+    &-item {
+      &-a {
+        grid-area: item1;
+      }
+      &-b {
+        grid-area: item2;
+      }
+      &-c {
+        grid-area: item3;
+      }
+      &-d {
+        grid-area: item4;
+      }
+    }
+  }
+
+  &__label-container,
+  &__trivia-question-container {
+    margin: auto;
+  }
+
+  &__label-container {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+  }
+
+  &__trivia-question-container {
+    width: 100%;
+  }
+
+  &__multiple-choice-btn-container,
+  &__boolean-choice-btn-container,
+  &__difficulty-btn-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0rem;
+  }
 }
 
 // .btn-generic-modal__stop-dice {

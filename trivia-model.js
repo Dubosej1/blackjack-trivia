@@ -44,6 +44,7 @@ export const triviaObj = {
             acc[mapping[key]] = obj[key];
             return acc;
           }, {});
+          question.difficulty = capitalizeFirstLetter(question.difficulty);
           let questionObj = new TriviaQuestion(question);
 
           questions.push(questionObj);
@@ -53,6 +54,10 @@ export const triviaObj = {
       .catch(function (err) {
         alert(err);
       });
+
+    function capitalizeFirstLetter([first, ...rest]) {
+      return first.toUpperCase() + rest.join(``);
+    }
   },
 
   selectTriviaDifficulty(difficulty) {
