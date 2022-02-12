@@ -444,6 +444,23 @@ body {
       align-items: center;
     }
   }
+
+  &-generic-modal {
+    &__footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &__action {
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 
 #incorrectAnswer {
@@ -569,7 +586,7 @@ li {
   }
 
   &__title {
-    text-align: center;
+    text-align: center !important;
   }
 }
 
@@ -656,6 +673,24 @@ li {
   }
 }
 
+.generic-modal {
+  &__title {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+  }
+
+  &__footer {
+    display: flex;
+    // justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
 .trivia-modal {
   &__credits-container,
   &__trivia-question-container,

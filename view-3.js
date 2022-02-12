@@ -377,7 +377,8 @@ export let sideBetPlacedModal = {
   mainContainer: document.querySelector(`.generic-modal__main`),
   nextBtn: document.querySelector(`.btn-generic-modal__next`),
   closeBtn: document.querySelector(`.btn-generic-modal__close`),
-  toggleDisplayBtn: toggleDisplayBtn,
+  toggleDisplayElementOn: toggleDisplayElementOn,
+  // toggleDisplayBtn: toggleDisplayBtn,
 
   //replaces both activateSideBetPlacedModal (true) & deactivateSideBetPlacedModal (false)
   toggleActivateModal(toggle, gameState = null) {
@@ -402,8 +403,11 @@ export let sideBetPlacedModal = {
     this.titleField.textContent = dataObj.titleText;
     this.mainContainer.innerHTML = dataObj.modalText;
 
-    this.toggleDisplayBtn(this.nextBtn, dataObj.nextBtn);
-    this.toggleDisplayBtn(this.closeBtn, dataObj.closeBtn);
+    // this.toggleDisplayBtn(this.nextBtn, dataObj.nextBtn);
+    // this.toggleDisplayBtn(this.closeBtn, dataObj.closeBtn);
+
+    this.toggleDisplayElementOn(this.nextBtn, dataObj.nextBtn);
+    this.toggleDisplayElementOn(this.closeBtn, dataObj.closeBtn);
   },
 };
 
