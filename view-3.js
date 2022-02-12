@@ -141,6 +141,7 @@ export let baseBetModal = {
   ),
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
+  toggleDisableBtn: toggleDisableBtn,
   toggleEventListeners: toggleEventListeners,
   //clearbtn
   //dealcardsbtn
@@ -201,22 +202,26 @@ export let baseBetModal = {
   toggleSideBetPlacedBtn(toggle, gameState = null) {
     if (toggle) {
       const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-      toggleDisableBtn(!toggle);
+      this.toggleDisableBtn(this.sideBetPlacedBtn, !toggle);
       // this.sideBetPlacedBtn.style.display = `inline-block`;
       this.sideBetPlacedBtn.innerHTML = `Side Bets Placed <br> $${sideBetTotal}`;
     } else {
-      toggleDisableBtn(toggle);
+      this.toggleDisableBtn(this.sideBetPlacedBtn, toggle);
       // this.sideBetPlacedBtn.style.display = `none`;
       this.sideBetPlacedBtn.textContent = `No Side Bets <br> Placed`;
     }
 
-    function toggleDisableBtn(toggle) {
-      toggle
-        ? (baseBetModal.sideBetPlacedBtn.disabled = true)
-        : (baseBetModal.sideBetPlacedBtn.disabled = false);
-    }
+    // function toggleDisableBtn(toggle) {
+    //   toggle
+    //     ? (baseBetModal.sideBetPlacedBtn.disabled = true)
+    //     : (baseBetModal.sideBetPlacedBtn.disabled = false);
+    // }
   },
 };
+
+function toggleDisableBtn(elem, toggle) {
+  toggle ? (elem.disabled = true) : (elem.disabled = false);
+}
 
 export let sideBetModal = {
   bankValue: document.querySelector(`.side-bet-modal__bank-value`),
@@ -237,6 +242,8 @@ export let sideBetModal = {
   ),
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
+  toggleDisableBtn: toggleDisableBtn,
+  toggleDisplayElementOn: toggleDisplayElementOn,
   toggleEventListeners: toggleEventListeners,
 
   //replaces updateSideBetModalInfo
@@ -262,6 +269,8 @@ export let sideBetModal = {
     this.sideBetValueFields.forEach(function (elem) {
       elem.textContent = 0;
     });
+    this.checkChipBtnsValid(bank);
+    this.checkToEnableActionBtns(gameState);
   },
 
   //replaces updateSideBetModalTotals
@@ -275,6 +284,7 @@ export let sideBetModal = {
     this.totalValue.textContent = sideBetTotalValue;
     this.bankValue.textContent = bank;
     this.checkChipBtnsValid(bank);
+    this.checkToEnableActionBtns(gameState);
   },
 
   collectSideBet() {
@@ -284,7 +294,7 @@ export let sideBetModal = {
     return sideBet;
   },
 
-  activateSideBetSelectedText(sideBet) {
+  activateSideBetSelectedText(sideBet, gameState) {
     switch (sideBet) {
       case "extraBetBlackjack":
         document.querySelector(
@@ -294,6 +304,8 @@ export let sideBetModal = {
       default:
         console.log(`ERROR: activateSideBetSelectedText`);
     }
+
+    this.checkToEnableActionBtns(gameState);
   },
 
   addActiveElementToBetContainer(event) {
@@ -319,14 +331,18 @@ export let sideBetModal = {
     function toggleActivateSideBetBtn(toggle, modalObj) {
       if (toggle) {
         modalObj.chipBtns.forEach(function (elem) {
-          elem.style.display = `none`;
+          modalObj.toggleDisplayElementOn(elem, false);
+          // elem.style.display = `none`;
         });
-        modalObj.activateBetBtn.style.display = `inline-block`;
+        modalObj.toggleDisplayElementOn(modalObj.activateBetBtn, true);
+        // modalObj.activateBetBtn.style.display = `inline-block`;
       } else {
         modalObj.chipBtns.forEach(function (elem) {
-          elem.style.display = `inline-block`;
+          modalObj.toggleDisplayElementOn(elem, true);
+          // elem.style.display = `inline-block`;
         });
-        modalObj.activateBetBtn.style.display = `none`;
+        modalObj.toggleDisplayElementOn(modalObj.activateBetBtn, false);
+        // modalObj.activateBetBtn.style.display = `none`;
       }
     }
   },
@@ -337,6 +353,22 @@ export let sideBetModal = {
         ? this.enableChipBtn(btn)
         : this.disableChipBtn(btn);
     }, this);
+  },
+
+  checkToEnableActionBtns(gameState) {
+    let sideBetTotalValue = gameState.betObj.getTempSideBetTotalValue();
+    let extraBetBJExists =
+      gameState.betObj.checkSideBetExists(`extraBetBlackjack`);
+
+    let toggle = sideBetTotalValue > 0 || extraBetBJExists;
+
+    toggle ? enableActionBtns(true) : enableActionBtns(false);
+
+    function enableActionBtns(boolean) {
+      sideBetModal.toggleDisableBtn(sideBetModal.clearBetBtn, !boolean);
+      sideBetModal.toggleDisableBtn(sideBetModal.clearAllBetsBtn, !boolean);
+      sideBetModal.toggleDisableBtn(sideBetModal.placeSideBetsBtn, !boolean);
+    }
   },
 };
 

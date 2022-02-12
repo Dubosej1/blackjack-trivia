@@ -318,18 +318,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-.btn-basic-bet-modal__action {
-  min-width: 3rem;
-  padding: 1rem 3rem;
-  font-weight: 700;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-.btn-basic-bet-modal__action:disabled {
-  background: rgba(76, 76, 76, 0.5);
-  color: white;
-}
 .btn-basic-bet-modal__chip {
   border-radius: 50%;
   padding: 1.5rem;
@@ -370,6 +358,72 @@ body {
 .btn-basic-bet-modal__500 {
   border-color: white;
   background-color: #d88206;
+  color: white;
+}
+.btn-basic-bet-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-basic-bet-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
+}
+.btn-side-bet-modal__chip {
+  border-radius: 50%;
+  padding: 1.5rem;
+  text-align: center;
+  border-style: dashed;
+  font-weight: 700;
+}
+.btn-side-bet-modal__chip:disabled {
+  border-color: gray;
+  color: gray;
+  background-color: black;
+}
+.btn-side-bet-modal__1 {
+  border-color: white;
+  background-color: #4c4c4c;
+  color: white;
+}
+.btn-side-bet-modal__5 {
+  border-color: white;
+  background-color: #2cbbc1;
+  color: white;
+}
+.btn-side-bet-modal__10 {
+  border-color: white;
+  background-color: #ce3501;
+  color: white;
+}
+.btn-side-bet-modal__25 {
+  border-color: white;
+  background-color: #019934;
+  color: white;
+}
+.btn-side-bet-modal__100 {
+  border-color: white;
+  background-color: #663398;
+  color: white;
+}
+.btn-side-bet-modal__500 {
+  border-color: white;
+  background-color: #d88206;
+  color: white;
+}
+.btn-side-bet-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-side-bet-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
   color: white;
 }
 
@@ -518,6 +572,43 @@ li {
   text-align: center;
 }
 .basic-bet-modal__bank-label {
+  color: purple;
+}
+
+.side-bet-modal__info-container {
+  display: flex;
+  justify-content: space-around;
+}
+.side-bet-modal__total-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: purple;
+  width: 75px;
+  height: 75px;
+}
+.side-bet-modal__side-bet-div {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0px;
+  padding: 5px 0px;
+}
+.side-bet-modal__side-bet-value-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: purple;
+  width: 50px;
+  height: 50px;
+}
+.side-bet-modal__chip-container, .side-bet-modal__action-btn-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0rem;
+}
+.side-bet-modal__bank-label {
   color: purple;
 }
 

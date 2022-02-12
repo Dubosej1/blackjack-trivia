@@ -860,10 +860,10 @@
               <span class="side-bet-modal__bank-value"></span>
             </div>
             <div class="side-bet-modal__total-container">
-              <span class="side-bet-modal__total-value"></span>
+              <span class="side-bet-modal__total-value">0</span>
             </div>
             <div class="side-bet-modal__rules-btn-container">
-              <button class="btn btn-side-bet-modal btn-side-bet-modal__action btn-side-bet-modal__rules">Rules</button>
+              <button class="btn btn-side-bet-modal btn-side-bet-modal__action btn-side-bet-modal__rules display-none">Rules</button>
             </div>
           </div>
         </div>
@@ -872,70 +872,76 @@
             <h2 class="side-bet-modal__directions-text">Click on the side bet and press chip buttons to add money to it</h2>
           </div>
           <div class="side-bet-modal__side-bet-container">
-            <form>
+            <!-- <form> -->
 
               <div class="side-bet-modal__side-bet-div perfect-pair__container side-bet-modal__active-bet" data-sideBet="perfectPair">
                 <div class="side-bet-modal__side-bet-input-container">
-                  <input type="checkbox" id="perfect-pair" name="perfect-pair" value="perfect-pair">
-                  <label for="perfect-pair">Perfect Pair</label>
+                  <!-- <input type="checkbox" id="perfect-pair" name="perfect-pair" value="perfect-pair">
+                  <label for="perfect-pair">Perfect Pair</label> -->
+                  <span class="side-bet-modal__side-bet-label">Perfect Pair</span>
                 </div>
-                <div class="side-bet-modal__side-bet-container">
+                <div class="side-bet-modal__side-bet-value-container">
                   <span class="side-bet-modal__side-bet-value perfect-pair__value side-bet-modal__active-value">0</span>
                 </div>
               </div>
 
                 <div class="side-bet-modal__side-bet-div 21-plus-3__container" data-sideBet="21Plus3">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <input type="checkbox" id="21-plus-3" name="21-plus-3" value="21-plus-3">
-                    <label for="21-plus-3">21 + 3</label>
+                    <!-- <input type="checkbox" id="21-plus-3" name="21-plus-3" value="21-plus-3">
+                    <label for="21-plus-3">21 + 3</label> -->
+                    <span class="side-bet-modal__side-bet-label">21 + 3</span>
                   </div>
-                  <div class="side-bet-modal__side-bet-container">
+                  <div class="side-bet-modal__side-bet-value-container">
                     <span class="side-bet-modal__side-bet-value 21-plus-3__value">0</span>
                   </div>
                 </div>
 
                 <div class="side-bet-modal__side-bet-div perfect-11s__container" data-sideBet="perfect11s">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <input type="checkbox" id="perfect-11s" name="perfect-11s" value="perfect-11s">
-                    <label for="perfect-11s">Perfect 11s</label>
+                    <!-- <input type="checkbox" id="perfect-11s" name="perfect-11s" value="perfect-11s">
+                    <label for="perfect-11s">Perfect 11s</label> -->
+                    <span class="side-bet-modal__side-bet-label">Perfect 11s</span>
                   </div>
-                  <div class="side-bet-modal__side-bet-container">
+                  <div class="side-bet-modal__side-bet-value-container">
                     <span class="side-bet-modal__side-bet-value perfect-11s__value">0</span>
                   </div>
                 </div>
 
                 <div class="side-bet-modal__side-bet-div extra-bet-blackjack__container" data-bet-type="no-chip" data-sideBet="extraBetBlackjack">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <input type="checkbox" id="extra-bet-blackjack" name="extra-bet-blackjack" value="extra-bet-blackjack">
-                    <label for="extra-bet-blackjack">Extra Bet Blackjack</label>
+                    <!-- <input type="checkbox" id="extra-bet-blackjack" name="extra-bet-blackjack" value="extra-bet-blackjack">
+                    <label for="extra-bet-blackjack">Extra Bet Blackjack</label> -->
+                    <span class="side-bet-modal__side-bet-label">Extra Bet Blackjack</span>
                   </div>
-                  <div class="side-bet-modal__side-bet-container">
+                  <div class="side-bet-modal__side-bet-value-container">
                     <span class="side-bet-modal__side-bet-value extra-bet-blackjack__value">0</span>
                   </div>
                 </div>
 
                 <div class="side-bet-modal__side-bet-div house-money__container" data-sideBet="houseMoney">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <input type="checkbox" id="house-money" name="house-money" value="house-money">
-                    <label for="house-money">House Money</label>
+                    <!-- <input type="checkbox" id="house-money" name="house-money" value="house-money">
+                    <label for="house-money">House Money</label> -->
+                    <span class="side-bet-modal__side-bet-label">House Money</span>
                   </div>
-                  <div class="side-bet-modal__side-bet-container">
+                  <div class="side-bet-modal__side-bet-value-container">
                     <span class="side-bet-modal__side-bet-value house-money__value">0</span>
                   </div>
                 </div>
 
                 <div class="side-bet-modal__side-bet-div lucky-ladies__container" data-sideBet="luckyLadies">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <input type="checkbox" id="lucky-ladies" name="lucky-ladies" value="lucky-ladies">
-                    <label for="lucky-ladies">Lucky Ladies</label>
+                    <!-- <input type="checkbox" id="lucky-ladies" name="lucky-ladies" value="lucky-ladies">
+                    <label for="lucky-ladies">Lucky Ladies</label> -->
+                    <span class="side-bet-modal__side-bet-label">Lucky Ladies</span>
                   </div>
-                  <div class="side-bet-modal__side-bet-container">
+                  <div class="side-bet-modal__side-bet-value-container">
                     <span class="side-bet-modal__side-bet-value lucky-ladies__value">0</span>
                   </div>
                 </div>
 
 
-            </form>
+            <!-- </form> -->
           </div>
         </div>
         <div class="side-bet-modal__footer modal__footer">
@@ -945,12 +951,12 @@
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__10" data-value="10">$10</button>
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__25" data-value="25">$25</button>
             <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__100" data-value="100">$100</button>
-            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__activate-bet">Activate Bet</button>
+            <button class="btn btn-side-bet-modal btn-side-bet-modal__action btn-side-bet-modal__activate-bet display-none">Activate Bet</button>
           </div>
           <div class="side-bet-modal__action-btn-container">
-            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-bet">Clear</button>
-            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-all">Clear All</button>
-            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__place-bets" data-popbox-close="side-bet-modal">Place Bets</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-bet" disabled>Clear</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-all" disabled>Clear All</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__place-bets" disabled data-popbox-close="side-bet-modal">Place Bets</button>
             <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__exit" data-popbox-close="side-bet-modal">Back</button>
           </div>
         </div>

@@ -17,6 +17,57 @@ $font-size-default: 2rem;
   grid-row-end: $row-end;
 }
 
+@mixin chip-btn-style {
+  &__chip {
+    &:disabled {
+      border-color: gray;
+      color: gray;
+      background-color: black;
+    }
+    border-radius: 50%;
+    padding: 1.5rem;
+    text-align: center;
+    border-style: dashed;
+    font-weight: 700;
+  }
+
+  &__1 {
+    border-color: white;
+    background-color: #4c4c4c;
+    color: white;
+  }
+
+  &__5 {
+    border-color: white;
+    background-color: #2cbbc1;
+    color: white;
+  }
+
+  &__10 {
+    border-color: white;
+    background-color: #ce3501;
+    color: white;
+  }
+
+  &__25 {
+    border-color: white;
+    background-color: #019934;
+    color: white;
+  }
+
+  &__100 {
+    border-color: white;
+    background-color: #663398;
+    color: white;
+  }
+
+  &__500 {
+    border-color: white;
+    background-color: #d88206;
+    color: white;
+  }
+}
+
 // @mixin outcomeClasses {
 //   &--blackjack {
 //     background: yellow;
@@ -359,6 +410,8 @@ body {
   }
 
   &-basic-bet-modal {
+    @include chip-btn-style;
+
     &__action {
       &:disabled {
         background: rgba(76, 76, 76, 0.5);
@@ -372,54 +425,23 @@ body {
       justify-content: center;
       align-items: center;
     }
+  }
 
-    &__chip {
+  &-side-bet-modal {
+    @include chip-btn-style;
+
+    &__action {
       &:disabled {
-        border-color: gray;
-        color: gray;
-        background-color: black;
+        background: rgba(76, 76, 76, 0.5);
+        color: white;
       }
-      border-radius: 50%;
-      padding: 1.5rem;
-      text-align: center;
-      border-style: dashed;
+      min-width: 3rem;
+      padding: 1rem 3rem;
       font-weight: 700;
-    }
 
-    &__1 {
-      border-color: white;
-      background-color: #4c4c4c;
-      color: white;
-    }
-
-    &__5 {
-      border-color: white;
-      background-color: #2cbbc1;
-      color: white;
-    }
-
-    &__10 {
-      border-color: white;
-      background-color: #ce3501;
-      color: white;
-    }
-
-    &__25 {
-      border-color: white;
-      background-color: #019934;
-      color: white;
-    }
-
-    &__100 {
-      border-color: white;
-      background-color: #663398;
-      color: white;
-    }
-
-    &__500 {
-      border-color: white;
-      background-color: #d88206;
-      color: white;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
@@ -582,6 +604,51 @@ li {
     &-value {
       text-align: center;
     }
+  }
+
+  &__bank-label {
+    color: purple;
+  }
+}
+
+.side-bet-modal {
+  &__info-container {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__total-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: purple;
+    width: 75px;
+    height: 75px;
+  }
+
+  &__side-bet-div {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+    padding: 5px 0px;
+  }
+
+  &__side-bet-value-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: purple;
+    width: 50px;
+    height: 50px;
+  }
+
+  &__chip-container,
+  &__action-btn-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0rem;
   }
 
   &__bank-label {

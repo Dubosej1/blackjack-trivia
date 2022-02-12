@@ -463,6 +463,7 @@ export function clearSideBetChips(event, gameState) {
   betObj.clearTempSideBetAmount(sideBet);
   view.sideBetModal.updateModalTotals(sideBet, gameState);
   betObj.removeSideBetObj(sideBet);
+  view.sideBetModal.checkToEnableActionBtns(gameState);
 }
 
 export function placeSideBets(event, gameState) {
@@ -483,7 +484,7 @@ export function activateSideBet(event, gameState) {
     gameState.betObj.addSideBetObj(sideBetObj);
   }
 
-  view.sideBetModal.activateSideBetSelectedText(sideBet);
+  view.sideBetModal.activateSideBetSelectedText(sideBet, gameState);
 }
 
 export function clearAllSideBets(event, gameState) {
