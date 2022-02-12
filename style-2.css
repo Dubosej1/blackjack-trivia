@@ -318,6 +318,60 @@ body {
   justify-content: center;
   align-items: center;
 }
+.btn-basic-bet-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-basic-bet-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
+}
+.btn-basic-bet-modal__chip {
+  border-radius: 50%;
+  padding: 1.5rem;
+  text-align: center;
+  border-style: dashed;
+  font-weight: 700;
+}
+.btn-basic-bet-modal__chip:disabled {
+  border-color: gray;
+  color: gray;
+  background-color: black;
+}
+.btn-basic-bet-modal__1 {
+  border-color: white;
+  background-color: #4c4c4c;
+  color: white;
+}
+.btn-basic-bet-modal__5 {
+  border-color: white;
+  background-color: #2cbbc1;
+  color: white;
+}
+.btn-basic-bet-modal__10 {
+  border-color: white;
+  background-color: #ce3501;
+  color: white;
+}
+.btn-basic-bet-modal__25 {
+  border-color: white;
+  background-color: #019934;
+  color: white;
+}
+.btn-basic-bet-modal__100 {
+  border-color: white;
+  background-color: #663398;
+  color: white;
+}
+.btn-basic-bet-modal__500 {
+  border-color: white;
+  background-color: #d88206;
+  color: white;
+}
 
 #incorrectAnswer {
   background-color: red !important;
@@ -440,6 +494,31 @@ li {
 
 .display-none {
   display: none !important;
+}
+
+.basic-bet-modal__info-container {
+  display: flex;
+  justify-content: space-around;
+}
+.basic-bet-modal__bet-btn-container, .basic-bet-modal__action-btn-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0rem;
+}
+.basic-bet-modal__bet-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: purple;
+  width: 75px;
+  height: 75px;
+}
+.basic-bet-modal__bet-value {
+  text-align: center;
+}
+.basic-bet-modal__bank-label {
+  color: purple;
 }
 
 .trivia-modal__credits-container, .trivia-modal__trivia-question-container, .trivia-modal__answer-correct-container, .trivia-modal__answer-correct {

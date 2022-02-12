@@ -357,6 +357,71 @@ body {
     justify-content: center;
     align-items: center;
   }
+
+  &-basic-bet-modal {
+    &__action {
+      &:disabled {
+        background: rgba(76, 76, 76, 0.5);
+        color: white;
+      }
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__chip {
+      &:disabled {
+        border-color: gray;
+        color: gray;
+        background-color: black;
+      }
+      border-radius: 50%;
+      padding: 1.5rem;
+      text-align: center;
+      border-style: dashed;
+      font-weight: 700;
+    }
+
+    &__1 {
+      border-color: white;
+      background-color: #4c4c4c;
+      color: white;
+    }
+
+    &__5 {
+      border-color: white;
+      background-color: #2cbbc1;
+      color: white;
+    }
+
+    &__10 {
+      border-color: white;
+      background-color: #ce3501;
+      color: white;
+    }
+
+    &__25 {
+      border-color: white;
+      background-color: #019934;
+      color: white;
+    }
+
+    &__100 {
+      border-color: white;
+      background-color: #663398;
+      color: white;
+    }
+
+    &__500 {
+      border-color: white;
+      background-color: #d88206;
+      color: white;
+    }
+  }
 }
 
 #incorrectAnswer {
@@ -488,6 +553,40 @@ li {
 
 .display-none {
   display: none !important;
+}
+
+.basic-bet-modal {
+  &__info-container {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__bet-btn-container,
+  &__action-btn-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0rem;
+  }
+
+  &__bet {
+    &-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: purple;
+      width: 75px;
+      height: 75px;
+    }
+
+    &-value {
+      text-align: center;
+    }
+  }
+
+  &__bank-label {
+    color: purple;
+  }
 }
 
 .trivia-modal {

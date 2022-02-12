@@ -175,6 +175,7 @@ export let baseBetModal = {
     this.bankValue.textContent = bank;
 
     this.checkChipBtnsValid(bank);
+    this.checkToDisableDealCardsBtn(betTotal);
   },
 
   //replaces updateBasicBetInfo
@@ -187,17 +188,32 @@ export let baseBetModal = {
     this.bankValue.textContent = gameState.bank;
     this.baseBetValue.textContent = 0;
     this.toggleSideBetPlacedBtn(false);
+    this.checkToDisableDealCardsBtn(0);
+  },
+
+  checkToDisableDealCardsBtn(baseBet) {
+    baseBet == 0
+      ? (this.dealCardsBtn.disabled = true)
+      : (this.dealCardsBtn.disabled = false);
   },
 
   //replaces toggleSideBetPlacedBtn
   toggleSideBetPlacedBtn(toggle, gameState = null) {
     if (toggle) {
       const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-      this.sideBetPlacedBtn.style.display = `inline-block`;
-      this.sideBetPlacedBtn.textContent = `Side Bets Placed $${sideBetTotal}`;
+      toggleDisableBtn(!toggle);
+      // this.sideBetPlacedBtn.style.display = `inline-block`;
+      this.sideBetPlacedBtn.innerHTML = `Side Bets Placed <br> $${sideBetTotal}`;
     } else {
-      this.sideBetPlacedBtn.style.display = `none`;
-      this.sideBetPlacedBtn.textContent = `Side Bets Placed`;
+      toggleDisableBtn(toggle);
+      // this.sideBetPlacedBtn.style.display = `none`;
+      this.sideBetPlacedBtn.textContent = `No Side Bets <br> Placed`;
+    }
+
+    function toggleDisableBtn(toggle) {
+      toggle
+        ? (baseBetModal.sideBetPlacedBtn.disabled = true)
+        : (baseBetModal.sideBetPlacedBtn.disabled = false);
     }
   },
 };
