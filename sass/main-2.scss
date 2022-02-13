@@ -748,12 +748,15 @@ li {
     font-size: 3rem;
     color: purple;
   }
-  &__side-bet-div {
+  &__side-bet-div,
+  &__base-round-hand-div {
     margin-bottom: 10px;
   }
 
   &__side-bet-div > span,
-  &__side-bet-div > div {
+  &__side-bet-div > div,
+  &__base-round-hand-div > span,
+  &__base-round-hand-div > div {
     margin-right: 20px;
   }
 
@@ -776,8 +779,16 @@ li {
   }
 
   &__winnings-label,
-  &__total-winnings-label {
+  &__total-winnings-label,
+  &__payout-label {
     color: yellow;
+  }
+
+  &__win-summary {
+    &-round-label,
+    &-side-bet-label {
+      color: blue;
+    }
   }
 
   &__footer {

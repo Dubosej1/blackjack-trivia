@@ -200,15 +200,19 @@ export let baseBetModal = {
 
   //replaces toggleSideBetPlacedBtn
   toggleSideBetPlacedBtn(toggle, gameState = null) {
+    let disable;
+
+    toggle ? (disable = false) : (disable = true);
+
     if (toggle) {
       const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
-      this.toggleDisableBtn(this.sideBetPlacedBtn, !toggle);
+      this.toggleDisableBtn(this.sideBetPlacedBtn, disable);
       // this.sideBetPlacedBtn.style.display = `inline-block`;
       this.sideBetPlacedBtn.innerHTML = `Side Bets Placed <br> $${sideBetTotal}`;
     } else {
-      this.toggleDisableBtn(this.sideBetPlacedBtn, toggle);
+      this.toggleDisableBtn(this.sideBetPlacedBtn, disable);
       // this.sideBetPlacedBtn.style.display = `none`;
-      this.sideBetPlacedBtn.textContent = `No Side Bets <br> Placed`;
+      this.sideBetPlacedBtn.innerHTML = `No Side Bets <br> Placed`;
     }
 
     // function toggleDisableBtn(toggle) {
@@ -1021,6 +1025,7 @@ export let sideBetOutcomeModal = {
   titleField: document.querySelector(`.summary-modal__title`),
   closeBtn: document.querySelector(`.btn-summary-modal__close`),
   nextBtn: document.querySelector(`.btn-summary-modal__next`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   //replaces displayInitialSideBetOutcome and displayEndingSideBetOutcome
   displayModal(gameState, phase) {
@@ -1038,8 +1043,16 @@ export let sideBetOutcomeModal = {
     initModal();
 
     function initModal() {
-      sideBetOutcomeModal.closeBtn.style.display = "none";
-      sideBetOutcomeModal.nextBtn.style.display = `inline-block`;
+      sideBetOutcomeModal.toggleDisplayElementOn(
+        sideBetOutcomeModal.closeBtn,
+        false
+      );
+      sideBetOutcomeModal.toggleDisplayElementOn(
+        sideBetOutcomeModal.nextBtn,
+        true
+      );
+      // sideBetOutcomeModal.closeBtn.style.display = "none";
+      // sideBetOutcomeModal.nextBtn.style.display = `inline-block`;
 
       sideBetOutcomeModal.titleField.textContent = `Side Bet Outcome`;
 
@@ -1580,6 +1593,7 @@ export const evenMoneyInsuranceModal = {
   title: document.querySelector(`.generic-modal__title`),
   nextBtn: document.querySelector(`.btn-generic-modal__next`),
   closeBtn: document.querySelector(`.btn-generic-modal__close`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   //replaces activateEvenMoneyModal and activateInsuranceModal
   activateModal(modalType) {
@@ -1607,8 +1621,17 @@ export const evenMoneyInsuranceModal = {
     function changeModalBtnStatus(modalType) {
       evenMoneyInsuranceModal.nextBtn.dataset.sidebet = modalType;
 
-      evenMoneyInsuranceModal.nextBtn.style.display = "none";
-      evenMoneyInsuranceModal.closeBtn.style.display = "none";
+      evenMoneyInsuranceModal.toggleDisplayElementOn(
+        evenMoneyInsuranceModal.nextBtn,
+        false
+      );
+      evenMoneyInsuranceModal.toggleDisplayElementOn(
+        evenMoneyInsuranceModal.closeBtn,
+        false
+      );
+
+      // evenMoneyInsuranceModal.nextBtn.style.display = "none";
+      // evenMoneyInsuranceModal.closeBtn.style.display = "none";
     }
 
     function createHeadingElement(modalType) {
@@ -1681,7 +1704,9 @@ export const evenMoneyInsuranceModal = {
     );
     let dealerHand = gameState.dealer.hand;
 
-    this.nextBtn.style.display = `inline-block`;
+    this.toggleDisplayElementOn(this.nextBtn, true);
+
+    // this.nextBtn.style.display = `inline-block`;
 
     gameField.renderHandOutcome(dealerHand, `dealer`);
 
@@ -1978,6 +2003,7 @@ export const winSummaryModal = {
   titleField: document.querySelector(`.summary-modal__title`),
   closeBtn: document.querySelector(`.btn-summary-modal__close`),
   nextBtn: document.querySelector(`.btn-summary-modal__next`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   //replaces displayWinSummaryModal
   displayModal(gameState) {
@@ -1989,6 +2015,12 @@ export const winSummaryModal = {
 
     let initialOutcomePackages = gameState.betObj.initialOutcomePackages;
     let endingOutcomePackages = gameState.betObj.endingOutcomePackages;
+
+    if (initialOutcomePackages || endingOutcomePackages) {
+      let sideBetLabelSpan = this.createSideBetLabelElement();
+      this.mainContainer.appendChild(sideBetLabelSpan);
+      sideBetLabelSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+    }
 
     if (initialOutcomePackages)
       initialOutcomePackages.forEach(generateSummaryElements, this);
@@ -2016,7 +2048,7 @@ export const winSummaryModal = {
     let outcomeElems = createOutcomeElems(player);
 
     newDiv.appendChild(roundLabel);
-    roundLabel.insertAdjacentHTML(`afterend`, `<br>`);
+    // roundLabel.insertAdjacentHTML(`beforebegin`, `<br>`);
 
     outcomeElems.forEach(function (elem) {
       newDiv.appendChild(elem);
@@ -2025,9 +2057,11 @@ export const winSummaryModal = {
     return newDiv;
 
     function createRoundLabelElement() {
-      const roundLabel = document.createElement(`span`);
+      const roundLabel = document.createElement(`h2`);
       let roundLabelContent = document.createTextNode(`Base Round`);
       roundLabel.appendChild(roundLabelContent);
+
+      roundLabel.classList.add(`summary-modal__win-summary-round-label`);
 
       return roundLabel;
     }
@@ -2061,6 +2095,7 @@ export const winSummaryModal = {
     let { name, roundOutcome, winnings } = hand.outcomePackage;
 
     const playerDiv = document.createElement(`div`);
+    playerDiv.classList.add(`summary-modal__base-round-hand-div`);
 
     let nameSpan = this.createNameElement(name);
 
@@ -2080,11 +2115,7 @@ export const winSummaryModal = {
     function createPayoutElement(roundOutcome, blackjackPayout) {
       let payout = determinePayoutText(roundOutcome, blackjackPayout);
 
-      const payoutSpan = document.createElement(`span`);
-      let payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
-      payoutSpan.appendChild(payoutSpanContent);
-
-      return payoutSpan;
+      return winSummaryModal.createPayoutNodes(payout);
 
       function determinePayoutText(roundOutcome, blackjackPayout) {
         let payout;
@@ -2104,12 +2135,15 @@ export const winSummaryModal = {
     let { name, outcome, payout, winCondition, winnings } = outcomeObj;
 
     const newDiv = document.createElement(`div`);
+    newDiv.classList.add(`summary-modal__side-bet-div`);
 
     let nameSpan = this.createNameElement(name);
 
     let outcomeDiv = this.createOutcomeElement(outcome);
 
-    let payoutSpan = createPayoutElement(payout);
+    // let payoutSpan = createPayoutElement(payout);
+
+    let payoutSpan = this.createPayoutNodes(payout);
 
     let winConditionSpan = createWinConditionElement(winCondition);
 
@@ -2117,25 +2151,32 @@ export const winSummaryModal = {
 
     newDiv.appendChild(nameSpan);
     newDiv.appendChild(outcomeDiv);
-    newDiv.appendChild(payoutSpan);
-    payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
-    newDiv.appendChild(winConditionSpan);
     newDiv.appendChild(winningsSpan);
+    winningsSpan.insertAdjacentHTML(`afterend`, `<br>`);
+    newDiv.appendChild(winConditionSpan);
+    newDiv.appendChild(payoutSpan);
+
+    // newDiv.appendChild(nameSpan);
+    // newDiv.appendChild(outcomeDiv);
+    // newDiv.appendChild(payoutSpan);
+    // payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
+    // newDiv.appendChild(winConditionSpan);
+    // newDiv.appendChild(winningsSpan);
 
     return newDiv;
 
-    function createPayoutElement(payout) {
-      const payoutSpan = document.createElement(`span`);
-      const payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
-      payoutSpan.appendChild(payoutSpanContent);
+    // function createPayoutElement(payout) {
+    //   const payoutSpan = document.createElement(`span`);
+    //   const payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+    //   payoutSpan.appendChild(payoutSpanContent);
 
-      return payoutSpan;
-    }
+    //   return payoutSpan;
+    // }
 
     function createWinConditionElement(winCondition) {
       const winConditionSpan = document.createElement(`span`);
       const winConditionSpanContent = document.createTextNode(
-        `${winCondition}`
+        `Hand Outcome: "${winCondition}"`
       );
       winConditionSpan.appendChild(winConditionSpanContent);
 
@@ -2143,28 +2184,87 @@ export const winSummaryModal = {
     }
   },
 
+  createSideBetLabelElement() {
+    const sideBetLabelSpan = document.createElement(`h2`);
+    let sideBetLabelContent = document.createTextNode(`Side Bets`);
+    sideBetLabelSpan.appendChild(sideBetLabelContent);
+
+    sideBetLabelSpan.classList.add(`summary-modal__win-summary-side-bet-label`);
+
+    return sideBetLabelSpan;
+  },
+
   createNameElement(name) {
     const nameSpan = document.createElement(`span`);
     let nameSpanContent = document.createTextNode(`${name} `);
     nameSpan.appendChild(nameSpanContent);
+
+    nameSpan.classList.add(`summary-modal__name-label`);
 
     return nameSpan;
   },
 
   createOutcomeElement(roundOutcome) {
     const outcomeDiv = document.createElement(`div`);
+    outcomeDiv.classList.add(`summary-modal__outcome`);
     outcomeDiv.classList.add(`summary-modal__outcome--${roundOutcome}`);
     let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
-    outcomeDiv.style.display = `inline-block`;
+    // outcomeDiv.style.display = `inline-block`;
     outcomeDiv.appendChild(outcomeDivContent);
 
     return outcomeDiv;
   },
 
+  createPayoutNodes(payout) {
+    const payoutSpan = document.createElement(`span`);
+
+    const labelSpan = document.createElement(`span`);
+    const valueSpan = document.createElement(`span`);
+
+    const labelContent = document.createTextNode(`Payout: `);
+    const valueContent = document.createTextNode(payout);
+
+    labelSpan.appendChild(labelContent);
+    valueSpan.appendChild(valueContent);
+
+    payoutSpan.appendChild(labelSpan);
+    payoutSpan.appendChild(valueSpan);
+
+    labelSpan.classList.add(`summary-modal__payout-label`);
+
+    payoutSpan.classList.add(`summary-modal__payout-value`);
+
+    // let payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
+    // payoutSpan.appendChild(payoutSpanContent);
+
+    return payoutSpan;
+  },
+
   createWinningsElement(winnings) {
+    // const winningsSpan = document.createElement(`span`);
+
+    // let winningsSpanContent = document.createTextNode(`+ $${winnings}`);
+    // winningsSpan.appendChild(winningsSpanContent);
+
+    // return winningsSpan;
+
     const winningsSpan = document.createElement(`span`);
-    let winningsSpanContent = document.createTextNode(`+ $${winnings}`);
-    winningsSpan.appendChild(winningsSpanContent);
+
+    const labelSpan = document.createElement(`span`);
+    const valueSpan = document.createElement(`span`);
+
+    const labelContent = document.createTextNode(`Winnings: `);
+    const valueContent = document.createTextNode(winnings);
+
+    labelSpan.appendChild(labelContent);
+    valueSpan.appendChild(valueContent);
+
+    winningsSpan.appendChild(labelSpan);
+    winningsSpan.appendChild(valueSpan);
+
+    labelSpan.classList.add(`summary-modal__winnings-label`);
+
+    winningsSpan.classList.add(`summary-modal__winnings-value`);
 
     return winningsSpan;
   },
@@ -2174,8 +2274,11 @@ export const winSummaryModal = {
   },
 
   prepareModal() {
-    this.closeBtn.style.display = "inline-block";
-    this.nextBtn.style.display = `none`;
+    this.toggleDisplayElementOn(this.closeBtn, true);
+    this.toggleDisplayElementOn(this.nextBtn, false);
+
+    // this.closeBtn.style.display = "inline-block";
+    // this.nextBtn.style.display = `none`;
 
     this.titleField.textContent = `Win Summary`;
 

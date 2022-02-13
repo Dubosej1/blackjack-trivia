@@ -672,10 +672,10 @@ li {
   font-size: 3rem;
   color: purple;
 }
-.summary-modal__side-bet-div {
+.summary-modal__side-bet-div, .summary-modal__base-round-hand-div {
   margin-bottom: 10px;
 }
-.summary-modal__side-bet-div > span, .summary-modal__side-bet-div > div {
+.summary-modal__side-bet-div > span, .summary-modal__side-bet-div > div, .summary-modal__base-round-hand-div > span, .summary-modal__base-round-hand-div > div {
   margin-right: 20px;
 }
 .summary-modal__outcome {
@@ -694,8 +694,11 @@ li {
   background-color: gray;
   color: white;
 }
-.summary-modal__winnings-label, .summary-modal__total-winnings-label {
+.summary-modal__winnings-label, .summary-modal__total-winnings-label, .summary-modal__payout-label {
   color: yellow;
+}
+.summary-modal__win-summary-round-label, .summary-modal__win-summary-side-bet-label {
+  color: blue;
 }
 .summary-modal__footer {
   display: flex;
