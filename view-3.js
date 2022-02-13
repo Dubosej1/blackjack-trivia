@@ -1064,10 +1064,26 @@ export let sideBetOutcomeModal = {
       let totalWinnings = getWinnings(betObj, phase);
 
       let winningsField = document.createElement(`h1`);
-      let winningsFieldContent = document.createTextNode(
-        `Total Winnings: ${totalWinnings}`
-      );
-      winningsField.appendChild(winningsFieldContent);
+
+      let labelSpan = document.createElement(`span`);
+      let valueSpan = document.createElement(`span`);
+
+      let labelContent = document.createTextNode(`Total Winnings: `);
+      let valueContent = document.createTextNode(totalWinnings);
+
+      labelSpan.appendChild(labelContent);
+      valueSpan.appendChild(valueContent);
+
+      winningsField.appendChild(labelSpan);
+      winningsField.appendChild(valueSpan);
+
+      labelSpan.classList.add(`summary-modal__total-winnings-label`);
+
+      // let winningsFieldContent = document.createTextNode(
+      //   `Total Winnings: ${totalWinnings}`
+      // );
+      // winningsField.appendChild(winningsFieldContent);
+
       sideBetOutcomeModal.mainContainer.appendChild(winningsField);
 
       function getWinnings(betObj, phase) {
@@ -1093,6 +1109,7 @@ export let sideBetOutcomeModal = {
     let { name, outcome, winCondition } = outcomeObj;
 
     const newDiv = document.createElement(`div`);
+    newDiv.classList.add(`summary-modal__side-bet-div`);
 
     const nameSpan = createNameElement(name);
 
@@ -1102,7 +1119,6 @@ export let sideBetOutcomeModal = {
 
     newDiv.appendChild(nameSpan);
     newDiv.appendChild(outcomeDiv);
-    // newDiv.appendChild(outcomeDivContent);
 
     if (outcome == `lose`) {
       newDiv.appendChild(winConditionSpan);
@@ -1116,23 +1132,31 @@ export let sideBetOutcomeModal = {
 
     const winningsSpan = createWinningsElement(winnings);
 
-    newDiv.appendChild(checkHandBtn);
-    newDiv.appendChild(winConditionSpan);
-    winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
     newDiv.appendChild(winningsSpan);
+    winningsSpan.insertAdjacentHTML(`afterend`, `<br>`);
+    newDiv.appendChild(winConditionSpan);
+    newDiv.appendChild(checkHandBtn);
+
+    // newDiv.appendChild(checkHandBtn);
+    // newDiv.appendChild(winConditionSpan);
+    // winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+    // newDiv.appendChild(winningsSpan);
 
     return newDiv;
 
     function createNameElement(name) {
       const nameSpan = document.createElement(`span`);
-      let nameSpanContent = document.createTextNode(`${name} `);
+      let nameSpanContent = document.createTextNode(`${name}: `);
       nameSpan.appendChild(nameSpanContent);
+
+      nameSpan.classList.add(`summary-modal__name-label`);
 
       return nameSpan;
     }
 
     function createOutcomeElement(outcome) {
       const outcomeDiv = document.createElement(`div`);
+      outcomeDiv.classList.add(`summary-modal__outcome`);
       outcomeDiv.classList.add(`summary-modal__outcome--${outcome}`);
       let outcomeDivContent = document.createTextNode(`${outcome} `);
       outcomeDiv.appendChild(outcomeDivContent);
@@ -1143,7 +1167,7 @@ export let sideBetOutcomeModal = {
     function createWinConditionElement(winCondition) {
       const winConditionSpan = document.createElement(`span`);
       const winConditionSpanContent = document.createTextNode(
-        `${winCondition}  `
+        `Hand Outcome: "${winCondition}"  `
       );
       winConditionSpan.appendChild(winConditionSpanContent);
 
@@ -1162,10 +1186,24 @@ export let sideBetOutcomeModal = {
 
     function createWinningsElement(winnings) {
       const winningsSpan = document.createElement(`span`);
-      winningsSpan.classList.add(`summary-modal__winnings-value`);
-      let winningsSpanContent = document.createTextNode(`${winnings}`);
-      winningsSpan.appendChild(winningsSpanContent);
 
+      const labelSpan = document.createElement(`span`);
+      const valueSpan = document.createElement(`span`);
+
+      const labelContent = document.createTextNode(`Winnings: `);
+      const valueContent = document.createTextNode(winnings);
+
+      labelSpan.appendChild(labelContent);
+      valueSpan.appendChild(valueContent);
+
+      winningsSpan.appendChild(labelSpan);
+      winningsSpan.appendChild(valueSpan);
+
+      labelSpan.classList.add(`summary-modal__winnings-label`);
+
+      winningsSpan.classList.add(`summary-modal__winnings-value`);
+      // let winningsSpanContent = document.createTextNode(`${winnings}`);
+      // winningsSpan.appendChild(winningsSpanContent);
       return winningsSpan;
     }
   },
@@ -1694,6 +1732,7 @@ export const baseRoundOutcomeModal = {
   titleField: document.querySelector(`.generic-modal__title`),
   nextBtn: document.querySelector(`.btn-generic-modal__next`),
   closeBtn: document.querySelector(`.btn-generic-modal__close`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   //replaces renderSingleHandOutcome
   renderSingleHandOutcome(gameState) {
@@ -1724,6 +1763,10 @@ export const baseRoundOutcomeModal = {
       const roundOutcomeHeadingContent = document.createTextNode(noticeText);
       roundOutcomeHeading.appendChild(roundOutcomeHeadingContent);
 
+      roundOutcomeHeading.classList.add(
+        `base-round-outcome-modal__single-hand-outcome-heading--${roundOutcome}`
+      );
+
       return roundOutcomeHeading;
     }
 
@@ -1739,10 +1782,28 @@ export const baseRoundOutcomeModal = {
 
     function createWinningsElement() {
       const winningsHeading = document.createElement(`h2`);
-      const winningsHeadingContent = document.createTextNode(
-        `Winnings: ${outcomePackage.winnings}`
+
+      const winningsLabelSpan = document.createElement(`span`);
+      const winningsValueSpan = document.createElement(`span`);
+
+      const winningsLabelContent = document.createTextNode(`Winnings: `);
+      const winningsValueContent = document.createTextNode(
+        outcomePackage.winnings
       );
-      winningsHeading.appendChild(winningsHeadingContent);
+
+      winningsLabelSpan.appendChild(winningsLabelContent);
+      winningsValueSpan.appendChild(winningsValueContent);
+
+      winningsHeading.appendChild(winningsLabelSpan);
+      winningsHeading.appendChild(winningsValueSpan);
+      // const winningsHeadingContent = document.createTextNode(
+      //   `Winnings: ${outcomePackage.winnings}`
+      // );
+      // winningsHeading.appendChild(winningsHeadingContent);
+
+      winningsLabelSpan.classList.add(
+        `base-round-outcome-modal__single-hand-winnings-label`
+      );
 
       return winningsHeading;
     }
@@ -1772,13 +1833,92 @@ export const baseRoundOutcomeModal = {
 
       let noticeText = baseRoundOutcomeModal.createNoticeText(roundOutcome);
 
-      const outcomeHeading = document.createElement(`h2`);
-      const outcomeHeadingContent = document.createTextNode(
-        `Hand ${handNum}: ${noticeText}  ${outcomeText}  Winnings: $${winnings}`
+      const outcomeDiv = document.createElement(`div`);
+      outcomeDiv.classList.add(
+        `base-round-outcome-modal__split-hand-outcome-div`
       );
-      outcomeHeading.appendChild(outcomeHeadingContent);
 
-      return outcomeHeading;
+      let handNumSpan = createHandNumElement(handNum);
+
+      let roundOutcomeSpan = createRoundOutcomeElement(
+        noticeText,
+        roundOutcome
+      );
+
+      let outcomeTextSpan = createOutcomeTextElement(outcomeText);
+
+      let winningsSpan = createWinningsElement(winnings);
+
+      outcomeDiv.appendChild(handNumSpan);
+      outcomeDiv.appendChild(roundOutcomeSpan);
+      outcomeDiv.appendChild(outcomeTextSpan);
+      outcomeDiv.appendChild(winningsSpan);
+
+      return outcomeDiv;
+
+      function createHandNumElement(handNum) {
+        const handNumSpan = document.createElement(`span`);
+        const handNumSpanContent = document.createTextNode(`Hand ${handNum}: `);
+        handNumSpan.appendChild(handNumSpanContent);
+        handNumSpan.classList.add(
+          `base-round-outcome-modal__split-hand-handnum-label`
+        );
+
+        return handNumSpan;
+      }
+
+      function createRoundOutcomeElement(noticeText, roundOutcome) {
+        const roundOutcomeSpan = document.createElement(`span`);
+        const roundOutcomeSpanContent = document.createTextNode(
+          `${noticeText}  `
+        );
+        roundOutcomeSpan.appendChild(roundOutcomeSpanContent);
+        roundOutcomeSpan.classList.add(
+          `base-round-outcome-modal__split-hand-outcome--${roundOutcome}`
+        );
+
+        return roundOutcomeSpan;
+      }
+
+      function createOutcomeTextElement(outcomeText) {
+        const outcomeTextSpan = document.createElement(`span`);
+        const outcomeTextSpanContent = document.createTextNode(
+          `${outcomeText}`
+        );
+        outcomeTextSpan.appendChild(outcomeTextSpanContent);
+
+        return outcomeTextSpan;
+      }
+
+      function createWinningsElement(winnings) {
+        const winningsSpan = document.createElement(`span`);
+        const winningsLabelSpan = document.createElement(`span`);
+        const winningsValueSpan = document.createElement(`span`);
+
+        const winningsLabelContent = document.createTextNode(`Winnings: `);
+
+        const winningsValueContent = document.createTextNode(winnings);
+
+        winningsLabelSpan.appendChild(winningsLabelContent);
+        winningsValueSpan.appendChild(winningsValueContent);
+
+        winningsSpan.appendChild(winningsLabelSpan);
+        winningsSpan.appendChild(winningsValueSpan);
+
+        winningsLabelSpan.classList.add(
+          `base-round-outcome-modal__split-hand-winnings-label`
+        );
+
+        return winningsSpan;
+      }
+
+      // const outcomeHeading = document.createElement(`h2`);
+      // const outcomeHeadingContent = document.createTextNode(
+      //   `Hand ${handNum}: ${noticeText}  ${outcomeText}  Winnings: $${winnings}`
+      // );
+      // outcomeHeading.appendChild(outcomeHeadingContent);
+
+      // return outcomeHeading;
     }
   },
 
@@ -1788,8 +1928,10 @@ export const baseRoundOutcomeModal = {
 
   prepareModal() {
     this.titleField.textContent = `Round Outcome`;
-    this.nextBtn.style.display = `inline-block`;
-    this.closeBtn.style.display = `none`;
+    this.toggleDisplayElementOn(this.nextBtn, true);
+    this.toggleDisplayElementOn(this.closeBtn, false);
+
+    this.mainContainer.classList.add(`generic-modal__main--base-outcome-modal`);
 
     this.clearModal();
   },

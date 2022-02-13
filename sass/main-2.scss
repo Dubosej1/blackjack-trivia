@@ -446,11 +446,18 @@ body {
   }
 
   &-generic-modal {
-    &__footer {
-      display: flex;
-      justify-content: flex-end;
-    }
+    &__action {
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
 
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &-summary-modal {
     &__action {
       min-width: 3rem;
       padding: 1rem 3rem;
@@ -679,6 +686,12 @@ li {
     justify-content: center;
   }
 
+  &__main {
+    &--base-outcome-modal {
+      text-align: center;
+    }
+  }
+
   &__container {
     display: flex;
     flex-direction: column;
@@ -687,7 +700,90 @@ li {
 
   &__footer {
     display: flex;
-    // justify-content: flex-end;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+.base-round-outcome-modal {
+  &__single-hand-outcome-heading,
+  &__split-hand-outcome {
+    &--win {
+      color: green;
+    }
+
+    &--lose {
+      color: red;
+    }
+
+    &--natural {
+      color: yellow;
+    }
+
+    &--push,
+    &--surrender {
+      color: gray;
+    }
+  }
+
+  &__single-hand-winnings-label,
+  &__split-hand-winnings-label {
+    color: yellow;
+  }
+
+  &__split-hand {
+    &-handnum-label {
+      color: purple;
+    }
+
+    &-outcome-div > span {
+      margin-right: 10px;
+    }
+  }
+}
+
+.summary-modal {
+  &__name-label {
+    font-size: 3rem;
+    color: purple;
+  }
+  &__side-bet-div {
+    margin-bottom: 10px;
+  }
+
+  &__side-bet-div > span,
+  &__side-bet-div > div {
+    margin-right: 20px;
+  }
+
+  &__outcome {
+    display: inline-block;
+    padding: 3px 10px;
+
+    &--win {
+      background-color: green;
+      color: white;
+    }
+    &--lose {
+      background-color: red;
+      color: white;
+    }
+    &--push {
+      background-color: gray;
+      color: white;
+    }
+  }
+
+  &__winnings-label,
+  &__total-winnings-label {
+    color: yellow;
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     align-items: flex-end;
   }
 }

@@ -426,11 +426,15 @@ body {
   background: rgba(76, 76, 76, 0.5);
   color: white;
 }
-.btn-generic-modal__footer {
-  display: flex;
-  justify-content: flex-end;
-}
 .btn-generic-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-summary-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
@@ -628,12 +632,75 @@ li {
   display: flex;
   justify-content: center;
 }
+.generic-modal__main--base-outcome-modal {
+  text-align: center;
+}
 .generic-modal__container {
   display: flex;
   flex-direction: column;
 }
 .generic-modal__footer {
   display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.base-round-outcome-modal__single-hand-outcome-heading--win, .base-round-outcome-modal__split-hand-outcome--win {
+  color: green;
+}
+.base-round-outcome-modal__single-hand-outcome-heading--lose, .base-round-outcome-modal__split-hand-outcome--lose {
+  color: red;
+}
+.base-round-outcome-modal__single-hand-outcome-heading--natural, .base-round-outcome-modal__split-hand-outcome--natural {
+  color: yellow;
+}
+.base-round-outcome-modal__single-hand-outcome-heading--push, .base-round-outcome-modal__single-hand-outcome-heading--surrender, .base-round-outcome-modal__split-hand-outcome--push, .base-round-outcome-modal__split-hand-outcome--surrender {
+  color: gray;
+}
+.base-round-outcome-modal__single-hand-winnings-label, .base-round-outcome-modal__split-hand-winnings-label {
+  color: yellow;
+}
+.base-round-outcome-modal__split-hand-handnum-label {
+  color: purple;
+}
+.base-round-outcome-modal__split-hand-outcome-div > span {
+  margin-right: 10px;
+}
+
+.summary-modal__name-label {
+  font-size: 3rem;
+  color: purple;
+}
+.summary-modal__side-bet-div {
+  margin-bottom: 10px;
+}
+.summary-modal__side-bet-div > span, .summary-modal__side-bet-div > div {
+  margin-right: 20px;
+}
+.summary-modal__outcome {
+  display: inline-block;
+  padding: 3px 10px;
+}
+.summary-modal__outcome--win {
+  background-color: green;
+  color: white;
+}
+.summary-modal__outcome--lose {
+  background-color: red;
+  color: white;
+}
+.summary-modal__outcome--push {
+  background-color: gray;
+  color: white;
+}
+.summary-modal__winnings-label, .summary-modal__total-winnings-label {
+  color: yellow;
+}
+.summary-modal__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: flex-end;
 }
 
