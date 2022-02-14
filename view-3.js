@@ -1613,6 +1613,8 @@ export const evenMoneyInsuranceModal = {
     //modalType either evenMoney or insurance
     this.title.textContent = `Decide Side Bet`;
 
+    this.toggleAddClassToModalContainer(true);
+
     this.clearModal();
 
     changeModalBtnStatus(modalType);
@@ -1669,6 +1671,10 @@ export const evenMoneyInsuranceModal = {
       let acceptBetBtn = createBtn(modalType, `Accept`);
 
       let declineBetBtn = createBtn(modalType, `Decline`);
+
+      acceptBetBtn.classList.add(`btn-generic-modal__action`);
+      acceptBetBtn.classList.add(`btn-generic-modal__accept-bet`);
+      declineBetBtn.classList.add(`btn-generic-modal__action`);
 
       btnContainer.appendChild(acceptBetBtn);
       btnContainer.appendChild(declineBetBtn);
@@ -1741,7 +1747,7 @@ export const evenMoneyInsuranceModal = {
       let roundStatusText = `Ends`;
 
       if (outcome == `lose` && modalType == `insurance`)
-        roundStatusStr = `Continues`;
+        roundStatusText = `Continues`;
 
       outcome == `win`
         ? (outcomeText = `Dealer Blackjack, Round Ends...`)
@@ -1758,6 +1764,16 @@ export const evenMoneyInsuranceModal = {
     );
 
     btnContainer.style.display = `none`;
+  },
+
+  toggleAddClassToModalContainer(toggle) {
+    toggle
+      ? this.modalContainer.classList.add(
+          `generic-modal__main--even-money-insurance-modal`
+        )
+      : this.modalContainer.classList.remove(
+          `generic-modal__main--even-money-insurance-modal`
+        );
   },
 
   clearModal() {
@@ -1969,9 +1985,20 @@ export const baseRoundOutcomeModal = {
     this.toggleDisplayElementOn(this.nextBtn, true);
     this.toggleDisplayElementOn(this.closeBtn, false);
 
-    this.mainContainer.classList.add(`generic-modal__main--base-outcome-modal`);
+    this.toggleAddClassToModalContainer(true);
+    // this.mainContainer.classList.add(`generic-modal__main--base-outcome-modal`);
 
     this.clearModal();
+  },
+
+  toggleAddClassToModalContainer(toggle) {
+    toggle
+      ? this.mainContainer.classList.add(
+          `generic-modal__main--base-outcome-modal`
+        )
+      : this.mainContainer.classList.remove(
+          `generic-modal__main--base-round-outcome-modal`
+        );
   },
 
   createNoticeText(roundOutcome) {

@@ -434,6 +434,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+.btn-generic-modal__accept-bet {
+  margin-right: 10px;
+}
 .btn-summary-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
@@ -650,7 +653,7 @@ li {
   display: flex;
   justify-content: center;
 }
-.generic-modal__main--base-outcome-modal {
+.generic-modal__main--base-outcome-modal, .generic-modal__main--even-money-insurance-modal {
   text-align: center;
 }
 .generic-modal__container {

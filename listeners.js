@@ -489,6 +489,7 @@ function declineEvenMoneyBtnCallback(event) {
   removeEvenMoneyModalListeners();
   popbox.close(`generic-modal`);
 
+  view.evenMoneyInsuranceModal.toggleAddClassToModalContainer(false);
   controller.determineEndGameRoutineOrder(globalState);
 }
 
@@ -499,6 +500,7 @@ function acceptInsuranceBtnCallback(event) {
 function declineInsuranceBtnCallback(event) {
   removeInsuranceModalListeners();
   popbox.close(`generic-modal`);
+  view.evenMoneyInsuranceModal.toggleAddClassToModalContainer(false);
   controller.beginGameRoutinePart2(globalState);
 }
 
@@ -513,6 +515,8 @@ function nextBtnEndRoundCallback(event) {
 
   nextBtn.removeEventListener(`click`, nextBtnEndRoundCallback);
 
+  view.evenMoneyInsuranceModal.toggleAddClassToModalContainer(false);
+
   controller.determineEndGameRoutineOrder(globalState);
 }
 
@@ -521,6 +525,8 @@ function nextBtnContinueRoundCallback(event) {
 
   removeInsuranceModalListeners();
   nextBtn.removeEventListener(`click`, nextBtnContinueRoundCallback);
+
+  view.evenMoneyInsuranceModal.toggleAddClassToModalContainer(false);
 
   controller.beginGameRoutinePart2(globalState);
 }
@@ -533,6 +539,8 @@ function roundOutcomeModalNextBtnListenerCallback(event) {
     `click`,
     roundOutcomeModalNextBtnListenerCallback
   );
+
+  view.baseRoundOutcomeModal.toggleAddClassToModalContainer(false);
 
   controller.endGameRoutine(globalState);
 }

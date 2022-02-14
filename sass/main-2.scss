@@ -455,6 +455,10 @@ body {
       justify-content: center;
       align-items: center;
     }
+
+    &__accept-bet {
+      margin-right: 10px;
+    }
   }
 
   &-summary-modal {
@@ -712,7 +716,8 @@ li {
   }
 
   &__main {
-    &--base-outcome-modal {
+    &--base-outcome-modal,
+    &--even-money-insurance-modal {
       text-align: center;
     }
   }
