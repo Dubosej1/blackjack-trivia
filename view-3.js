@@ -1257,6 +1257,7 @@ export const winningHandModal = {
   declineEarlySurrenderBtn: document.querySelector(
     `.btn-winning-hand-modal__decline-early-surrender`
   ),
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   //replaces both initialSideBetOutcomeWinHand and endingsideBetOutcomeWinHand
   displayModal(event, gameState, phase) {
@@ -1267,7 +1268,7 @@ export const winningHandModal = {
     this.titleField.textContent = `Winning Hand Info`;
     this.sideBetNameField.textContent = outcomeObj.name;
     this.payoutField.textContent = outcomeObj.payout;
-    this.winConditionField.textContent = outcomeObj.winCondition;
+    this.winConditionField.textContent = `"${outcomeObj.winCondition}"`;
 
     renderCardField(outcomeObj, gameState, phase);
 
@@ -1306,7 +1307,10 @@ export const winningHandModal = {
       }
 
       function toggleDisplayField(elem, toggle) {
-        toggle ? (elem.style.display = `block`) : (elem.style.display = `none`);
+        toggle
+          ? winningHandModal.toggleDisplayElementOn(elem, true)
+          : winningHandModal.toggleDisplayElementOn(elem, false);
+        // toggle ? (elem.style.display = `block`) : (elem.style.display = `none`);
       }
 
       function displayCards(elem, hand, phase) {
@@ -1319,14 +1323,23 @@ export const winningHandModal = {
   resetModal() {
     this.titleField.textContent = `Winning Hand`;
 
-    this.sideBetContainer.style.display = `block`;
-    this.dealerContainer.style.display = `block`;
-    this.playerContainer.style.display = `block`;
-    this.winningsContainer.style.display = `block`;
-    this.closeBtn.style.display = `inline`;
-    this.nextBtn.style.display = `none`;
-    this.acceptEarlySurrenderBtn.style.display = `none`;
-    this.declineEarlySurrenderBtn.style.display = `none`;
+    this.toggleDisplayElementOn(this.sideBetContainer, true);
+    this.toggleDisplayElementOn(this.dealerContainer, true);
+    this.toggleDisplayElementOn(this.playerContainer, true);
+    this.toggleDisplayElementOn(this.winningsContainer, true);
+    this.toggleDisplayElementOn(this.closeBtn, true);
+    this.toggleDisplayElementOn(this.nextBtn, false);
+    this.toggleDisplayElementOn(this.acceptEarlySurrenderBtn, false);
+    this.toggleDisplayElementOn(this.declineEarlySurrenderBtn, false);
+
+    // this.sideBetContainer.style.display = `block`;
+    // this.dealerContainer.style.display = `block`;
+    // this.playerContainer.style.display = `block`;
+    // this.winningsContainer.style.display = `block`;
+    // this.closeBtn.style.display = `inline`;
+    // this.nextBtn.style.display = `none`;
+    // this.acceptEarlySurrenderBtn.style.display = `none`;
+    // this.declineEarlySurrenderBtn.style.display = `none`;
 
     this.dealerCardsField.innerHTML = ` `;
     this.playerCardsField.innerHTML = ` `;

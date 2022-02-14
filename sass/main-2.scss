@@ -468,6 +468,30 @@ body {
       align-items: center;
     }
   }
+
+  &-winnings-modal {
+    &__action {
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &-winning-hand-modal {
+    &__action {
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 
 #incorrectAnswer {
@@ -584,6 +608,7 @@ li {
 .generic-modal,
 .summary-modal,
 .winning-hand-modal,
+.winnings-modal,
 .trivia-modal {
   &__container {
     background-color: black;
@@ -789,6 +814,55 @@ li {
     &-side-bet-label {
       color: blue;
     }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+.winnings-modal {
+  &__title-label {
+    color: yellow;
+  }
+
+  &__btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+.winning-hand-modal {
+  &__side-bet-name {
+    color: purple;
+  }
+
+  &__dealer-cards-container,
+  &__player-cards-container {
+    display: flex;
+    align-items: center;
+
+    & > span {
+      margin-right: 10px;
+    }
+  }
+
+  &__player-cards,
+  &__dealer-cards {
+    display: inline-block;
+  }
+
+  &__player-label {
+    color: blue;
+  }
+
+  &__payout-label {
+    color: yellow;
   }
 
   &__footer {

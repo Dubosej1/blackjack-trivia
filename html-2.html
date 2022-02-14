@@ -668,7 +668,7 @@
             </div>
             <div class="winning-hand-modal__card-info-container">
               <div class="winning-hand-modal__dealer-cards-container">
-                <span class="winning-hand-modal__dealer-label">Dealer</span>
+                <span class="winning-hand-modal__player-label">Dealer</span>
                 <div class="winning-hand-modal__dealer-cards">
                   Hand
                 </div>
@@ -682,15 +682,15 @@
             </div>
             <div class="winning-hand-modal__winnings-info-container">
               <h2 class="winning-hand-modal__winning-hand-name">"Suited 3 of a Kind"</h2>
-              <h2 class="winning-hand-modal__winning-hand-payout-label">Payout: <span class="winning-hand-modal__payout">100:1</span></h2>
+              <h2 class="winning-hand-modal__winning-hand-payout-field"><span class="winning-hand-modal__payout-label">Payout: </span><span class="winning-hand-modal__payout">100:1</span></h2>
             </div>
 
           </div>
           <div class="winning-hand-modal__footer modal__footer">
-            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__close" data-popbox-close="winning-hand-modal">Close</button>
-            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__next" data-popbox-close="winning-hand-modal">Next</button>
-            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__accept-early-surrender" data-popbox-close="winning-hand-modal">Accept</button>
-            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__decline-early-surrender" data-popbox-close="winning-hand-modal">Decline</button>
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__close" data-popbox-close="winning-hand-modal">Close</button>
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__next display-none" data-popbox-close="winning-hand-modal">Next</button>
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__accept-early-surrender display-none" data-popbox-close="winning-hand-modal">Accept</button>
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__decline-early-surrender display-none" data-popbox-close="winning-hand-modal">Decline</button>
           </div>
         </div>
   
@@ -718,10 +718,10 @@
     <div data-popbox-id="winnings-modal" class="popbox modal">
     <!-- <div class="winnings-modal modal"> -->
       <div class="winnings-modal__container">
-        <h1 class="winnings-modal__label">Total Winnings: <span class="winnings-modal__winnings-value">100</span></h1>
+        <h1 class="winnings-modal__title"><span class="winnings-modal__title-label">Total Winnings: </span><span class="winnings-modal__winnings-value">100</span></h1>
         <div class="winnings-modal__btn-container">
-          <button class="btn btn-winnings-modal btn-winnings-modal__win-summary" data-popbox-open="summary-modal">Win Summary</button>
-          <button class="btn btn-winnings-modal btn-winnings-modal__close" data-popbox-close="winnings-modal">Close</button>
+          <button class="btn btn-winnings-modal btn-winnings-modal__action btn-winnings-modal__win-summary" data-popbox-open="summary-modal">Win Summary</button>
+          <button class="btn btn-winnings-modal btn-winnings-modal__action btn-winnings-modal__close" data-popbox-close="winnings-modal">Close</button>
         </div>
       </div>
     </div>
