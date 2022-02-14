@@ -1581,8 +1581,7 @@ export const houseMoneyModal = {
     function renderSideBetInfo(houseMoneyObj, playerHand) {
       houseMoneyModal.playerCardsField.innerHTML =
         playerHand.simpleImages.join();
-      houseMoneyModal.winConditionField.textContent =
-        houseMoneyObj.outcomePackage.winCondition;
+      houseMoneyModal.winConditionField.textContent = `"${houseMoneyObj.outcomePackage.winCondition}"`;
       houseMoneyModal.payoutField.textContent =
         houseMoneyObj.outcomePackage.payout;
     }

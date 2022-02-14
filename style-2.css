@@ -461,6 +461,14 @@ body {
   justify-content: center;
   align-items: center;
 }
+.btn-house-money-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 
 #incorrectAnswer {
   background-color: red !important;
@@ -567,6 +575,7 @@ li {
 .summary-modal__container,
 .winning-hand-modal__container,
 .winnings-modal__container,
+.house-money-modal__container,
 .trivia-modal__container {
   background-color: black;
   border-style: double;
@@ -579,6 +588,7 @@ li {
 .summary-modal__title,
 .winning-hand-modal__title,
 .winnings-modal__title,
+.house-money-modal__title,
 .trivia-modal__title {
   text-align: center !important;
 }
@@ -762,6 +772,128 @@ li {
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
+}
+
+.house-money-modal__directions-text {
+  text-align: center;
+}
+.house-money-modal__win-condition-label, .house-money-modal__payout-label {
+  color: purple;
+}
+.house-money-modal__main {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto auto;
+  gap: 10px;
+}
+.house-money-modal__base-bet-label {
+  color: purple;
+}
+.house-money-modal__side-bet-label, .house-money-modal__winnings-label {
+  color: yellow;
+}
+.house-money-modal__winning-hand-container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.house-money-modal__info-container {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+.house-money-modal__action-container {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 2;
+  grid-row-end: -1;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 10px;
+}
+
+.house-money-grid__bet-label, .house-money-grid__btn-label {
+  text-decoration: underline;
+  font-size: 2.5rem;
+}
+.house-money-grid__btn-label {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  text-align: center;
+}
+.house-money-grid__bet-label {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+.house-money-grid__collect-button, .house-money-grid__parlay-winnings-button, .house-money-grid__parlay-bet-button, .house-money-grid__parlay-all-button {
+  text-align: center;
+}
+.house-money-grid__collect-money-value, .house-money-grid__parlay-winnings-value, .house-money-grid__parlay-bet-value, .house-money-grid__parlay-all-value {
+  display: flex;
+  align-items: center;
+}
+.house-money-grid__parlay-winnings-value, .house-money-grid__parlay-bet-value, .house-money-grid__parlay-all-value {
+  color: yellow;
+  font-size: 2.5rem;
+}
+.house-money-grid__collect-button {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.house-money-grid__parlay-winnings-button {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+.house-money-grid__parlay-bet-button {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 4;
+  grid-row-end: 5;
+}
+.house-money-grid__parlay-all-button {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 5;
+  grid-row-end: 6;
+}
+.house-money-grid__collect-money-value {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.house-money-grid__parlay-winnings-value {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+.house-money-grid__parlay-bet-value {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 4;
+  grid-row-end: 5;
+}
+.house-money-grid__parlay-all-value {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 5;
+  grid-row-end: 6;
 }
 
 .trivia-modal__credits-container, .trivia-modal__trivia-question-container, .trivia-modal__answer-correct-container, .trivia-modal__answer-correct {
