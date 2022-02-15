@@ -730,7 +730,8 @@ li {
 
   &__main {
     &--base-outcome-modal,
-    &--even-money-insurance-modal {
+    &--even-money-insurance-modal,
+    &--perfect-11s-dice-modal {
       text-align: center;
     }
   }
@@ -1006,6 +1007,53 @@ li {
 
   &__parlay-all-value {
     @include grid-item-define(2, -1, 5, 6);
+  }
+}
+
+.infinity-dice {
+  width: 100px;
+  height: 100px;
+  border-style: solid;
+  display: inline-block;
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0px;
+  }
+
+  &__infinity-display {
+    color: yellow;
+    font-size: 5rem !important;
+  }
+
+  &__blank-display {
+    &--even {
+      color: blue;
+    }
+    &--one {
+      color: red;
+    }
+    &--three {
+      color: orange;
+    }
+    &--five {
+      color: green;
+    }
+    &--default {
+      color: white;
+    }
+  }
+
+  &__directions-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 20px 0px;
   }
 }
 

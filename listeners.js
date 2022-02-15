@@ -240,7 +240,8 @@ export function addInfinityDiceStopBtnListener() {
 export function addBeginGameDiceModalNextBtnListener() {
   const nextBtn = document.querySelector(`.btn-generic-modal__next`);
 
-  nextBtn.addEventListener(`click`, nextBeginGameRoutineCallback);
+  // nextBtn.addEventListener(`click`, nextBeginGameRoutineCallback);
+  nextBtn.addEventListener(`click`, beginGameDiceModalNextBtnCallback);
 }
 
 //////////Adding Event Listeners to Extra Blackjack Modal//////////
@@ -393,6 +394,12 @@ function surrenderBtnListenerCallback(event) {
 //General Game Flow Callbacks
 function nextBeginGameRoutineCallback(event) {
   event.target.removeEventListener(`click`, nextBeginGameRoutineCallback);
+  controller.beginGameRoutine(globalState);
+}
+
+function beginGameDiceModalNextBtnCallback(event) {
+  event.target.removeEventListener(`click`, beginGameDiceModalNextBtnCallback);
+  view.perfect11sDiceModal.toggleAddClassToModalContainer(false);
   controller.beginGameRoutine(globalState);
 }
 

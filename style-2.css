@@ -663,7 +663,7 @@ li {
   display: flex;
   justify-content: center;
 }
-.generic-modal__main--base-outcome-modal, .generic-modal__main--even-money-insurance-modal {
+.generic-modal__main--base-outcome-modal, .generic-modal__main--even-money-insurance-modal, .generic-modal__main--perfect-11s-dice-modal {
   text-align: center;
 }
 .generic-modal__container {
@@ -894,6 +894,47 @@ li {
   grid-column-end: -1;
   grid-row-start: 5;
   grid-row-end: 6;
+}
+
+.infinity-dice {
+  width: 100px;
+  height: 100px;
+  border-style: solid;
+  display: inline-block;
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.infinity-dice__container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0px;
+}
+.infinity-dice__infinity-display {
+  color: yellow;
+  font-size: 5rem !important;
+}
+.infinity-dice__blank-display--even {
+  color: blue;
+}
+.infinity-dice__blank-display--one {
+  color: red;
+}
+.infinity-dice__blank-display--three {
+  color: orange;
+}
+.infinity-dice__blank-display--five {
+  color: green;
+}
+.infinity-dice__blank-display--default {
+  color: white;
+}
+.infinity-dice__directions-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 20px 0px;
 }
 
 .trivia-modal__credits-container, .trivia-modal__trivia-question-container, .trivia-modal__answer-correct-container, .trivia-modal__answer-correct {

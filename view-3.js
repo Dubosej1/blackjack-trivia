@@ -1352,6 +1352,7 @@ export const perfect11sDiceModal = {
   mainContainer: document.querySelector(`.generic-modal__main`),
   closeBtn: document.querySelector(`.btn-generic-modal__close`),
   nextBtn: document.querySelector(`.btn-generic-modal__next`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   //replaces displayPerfect11sDiceRoll
   displayModal(diceRolls) {
@@ -1376,11 +1377,25 @@ export const perfect11sDiceModal = {
     listeners.addInfinityDiceStopBtnListener();
     popbox.open(`generic-modal`);
 
+    this.diceTimer1 = setInterval(this.loopDiceRoll, 75, 1);
+    this.diceTimer2 = setInterval(this.loopDiceRoll, 75, 2);
+    this.diceTimer3 = setInterval(this.loopDiceRoll, 75, 3);
+
     function prepareModal() {
-      perfect11sDiceModal.closeBtn.style.display = `none`;
-      perfect11sDiceModal.nextBtn.style.display = `none`;
+      perfect11sDiceModal.toggleDisplayElementOn(
+        perfect11sDiceModal.closeBtn,
+        false
+      );
+      perfect11sDiceModal.toggleDisplayElementOn(
+        perfect11sDiceModal.nextBtn,
+        false
+      );
+      // perfect11sDiceModal.closeBtn.style.display = `none`;
+      // perfect11sDiceModal.nextBtn.style.display = `none`;
 
       perfect11sDiceModal.title.textContent = `Perfect 11s Dice Roll`;
+
+      perfect11sDiceModal.toggleAddClassToModalContainer(true);
     }
 
     function createDirectionsElement() {
@@ -1395,26 +1410,46 @@ export const perfect11sDiceModal = {
 
     function createDiceElements(diceRolls) {
       let diceContainer = document.createElement(`div`);
+      diceContainer.classList.add(`infinity-dice__container`);
 
-      let infinityDice1 = document.createElement(`h3`);
-      let infinityDice2 = document.createElement(`h3`);
-      let infinityDice3 = document.createElement(`h3`);
+      let infinityDice1 = createIndvDiceElement();
+
+      let infinityDice2 = createIndvDiceElement();
+
+      let infinityDice3 = createIndvDiceElement();
+
+      // let infinityDice1 = document.createElement(`h3`);
+      // let infinityDice2 = document.createElement(`h3`);
+      // let infinityDice3 = document.createElement(`h3`);
 
       diceContainer.appendChild(infinityDice1);
       diceContainer.appendChild(infinityDice2);
       diceContainer.appendChild(infinityDice3);
 
-      let diceFields = diceContainer.querySelectorAll(`h3`);
+      // let diceFields = diceContainer.querySelectorAll(`h3`);
+      let diceFields = diceContainer.querySelectorAll(`div`);
 
       addDataToDiceElements(diceFields, diceRolls);
 
       return diceContainer;
 
+      function createIndvDiceElement() {
+        let infinityDice = document.createElement(`div`);
+        let diceSpan = document.createElement(`span`);
+        infinityDice.appendChild(diceSpan);
+
+        return infinityDice;
+      }
+
       function addDataToDiceElements(diceFields, diceRolls) {
         Array.from(diceFields).forEach(function (elem, index) {
           elem.classList.add(`infinity-dice-${index + 1}`);
           elem.classList.add(`infinity-dice`);
+          elem
+            .querySelector(`span`)
+            .classList.add(`infinity-dice-${index + 1}__value`);
           elem.dataset.diceRoll = diceRolls[index];
+          elem.dataset.loopCounter = 1;
         });
       }
     }
@@ -1422,6 +1457,7 @@ export const perfect11sDiceModal = {
     function createStopBtnElement() {
       let stopBtn = document.createElement(`button`);
       stopBtn.classList.add(`btn-generic-modal__stop-dice`);
+      stopBtn.classList.add(`btn-generic-modal__action`);
       stopBtn.dataset.diceCounter = 1;
       let stopBtnContent = document.createTextNode(`Stop Dice!`);
       stopBtn.appendChild(stopBtnContent);
@@ -1430,11 +1466,85 @@ export const perfect11sDiceModal = {
     }
 
     function createDirectionsFooterElement() {
-      let directionsFooter = document.createElement(`h2`);
-      directionsFooter.innerHTML = `Press STOP button to stop dice roll.<br>Roll 2 or more infinities to win the BONUS`;
+      let directionsFooter = document.createElement(`div`);
+      let stopDirectionsHeading = document.createElement(`h2`);
+      let infinityHeading = document.createElement(`h2`);
+
+      let stopDirectionsSpan = document.createTextNode(
+        `Press STOP button to stop dice roll.`
+      );
+      let infinityHeadingSpan = document.createTextNode(
+        `Roll 2 or more infinities to win the BONUS`
+      );
+
+      stopDirectionsHeading.appendChild(stopDirectionsSpan);
+      infinityHeading.appendChild(infinityHeadingSpan);
+
+      directionsFooter.appendChild(stopDirectionsHeading);
+      directionsFooter.appendChild(infinityHeading);
+      directionsFooter.classList.add(`infinity-dice__directions-footer`);
+
+      // directionsFooter.innerHTML = `Press STOP button to stop dice roll.<br>Roll 2 or more infinities to win the BONUS`;
 
       return directionsFooter;
     }
+  },
+
+  loopDiceRoll(diceNum) {
+    let dice = document.querySelector(`.infinity-dice-${diceNum}`);
+    let diceSpan = document.querySelector(`.infinity-dice-${diceNum}__value`);
+
+    let loopCount = dice.dataset.loopCounter;
+
+    let dataObj = {};
+
+    if (loopCount == 6) {
+      dataObj.text = `\u221E`;
+      dataObj.class = `infinity`;
+    } else {
+      let text;
+
+      dataObj.text = `BLANK`;
+      dataObj.class = `blank`;
+      if (loopCount == 1) text = `one`;
+      if (loopCount == 3) text = `three`;
+      if (loopCount == 5) text = `five`;
+      if (loopCount % 2 == 0) text = `even`;
+
+      dataObj.modifier = text;
+    }
+
+    applyDiceTextProperties(diceSpan, dataObj);
+
+    loopCount == 6
+      ? (dice.dataset.loopCounter = 1)
+      : (dice.dataset.loopCounter = ++loopCount);
+
+    return;
+
+    function applyDiceTextProperties(diceSpan, dataObj) {
+      diceSpan.textContent = dataObj.text;
+      perfect11sDiceModal.removeDiceClass(diceSpan);
+
+      if (dataObj.class == `blank`)
+        diceSpan.classList.add(
+          `infinity-dice__${dataObj.class}-display--${dataObj.modifier}`
+        );
+      else diceSpan.classList.add(`infinity-dice__${dataObj.class}-display`);
+    }
+  },
+
+  removeDiceClass(diceSpan) {
+    let classArr = [`infinity`, `blank`];
+
+    classArr.forEach(function (str) {
+      if (str == `blank`) {
+        diceSpan.classList.remove(`infinity-dice__${str}-display--even`);
+        diceSpan.classList.remove(`infinity-dice__${str}-display--one`);
+        diceSpan.classList.remove(`infinity-dice__${str}-display--three`);
+        diceSpan.classList.remove(`infinity-dice__${str}-display--five`);
+      } else diceSpan.classList.remove(`infinity-dice__${str}-display`);
+    });
   },
 
   //replaces displayStopInfinityDice
@@ -1448,14 +1558,17 @@ export const perfect11sDiceModal = {
 
     switch (diceCounter) {
       case 1:
+        clearInterval(this.diceTimer1);
         applyDiceRoll(dice1, diceCounter);
         increaseDiceCounter(diceCounter, stopBtn);
         break;
       case 2:
+        clearInterval(this.diceTimer2);
         applyDiceRoll(dice2, diceCounter);
         increaseDiceCounter(diceCounter, stopBtn);
         break;
       case 3:
+        clearInterval(this.diceTimer3);
         applyDiceRoll(dice3, diceCounter);
         // diceCounter++;
         changeBtnsStatus(stopBtn, this.nextBtn);
@@ -1467,7 +1580,17 @@ export const perfect11sDiceModal = {
 
     function applyDiceRoll(elem, diceCounter) {
       let diceRoll = elem.dataset.diceRoll;
-      elem.innerHTML = `DICE ${diceCounter}: ${diceRoll}`;
+      let span = elem.querySelector(`span`);
+      perfect11sDiceModal.removeDiceClass(span);
+
+      if (diceRoll == `INFINITY`) {
+        span.textContent = `\u221E`;
+        span.classList.add(`infinity-dice__infinity-display`);
+      } else {
+        span.textContent = diceRoll;
+        span.classList.add(`infinity-dice__blank-display--default`);
+      }
+      // elem.innerHTML = `DICE ${diceCounter}: ${diceRoll}`;
     }
 
     function increaseDiceCounter(diceCounter, stopBtn) {
@@ -1477,8 +1600,19 @@ export const perfect11sDiceModal = {
 
     function changeBtnsStatus(stopBtn, nextBtn) {
       stopBtn.disabled = true;
-      nextBtn.style.display = `inline-block`;
+      perfect11sDiceModal.toggleDisplayElementOn(nextBtn, true);
+      // nextBtn.style.display = `inline-block`;
     }
+  },
+
+  toggleAddClassToModalContainer(toggle) {
+    toggle
+      ? this.mainContainer.classList.add(
+          `generic-modal__main--perfect-11s-dice-modal`
+        )
+      : this.mainContainer.classList.remove(
+          `generic-modal__main--perfect-11s-dice-modal`
+        );
   },
 
   clearModal() {
