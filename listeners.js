@@ -126,6 +126,17 @@ export function addNewRoundEventListeners() {
     );
   }
 
+  function addExtraBetBlackjackModalListeners() {
+    let extraBetModalClbkObj = {
+      chipBtns: updateExtraBetChipBtnCallback,
+      clearBetBtn: clearExtraBetChipsCallback,
+      placeBetBtn: placeExtraBetCallback,
+      declineBetBtn: declineExtraBetBtnCallback,
+    };
+
+    view.extraBetModal.toggleEventListeners(extraBetModalClbkObj, `add`);
+  }
+
   // function addOptionsBtnListener() {
   //   let optionsModalClbkObj = {
   //     applyOptionsBtn: optionsListenerCallback,

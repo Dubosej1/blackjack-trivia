@@ -1635,9 +1635,13 @@ export const extraBetModal = {
     `.btn-extra-bet-modal__raise-the-roof`
   ),
   chipBtns: document.querySelectorAll(`.btn-extra-bet-modal__chip`),
+  clearBetBtn: document.querySelector(`.btn-extra-bet-modal__clear-bet`),
+  placeBetBtn: document.querySelector(`.btn-extra-bet-modal__place-extra-bet`),
+  declineBetBtn: document.querySelector(`.btn-extra-bet-modal__decline-bet`),
   toggleDisplayElementOn: toggleDisplayElementOn,
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
+  toggleEventListeners: toggleEventListeners,
 
   //replaces displayExtraBetModal
   displayModal(gameState) {
