@@ -475,7 +475,10 @@ export function calcExtraBetBlackjack(gameState) {
 }
 
 export function calcExtraBetFee() {
-  this.fee = this.tempValue.bet * 0.2;
+  if (!this.fee) this.fee = 0;
+
+  this.tempValue.bank += this.fee;
+  this.fee = Math.round(this.tempValue.bet * 0.2);
   this.tempValue.bank -= this.fee;
 }
 
