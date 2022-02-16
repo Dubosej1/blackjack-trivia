@@ -185,7 +185,7 @@ export function beginGameRoutine(gameState) {
       order.sideBetSequence = false;
       break;
     case order.extraBet:
-      view.displayExtraBetModal(gameState);
+      view.extraBetModal.displayModal(gameState);
       order.extraBet = false;
       break;
     default:
@@ -528,7 +528,8 @@ export function updateExtraBetChips(event, gameState) {
     sideBetObj.updateTempExtraBetTotal(addend);
   }
 
-  view.updateExtraBetModalTotal(sideBetObj, gameState);
+  view.extraBetModal.updateModalTotal(sideBetObj, gameState);
+  // view.updateExtraBetModalTotal(sideBetObj, gameState);
 }
 
 export function clearExtraBetChips(event, gameState) {
@@ -547,7 +548,8 @@ export function clearExtraBetChips(event, gameState) {
     sideBetObj.clearExtraBet();
   }
 
-  view.updateExtraBetModalTotal(sideBetObj, gameState);
+  view.extraBetModal.updateModalTotal(sideBetObj, gameState);
+  // view.updateExtraBetModalTotal(sideBetObj, gameState);
 }
 
 export function placeExtraBet(event, gameState) {
@@ -567,7 +569,8 @@ export function placeExtraBet(event, gameState) {
     // sideBetObj.lockInRaiseTheRoofBet();
   }
 
-  view.deactivateExtraBetModal();
+  view.extraBetModal.deactivateModal();
+  // view.deactivateExtraBetModal();
   beginGameRoutine(gameState);
 }
 

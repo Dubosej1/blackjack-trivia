@@ -421,39 +421,39 @@ function toggleDisplayBtn(elem, toggle) {
     : (elem.style.display = `none`);
 }
 
-function checkExtraBetChipBtnsValid(value, sideBet, baseBet) {
-  const chip1 = document.querySelector(`.btn-extra-bet-modal__1`);
-  const chip5 = document.querySelector(`.btn-extra-bet-modal__5`);
-  const chip10 = document.querySelector(`.btn-extra-bet-modal__10`);
-  const chip25 = document.querySelector(`.btn-extra-bet-modal__25`);
-  const chip100 = document.querySelector(`.btn-extra-bet-modal__100`);
-  const chip500 = document.querySelector(`.btn-extra-bet-modal__500`);
-  let maxValue = baseBet * 5;
+// function checkExtraBetChipBtnsValid(value, sideBet, baseBet) {
+//   const chip1 = document.querySelector(`.btn-extra-bet-modal__1`);
+//   const chip5 = document.querySelector(`.btn-extra-bet-modal__5`);
+//   const chip10 = document.querySelector(`.btn-extra-bet-modal__10`);
+//   const chip25 = document.querySelector(`.btn-extra-bet-modal__25`);
+//   const chip100 = document.querySelector(`.btn-extra-bet-modal__100`);
+//   const chip500 = document.querySelector(`.btn-extra-bet-modal__500`);
+//   let maxValue = baseBet * 5;
 
-  value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
-  value > 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
-  value > 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
-  value > 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
-  value > 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
-  value > 500 ? enableChipBtn(chip500) : disableChipBtn(chip500);
-  sideBet >= maxValue
-    ? toggleDisableExtraBetChips(true)
-    : toggleDisableExtraBetChips(false);
+//   value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
+//   value > 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
+//   value > 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
+//   value > 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
+//   value > 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
+//   value > 500 ? enableChipBtn(chip500) : disableChipBtn(chip500);
+//   sideBet >= maxValue
+//     ? toggleDisableExtraBetChips(true)
+//     : toggleDisableExtraBetChips(false);
 
-  function toggleDisableExtraBetChips(toggle) {
-    const chipBtns = document.querySelectorAll(`.btn-extra-bet-modal__chip`);
+//   function toggleDisableExtraBetChips(toggle) {
+//     const chipBtns = document.querySelectorAll(`.btn-extra-bet-modal__chip`);
 
-    if (toggle) {
-      chipBtns.forEach(function (elem) {
-        elem.disabled = true;
-      });
-    } else {
-      chipBtns.forEach(function (elem) {
-        elem.disabled = false;
-      });
-    }
-  }
-}
+//     if (toggle) {
+//       chipBtns.forEach(function (elem) {
+//         elem.disabled = true;
+//       });
+//     } else {
+//       chipBtns.forEach(function (elem) {
+//         elem.disabled = false;
+//       });
+//     }
+//   }
+// }
 
 function enableChipBtn(element) {
   element.disabled = false;
@@ -1622,63 +1622,145 @@ export const perfect11sDiceModal = {
   },
 };
 
-export function displayExtraBetModal(gameState) {
-  const titleField = document.querySelector(`.extra-bet-modal__title-text`);
-  const bankField = document.querySelector(`.extra-bet-modal__bank-value`);
-  const baseBetField = document.querySelector(`.extra-bet-modal__bet-value`);
-  const mainContainer = document.querySelector(`.extra-bet-modal__main`);
-  const placeExtraBetBtn = document.querySelector(
+export const extraBetModal = {
+  titleField: document.querySelector(`.extra-bet-modal__title-text`),
+  bankField: document.querySelector(`.extra-bet-modal__bank-value`),
+  baseBetField: document.querySelector(`.extra-bet-modal__bet-value`),
+  feeField: document.querySelector(`.extra-bet-modal__fee-value`),
+  mainContainer: document.querySelector(`.extra-bet-modal__main`),
+  placeExtraBetBtn: document.querySelector(
     `.btn-extra-bet-modal__place-extra-bet`
-  );
-  const raiseTheRoofBtn = document.querySelector(
+  ),
+  raiseTheRoofBtn: document.querySelector(
     `.btn-extra-bet-modal__raise-the-roof`
-  );
+  ),
+  chipBtns: document.querySelectorAll(`.btn-extra-bet-modal__chip`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
+  enableChipBtn: enableChipBtn,
+  disableChipBtn: disableChipBtn,
 
-  placeExtraBetBtn.style.display = `inline-block`;
-  raiseTheRoofBtn.style.display = `none`;
+  //replaces displayExtraBetModal
+  displayModal(gameState) {
+    changeBtnDisplay(this);
 
-  titleField.textContent = `Extra Bet Blackjack`;
-  bankField.textContent = gameState.bank;
-  baseBetField.textContent = gameState.betObj.baseBet;
-  mainContainer.dataset.sidebet = `extraBetBlackjack`;
+    this.titleField.textContent = `Extra Bet Blackjack`;
+    this.bankField.textContent = gameState.bank;
+    this.baseBetField.textContent = gameState.betObj.baseBet;
+    this.mainContainer.dataset.sidebet = `extraBetBlackjack`;
 
-  // listeners.addExtraBetBlackjackModalListeners();
-  popbox.open(`extra-bet-modal`);
-}
+    popbox.open(`extra-bet-modal`);
 
-export function updateExtraBetModalTotal(sideBetObj, gameState) {
-  const bankField = document.querySelector(".extra-bet-modal__bank-value");
-  const betField = document.querySelector(".extra-bet-modal__bet-value");
-  const feeField = document.querySelector(`.extra-bet-modal__fee-value`);
+    function changeBtnDisplay(modal) {
+      modal.toggleDisplayElementOn(modal.placeExtraBetBtn, true);
+      modal.toggleDisplayElementOn(modal.raiseTheRoofBtn, false);
+    }
+  },
 
-  // let betTotal = sideBetObj.tempTotal;
-  let betTotal = sideBetObj.getTempBet();
-  // let bank = sideBetObj.tempBank;
-  let bank = sideBetObj.getTempBank();
-  let fee = sideBetObj.fee;
-  let baseBet = gameState.betObj.baseBet;
+  //replaces updateExtraBetModalTotal
+  updateModalTotal(sideBetObj, gameState) {
+    let betTotal = sideBetObj.getTempBet();
+    let bank = sideBetObj.getTempBank();
+    let fee = sideBetObj.fee;
+    let baseBet = gameState.betObj.baseBet;
 
-  bankField.textContent = bank;
-  betField.textContent = betTotal;
-  feeField.textContent = fee;
+    this.bankField.textContent = bank;
+    this.baseBetField.textContent = betTotal;
+    this.feeField.textContent = fee;
 
-  checkExtraBetChipBtnsValid(bank, betTotal, baseBet);
-}
+    this.checkChipBtnsValid(bank, betTotal, baseBet);
+  },
 
-export function deactivateExtraBetModal() {
-  const bankField = document.querySelector(".extra-bet-modal__bank-value");
-  const betField = document.querySelector(".extra-bet-modal__bet-value");
-  const feeField = document.querySelector(`.extra-bet-modal__fee-value`);
-  const mainContainer = document.querySelector(`.extra-bet-modal__main`);
+  //replaces checkExtraBetChipBtnsValid
+  checkChipBtnsValid(value, sideBet, baseBet) {
+    this.chipBtns.forEach(function (btn) {
+      value >= btn.dataset.value
+        ? this.enableChipBtn(btn)
+        : this.disableChipBtn(btn);
+    }, this);
 
-  bankField.textContent = 0;
-  betField.textContent = 0;
-  feeField.textContent = 0;
+    let maxValue = baseBet * 5;
 
-  mainContainer.dataset.sidebet = ` `;
+    sideBet >= maxValue ? toggleDisableChips(true) : toggleDisableChips(false);
 
-  listeners.removeExtraBetBlackjackModalListeners();
-}
+    function toggleDisableChips(toggle) {
+      if (toggle) {
+        extraBetModal.chipBtns.forEach(function (elem) {
+          elem.disabled = true;
+        });
+      } else {
+        extraBetModal.chipBtns.forEach(function (elem) {
+          elem.disabled = false;
+        });
+      }
+    }
+  },
+
+  //replaces deactivateExtraBetModal
+  deactivateModal() {
+    this.bankField.textContent = 0;
+    this.baseBetField.textContent = 0;
+    this.feeField.textContent = 0;
+
+    this.mainContainer.dataset.sidebet = ` `;
+
+    // listeners.removeExtraBetBlackjackModalListeners();
+  },
+};
+
+// export function displayExtraBetModal(gameState) {
+//   const titleField = document.querySelector(`.extra-bet-modal__title-text`);
+//   const bankField = document.querySelector(`.extra-bet-modal__bank-value`);
+//   const baseBetField = document.querySelector(`.extra-bet-modal__bet-value`);
+//   const mainContainer = document.querySelector(`.extra-bet-modal__main`);
+//   const placeExtraBetBtn = document.querySelector(
+//     `.btn-extra-bet-modal__place-extra-bet`
+//   );
+//   const raiseTheRoofBtn = document.querySelector(
+//     `.btn-extra-bet-modal__raise-the-roof`
+//   );
+
+//   placeExtraBetBtn.style.display = `inline-block`;
+//   raiseTheRoofBtn.style.display = `none`;
+
+//   titleField.textContent = `Extra Bet Blackjack`;
+//   bankField.textContent = gameState.bank;
+//   baseBetField.textContent = gameState.betObj.baseBet;
+//   mainContainer.dataset.sidebet = `extraBetBlackjack`;
+
+//   popbox.open(`extra-bet-modal`);
+// }
+
+// export function updateExtraBetModalTotal(sideBetObj, gameState) {
+//   const bankField = document.querySelector(".extra-bet-modal__bank-value");
+//   const betField = document.querySelector(".extra-bet-modal__bet-value");
+//   const feeField = document.querySelector(`.extra-bet-modal__fee-value`);
+
+//   let betTotal = sideBetObj.getTempBet();
+//   let bank = sideBetObj.getTempBank();
+//   let fee = sideBetObj.fee;
+//   let baseBet = gameState.betObj.baseBet;
+
+//   bankField.textContent = bank;
+//   betField.textContent = betTotal;
+//   feeField.textContent = fee;
+
+//   checkExtraBetChipBtnsValid(bank, betTotal, baseBet);
+// }
+
+// export function deactivateExtraBetModal() {
+//   const bankField = document.querySelector(".extra-bet-modal__bank-value");
+//   const betField = document.querySelector(".extra-bet-modal__bet-value");
+//   const feeField = document.querySelector(`.extra-bet-modal__fee-value`);
+//   const mainContainer = document.querySelector(`.extra-bet-modal__main`);
+
+//   bankField.textContent = 0;
+//   betField.textContent = 0;
+//   feeField.textContent = 0;
+
+//   mainContainer.dataset.sidebet = ` `;
+
+//   listeners.removeExtraBetBlackjackModalListeners();
+// }
 
 export const houseMoneyModal = {
   sideBetField: document.querySelector(`.house-money-modal__side-bet-value`),
