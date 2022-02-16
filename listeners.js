@@ -114,6 +114,18 @@ export function addNewRoundEventListeners() {
     );
   }
 
+  function addEarlySurrenderModalListeners() {
+    let earlySurrenderModalClbkObj = {
+      acceptBtn: acceptEarlySurrenderCallback,
+      declineBtn: declineEarlySurrenderCallback,
+    };
+
+    view.earlySurrenderModal.toggleEventListeners(
+      earlySurrenderModalClbkObj,
+      `add`
+    );
+  }
+
   // function addOptionsBtnListener() {
   //   let optionsModalClbkObj = {
   //     applyOptionsBtn: optionsListenerCallback,
@@ -337,17 +349,17 @@ export function addBaseRoundOutcomeModalListener() {
 
 //////////Adding Event Listeners to Early Surrender Modal//////////
 
-export function addEarlySurrenderModalListeners(gameState) {
-  const acceptBtn = document.querySelector(
-    `.btn-winning-hand-modal__accept-early-surrender`
-  );
-  const declineBtn = document.querySelector(
-    `.btn-winning-hand-modal__decline-early-surrender`
-  );
+// export function addEarlySurrenderModalListeners(gameState) {
+//   const acceptBtn = document.querySelector(
+//     `.btn-winning-hand-modal__accept-early-surrender`
+//   );
+//   const declineBtn = document.querySelector(
+//     `.btn-winning-hand-modal__decline-early-surrender`
+//   );
 
-  acceptBtn.addEventListener(`click`, acceptEarlySurrenderCallback);
-  declineBtn.addEventListener(`click`, declineEarlySurrenderCallback);
-}
+//   acceptBtn.addEventListener(`click`, acceptEarlySurrenderCallback);
+//   declineBtn.addEventListener(`click`, declineEarlySurrenderCallback);
+// }
 
 //////////Event Listener Callback Functions//////////
 

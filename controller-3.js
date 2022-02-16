@@ -231,7 +231,8 @@ export function beginGameRoutinePart2(gameState) {
       order.natural = false;
       break;
     case order.earlySurrender:
-      view.activateEarlySurrenderModal(gameState);
+      view.earlySurrenderModal.activateModal(gameState);
+      // view.activateEarlySurrenderModal(gameState);
 
       order.earlySurrender = false;
       break;

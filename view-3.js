@@ -2829,51 +2829,110 @@ function toggleDisplayElementOn(elem, toggle) {
     : elem.classList.add(`display-none`);
 }
 
-export function activateEarlySurrenderModal(gameState) {
-  const titleField = document.querySelector(`.winning-hand-modal__title`);
-  const sideBetContainer = document.querySelector(
+export const earlySurrenderModal = {
+  titleField: document.querySelector(`.winning-hand-modal__title`),
+  sideBetContainer: document.querySelector(
     `.winning-hand-modal__side-bet-name-container`
-  );
-  const dealerCardsContainer = document.querySelector(
+  ),
+  dealerCardsContainer: document.querySelector(
     `.winning-hand-modal__dealer-cards-container`
-  );
-  const playerCardsContainer = document.querySelector(
+  ),
+  dealerField: document.querySelector(`.winning-hand-modal__dealer-cards`),
+  playerCardsContainer: document.querySelector(
     `.winning-hand-modal__player-cards-container`
-  );
-  const dealerField = document.querySelector(
-    `.winning-hand-modal__dealer-cards`
-  );
-  const playerField = document.querySelector(
-    `.winning-hand-modal__player-cards`
-  );
-  const winningsInfoContainer = document.querySelector(
+  ),
+  playerField: document.querySelector(`.winning-hand-modal__player-cards`),
+  winningsInfoContainer: document.querySelector(
     `.winning-hand-modal__winnings-info-container`
-  );
-  const closeBtn = document.querySelector(`.btn-winning-hand-modal__close`);
-  const nextBtn = document.querySelector(`.btn-winning-hand-modal__next`);
-  const acceptBtn = document.querySelector(
+  ),
+  closeBtn: document.querySelector(`.btn-winning-hand-modal__close`),
+  nextBtn: document.querySelector(`.btn-winning-hand-modal__next`),
+  acceptBtn: document.querySelector(
     `.btn-winning-hand-modal__accept-early-surrender`
-  );
-  const declineBtn = document.querySelector(
+  ),
+  declineBtn: document.querySelector(
     `.btn-winning-hand-modal__decline-early-surrender`
-  );
+  ),
+  toggleDisplayElementOn: toggleDisplayElementOn,
+  toggleEventListeners: toggleEventListeners,
 
-  let playerHand = gameState.player.hand;
-  let dealerHand = gameState.dealer.hand;
+  //replaces activateEarlySurrenderModal
+  activateModal(gameState) {
+    let playerHand = gameState.player.hand;
+    let dealerHand = gameState.dealer.hand;
 
-  titleField.textContent = `Surrender Hand?`;
+    this.titleField.textContent = `Surrender Hand?`;
 
-  sideBetContainer.style.display = `none`;
-  dealerCardsContainer.style.display = `block`;
-  playerCardsContainer.style.display = `block`;
-  winningsInfoContainer.style.display = `none`;
-  closeBtn.style.display = `none`;
-  nextBtn.style.display = `none`;
-  acceptBtn.style.display = `inline`;
-  declineBtn.style.display = `inline`;
+    displayModalUI(this);
 
-  dealerField.innerHTML = dealerHand.simpleImages.join();
-  playerField.innerHTML = playerHand.simpleImages.join();
+    renderModalCardDisplay(playerHand, dealerHand, this);
 
-  popbox.open(`winning-hand-modal`);
-}
+    popbox.open(`winning-hand-modal`);
+
+    function displayModalUI(modal) {
+      modal.toggleDisplayElementOn(modal.sideBetContainer, false);
+      modal.toggleDisplayElementOn(modal.winningsInfoContainer, false);
+      modal.toggleDisplayElementOn(modal.closeBtn, false);
+      modal.toggleDisplayElementOn(modal.nextBtn, false);
+      modal.toggleDisplayElementOn(modal.acceptBtn, true);
+      modal.toggleDisplayElementOn(modal.declineBtn, true);
+    }
+
+    function renderModalCardDisplay(playerHand, dealerHand, modal) {
+      modal.toggleDisplayElementOn(modal.dealerCardsContainer, true);
+      modal.toggleDisplayElementOn(modal.playerCardsContainer, true);
+
+      modal.dealerField.innerHTML = dealerHand.simpleImages.join();
+      modal.playerField.innerHTML = playerHand.simpleImages.join();
+    }
+  },
+};
+
+// export function activateEarlySurrenderModal(gameState) {
+//   const titleField = document.querySelector(`.winning-hand-modal__title`);
+//   const sideBetContainer = document.querySelector(
+//     `.winning-hand-modal__side-bet-name-container`
+//   );
+//   const dealerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__dealer-cards-container`
+//   );
+//   const playerCardsContainer = document.querySelector(
+//     `.winning-hand-modal__player-cards-container`
+//   );
+//   const dealerField = document.querySelector(
+//     `.winning-hand-modal__dealer-cards`
+//   );
+//   const playerField = document.querySelector(
+//     `.winning-hand-modal__player-cards`
+//   );
+//   const winningsInfoContainer = document.querySelector(
+//     `.winning-hand-modal__winnings-info-container`
+//   );
+//   const closeBtn = document.querySelector(`.btn-winning-hand-modal__close`);
+//   const nextBtn = document.querySelector(`.btn-winning-hand-modal__next`);
+//   const acceptBtn = document.querySelector(
+//     `.btn-winning-hand-modal__accept-early-surrender`
+//   );
+//   const declineBtn = document.querySelector(
+//     `.btn-winning-hand-modal__decline-early-surrender`
+//   );
+
+//   let playerHand = gameState.player.hand;
+//   let dealerHand = gameState.dealer.hand;
+
+//   titleField.textContent = `Surrender Hand?`;
+
+//   sideBetContainer.style.display = `none`;
+//   dealerCardsContainer.style.display = `block`;
+//   playerCardsContainer.style.display = `block`;
+//   winningsInfoContainer.style.display = `none`;
+//   closeBtn.style.display = `none`;
+//   nextBtn.style.display = `none`;
+//   acceptBtn.style.display = `inline`;
+//   declineBtn.style.display = `inline`;
+
+//   dealerField.innerHTML = dealerHand.simpleImages.join();
+//   playerField.innerHTML = playerHand.simpleImages.join();
+
+//   popbox.open(`winning-hand-modal`);
+// }
