@@ -1624,9 +1624,13 @@ export const perfect11sDiceModal = {
 
 export const extraBetModal = {
   titleField: document.querySelector(`.extra-bet-modal__title-text`),
-  bankField: document.querySelector(`.extra-bet-modal__bank-value`),
-  baseBetField: document.querySelector(`.extra-bet-modal__bet-value`),
-  feeField: document.querySelector(`.extra-bet-modal__fee-value`),
+  bankValue: document.querySelector(`.extra-bet-modal__bank-value`),
+  baseBetValue: document.querySelector(`.extra-bet-modal__base-bet-value`),
+  betValue: document.querySelector(`.extra-bet-modal__bet-value`),
+  sideBetValue: document.querySelector(
+    `.extra-bet-modal__initial-side-bet-value`
+  ),
+  feeValue: document.querySelector(`.extra-bet-modal__fee-value`),
   mainContainer: document.querySelector(`.extra-bet-modal__main`),
   placeExtraBetBtn: document.querySelector(
     `.btn-extra-bet-modal__place-extra-bet`
@@ -1648,8 +1652,8 @@ export const extraBetModal = {
     changeBtnDisplay(this);
 
     this.titleField.textContent = `Extra Bet Blackjack`;
-    this.bankField.textContent = gameState.bank;
-    this.baseBetField.textContent = gameState.betObj.baseBet;
+    this.bankValue.textContent = gameState.bank;
+    this.baseBetValue.textContent = gameState.betObj.baseBet;
     this.mainContainer.dataset.sidebet = `extraBetBlackjack`;
 
     popbox.open(`extra-bet-modal`);
@@ -1667,9 +1671,9 @@ export const extraBetModal = {
     let fee = sideBetObj.fee;
     let baseBet = gameState.betObj.baseBet;
 
-    this.bankField.textContent = bank;
-    this.baseBetField.textContent = betTotal;
-    this.feeField.textContent = fee;
+    this.bankValue.textContent = bank;
+    this.betValue.textContent = betTotal;
+    this.feeValue.textContent = fee;
 
     this.checkChipBtnsValid(bank, betTotal, baseBet);
   },
@@ -1701,9 +1705,10 @@ export const extraBetModal = {
 
   //replaces deactivateExtraBetModal
   deactivateModal() {
-    this.bankField.textContent = 0;
-    this.baseBetField.textContent = 0;
-    this.feeField.textContent = 0;
+    this.bankValue.textContent = 0;
+    this.baseBetValue.textContent = 0;
+    this.betValue.textContent = 0;
+    this.feeValue.textContent = 0;
 
     this.mainContainer.dataset.sidebet = ` `;
 
