@@ -1332,6 +1332,8 @@ export const winningHandModal = {
     this.toggleDisplayElementOn(this.acceptEarlySurrenderBtn, false);
     this.toggleDisplayElementOn(this.declineEarlySurrenderBtn, false);
 
+    earlySurrenderModal.toggleAddClassToModalContainer(false);
+
     // this.sideBetContainer.style.display = `block`;
     // this.dealerContainer.style.display = `block`;
     // this.playerContainer.style.display = `block`;
@@ -2834,6 +2836,9 @@ export const earlySurrenderModal = {
   sideBetContainer: document.querySelector(
     `.winning-hand-modal__side-bet-name-container`
   ),
+  cardInfoContainer: document.querySelector(
+    `.winning-hand-modal__card-info-container`
+  ),
   dealerCardsContainer: document.querySelector(
     `.winning-hand-modal__dealer-cards-container`
   ),
@@ -2853,6 +2858,8 @@ export const earlySurrenderModal = {
   declineBtn: document.querySelector(
     `.btn-winning-hand-modal__decline-early-surrender`
   ),
+  // mainContainer: document.querySelector(`.winning-hand-modal__main`),
+  footer: document.querySelector(`.winning-hand-modal__footer`),
   toggleDisplayElementOn: toggleDisplayElementOn,
   toggleEventListeners: toggleEventListeners,
 
@@ -2862,6 +2869,8 @@ export const earlySurrenderModal = {
     let dealerHand = gameState.dealer.hand;
 
     this.titleField.textContent = `Surrender Hand?`;
+
+    this.toggleAddClassToModalContainer(true);
 
     displayModalUI(this);
 
@@ -2884,6 +2893,24 @@ export const earlySurrenderModal = {
 
       modal.dealerField.innerHTML = dealerHand.simpleImages.join();
       modal.playerField.innerHTML = playerHand.simpleImages.join();
+    }
+  },
+
+  toggleAddClassToModalContainer(toggle) {
+    if (toggle) {
+      this.cardInfoContainer.classList.add(
+        `winning-hand-modal__card-info-container--early-surrender-modal`
+      );
+      this.footer.classList.add(
+        `winning-hand-modal__footer--early-surrender-modal`
+      );
+    } else {
+      this.cardInfoContainer.classList.remove(
+        `winning-hand-modal__card-info-container--early-surrender-modal`
+      );
+      this.footer.classList.remove(
+        `winning-hand-modal__footer--early-surrender-modal`
+      );
     }
   },
 };

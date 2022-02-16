@@ -461,6 +461,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+.btn-winning-hand-modal__accept-early-surrender {
+  margin-right: 20px;
+}
 .btn-house-money-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
@@ -751,6 +754,12 @@ li {
 .winning-hand-modal__side-bet-name {
   color: purple;
 }
+.winning-hand-modal__card-info-container--early-surrender-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .winning-hand-modal__dealer-cards-container, .winning-hand-modal__player-cards-container {
   display: flex;
   align-items: center;
@@ -772,6 +781,10 @@ li {
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
+}
+.winning-hand-modal__footer--early-surrender-modal {
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 .house-money-modal__directions-text {
