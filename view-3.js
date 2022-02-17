@@ -1649,6 +1649,7 @@ export const extraBetModal = {
   toggleDisplayElementOn: toggleDisplayElementOn,
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
+  toggleDisableBtn: toggleDisableBtn,
   toggleEventListeners: toggleEventListeners,
 
   //replaces displayExtraBetModal
@@ -1658,10 +1659,16 @@ export const extraBetModal = {
     this.toggleDisplayElementOn(this.initialSideBetField, false);
     this.toggleDisplayElementOn(this.feeField, true);
 
+    let bank = gameState.bank;
+    let baseBet = gameState.betObj.baseBet;
+
     this.titleField.textContent = `Extra Bet Blackjack`;
-    this.bankValue.textContent = gameState.bank;
-    this.baseBetValue.textContent = gameState.betObj.baseBet;
+    this.bankValue.textContent = bank;
+    this.baseBetValue.textContent = baseBet;
     this.mainContainer.dataset.sidebet = `extraBetBlackjack`;
+
+    this.checkChipBtnsValid(bank, 0, baseBet);
+    this.checkToEnableActionBtns(gameState);
 
     popbox.open(`extra-bet-modal`);
 
@@ -1683,28 +1690,40 @@ export const extraBetModal = {
     this.feeValue.textContent = fee;
 
     this.checkChipBtnsValid(bank, betTotal, baseBet);
+    this.checkToEnableActionBtns(gameState);
   },
 
   //replaces checkExtraBetChipBtnsValid
   checkChipBtnsValid(value, sideBet, baseBet) {
     this.chipBtns.forEach(function (btn) {
       value >= btn.dataset.value
-        ? this.enableChipBtn(btn)
-        : this.disableChipBtn(btn);
+        ? enableChipBtn(btn, this)
+        : disableChipBtn(btn, this);
     }, this);
 
     let maxValue = baseBet * 5;
 
     sideBet >= maxValue ? toggleDisableChips(true) : toggleDisableChips(false);
 
+    function enableChipBtn(btn, modal) {
+      modal.enableChipBtn(btn);
+      btn.dataset.disabledbyvalue = false;
+    }
+
+    function disableChipBtn(btn, modal) {
+      modal.disableChipBtn(btn);
+      btn.dataset.disabledbyvalue = true;
+    }
+
     function toggleDisableChips(toggle) {
       if (toggle) {
         extraBetModal.chipBtns.forEach(function (elem) {
-          elem.disabled = true;
+          extraBetModal.disableChipBtn(elem);
         });
       } else {
         extraBetModal.chipBtns.forEach(function (elem) {
-          elem.disabled = false;
+          if (elem.dataset.disabledbyvalue) return;
+          extraBetModal.enableChipBtn(elem);
         });
       }
     }
@@ -1717,9 +1736,25 @@ export const extraBetModal = {
     this.betValue.textContent = 0;
     this.feeValue.textContent = 0;
 
+    this.chipBtns.forEach(function (btn) {
+      btn.removeAttribute(`data-disabledbyvalue`);
+    });
+
     this.mainContainer.dataset.sidebet = ` `;
 
     // listeners.removeExtraBetBlackjackModalListeners();
+  },
+
+  checkToEnableActionBtns(gameState) {
+    let sideBetObj = gameState.betObj.getSideBet(`extraBetBlackjack`);
+    let betValue = sideBetObj.getTempBet();
+
+    betValue > 0 ? enableActionBtns(true) : enableActionBtns(false);
+
+    function enableActionBtns(boolean) {
+      extraBetModal.toggleDisableBtn(extraBetModal.clearBetBtn, !boolean);
+      extraBetModal.toggleDisableBtn(extraBetModal.placeBetBtn, !boolean);
+    }
   },
 };
 
