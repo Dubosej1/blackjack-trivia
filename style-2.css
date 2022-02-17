@@ -426,6 +426,60 @@ body {
   background: rgba(76, 76, 76, 0.5);
   color: white;
 }
+.btn-extra-bet-modal__chip {
+  border-radius: 50%;
+  padding: 1.5rem;
+  text-align: center;
+  border-style: dashed;
+  font-weight: 700;
+}
+.btn-extra-bet-modal__chip:disabled {
+  border-color: gray;
+  color: gray;
+  background-color: black;
+}
+.btn-extra-bet-modal__1 {
+  border-color: white;
+  background-color: #4c4c4c;
+  color: white;
+}
+.btn-extra-bet-modal__5 {
+  border-color: white;
+  background-color: #2cbbc1;
+  color: white;
+}
+.btn-extra-bet-modal__10 {
+  border-color: white;
+  background-color: #ce3501;
+  color: white;
+}
+.btn-extra-bet-modal__25 {
+  border-color: white;
+  background-color: #019934;
+  color: white;
+}
+.btn-extra-bet-modal__100 {
+  border-color: white;
+  background-color: #663398;
+  color: white;
+}
+.btn-extra-bet-modal__500 {
+  border-color: white;
+  background-color: #d88206;
+  color: white;
+}
+.btn-extra-bet-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-extra-bet-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
+}
 .btn-generic-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
@@ -465,6 +519,14 @@ body {
   margin-right: 20px;
 }
 .btn-house-money-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-extra-bet-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
@@ -579,6 +641,7 @@ li {
 .winning-hand-modal__container,
 .winnings-modal__container,
 .house-money-modal__container,
+.extra-bet-modal__container,
 .trivia-modal__container {
   background-color: black;
   border-style: double;
@@ -592,6 +655,7 @@ li {
 .winning-hand-modal__title,
 .winnings-modal__title,
 .house-money-modal__title,
+.extra-bet-modal__title,
 .trivia-modal__title {
   text-align: center !important;
 }
@@ -950,6 +1014,78 @@ li {
   margin: 20px 0px;
 }
 
+.extra-bet-modal__header {
+  text-align: center;
+}
+.extra-bet-modal__info-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
+}
+.extra-bet-modal__bank-container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+.extra-bet-modal__base-bet-container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.extra-bet-modal__initial-side-bet-container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+.extra-bet-modal__bet-container {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: purple;
+  width: 75px;
+  height: 75px;
+}
+.extra-bet-modal__fee-container {
+  grid-column-start: 3;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  grid-row-end: -1;
+  text-align: center;
+}
+.extra-bet-modal__bank-label, .extra-bet-modal__base-bet-label, .extra-bet-modal__initial-side-bet-label {
+  color: purple;
+  font-size: 3rem;
+}
+.extra-bet-modal__fee-label {
+  color: yellow;
+  font-size: 3rem;
+}
+.extra-bet-modal__bank-value, .extra-bet-modal__base-bet-value, .extra-bet-modal__initial-side-bet-value, .extra-bet-modal__bet-value, .extra-bet-modal__fee-value {
+  font-size: 3rem;
+}
+.extra-bet-modal__bet-btn-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.extra-bet-modal__action-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 20px;
+}
+.extra-bet-modal__action-btn-container > button {
+  margin-left: 10px;
+}
+
 .trivia-modal__credits-container, .trivia-modal__trivia-question-container, .trivia-modal__answer-correct-container, .trivia-modal__answer-correct {
   text-align: center !important;
 }
@@ -999,7 +1135,7 @@ li {
 
 .two-section-modal {
   display: grid;
-  grid-template-rows: 100px auto;
+  grid-template-rows: 150px auto;
 }
 
 .three-section-modal {

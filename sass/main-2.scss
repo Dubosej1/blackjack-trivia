@@ -445,6 +445,24 @@ body {
     }
   }
 
+  &-extra-bet-modal {
+    @include chip-btn-style;
+
+    &__action {
+      &:disabled {
+        background: rgba(76, 76, 76, 0.5);
+        color: white;
+      }
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   &-generic-modal {
     &__action {
       min-width: 3rem;
@@ -502,6 +520,18 @@ body {
   }
 
   &-house-money-modal {
+    &__action {
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &-extra-bet-modal {
     &__action {
       min-width: 3rem;
       padding: 1rem 3rem;
@@ -630,6 +660,7 @@ li {
 .winning-hand-modal,
 .winnings-modal,
 .house-money-modal,
+.extra-bet-modal,
 .trivia-modal {
   &__container {
     background-color: black;
@@ -1075,6 +1106,84 @@ li {
   }
 }
 
+.extra-bet-modal {
+  &__header {
+    text-align: center;
+  }
+
+  &__info-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+  }
+
+  &__bank-container {
+    @include grid-item-define(1, 2, 1, 2);
+  }
+
+  &__base-bet-container {
+    @include grid-item-define(1, 2, 2, 3);
+  }
+
+  &__initial-side-bet-container {
+    @include grid-item-define(1, 2, 3, 4);
+  }
+
+  &__bet-container {
+    @include grid-item-define(2, 3, 1, -1);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: purple;
+    width: 75px;
+    height: 75px;
+  }
+
+  &__fee-container {
+    @include grid-item-define(3, -1, 1, -1);
+    text-align: center;
+  }
+
+  &__bank-label,
+  &__base-bet-label,
+  &__initial-side-bet-label {
+    color: purple;
+    font-size: 3rem;
+  }
+
+  &__fee-label {
+    color: yellow;
+    font-size: 3rem;
+  }
+
+  &__bank-value,
+  &__base-bet-value,
+  &__initial-side-bet-value,
+  &__bet-value,
+  &__fee-value {
+    font-size: 3rem;
+  }
+
+  &__bet-btn-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+
+  &__action-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 20px;
+
+    & > button {
+      margin-left: 10px;
+    }
+  }
+}
+
 .trivia-modal {
   &__credits-container,
   &__trivia-question-container,
@@ -1160,7 +1269,7 @@ li {
 
 .two-section-modal {
   display: grid;
-  grid-template-rows: 100px auto;
+  grid-template-rows: 150px auto;
 }
 
 .three-section-modal {

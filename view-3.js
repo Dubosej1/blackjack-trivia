@@ -1623,13 +1623,17 @@ export const perfect11sDiceModal = {
 };
 
 export const extraBetModal = {
-  titleField: document.querySelector(`.extra-bet-modal__title-text`),
+  titleField: document.querySelector(`.extra-bet-modal__title`),
   bankValue: document.querySelector(`.extra-bet-modal__bank-value`),
   baseBetValue: document.querySelector(`.extra-bet-modal__base-bet-value`),
   betValue: document.querySelector(`.extra-bet-modal__bet-value`),
-  sideBetValue: document.querySelector(
+  initialSideBetField: document.querySelector(
+    `.extra-bet-modal__initial-side-bet-container`
+  ),
+  initialSideBetValue: document.querySelector(
     `.extra-bet-modal__initial-side-bet-value`
   ),
+  feeField: document.querySelector(`.extra-bet-modal__fee-container`),
   feeValue: document.querySelector(`.extra-bet-modal__fee-value`),
   mainContainer: document.querySelector(`.extra-bet-modal__main`),
   placeExtraBetBtn: document.querySelector(
@@ -1650,6 +1654,9 @@ export const extraBetModal = {
   //replaces displayExtraBetModal
   displayModal(gameState) {
     changeBtnDisplay(this);
+
+    this.toggleDisplayElementOn(this.initialSideBetField, false);
+    this.toggleDisplayElementOn(this.feeField, true);
 
     this.titleField.textContent = `Extra Bet Blackjack`;
     this.bankValue.textContent = gameState.bank;
