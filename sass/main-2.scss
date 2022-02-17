@@ -146,7 +146,7 @@ body {
   color: red;
   font-weight: 700;
   font-size: 3rem;
-  display: none;
+  display: inline;
 }
 
 .grid__round-info {
@@ -300,6 +300,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 2;
 }
 
 .split-stage {
@@ -365,13 +366,28 @@ body {
   // @include outcomeClasses;
 }
 
-.--natural {
-  background: yellow;
-  color: black;
+.dealer-message__container,
+.player-message__container,
+.split-stage__result,
+.summary-modal__outcome {
+  &:first-letter {
+    text-transform: uppercase;
+  }
 }
 
-.--bust {
+.--natural {
+  background: yellow;
+  color: black !important;
+}
+
+.--bust,
+.--lose {
   background: red;
+  color: white;
+}
+
+.--win {
+  background: green;
   color: white;
 }
 
@@ -385,6 +401,7 @@ body {
   color: white;
 }
 
+.--push,
 .--surrender {
   background: gray;
   color: white;
@@ -542,6 +559,18 @@ body {
       align-items: center;
     }
   }
+
+  &-options-modal {
+    &__action {
+      min-width: 3rem;
+      padding: 1rem 3rem;
+      font-weight: 700;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 
 #incorrectAnswer {
@@ -572,7 +601,7 @@ body {
 }
 
 .btn-system__check-side-bet-outcome {
-  display: none;
+  display: inline-block;
 }
 
 .btn-action {
@@ -661,7 +690,8 @@ li {
 .winnings-modal,
 .house-money-modal,
 .extra-bet-modal,
-.trivia-modal {
+.trivia-modal,
+.options-modal {
   &__container {
     background-color: black;
     border-style: double;
@@ -676,6 +706,19 @@ li {
 
 .display-none {
   display: none !important;
+}
+
+.options-modal {
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    & > button {
+      margin-left: 20px;
+    }
+  }
 }
 
 .basic-bet-modal {
@@ -713,6 +756,10 @@ li {
 }
 
 .side-bet-modal {
+  &__container {
+    grid-template-rows: 150px auto 100px !important;
+  }
+
   &__info-container {
     display: flex;
     justify-content: space-around;
@@ -1107,6 +1154,10 @@ li {
 }
 
 .extra-bet-modal {
+  &__container {
+    grid-template-rows: 150px auto 100px !important;
+  }
+
   &__header {
     text-align: center;
   }
@@ -1275,6 +1326,10 @@ li {
 .three-section-modal {
   display: grid;
   grid-template-rows: 100px auto 100px;
+
+  &--scrollbar {
+    height: 100%;
+  }
 }
 
 .modal__main {

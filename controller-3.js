@@ -102,7 +102,7 @@ export function startDealCardsRoutine(event, gameState) {
 
   function prepareBeginGameRoutine(gameState) {
     if (gameState.betObj.checkForBeginningSideBetBtn())
-      view.toggleCheckSideBetBtn(true);
+      view.gameInfoFields.toggleCheckSideBetBtn(true);
     else beginGameRoutinePart2(gameState);
   }
 }
@@ -503,7 +503,7 @@ export function clearAllSideBets(event, gameState) {
 }
 
 export function initDisplayInitialSideBetOutcome(event, gameState) {
-  view.toggleCheckSideBetBtn(false);
+  view.gameInfoFields.toggleCheckSideBetBtn(false);
 
   determineBeginGameRoutineOrder(gameState);
 }

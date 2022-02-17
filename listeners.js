@@ -19,6 +19,7 @@ export function addNewGameListeners() {
       newGameBtn: controller.startNewGame,
       endGameBtn: endGameBtnCallback,
       startNextRoundBtn: startNextRoundBtnListenerCallback,
+      optionsBtn: optionsBtnCallback,
     };
 
     view.gameInfoFields.toggleEventListeners(gameInfoFieldsClbkObj, `add`);
@@ -81,6 +82,7 @@ export function addNewRoundEventListeners() {
       clearAllBetsBtn: clearAllSideBetsBtnCallback,
       placeSideBetsBtn: placeSideBetsBtnCallback,
       activateSideBetBtn: activateSideBetBtnCallback,
+      exitBtn: sideBetModalExitBtnCallback,
     };
 
     view.sideBetModal.toggleEventListeners(sideBetModalClbkObj, `add`);
@@ -197,6 +199,7 @@ export function addOptionsMenuInputListeners() {
   const resetDefaultOptionsBtn = document.querySelector(
     `.btn-options-modal__reset-default`
   );
+  const closeBtn = document.querySelector(`.btn-options-modal__close`);
 
   doubleAfterSplitAcesBox.addEventListener(
     `click`,
@@ -222,6 +225,16 @@ export function addOptionsMenuInputListeners() {
     `click`,
     view.optionsModal.resetOptionsMenuInputs
   );
+
+  closeBtn.addEventListener(`click`, optionsModalCloseBtnCallback);
+}
+
+export function optionsBtnCallback(event) {
+  view.optionsModal.checkNeedModalScrollbar();
+}
+
+export function optionsModalCloseBtnCallback(event) {
+  view.optionsModal.toggleAddScrollbarToModal(false);
 }
 
 //////////Adding Event Listeners to Side Bet Outcome Summary Modal//////////
@@ -433,10 +446,12 @@ function nextEndGameRoutineCallback(event) {
 
 //Options Modal
 function beginGameOptionsListenerCallback(event) {
+  view.optionsModal.toggleAddScrollbarToModal(false);
   controller.submitOptions(event);
 }
 
 function optionsListenerCallback(event) {
+  view.optionsModal.toggleAddScrollbarToModal(false);
   controller.submitOptions(event, globalState);
 }
 
@@ -477,10 +492,15 @@ function clearSideBetChipAmountCallback(event) {
 function placeSideBetsBtnCallback(event) {
   view.baseBetModal.updateModalInfo(globalState);
   controller.placeSideBets(event, globalState);
+  view.sideBetModal.toggleAddScrollbarToModal(false);
 }
 
 function clearAllSideBetsBtnCallback(event) {
   controller.clearAllSideBets(event, globalState);
+}
+
+function sideBetModalExitBtnCallback(event) {
+  view.sideBetModal.toggleAddScrollbarToModal(false);
 }
 
 //Infinity Dice Modal

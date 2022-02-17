@@ -58,7 +58,7 @@ body {
   color: red;
   font-weight: 700;
   font-size: 3rem;
-  display: none;
+  display: inline;
 }
 
 .grid__round-info {
@@ -232,6 +232,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 2;
 }
 
 .split-stage {
@@ -277,13 +278,26 @@ body {
   padding: 0rem 1rem;
 }
 
-.--natural {
-  background: yellow;
-  color: black;
+.dealer-message__container:first-letter,
+.player-message__container:first-letter,
+.split-stage__result:first-letter,
+.summary-modal__outcome:first-letter {
+  text-transform: uppercase;
 }
 
-.--bust {
+.--natural {
+  background: yellow;
+  color: black !important;
+}
+
+.--bust,
+.--lose {
   background: red;
+  color: white;
+}
+
+.--win {
+  background: green;
   color: white;
 }
 
@@ -297,6 +311,7 @@ body {
   color: white;
 }
 
+.--push,
 .--surrender {
   background: gray;
   color: white;
@@ -534,6 +549,14 @@ body {
   justify-content: center;
   align-items: center;
 }
+.btn-options-modal__action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 
 #incorrectAnswer {
   background-color: red !important;
@@ -558,7 +581,7 @@ body {
 }
 
 .btn-system__check-side-bet-outcome {
-  display: none;
+  display: inline-block;
 }
 
 .btn-action {
@@ -642,7 +665,8 @@ li {
 .winnings-modal__container,
 .house-money-modal__container,
 .extra-bet-modal__container,
-.trivia-modal__container {
+.trivia-modal__container,
+.options-modal__container {
   background-color: black;
   border-style: double;
   border-color: purple;
@@ -656,12 +680,23 @@ li {
 .winnings-modal__title,
 .house-money-modal__title,
 .extra-bet-modal__title,
-.trivia-modal__title {
+.trivia-modal__title,
+.options-modal__title {
   text-align: center !important;
 }
 
 .display-none {
   display: none !important;
+}
+
+.options-modal__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.options-modal__footer > button {
+  margin-left: 20px;
 }
 
 .basic-bet-modal__info-container {
@@ -689,6 +724,9 @@ li {
   color: purple;
 }
 
+.side-bet-modal__container {
+  grid-template-rows: 150px auto 100px !important;
+}
 .side-bet-modal__info-container {
   display: flex;
   justify-content: space-around;
@@ -1014,6 +1052,9 @@ li {
   margin: 20px 0px;
 }
 
+.extra-bet-modal__container {
+  grid-template-rows: 150px auto 100px !important;
+}
 .extra-bet-modal__header {
   text-align: center;
 }
@@ -1141,6 +1182,9 @@ li {
 .three-section-modal {
   display: grid;
   grid-template-rows: 100px auto 100px;
+}
+.three-section-modal--scrollbar {
+  height: 100%;
 }
 
 .modal__main {

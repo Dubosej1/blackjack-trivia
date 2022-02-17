@@ -13,9 +13,9 @@
   <body>
     <div class="grid-container">
       <div class="grid__system-btn-container">
-        <button class="btn btn-system btn-system__end-game">End Game</button>
+        <button class="btn btn-system btn-system__end-game display-none">End Game</button>
         <button class="btn btn-system btn-system__settings" data-popbox-target="options-modal">Options</button>
-        <button class="btn btn-system btn-system__log">Log</button>
+        <button class="btn btn-system btn-system__log display-none">Log</button>
       </div>
       <!-- <div class="topArea"> -->
       <div class="grid__round-info">
@@ -24,7 +24,7 @@
         </div>
         <div class="round-info__label bet__label">
           Bet: <span class="round-info__value bet__value">0</span>
-          <span class="round-info__double-down-marker">X 2</span>
+          <span class="round-info__double-down-marker display-none">X 2</span>
         </div>
         <!--- Programmatically add current info here like streak counts, jackpots, view Jackpot btn, view side bet btn, etc-->
       </div>
@@ -108,19 +108,12 @@
       <!-- </div> -->
       <div class="grid__game-message">
         <!--Programmatically add Win status and total won, and the pregame actions (Even Money, Insurance, etc)-->
-        <button class="btn-side-bet btn-side-bet__even-money-accept">
-          Yes
-        </button>
         <div class="game-message__container">
           <h1 class="game-message__text">Blackjack Trivia </h1>
         </div>
         <button class="btn btn-system btn-system__new-game">Start New Game</button>
-        <button class="btn btn-system btn-system__check-side-bet-outcome">Check Side Bets!</button>
-        <button class="btn btn-system btn-system__start-next-round">Start Next Round</button>
-
-        <button class="btn-side-bet btn-side-bet__even-money-decline">
-          No
-        </button>
+        <button class="btn btn-system btn-system__check-side-bet-outcome display-none">Check Side Bets!</button>
+        <button class="btn btn-system btn-system__start-next-round display-none">Start Next Round</button>
       </div>
       <div class="grid__split-stages-container">
         <div class="split-stage split-stage-1__container">

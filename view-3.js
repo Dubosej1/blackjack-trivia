@@ -76,6 +76,7 @@ export let gameInfoFields = {
     `.btn-system__check-side-bet-outcome`
   ),
   toggleEventListeners: toggleEventListeners,
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
   updateBank(bank) {
     this.bankField.textContent = bank;
@@ -86,8 +87,8 @@ export let gameInfoFields = {
   },
 
   toggleDoubleDownMarker(toggle) {
-    if (toggle) this.doubleDownMarker.style.display = `inline`;
-    else this.doubleDownMarker.style.display = `none`;
+    if (toggle) this.toggleDisplayElementOn(this.doubleDownMarker, true);
+    else this.toggleDisplayElementOn(this.doubleDownMarker, false);
   },
 
   //replaces renderNoticeText
@@ -98,26 +99,37 @@ export let gameInfoFields = {
   //replaces toggleDisplayStartNextRoundBtn
   toggleDisplayStartNextRoundBtn(toggle) {
     toggle
-      ? (this.startNextRoundBtn.style.display = `inline-block`)
-      : (this.startNextRoundBtn.style.display = `none`);
+      ? this.toggleDisplayElementOn(this.startNextRoundBtn, true)
+      : this.toggleDisplayElementOn(this.startNextRoundBtn, false);
   },
 
   //replaces toggleDisplayNewGameBtn
   toggleDisplayNewGameBtn(toggle) {
     if (toggle) {
-      this.newGameBtn.style.display = `inline-block`;
-      this.endGameBtn.style.display = `none`;
+      this.toggleDisplayElementOn(this.newGameBtn, true);
+      this.toggleDisplayElementOn(this.endGameBtn, false);
     } else {
-      this.newGameBtn.style.display = `none`;
-      this.endGameBtn.style.display = `inline-block`;
+      this.toggleDisplayElementOn(this.newGameBtn, false);
+      this.toggleDisplayElementOn(this.endGameBtn, true);
     }
   },
 
   //replaces toggleDisplayOptionsBtn
   toggleDisplayOptionsBtn(toggle) {
     toggle
-      ? (this.optionsBtn.style.display = `inline`)
-      : (this.optionsBtn.style.display = `none`);
+      ? this.toggleDisplayElementOn(this.optionsBtn, true)
+      : this.toggleDisplayElementOn(this.optionsBtn, false);
+  },
+
+  //replaces toggleCheckSideBetBtn
+  toggleCheckSideBetBtn(toggle) {
+    const checkSideBetBtn = document.querySelector(
+      `.btn-system__check-side-bet-outcome`
+    );
+
+    toggle
+      ? this.toggleDisplayElementOn(this.checkSideBetBtn, true)
+      : this.toggleDisplayElementOn(this.checkSideBetBtn, false);
   },
 
   clearRoundUI() {
@@ -228,6 +240,7 @@ function toggleDisableBtn(elem, toggle) {
 }
 
 export let sideBetModal = {
+  modalContainer: document.querySelector(`.side-bet-modal__container`),
   bankValue: document.querySelector(`.side-bet-modal__bank-value`),
   totalValue: document.querySelector(`.side-bet-modal__total-value`),
   activeBetElem: document.querySelector(`.side-bet-modal__active-bet`),
@@ -244,15 +257,19 @@ export let sideBetModal = {
   activateSideBetBtn: document.querySelector(
     `.btn-side-bet-modal__activate-bet`
   ),
+  exitBtn: document.querySelector(`.btn-side-bet-modal__exit`),
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
   toggleDisableBtn: toggleDisableBtn,
   toggleDisplayElementOn: toggleDisplayElementOn,
   toggleEventListeners: toggleEventListeners,
+  checkNeedModalScrollbar: checkNeedModalScrollbar,
+  toggleAddScrollbarToModal: toggleAddScrollbarToModal,
 
   //replaces updateSideBetModalInfo
   updateModalInfo(gameState) {
     this.bankValue.textContent = gameState.betObj.tempValue.bank;
+    this.checkNeedModalScrollbar();
   },
 
   //replaces clearSideBetModal
@@ -376,6 +393,38 @@ export let sideBetModal = {
   },
 };
 
+function checkNeedModalScrollbar() {
+  let modalHeight = this.modalContainer.offsetHeight;
+
+  let viewportHeight = Math.max(
+    document.documentElement.clientHeight || 0,
+    window.innerHeight || 0
+  );
+
+  modalHeight > viewportHeight
+    ? this.toggleAddScrollbarToModal(true)
+    : this.toggleAddScrollbarToModal(false);
+}
+
+function toggleAddScrollbarToModal(toggle) {
+  if (toggle) {
+    if (
+      this.modalContainer.classList.contains(`three-section-modal--scrollbar`)
+    )
+      return;
+    this.modalContainer.classList.add(`three-section-modal--scrollbar`);
+  } else this.modalContainer.classList.remove(`three-section-modal--scrollbar`);
+
+  // let threeSectionModals = document.querySelectorAll(`.three-section-modal`);
+
+  // threeSectionModals.forEach(function (elem) {
+  //   if (toggle) {
+  //     if (elem.classList.contains(`three-section-modal--scrollbar`)) return;
+  //     elem.classList.add(`three-section-modal--scrollbar`);
+  //   } else elem.classList.remove(`three-section-modal--scrollbar`);
+  // });
+}
+
 export let sideBetPlacedModal = {
   titleField: document.querySelector(`.generic-modal__title`),
   mainContainer: document.querySelector(`.generic-modal__main`),
@@ -467,8 +516,11 @@ function disableChipBtn(element) {
 }
 
 export const optionsModal = {
+  modalContainer: document.querySelector(`.options-modal__container`),
   formElem: document.querySelector(`.options-modal__form`),
   applyOptionsBtn: document.querySelector(`.btn-options-modal__submit-options`),
+  checkNeedModalScrollbar: checkNeedModalScrollbar,
+  toggleAddScrollbarToModal: toggleAddScrollbarToModal,
 
   get inputElems() {
     return this.formElem.querySelectorAll(`input`);
@@ -1010,22 +1062,25 @@ function removeOutcomeModifierClass(elem) {
   });
 }
 
-export function toggleCheckSideBetBtn(toggle) {
-  const checkSideBetBtn = document.querySelector(
-    `.btn-system__check-side-bet-outcome`
-  );
+// export function toggleCheckSideBetBtn(toggle) {
+//   const checkSideBetBtn = document.querySelector(
+//     `.btn-system__check-side-bet-outcome`
+//   );
 
-  toggle
-    ? (checkSideBetBtn.style.display = `inline-block`)
-    : (checkSideBetBtn.style.display = `none`);
-}
+//   toggle
+//     ? (checkSideBetBtn.style.display = `inline-block`)
+//     : (checkSideBetBtn.style.display = `none`);
+// }
 
 export let sideBetOutcomeModal = {
+  modalContainer: document.querySelector(`.summary-modal__container`),
   mainContainer: document.querySelector(`.summary-modal__main`),
   titleField: document.querySelector(`.summary-modal__title`),
   closeBtn: document.querySelector(`.btn-summary-modal__close`),
   nextBtn: document.querySelector(`.btn-summary-modal__next`),
   toggleDisplayElementOn: toggleDisplayElementOn,
+  checkNeedModalScrollbar: checkNeedModalScrollbar,
+  toggleAddScrollbarToModal: toggleAddScrollbarToModal,
 
   //replaces displayInitialSideBetOutcome and displayEndingSideBetOutcome
   displayModal(gameState, phase) {
@@ -1055,6 +1110,8 @@ export let sideBetOutcomeModal = {
       // sideBetOutcomeModal.nextBtn.style.display = `inline-block`;
 
       sideBetOutcomeModal.titleField.textContent = `Side Bet Outcome`;
+
+      sideBetOutcomeModal.checkNeedModalScrollbar();
 
       popbox.open(`summary-modal`);
     }
@@ -2307,11 +2364,14 @@ export const totalWinningsModal = {
 // }
 
 export const winSummaryModal = {
+  modalContainer: document.querySelector(`.summary-modal__container`),
   mainContainer: document.querySelector(`.summary-modal__main`),
   titleField: document.querySelector(`.summary-modal__title`),
   closeBtn: document.querySelector(`.btn-summary-modal__close`),
   nextBtn: document.querySelector(`.btn-summary-modal__next`),
   toggleDisplayElementOn: toggleDisplayElementOn,
+  checkNeedModalScrollbar: checkNeedModalScrollbar,
+  toggleAddScrollbarToModal: toggleAddScrollbarToModal,
 
   //replaces displayWinSummaryModal
   displayModal(gameState) {
@@ -2335,6 +2395,8 @@ export const winSummaryModal = {
 
     if (endingOutcomePackages)
       endingOutcomePackages.forEach(generateSummaryElements, this);
+
+    this.checkNeedModalScrollbar();
 
     popbox.open(`summary-modal`);
 
@@ -2515,7 +2577,7 @@ export const winSummaryModal = {
   createOutcomeElement(roundOutcome) {
     const outcomeDiv = document.createElement(`div`);
     outcomeDiv.classList.add(`summary-modal__outcome`);
-    outcomeDiv.classList.add(`summary-modal__outcome--${roundOutcome}`);
+    outcomeDiv.classList.add(`--${roundOutcome}`);
     let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
     // outcomeDiv.style.display = `inline-block`;
     outcomeDiv.appendChild(outcomeDivContent);
