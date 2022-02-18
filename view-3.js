@@ -68,17 +68,6 @@ export let gameActionBtns = {
   toggleEnableBtn(prop, boolean) {
     prop.disabled = !boolean;
   },
-
-  // toggleEventListeners(funcObj, toggle) {
-  //   let keysArr = Object.entries(funcObj);
-
-  //   keysArr.forEach(function (arr) {
-  //     let [key, clbk] = arr;
-
-  //     if (toggle == `add`) this[key].addEventListener(`click`, clbk);
-  //     else this[key].removeEventListener(`click`, clbk);
-  //   }, this);
-  // },
 };
 
 function toggleEventListeners(funcObj, toggle) {
@@ -170,10 +159,6 @@ export let gameInfoFields = {
 
   //replaces toggleCheckSideBetBtn
   toggleCheckSideBetBtn(toggle) {
-    const checkSideBetBtn = document.querySelector(
-      `.btn-system__check-side-bet-outcome`
-    );
-
     toggle
       ? this.toggleDisplayElementOn(this.checkSideBetBtn, true)
       : this.toggleDisplayElementOn(this.checkSideBetBtn, false);
@@ -202,9 +187,6 @@ export let baseBetModal = {
   disableChipBtn: disableChipBtn,
   toggleDisableBtn: toggleDisableBtn,
   toggleEventListeners: toggleEventListeners,
-  //clearbtn
-  //dealcardsbtn
-  //sidebetmenubtn
 
   //replaces openBaseBetModal
   openModal(gameState) {
@@ -266,19 +248,11 @@ export let baseBetModal = {
     if (toggle) {
       const sideBetTotal = gameState.betObj.getTempSideBetTotalValue();
       this.toggleDisableBtn(this.sideBetPlacedBtn, disable);
-      // this.sideBetPlacedBtn.style.display = `inline-block`;
       this.sideBetPlacedBtn.innerHTML = `Side Bets Placed <br> $${sideBetTotal}`;
     } else {
       this.toggleDisableBtn(this.sideBetPlacedBtn, disable);
-      // this.sideBetPlacedBtn.style.display = `none`;
       this.sideBetPlacedBtn.innerHTML = `No Side Bets <br> Placed`;
     }
-
-    // function toggleDisableBtn(toggle) {
-    //   toggle
-    //     ? (baseBetModal.sideBetPlacedBtn.disabled = true)
-    //     : (baseBetModal.sideBetPlacedBtn.disabled = false);
-    // }
   },
 };
 
@@ -403,22 +377,14 @@ export let sideBetModal = {
       if (toggle) {
         modalObj.chipBtns.forEach(function (elem) {
           modalObj.toggleDisplayElementOn(elem, false);
-          // elem.style.display = `none`;
         });
         modalObj.toggleDisplayElementOn(modalObj.activateBetBtn, true);
-        // modalObj.activateBetBtn.style.display = `inline-block`;
       } else {
         modalObj.chipBtns.forEach(function (elem) {
           modalObj.toggleDisplayElementOn(elem, true);
-          // elem.style.display = `inline-block`;
         });
         modalObj.toggleDisplayElementOn(modalObj.activateBetBtn, false);
-        // modalObj.activateBetBtn.style.display = `none`;
       }
-    }
-
-    function toggleDisableClearBtn(toggle, modal) {
-      toggle ? modal.clearBetBtn.disable = true : modal.clearBetBtn.disable = false;
     }
   },
 
@@ -468,15 +434,6 @@ function toggleAddScrollbarToModal(toggle) {
       return;
     this.modalContainer.classList.add(`three-section-modal--scrollbar`);
   } else this.modalContainer.classList.remove(`three-section-modal--scrollbar`);
-
-  // let threeSectionModals = document.querySelectorAll(`.three-section-modal`);
-
-  // threeSectionModals.forEach(function (elem) {
-  //   if (toggle) {
-  //     if (elem.classList.contains(`three-section-modal--scrollbar`)) return;
-  //     elem.classList.add(`three-section-modal--scrollbar`);
-  //   } else elem.classList.remove(`three-section-modal--scrollbar`);
-  // });
 }
 
 export let sideBetPlacedModal = {
@@ -485,7 +442,6 @@ export let sideBetPlacedModal = {
   nextBtn: document.querySelector(`.btn-generic-modal__next`),
   closeBtn: document.querySelector(`.btn-generic-modal__close`),
   toggleDisplayElementOn: toggleDisplayElementOn,
-  // toggleDisplayBtn: toggleDisplayBtn,
 
   //replaces both activateSideBetPlacedModal (true) & deactivateSideBetPlacedModal (false)
   toggleActivateModal(toggle, gameState = null) {
@@ -510,9 +466,6 @@ export let sideBetPlacedModal = {
     this.titleField.textContent = dataObj.titleText;
     this.mainContainer.innerHTML = dataObj.modalText;
 
-    // this.toggleDisplayBtn(this.nextBtn, dataObj.nextBtn);
-    // this.toggleDisplayBtn(this.closeBtn, dataObj.closeBtn);
-
     this.toggleDisplayElementOn(this.nextBtn, dataObj.nextBtn);
     this.toggleDisplayElementOn(this.closeBtn, dataObj.closeBtn);
   },
@@ -523,40 +476,6 @@ function toggleDisplayBtn(elem, toggle) {
     ? (elem.style.display = `inline-block`)
     : (elem.style.display = `none`);
 }
-
-// function checkExtraBetChipBtnsValid(value, sideBet, baseBet) {
-//   const chip1 = document.querySelector(`.btn-extra-bet-modal__1`);
-//   const chip5 = document.querySelector(`.btn-extra-bet-modal__5`);
-//   const chip10 = document.querySelector(`.btn-extra-bet-modal__10`);
-//   const chip25 = document.querySelector(`.btn-extra-bet-modal__25`);
-//   const chip100 = document.querySelector(`.btn-extra-bet-modal__100`);
-//   const chip500 = document.querySelector(`.btn-extra-bet-modal__500`);
-//   let maxValue = baseBet * 5;
-
-//   value >= 1 ? enableChipBtn(chip1) : disableChipBtn(chip1);
-//   value > 5 ? enableChipBtn(chip5) : disableChipBtn(chip5);
-//   value > 10 ? enableChipBtn(chip10) : disableChipBtn(chip10);
-//   value > 25 ? enableChipBtn(chip25) : disableChipBtn(chip25);
-//   value > 100 ? enableChipBtn(chip100) : disableChipBtn(chip100);
-//   value > 500 ? enableChipBtn(chip500) : disableChipBtn(chip500);
-//   sideBet >= maxValue
-//     ? toggleDisableExtraBetChips(true)
-//     : toggleDisableExtraBetChips(false);
-
-//   function toggleDisableExtraBetChips(toggle) {
-//     const chipBtns = document.querySelectorAll(`.btn-extra-bet-modal__chip`);
-
-//     if (toggle) {
-//       chipBtns.forEach(function (elem) {
-//         elem.disabled = true;
-//       });
-//     } else {
-//       chipBtns.forEach(function (elem) {
-//         elem.disabled = false;
-//       });
-//     }
-//   }
-// }
 
 function enableChipBtn(element) {
   element.disabled = false;
@@ -1080,24 +999,6 @@ export let gameField = {
     this.splitStages.removeOutcomeModifierClass(this.splitStages.stage1.result);
     this.splitStages.removeOutcomeModifierClass(this.splitStages.stage2.result);
     this.splitStages.removeOutcomeModifierClass(this.splitStages.stage3.result);
-
-    // outcomeArr.forEach(function (str) {
-    //   this.dealer.messageContainer.classList.remove(
-    //     `dealer-message__container--${str}`
-    //   );
-    //   this.player.messageContainer.classList.remove(
-    //     `player-message__container--${str}`
-    //   );
-    //   this.splitStages.stage1.result.classList.remove(
-    //     `split-stage-1__result--${str}`
-    //   );
-    //   this.splitStages.stage2.result.classList.remove(
-    //     `split-stage-2__result--${str}`
-    //   );
-    //   this.splitStages.stage3.result.classList.remove(
-    //     `split-stage-3__result--${str}`
-    //   );
-    // }, this);
   },
 };
 
@@ -1115,16 +1016,6 @@ function removeOutcomeModifierClass(elem) {
     elem.classList.remove(`--${str}`);
   });
 }
-
-// export function toggleCheckSideBetBtn(toggle) {
-//   const checkSideBetBtn = document.querySelector(
-//     `.btn-system__check-side-bet-outcome`
-//   );
-
-//   toggle
-//     ? (checkSideBetBtn.style.display = `inline-block`)
-//     : (checkSideBetBtn.style.display = `none`);
-// }
 
 export let sideBetOutcomeModal = {
   modalContainer: document.querySelector(`.summary-modal__container`),
@@ -1160,8 +1051,6 @@ export let sideBetOutcomeModal = {
         sideBetOutcomeModal.nextBtn,
         true
       );
-      // sideBetOutcomeModal.closeBtn.style.display = "none";
-      // sideBetOutcomeModal.nextBtn.style.display = `inline-block`;
 
       sideBetOutcomeModal.titleField.textContent = `Side Bet Outcome`;
 
@@ -1202,11 +1091,6 @@ export let sideBetOutcomeModal = {
       winningsField.appendChild(valueSpan);
 
       labelSpan.classList.add(`summary-modal__total-winnings-label`);
-
-      // let winningsFieldContent = document.createTextNode(
-      //   `Total Winnings: ${totalWinnings}`
-      // );
-      // winningsField.appendChild(winningsFieldContent);
 
       sideBetOutcomeModal.mainContainer.appendChild(winningsField);
 
@@ -1260,11 +1144,6 @@ export let sideBetOutcomeModal = {
     winningsSpan.insertAdjacentHTML(`afterend`, `<br>`);
     newDiv.appendChild(winConditionSpan);
     newDiv.appendChild(checkHandBtn);
-
-    // newDiv.appendChild(checkHandBtn);
-    // newDiv.appendChild(winConditionSpan);
-    // winConditionSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
-    // newDiv.appendChild(winningsSpan);
 
     return newDiv;
 
@@ -1326,8 +1205,7 @@ export let sideBetOutcomeModal = {
       labelSpan.classList.add(`summary-modal__winnings-label`);
 
       winningsSpan.classList.add(`summary-modal__winnings-value`);
-      // let winningsSpanContent = document.createTextNode(`${winnings}`);
-      // winningsSpan.appendChild(winningsSpanContent);
+
       return winningsSpan;
     }
   },
@@ -1445,15 +1323,6 @@ export const winningHandModal = {
 
     earlySurrenderModal.toggleAddClassToModalContainer(false);
 
-    // this.sideBetContainer.style.display = `block`;
-    // this.dealerContainer.style.display = `block`;
-    // this.playerContainer.style.display = `block`;
-    // this.winningsContainer.style.display = `block`;
-    // this.closeBtn.style.display = `inline`;
-    // this.nextBtn.style.display = `none`;
-    // this.acceptEarlySurrenderBtn.style.display = `none`;
-    // this.declineEarlySurrenderBtn.style.display = `none`;
-
     this.dealerCardsField.innerHTML = ` `;
     this.playerCardsField.innerHTML = ` `;
   },
@@ -1503,8 +1372,6 @@ export const perfect11sDiceModal = {
         perfect11sDiceModal.nextBtn,
         false
       );
-      // perfect11sDiceModal.closeBtn.style.display = `none`;
-      // perfect11sDiceModal.nextBtn.style.display = `none`;
 
       perfect11sDiceModal.title.textContent = `Perfect 11s Dice Roll`;
 
@@ -1531,15 +1398,10 @@ export const perfect11sDiceModal = {
 
       let infinityDice3 = createIndvDiceElement();
 
-      // let infinityDice1 = document.createElement(`h3`);
-      // let infinityDice2 = document.createElement(`h3`);
-      // let infinityDice3 = document.createElement(`h3`);
-
       diceContainer.appendChild(infinityDice1);
       diceContainer.appendChild(infinityDice2);
       diceContainer.appendChild(infinityDice3);
 
-      // let diceFields = diceContainer.querySelectorAll(`h3`);
       let diceFields = diceContainer.querySelectorAll(`div`);
 
       addDataToDiceElements(diceFields, diceRolls);
@@ -1596,8 +1458,6 @@ export const perfect11sDiceModal = {
       directionsFooter.appendChild(stopDirectionsHeading);
       directionsFooter.appendChild(infinityHeading);
       directionsFooter.classList.add(`infinity-dice__directions-footer`);
-
-      // directionsFooter.innerHTML = `Press STOP button to stop dice roll.<br>Roll 2 or more infinities to win the BONUS`;
 
       return directionsFooter;
     }
@@ -1683,7 +1543,6 @@ export const perfect11sDiceModal = {
       case 3:
         clearInterval(this.diceTimer3);
         applyDiceRoll(dice3, diceCounter);
-        // diceCounter++;
         changeBtnsStatus(stopBtn, this.nextBtn);
         listeners.addBeginGameDiceModalNextBtnListener();
         break;
@@ -1703,7 +1562,6 @@ export const perfect11sDiceModal = {
         span.textContent = diceRoll;
         span.classList.add(`infinity-dice__blank-display--default`);
       }
-      // elem.innerHTML = `DICE ${diceCounter}: ${diceRoll}`;
     }
 
     function increaseDiceCounter(diceCounter, stopBtn) {
@@ -1714,7 +1572,6 @@ export const perfect11sDiceModal = {
     function changeBtnsStatus(stopBtn, nextBtn) {
       stopBtn.disabled = true;
       perfect11sDiceModal.toggleDisplayElementOn(nextBtn, true);
-      // nextBtn.style.display = `inline-block`;
     }
   },
 
@@ -1852,8 +1709,6 @@ export const extraBetModal = {
     });
 
     this.mainContainer.dataset.sidebet = ` `;
-
-    // listeners.removeExtraBetBlackjackModalListeners();
   },
 
   checkToEnableActionBtns(gameState) {
@@ -1868,61 +1723,6 @@ export const extraBetModal = {
     }
   },
 };
-
-// export function displayExtraBetModal(gameState) {
-//   const titleField = document.querySelector(`.extra-bet-modal__title-text`);
-//   const bankField = document.querySelector(`.extra-bet-modal__bank-value`);
-//   const baseBetField = document.querySelector(`.extra-bet-modal__bet-value`);
-//   const mainContainer = document.querySelector(`.extra-bet-modal__main`);
-//   const placeExtraBetBtn = document.querySelector(
-//     `.btn-extra-bet-modal__place-extra-bet`
-//   );
-//   const raiseTheRoofBtn = document.querySelector(
-//     `.btn-extra-bet-modal__raise-the-roof`
-//   );
-
-//   placeExtraBetBtn.style.display = `inline-block`;
-//   raiseTheRoofBtn.style.display = `none`;
-
-//   titleField.textContent = `Extra Bet Blackjack`;
-//   bankField.textContent = gameState.bank;
-//   baseBetField.textContent = gameState.betObj.baseBet;
-//   mainContainer.dataset.sidebet = `extraBetBlackjack`;
-
-//   popbox.open(`extra-bet-modal`);
-// }
-
-// export function updateExtraBetModalTotal(sideBetObj, gameState) {
-//   const bankField = document.querySelector(".extra-bet-modal__bank-value");
-//   const betField = document.querySelector(".extra-bet-modal__bet-value");
-//   const feeField = document.querySelector(`.extra-bet-modal__fee-value`);
-
-//   let betTotal = sideBetObj.getTempBet();
-//   let bank = sideBetObj.getTempBank();
-//   let fee = sideBetObj.fee;
-//   let baseBet = gameState.betObj.baseBet;
-
-//   bankField.textContent = bank;
-//   betField.textContent = betTotal;
-//   feeField.textContent = fee;
-
-//   checkExtraBetChipBtnsValid(bank, betTotal, baseBet);
-// }
-
-// export function deactivateExtraBetModal() {
-//   const bankField = document.querySelector(".extra-bet-modal__bank-value");
-//   const betField = document.querySelector(".extra-bet-modal__bet-value");
-//   const feeField = document.querySelector(`.extra-bet-modal__fee-value`);
-//   const mainContainer = document.querySelector(`.extra-bet-modal__main`);
-
-//   bankField.textContent = 0;
-//   betField.textContent = 0;
-//   feeField.textContent = 0;
-
-//   mainContainer.dataset.sidebet = ` `;
-
-//   listeners.removeExtraBetBlackjackModalListeners();
-// }
 
 export const houseMoneyModal = {
   sideBetField: document.querySelector(`.house-money-modal__side-bet-value`),
@@ -2023,9 +1823,6 @@ export const evenMoneyInsuranceModal = {
         evenMoneyInsuranceModal.closeBtn,
         false
       );
-
-      // evenMoneyInsuranceModal.nextBtn.style.display = "none";
-      // evenMoneyInsuranceModal.closeBtn.style.display = "none";
     }
 
     function createHeadingElement(modalType) {
@@ -2103,8 +1900,6 @@ export const evenMoneyInsuranceModal = {
     let dealerHand = gameState.dealer.hand;
 
     this.toggleDisplayElementOn(this.nextBtn, true);
-
-    // this.nextBtn.style.display = `inline-block`;
 
     gameField.renderHandOutcome(dealerHand, `dealer`);
 
@@ -2229,10 +2024,6 @@ export const baseRoundOutcomeModal = {
 
       winningsHeading.appendChild(winningsLabelSpan);
       winningsHeading.appendChild(winningsValueSpan);
-      // const winningsHeadingContent = document.createTextNode(
-      //   `Winnings: ${outcomePackage.winnings}`
-      // );
-      // winningsHeading.appendChild(winningsHeadingContent);
 
       winningsLabelSpan.classList.add(
         `base-round-outcome-modal__single-hand-winnings-label`
@@ -2344,14 +2135,6 @@ export const baseRoundOutcomeModal = {
 
         return winningsSpan;
       }
-
-      // const outcomeHeading = document.createElement(`h2`);
-      // const outcomeHeadingContent = document.createTextNode(
-      //   `Hand ${handNum}: ${noticeText}  ${outcomeText}  Winnings: $${winnings}`
-      // );
-      // outcomeHeading.appendChild(outcomeHeadingContent);
-
-      // return outcomeHeading;
     }
   },
 
@@ -2365,7 +2148,6 @@ export const baseRoundOutcomeModal = {
     this.toggleDisplayElementOn(this.closeBtn, false);
 
     this.toggleAddClassToModalContainer(true);
-    // this.mainContainer.classList.add(`generic-modal__main--base-outcome-modal`);
 
     this.clearModal();
   },
@@ -2406,16 +2188,6 @@ export const totalWinningsModal = {
     popbox.open(`winnings-modal`);
   },
 };
-
-// export function displayTotalWinningsModal(gameState) {
-//   const winningsField = document.querySelector(
-//     `.winnings-modal__winnings-value`
-//   );
-
-//   winningsField.textContent = gameState.totalWinnings;
-
-//   popbox.open(`winnings-modal`);
-// }
 
 export const winSummaryModal = {
   modalContainer: document.querySelector(`.summary-modal__container`),
@@ -2464,15 +2236,15 @@ export const winSummaryModal = {
   //replaces createBaseGameSummaryElements
   createBaseGameSummaryElements(gameState) {
     let player = gameState.player;
+    let blackjackPayout = gameState.options.blackjackPayout;
 
     const newDiv = document.createElement(`div`);
 
     let roundLabel = createRoundLabelElement();
 
-    let outcomeElems = createOutcomeElems(player);
+    let outcomeElems = createOutcomeElems(player, blackjackPayout);
 
     newDiv.appendChild(roundLabel);
-    // roundLabel.insertAdjacentHTML(`beforebegin`, `<br>`);
 
     outcomeElems.forEach(function (elem) {
       newDiv.appendChild(elem);
@@ -2565,8 +2337,6 @@ export const winSummaryModal = {
 
     let outcomeDiv = this.createOutcomeElement(outcome);
 
-    // let payoutSpan = createPayoutElement(payout);
-
     let payoutSpan = this.createPayoutNodes(payout);
 
     let winConditionSpan = createWinConditionElement(winCondition);
@@ -2580,22 +2350,7 @@ export const winSummaryModal = {
     newDiv.appendChild(winConditionSpan);
     newDiv.appendChild(payoutSpan);
 
-    // newDiv.appendChild(nameSpan);
-    // newDiv.appendChild(outcomeDiv);
-    // newDiv.appendChild(payoutSpan);
-    // payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
-    // newDiv.appendChild(winConditionSpan);
-    // newDiv.appendChild(winningsSpan);
-
     return newDiv;
-
-    // function createPayoutElement(payout) {
-    //   const payoutSpan = document.createElement(`span`);
-    //   const payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
-    //   payoutSpan.appendChild(payoutSpanContent);
-
-    //   return payoutSpan;
-    // }
 
     function createWinConditionElement(winCondition) {
       const winConditionSpan = document.createElement(`span`);
@@ -2633,7 +2388,6 @@ export const winSummaryModal = {
     outcomeDiv.classList.add(`summary-modal__outcome`);
     outcomeDiv.classList.add(`--${roundOutcome}`);
     let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
-    // outcomeDiv.style.display = `inline-block`;
     outcomeDiv.appendChild(outcomeDivContent);
 
     return outcomeDiv;
@@ -2658,20 +2412,10 @@ export const winSummaryModal = {
 
     payoutSpan.classList.add(`summary-modal__payout-value`);
 
-    // let payoutSpanContent = document.createTextNode(`Payout: ${payout}`);
-    // payoutSpan.appendChild(payoutSpanContent);
-
     return payoutSpan;
   },
 
   createWinningsElement(winnings) {
-    // const winningsSpan = document.createElement(`span`);
-
-    // let winningsSpanContent = document.createTextNode(`+ $${winnings}`);
-    // winningsSpan.appendChild(winningsSpanContent);
-
-    // return winningsSpan;
-
     const winningsSpan = document.createElement(`span`);
 
     const labelSpan = document.createElement(`span`);
@@ -2700,9 +2444,6 @@ export const winSummaryModal = {
   prepareModal() {
     this.toggleDisplayElementOn(this.closeBtn, true);
     this.toggleDisplayElementOn(this.nextBtn, false);
-
-    // this.closeBtn.style.display = "inline-block";
-    // this.nextBtn.style.display = `none`;
 
     this.titleField.textContent = `Win Summary`;
 
@@ -2787,7 +2528,6 @@ export const triviaModal = {
   //replaces renderTriviaQuestion
   renderQuestion(questionObj) {
     this.toggleDisplayElementOn(this.difficultyBtnContainer, false);
-    // this.toggleDisplayDifficultyBtns(false);
 
     displayQuestionInfo(questionObj);
 
@@ -2797,7 +2537,6 @@ export const triviaModal = {
 
     function displayQuestionInfo(questionObj) {
       triviaModal.toggleDisplayElementOn(triviaModal.label.container, true);
-      // triviaModal.label.container.style.display = `flex`;
 
       triviaModal.label.categoryField.textContent = questionObj.category;
       triviaModal.label.difficultyField.textContent = questionObj.difficulty;
@@ -2824,7 +2563,6 @@ export const triviaModal = {
 
     //reveals answerTable
     this.toggleDisplayElementOn(this.answerTable.field, true);
-    // this.answerTable.field.classList.remove(`display-none`);
 
     //reveals multiple choice btn container
     this.toggleDisplayElementOn(this.answerBtns.multChoiceBtnContainer, true);
@@ -2861,9 +2599,6 @@ export const triviaModal = {
         if (answer == questionObj.correctAnswer) {
           btn.classList.add("correctAnswer");
         }
-
-        // triviaModal.toggleDisplayElementOn(btn, true);
-        // btn.style.display = `inline-block`;
       });
     }
   },
@@ -2887,51 +2622,35 @@ export const triviaModal = {
         triviaModal.answerBtns.boolChoiceBtnContainer,
         true
       );
-      // triviaModal.answerBtns.boolChoiceBtns.forEach(function (btn) {
-      //   btn.style.display = `inline-block`;
-      // });
     }
   },
 
   //replaces toggleDisplayTriviaDifficultyBtns
   toggleDisplayDifficultyBtns(toggle) {
     this.toggleDisplayElementOn(this.difficultyBtnContainer, toggle);
-    // let displayValue;
-
-    // toggle ? (displayValue = `inline-block`) : (displayValue = `none`);
-
-    // this.triviaDifficultyBtns.forEach(function (btn) {
-    //   btn.style.display = displayValue;
-    // });
   },
 
   //replaces displayTriviaCorrectAnswer
   displayCorrectAnswer(questionObj) {
     this.toggleDisplayElementOn(this.correctAnswer.field, true);
-    // this.correctAnswer.field.style.display = `block`;
     this.correctAnswer.text.innerHTML = questionObj.correctAnswer;
   },
 
   //replaces renderTriviaCorrectAnswer
   renderPlayerCorrectResult() {
     this.toggleApplyCorrectAnswerColor(true);
-    // document.querySelector(".correctAnswer").style.backgroundColor = `green`;
     this.titleField.textContent = `Correct Answer!`;
     this.changeModalTitleState(`correctAnswer`);
-    // this.titleField.style.color = `green`;
   },
 
   //replaces renderTriviaIncorrectAnswer
   renderPlayerIncorrectResult(event) {
     this.toggleApplyCorrectAnswerColor(true);
-    // document.querySelector(".correctAnswer").style.backgroundColor = `green`;
 
     this.toggleApplyIncorrectAnswerColor(true, event.target);
-    // event.target.id = `incorrectAnswer`;
 
     this.titleField.textContent = `Wrong Answer...`;
     this.changeModalTitleState(`incorrectAnswer`);
-    // this.titleField.style.color = `red`;
   },
 
   toggleApplyCorrectAnswerColor(toggle) {
@@ -2966,7 +2685,6 @@ export const triviaModal = {
     this.clearAnswerBtnData(answerCorrectly);
     this.resetCreditsModifier();
     this.toggleDisplayElementOn(this.difficultyBtnContainer, true);
-    // this.toggleDisplayDifficultyBtns(true);
     this.resetAnswerBtns();
     popbox.close(`trivia-modal`);
   },
@@ -2979,17 +2697,14 @@ export const triviaModal = {
     this.label.categoryField.textContent = ``;
     this.label.difficultyField.textContent = ``;
     this.toggleDisplayElementOn(this.label.container, false);
-    // this.label.container.style.display = `none`;
 
     this.correctAnswer.text.innerHTML = ` `;
     this.toggleDisplayElementOn(this.correctAnswer.field, false);
-    // this.correctAnswer.field.style.display = `none`;
 
     this.questionField.textContent = `Select Trivia Difficulty`;
     this.changeModalTitleState(`default`);
 
     this.toggleDisplayElementOn(this.answerTable.field, false);
-    // this.answerTable.field.classList.add(`display-none`);
     this.answerTable.answerValueFields.forEach(function (elem) {
       elem.textContent = ` `;
     });
@@ -3002,12 +2717,10 @@ export const triviaModal = {
     });
 
     this.toggleApplyCorrectAnswerColor(false);
-    // document.querySelector(".correctAnswer--style").style.backgroundColor = `grey`;
     document.querySelector(`.correctAnswer`).classList.remove(`correctAnswer`);
 
     if (!answerCorrectly) {
       this.toggleApplyIncorrectAnswerColor(false);
-      // document.querySelector(`#incorrectAnswer`).removeAttribute(`id`);
     }
   },
 
@@ -3036,10 +2749,6 @@ export const triviaModal = {
 
     this.toggleDisplayElementOn(this.answerBtns.multChoiceBtnContainer, false);
     this.toggleDisplayElementOn(this.answerBtns.boolChoiceBtnContainer, false);
-
-    // this.answerBtns.allBtns.forEach(function (btn) {
-    //   btn.style.display = `none`;
-    // });
   },
 
   //replaces toggleDisableTriviaAnswerBtns
@@ -3107,7 +2816,6 @@ export const earlySurrenderModal = {
   declineBtn: document.querySelector(
     `.btn-winning-hand-modal__decline-early-surrender`
   ),
-  // mainContainer: document.querySelector(`.winning-hand-modal__main`),
   footer: document.querySelector(`.winning-hand-modal__footer`),
   toggleDisplayElementOn: toggleDisplayElementOn,
   toggleEventListeners: toggleEventListeners,
@@ -3163,52 +2871,3 @@ export const earlySurrenderModal = {
     }
   },
 };
-
-// export function activateEarlySurrenderModal(gameState) {
-//   const titleField = document.querySelector(`.winning-hand-modal__title`);
-//   const sideBetContainer = document.querySelector(
-//     `.winning-hand-modal__side-bet-name-container`
-//   );
-//   const dealerCardsContainer = document.querySelector(
-//     `.winning-hand-modal__dealer-cards-container`
-//   );
-//   const playerCardsContainer = document.querySelector(
-//     `.winning-hand-modal__player-cards-container`
-//   );
-//   const dealerField = document.querySelector(
-//     `.winning-hand-modal__dealer-cards`
-//   );
-//   const playerField = document.querySelector(
-//     `.winning-hand-modal__player-cards`
-//   );
-//   const winningsInfoContainer = document.querySelector(
-//     `.winning-hand-modal__winnings-info-container`
-//   );
-//   const closeBtn = document.querySelector(`.btn-winning-hand-modal__close`);
-//   const nextBtn = document.querySelector(`.btn-winning-hand-modal__next`);
-//   const acceptBtn = document.querySelector(
-//     `.btn-winning-hand-modal__accept-early-surrender`
-//   );
-//   const declineBtn = document.querySelector(
-//     `.btn-winning-hand-modal__decline-early-surrender`
-//   );
-
-//   let playerHand = gameState.player.hand;
-//   let dealerHand = gameState.dealer.hand;
-
-//   titleField.textContent = `Surrender Hand?`;
-
-//   sideBetContainer.style.display = `none`;
-//   dealerCardsContainer.style.display = `block`;
-//   playerCardsContainer.style.display = `block`;
-//   winningsInfoContainer.style.display = `none`;
-//   closeBtn.style.display = `none`;
-//   nextBtn.style.display = `none`;
-//   acceptBtn.style.display = `inline`;
-//   declineBtn.style.display = `inline`;
-
-//   dealerField.innerHTML = dealerHand.simpleImages.join();
-//   playerField.innerHTML = playerHand.simpleImages.join();
-
-//   popbox.open(`winning-hand-modal`);
-// }
