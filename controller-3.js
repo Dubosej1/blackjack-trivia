@@ -386,6 +386,8 @@ export function clearRoundData(gameState) {
     view.gameInfoFields.renderNoticeText(`Game Ended.`);
     let bank = 0;
     view.gameInfoFields.updateBank(bank);
+    view.demoCards.renderFields();
+    view.gameInfoFields.toggleDisplayOptionsBtn(true);
     view.gameInfoFields.toggleDisplayNewGameBtn(true);
     gameState.toggleEnableActionBtns = {
       hit: false,

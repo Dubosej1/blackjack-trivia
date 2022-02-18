@@ -1,5 +1,52 @@
 import * as listeners from "./listeners.js";
 
+export const demoCards = {
+  playerCardsContainer: document.querySelector(`.player-cards__container`),
+  dealerCardsContainer: document.querySelector(`.dealer-cards__container`),
+  dealerCardImgs: [
+    "https://deckofcardsapi.com/static/img/2S.png",
+    "https://deckofcardsapi.com/static/img/8C.png",
+    "https://deckofcardsapi.com/static/img/0S.png",
+    "https://deckofcardsapi.com/static/img/JC.png",
+    "https://deckofcardsapi.com/static/img/QS.png",
+    "https://deckofcardsapi.com/static/img/KC.png",
+    "https://deckofcardsapi.com/static/img/AS.png",
+  ],
+  playerCardImgs: [
+    "https://deckofcardsapi.com/static/img/AH.png",
+    "https://deckofcardsapi.com/static/img/KD.png",
+    "https://deckofcardsapi.com/static/img/QH.png",
+    "https://deckofcardsapi.com/static/img/JD.png",
+    "https://deckofcardsapi.com/static/img/0H.png",
+    "https://deckofcardsapi.com/static/img/8D.png",
+    "https://deckofcardsapi.com/static/img/2H.png",
+  ],
+  endTags: `</li></ul>`.repeat(7),
+
+  renderFields() {
+    let dealerCards = [];
+    let playerCards = [];
+
+    this.dealerCardImgs.forEach(function (img) {
+      dealerCards.push(
+        `<ul><li class="dealerCardPos dealer-cards__li"><img class="card dealerCard dealer-cards__card" src="${img}">`
+      );
+    });
+
+    this.playerCardImgs.forEach(function (img) {
+      playerCards.push(
+        `<ul><li class="playerCardPos player-cards__li"><img class="card playerCard player-cards__card" src="${img}">`
+      );
+    });
+
+    let dealerFinalImgs = [...dealerCards, this.endTags];
+    let playerFinalImgs = [...playerCards, this.endTags];
+
+    this.dealerCardsContainer.innerHTML = dealerFinalImgs.join(``);
+    this.playerCardsContainer.innerHTML = playerFinalImgs.join(``);
+  },
+};
+
 export let gameActionBtns = {
   hit: document.querySelector(`.btn-action__hit`),
   stand: document.querySelector(`.btn-action__stand`),
