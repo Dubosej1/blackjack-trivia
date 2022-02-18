@@ -5,6 +5,53 @@ $tablet-html-font-size: 50%;
 $desktop-html-font-size: 62.5%;
 $font-size-default: 2rem;
 
+$color-btn-system-default: #d9c8db;
+$color-btn-modal-action: #d9c8db;
+// $color-default: #524254;
+$color-label-default: #c052d1;
+$color-label-secondary: blue;
+$color-label-highlight: yellow;
+$color-label-trivia-correct-answer: green;
+$color-label-trivia-incorrect-answer: red;
+$color-border-default: purple;
+
+
+$color-btn-system-border: purple;
+$color-bet-field-bg: purple;
+$color-dealer-total-field-bg: green;
+$color-player-total-field-bg: blue;
+
+$color-btn-disabled-background: gray;
+
+$color-font-default: white;
+$color-chip-1: #4c4c4c;
+$color-chip-5: #2cbbc1;
+$color-chip-10: #ce3501;
+$color-chip-25: #019934;
+$color-chip-100: #663398;
+$color-chip-500: #d88206;
+$color-chip-accent: white;
+$color-chip-disabled: black;
+$color-chip-disabled-accent: $color-btn-disabled-background;
+$color-btn-action-background: transparent;
+
+$color-natural-outcome: yellow;
+$color-lose-outcome: red;
+$color-bust-outcome: $color-lose-outcome;
+$color-win-outcome: green;
+$color-charlie-outcome: orange;
+$color-stand-outcome: gray;
+$color-push-outcome: $color-stand-outcome;
+$color-surrender-outcome: $color-stand-outcome;
+$color-dealerHit-outcome: $color-stand-outcome;
+
+$color-btn-double-down: orange;
+$color-btn-hit: red;
+$color-btn-stand: green;
+$color-btn-split: blue;
+$color-btn-surrender: gray;
+
+
 @font-face {
   font-family: "dPad";
   src: url(./TrulyMadlyDpad-a72o.ttf);
@@ -17,12 +64,74 @@ $font-size-default: 2rem;
   grid-row-end: $row-end;
 }
 
-@mixin chip-btn-style {
+@mixin flex-define($flex-direction, $justify-content, $align-items, $inline-flex:true) {
+  @if $inline-flex {
+    display: inline-flex;
+  } @else {
+    display: flex;
+  }
+
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin btn-action-style-default ($bg-color) {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+
+  background-color: $bg-color;
+
+  @include flex-define(row, center, center, $inline-flex:true);
+
+  // display: inline-flex;
+  // justify-content: center;
+  // align-items: center;
+}
+
+@mixin btn-modal-action-style-default {
+  &:disabled {
+    background: rgba(76, 76, 76, 0.5);
+    color: white;
+  }
+  @include btn-action-style-default ($color-btn-modal-action);
+}
+
+@mixin color-props($text-color, $bg-color) {
+  color: $text-color;
+  background-color: $bg-color;
+}
+
+@mixin btn-chip-color($text-color, $bg-color, $border-color) {
+  @include color-props($text-color, $bg-color);
+  border-color: $border-color;
+}
+
+@mixin btn-blackjack-action-color($color) {
+  @include btn-chip-color($color, $color-btn-action-background, $color);
+}
+
+@mixin total-field-style($bg-color, $width-height-value) {
+  @include flex-define(row, center, center, $inline-flex:false);
+
+  border-radius: 50%;
+  background-color: $bg-color;
+  width: $width-height-value;
+  height: $width-height-value;
+}
+
+@mixin border-style($bor-color, $bor-width) {
+  border-style: double;
+  border-color: $bor-color;
+  border-width: $bor-width;
+}
+
+
+@mixin btn-chip-style {
   &__chip {
     &:disabled {
-      border-color: gray;
-      color: gray;
-      background-color: black;
+      @include btn-chip-color ($color-chip-disabled-accent, $color-chip-disabled, $color-chip-disabled-accent);
     }
     border-radius: 50%;
     padding: 1.5rem;
@@ -31,64 +140,31 @@ $font-size-default: 2rem;
     font-weight: 700;
   }
 
+
   &__1 {
-    border-color: white;
-    background-color: #4c4c4c;
-    color: white;
+    @include btn-chip-color ($color-chip-accent, $color-chip-1, $color-chip-accent);
   }
 
   &__5 {
-    border-color: white;
-    background-color: #2cbbc1;
-    color: white;
+    @include btn-chip-color ($color-chip-accent, $color-chip-5, $color-chip-accent);
   }
 
   &__10 {
-    border-color: white;
-    background-color: #ce3501;
-    color: white;
+    @include btn-chip-color ($color-chip-accent, $color-chip-10, $color-chip-accent);
   }
 
   &__25 {
-    border-color: white;
-    background-color: #019934;
-    color: white;
+    @include btn-chip-color ($color-chip-accent, $color-chip-25, $color-chip-accent);
   }
 
   &__100 {
-    border-color: white;
-    background-color: #663398;
-    color: white;
+    @include btn-chip-color ($color-chip-accent, $color-chip-100, $color-chip-accent);
   }
 
   &__500 {
-    border-color: white;
-    background-color: #d88206;
-    color: white;
+    @include btn-chip-color ($color-chip-accent, $color-chip-500, $color-chip-accent);
   }
 }
-
-// @mixin outcomeClasses {
-//   &--blackjack {
-//     background: yellow;
-//     color: black;
-//   }
-
-//   &--bust {
-//     background: red;
-//     color: white;
-//   }
-
-//   &--charlie {
-//     background: orange;
-//     color: white;
-//   }
-
-//   &--stand {
-//     background: gray;
-//     color: white;
-//   }
-// }
 
 * {
   margin: 0;
@@ -112,6 +188,8 @@ body {
   background-color: black;
 }
 
+//main layout grid classes
+
 .grid-container {
   margin: auto auto;
   display: grid;
@@ -128,13 +206,14 @@ body {
   justify-content: flex-end;
 }
 
-.btn-system {
-  margin: 0% 1%;
+//Round Info Field Classes
+.grid__round-info {
+  @include grid-item-define(1, 3, 2, 4);
 }
 
 .round-info__label {
   font-size: 2.5rem;
-  color: purple;
+  color: $color-label-default;
 }
 
 .round-info__value {
@@ -149,14 +228,10 @@ body {
   display: inline;
 }
 
-.grid__round-info {
-  @include grid-item-define(1, 3, 2, 4);
-}
-
-.dealer-total__label {
-  color: green;
-  font-size: 2.5rem;
-  margin-right: 1rem;
+//Dealer field classes
+.grid__dealer-hand-info {
+  @include grid-item-define(3, -1, 3, 4);
+  @include flex-define(row, flex-start, center, $inline-flex: false);
 }
 
 .grid__dealer-cards {
@@ -164,19 +239,16 @@ body {
   max-width: 50%;
 }
 
-.grid__dealer-hand-info {
-  @include grid-item-define(3, -1, 3, 4);
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+.dealer-total__label {
+  color: $color-dealer-total-field-bg;
+  font-size: 2.5rem;
+  margin-right: 1rem;
 }
 
 .dealer-total__container {
   color: yellow;
   margin: 0% 10%;
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex-define(row, space-between, center, $inline-flex: true);
 }
 
 .dealer-total__value {
@@ -184,14 +256,12 @@ body {
 }
 
 .dealer-message__container {
-  // background: red;
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
-
-  // @include outcomeClasses;
 }
 
+//Game Notice Field Classes
 .grid__game-message {
   display: flex;
   justify-content: space-around;
@@ -206,54 +276,36 @@ body {
   @include grid-item-define(1, -1, 4, 5);
 }
 
-.btn-side-bet {
-  font-family: dPad;
-  color: white;
-  font-weight: 700;
-  padding: 1rem;
-}
-
-.btn-side-bet__even-money-accept {
-  display: none;
-  background-color: green;
-}
-
-.btn-side-bet__even-money-decline {
-  display: none;
-  background-color: red;
-}
-
-.grid__player-cards {
-  @include grid-item-define(2, -1, 6, 7);
-}
-
 .game-message__text {
   display: inline-block;
 }
 
-.dealer-cards__container,
-.player-cards__container {
-  position: relative;
-  left: 0rem;
+//Player Field Classes
+.grid__player-cards {
+  @include grid-item-define(2, -1, 6, 7);
+}
+
+.grid__player-hand-info {
+  @include grid-item-define(2, -1, 7, 8);
+  display: flex;
+  justify-content: flex-start;
 }
 
 .player-total__container {
   @include grid-item-define(2, -1, 1, 2);
   text-align: right;
   margin: 0% 10%;
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex-define(row, space-between, center, $inline-flex: true);
 }
 
 .player-total__label {
   font-size: 2.5rem;
-  color: blue;
+  color: $color-player-total-field-bg;
   margin-right: 1rem;
 }
 
 .player-total__hand-num {
-  color: yellow;
+  color: $color-label-highlight;
   margin-right: 2rem;
   font-size: 2.5rem;
 }
@@ -264,17 +316,16 @@ body {
 
 .player-message__container {
   @include grid-item-define(2, -1, 2, -1);
-  // background: yellow;
   padding: 0.25rem 2rem;
   display: inline-flex;
   align-items: center;
-
-  // @include outcomeClasses;
 }
 
 .player-message__text {
   color: white;
 }
+
+//Split Stages Field Classes
 
 .grid__split-stages-container {
   @include grid-item-define(1, -1, 5, 6);
@@ -283,32 +334,14 @@ body {
   border-color: purple;
 }
 
-.grid__player-hand-info {
-  @include grid-item-define(2, -1, 7, 8);
-  display: flex;
-  justify-content: flex-start;
-}
-
-.grid__player-actions {
-  @include grid-item-define(1, -1, 8, -1);
-  display: flex;
-  justify-content: space-between;
-}
-
-.grid__surrender-container {
-  @include grid-item-define(4, -1, 6, 7);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 2;
-}
-
 .split-stage {
   display: inline-block;
 
-  border-width: 2px;
-  border-style: double;
-  border-color: purple;
+  @include border-style($color-border-default, 2px);
+
+  // border-width: 2px;
+  // border-style: double;
+  // border-color: purple;
   padding: 1rem;
   text-align: center;
 }
@@ -322,19 +355,17 @@ body {
 .split-stage__label {
   font-weight: 700;
   color: orange;
-  text-decoration: underline;
+  // text-decoration: underline;
 }
 
 .split-stage__hand-num {
-  color: yellow;
+  color: $color-label-highlight;
   text-decoration: none;
   margin-left: 1rem;
 }
 
 .split-stage__cards {
-  border-width: 2px;
-  border-color: blue;
-  border-style: double;
+  @include border-style(blue, 2px);
   padding: 0rem 1rem;
 }
 
@@ -347,25 +378,23 @@ body {
   padding: 0rem 1rem;
 }
 
-.split-stage-1__result {
-  // background-color: red;
+//Player Actions Field Classes
 
-  // @include outcomeClasses;
+.grid__player-actions {
+  @include grid-item-define(1, -1, 8, -1);
+  display: flex;
+  justify-content: space-between;
 }
 
-.split-stage-2__result {
-  // background-color: orange;
+//Surrender Btn Field Classes
 
-  // @include outcomeClasses;
+.grid__surrender-container {
+  @include grid-item-define(4, -1, 6, 7);
+  @include flex-define(column, center, center, $inline-flex:false);
+  z-index: 2;
 }
 
-.split-stage-3__result {
-  // background-color: yellow;
-  // color: black;
-
-  // @include outcomeClasses;
-}
-
+//Combo Field Classes
 .dealer-message__container,
 .player-message__container,
 .split-stage__result,
@@ -375,120 +404,132 @@ body {
   }
 }
 
+.dealer-cards__container,
+.player-cards__container {
+  position: relative;
+  left: 0rem;
+}
+
+//Hand Outcome Classes
 .--natural {
-  background: yellow;
+  background: $color-natural-outcome;
   color: black !important;
 }
 
 .--bust,
 .--lose {
-  background: red;
-  color: white;
+  @include color-props($color-font-default, $color-lose-outcome);
 }
 
 .--win {
-  background: green;
-  color: white;
+  @include color-props($color-font-default, $color-win-outcome);
 }
 
 .--charlie {
-  background: orange;
-  color: white;
+  @include color-props($color-font-default, $color-charlie-outcome);
 }
 
 .--stand {
-  background: gray;
-  color: white;
+  @include color-props($color-font-default, $color-stand-outcome);
 }
 
 .--push,
 .--surrender {
-  background: gray;
-  color: white;
+  @include color-props($color-font-default, $color-push-outcome);
 }
 
 .--dealerHit {
-  background: gray;
-  color: white;
+  @include color-props($color-font-default, $color-dealerHit-outcome);
 }
+
+//Button Classes
 
 .btn {
   display: inline-block;
 
+  &-system {
+    &__new-game,
+    &__check-side-bet-outcome {
+      display: inline-block;
+    }
+
+    @include btn-action-style-default($color-btn-system-default);
+  
+    margin: 0% 1%;
+
+    @include border-style($color-btn-system-border, 5px);
+  }
+
+  &-action {
+    @include btn-action-style-default(transparent);
+
+    @include border-style(blue, 5px);
+  
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+
+    &:disabled {
+      @include btn-blackjack-action-color($color-btn-disabled-background);
+    }
+    
+    &__doubleDown {
+      @include btn-blackjack-action-color($color-btn-double-down);
+    }
+    
+    &__hit {
+      @include btn-blackjack-action-color($color-btn-hit);
+    }
+    
+    &__stand {
+      @include btn-blackjack-action-color($color-btn-stand);
+      font-size: 40px;
+    }
+    
+    &__split {
+      @include btn-blackjack-action-color($color-btn-split);
+    }
+    
+    &__surrender {
+      @include btn-blackjack-action-color($color-btn-surrender);
+      text-align: center;
+    }
+  }
+  
+
   &__answer,
   &__trivia-difficulty {
-    min-width: 3rem;
-    padding: 1rem 3rem;
-    font-weight: 700;
-
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    @include btn-action-style-default($color-btn-modal-action);
   }
 
   &-basic-bet-modal {
-    @include chip-btn-style;
+    @include btn-chip-style;
 
     &__action {
-      &:disabled {
-        background: rgba(76, 76, 76, 0.5);
-        color: white;
-      }
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 
   &-side-bet-modal {
-    @include chip-btn-style;
+    @include btn-chip-style;
 
     &__action {
-      &:disabled {
-        background: rgba(76, 76, 76, 0.5);
-        color: white;
-      }
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 
   &-extra-bet-modal {
-    @include chip-btn-style;
+    @include btn-chip-style;
 
     &__action {
-      &:disabled {
-        background: rgba(76, 76, 76, 0.5);
-        color: white;
-      }
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 
   &-generic-modal {
     &__action {
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
 
     &__accept-bet {
@@ -498,37 +539,19 @@ body {
 
   &-summary-modal {
     &__action {
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 
   &-winnings-modal {
     &__action {
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 
   &-winning-hand-modal {
     &__action {
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
 
     &__accept-early-surrender {
@@ -538,41 +561,24 @@ body {
 
   &-house-money-modal {
     &__action {
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 
   &-extra-bet-modal {
     &__action {
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 
   &-options-modal {
     &__action {
-      min-width: 3rem;
-      padding: 1rem 3rem;
-      font-weight: 700;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      @include btn-modal-action-style-default;
     }
   }
 }
 
+//Trivia Modal Classes
 #incorrectAnswer {
   background-color: red !important;
 }
@@ -596,68 +602,7 @@ body {
   }
 }
 
-.btn-system__new-game {
-  display: inline-block;
-}
-
-.btn-system__check-side-bet-outcome {
-  display: inline-block;
-}
-
-.btn-action {
-  min-width: 3rem;
-  padding: 1rem 3rem;
-  font-weight: 700;
-
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  background-color: transparent;
-  background-repeat: no-repeat;
-  border-width: 5px;
-  border-color: blue;
-  border-style: double;
-  cursor: pointer;
-  overflow: hidden;
-  outline: none;
-}
-
-.btn-action:disabled {
-  border-color: gray;
-  color: gray;
-}
-
-.btn-action__doubleDown {
-  border-color: orange;
-  color: orange;
-}
-
-.btn-action__hit {
-  border-color: red;
-  color: red;
-}
-
-.btn-action__stand {
-  border-color: green;
-  color: green;
-  font-size: 40px;
-}
-
-.btn-action__split {
-  border-color: blue;
-  color: blue;
-}
-
-.btn-action__surrender {
-  border-color: gray;
-  color: gray;
-  // overflow-wrap: break-word;
-  // writing-mode: vertical-rl;
-  // text-orientation: upright;
-  text-align: center;
-}
-
+//Card Elements and Classes
 ul ul {
   position: absolute;
   top: 0rem;
@@ -678,8 +623,29 @@ li {
   width: 10rem;
 }
 
-.side-bet-modal__active-bet {
-  background-color: blue;
+//Utility Classes
+.display-none {
+  display: none !important;
+}
+
+//Modals
+
+.two-section-modal {
+  display: grid;
+  grid-template-rows: 150px auto;
+}
+
+.three-section-modal {
+  display: grid;
+  grid-template-rows: 100px auto 100px;
+
+  &--scrollbar {
+    height: 100%;
+  }
+}
+
+.modal__main {
+  overflow-y: auto;
 }
 
 .basic-bet-modal,
@@ -694,8 +660,7 @@ li {
 .options-modal {
   &__container {
     background-color: black;
-    border-style: double;
-    border-color: purple;
+    @include border-style($color-border-default, 5px);
     padding: 1rem;
   }
 
@@ -704,16 +669,11 @@ li {
   }
 }
 
-.display-none {
-  display: none !important;
-}
+
 
 .options-modal {
   &__footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
+    @include flex-define(row, flex-end, flex-end, $inline-flex: false);
 
     & > button {
       margin-left: 20px;
@@ -736,13 +696,7 @@ li {
 
   &__bet {
     &-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background-color: purple;
-      width: 75px;
-      height: 75px;
+      @include total-field-style($color-bet-field-bg, 75px);
     }
 
     &-value {
@@ -751,7 +705,7 @@ li {
   }
 
   &__bank-label {
-    color: purple;
+    color: $color-label-default;
   }
 }
 
@@ -766,13 +720,7 @@ li {
   }
 
   &__total-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: purple;
-    width: 75px;
-    height: 75px;
+    @include total-field-style($color-bet-field-bg, 75px);
   }
 
   &__side-bet-div {
@@ -783,13 +731,11 @@ li {
   }
 
   &__side-bet-value-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: purple;
-    width: 50px;
-    height: 50px;
+    @include total-field-style($color-bet-field-bg, 50px);
+  }
+
+  &__active-bet {
+    background-color: blue;
   }
 
   &__chip-container,
@@ -800,7 +746,7 @@ li {
   }
 
   &__bank-label {
-    color: purple;
+    color: $color-label-default;
   }
 }
 
@@ -821,14 +767,10 @@ li {
   &__container {
     display: flex;
     flex-direction: column;
-    // justify-content: space-between;
   }
 
   &__footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
+    @include flex-define(row, flex-end, flex-end, $inline-flex: false);
   }
 }
 
@@ -836,31 +778,31 @@ li {
   &__single-hand-outcome-heading,
   &__split-hand-outcome {
     &--win {
-      color: green;
+      color: $color-win-outcome;
     }
 
     &--lose {
-      color: red;
+      color: $color-lose-outcome;
     }
 
     &--natural {
-      color: yellow;
+      color: $color-natural-outcome;
     }
 
     &--push,
     &--surrender {
-      color: gray;
+      color: $color-push-outcome;
     }
   }
 
   &__single-hand-winnings-label,
   &__split-hand-winnings-label {
-    color: yellow;
+    color: $color-label-highlight;
   }
 
   &__split-hand {
     &-handnum-label {
-      color: purple;
+      color: $color-label-default;
     }
 
     &-outcome-div > span {
@@ -872,7 +814,7 @@ li {
 .summary-modal {
   &__name-label {
     font-size: 3rem;
-    color: purple;
+    color: $color-label-default;
   }
   &__side-bet-div,
   &__base-round-hand-div {
@@ -891,15 +833,15 @@ li {
     padding: 3px 10px;
 
     &--win {
-      background-color: green;
+      background-color: $color-win-outcome;
       color: white;
     }
     &--lose {
-      background-color: red;
+      background-color: $color-lose-outcome;
       color: white;
     }
     &--push {
-      background-color: gray;
+      background-color: $color-push-outcome;
       color: white;
     }
   }
@@ -907,34 +849,28 @@ li {
   &__winnings-label,
   &__total-winnings-label,
   &__payout-label {
-    color: yellow;
+    color: $color-label-highlight;
   }
 
   &__win-summary {
     &-round-label,
     &-side-bet-label {
-      color: blue;
+      color: $color-label-secondary;
     }
   }
 
   &__footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
+    @include flex-define(row, flex-end, flex-end, $inline-flex: false);
   }
 }
 
 .winnings-modal {
   &__title-label {
-    color: yellow;
+    color: $color-label-highlight;
   }
 
   &__btn-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
+    @include flex-define(row, flex-end, flex-end, $inline-flex: false);
   }
 }
 
@@ -945,10 +881,7 @@ li {
 
   &__card-info-container {
     &--early-surrender-modal {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      @include flex-define(column, center, center, $inline-flex: false);
     }
   }
 
@@ -968,18 +901,15 @@ li {
   }
 
   &__player-label {
-    color: blue;
+    color: $color-label-secondary;
   }
 
   &__payout-label {
-    color: yellow;
+    color: $color-label-highlight;
   }
 
   &__footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
+    @include flex-define(row, flex-end, flex-end, $inline-flex: false);
 
     &--early-surrender-modal {
       justify-content: center !important;
@@ -995,7 +925,7 @@ li {
 
   &__win-condition-label,
   &__payout-label {
-    color: purple;
+    color: $color-label-default;
   }
 
   &__main {
@@ -1006,20 +936,17 @@ li {
   }
 
   &__base-bet-label {
-    color: purple;
+    color: $color-label-default;
   }
 
   &__side-bet-label,
   &__winnings-label {
-    color: yellow;
+    color: $color-label-highlight;
   }
 
   &__winning-hand-container {
     @include grid-item-define(1, 2, 1, 2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include flex-define(column, center, center, $inline-flex: false);
   }
 
   &__info-container {
@@ -1110,11 +1037,8 @@ li {
   width: 100px;
   height: 100px;
   border-style: solid;
-  display: inline-block;
   font-size: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-define(row, center, center, $inline-flex: true);
 
   &__container {
     display: flex;
@@ -1183,13 +1107,7 @@ li {
   &__bet-container {
     @include grid-item-define(2, 3, 1, -1);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: purple;
-    width: 75px;
-    height: 75px;
+    @include total-field-style($color-bet-field-bg, 75px);
   }
 
   &__fee-container {
@@ -1200,12 +1118,12 @@ li {
   &__bank-label,
   &__base-bet-label,
   &__initial-side-bet-label {
-    color: purple;
+    color: $color-label-default;
     font-size: 3rem;
   }
 
   &__fee-label {
-    color: yellow;
+    color: $color-label-highlight;
     font-size: 3rem;
   }
 
@@ -1224,9 +1142,7 @@ li {
   }
 
   &__action-btn-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+    @include flex-define(row, flex-end, flex-end, $inline-flex: false);
     margin-top: 20px;
 
     & > button {
@@ -1244,16 +1160,20 @@ li {
   }
 
   &__label {
-    color: purple;
+    color: $color-label-default;
+  }
+
+  &__answer-label {
+    color: $color-label-secondary;
   }
 
   &__title {
     &--correctAnswer {
-      color: green !important;
+      color: $color-label-trivia-correct-answer !important;
     }
 
     &--incorrectAnswer {
-      color: red !important;
+      color: $color-label-trivia-incorrect-answer !important;
     }
   }
 
@@ -1305,37 +1225,6 @@ li {
   }
 }
 
-// .btn-generic-modal__stop-dice {
-//   width: 50px;
-//   height: 50px;
-// }
-
-// .modal {
-//   position: absolute;
-//   float: left;
-//   left: 50%;
-//   top: 50%;
-//   transform: translate(-50%, -50%);
-// }
-
-.two-section-modal {
-  display: grid;
-  grid-template-rows: 150px auto;
-}
-
-.three-section-modal {
-  display: grid;
-  grid-template-rows: 100px auto 100px;
-
-  &--scrollbar {
-    height: 100%;
-  }
-}
-
-.modal__main {
-  overflow-y: auto;
-}
-
 @media screen and (min-width: 700px) {
   html {
     font-size: 8px;
@@ -1357,6 +1246,11 @@ li {
     height: 605px;
   }
 
+  // .three-section-modal,
+  // .two-section-modal {
+  //   width: 700px;
+  // }
+
   .btn-system {
     font-size: 16px;
     padding: 2px;
@@ -1364,9 +1258,10 @@ li {
 
   .grid__round-info {
     @include grid-item-define(1, 2, 2, 3);
-    border-width: 2px;
-    border-style: double;
-    border-color: purple;
+    @include border-style($color-border-default, 2px);
+    // border-width: 2px;
+    // border-style: double;
+    // border-color: purple;
     padding-left: 5px;
   }
 
@@ -1386,14 +1281,14 @@ li {
   }
 
   .dealer-total__value {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: green;
+    @include total-field-style($color-dealer-total-field-bg, 40px);
+    // @include flex-define(row, center, center, $inline-flex: false);
+
+    // background: green;
+    // border-radius: 50%;
+    // width: 40px;
+    // height: 40px;
     font-size: 30px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
   }
 
   .dealer-message__container {
@@ -1419,20 +1314,21 @@ li {
 
   .grid__player-hand-info {
     @include grid-item-define(3, 4, 4, 5);
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    @include flex-define(column, space-around, center, $inline-flex: false);
+    // flex-direction: column;
+    // justify-content: space-around;
+    // align-items: center;
   }
 
   .player-total__value {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: blue;
+    @include total-field-style($color-player-total-field-bg, 40px);
+    
+    // @include flex-define(row, center, center, $inline-flex: false);
+    // background: blue;
+    // border-radius: 50%;
+    // width: 40px;
+    // height: 40px;
     font-size: 30px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
   }
 
   .player-message__container {
@@ -1505,6 +1401,11 @@ li {
     grid-template-rows: 40px 135px 65px 135px 65px 205px;
     height: 705px;
   }
+
+  // .three-section-modal,
+  // .two-section-modal {
+  //   width: 700px;
+  // }
 }
 
 //Screens that are > 400px
@@ -1528,10 +1429,11 @@ li {
 
   .grid__round-info {
     @include grid-item-define(1, 3, 2, 3);
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    @include flex-define(row, flex-start, center, $inline-flex: false);
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: flex-start;
+    // align-items: center;
   }
 
   .bank__label {
@@ -1599,6 +1501,11 @@ li {
     grid-template-columns: auto auto auto auto 5%;
     grid-template-rows: 7% 7% 100px 75px 100px;
   }
+
+  // .three-section-modal,
+  // .two-section-modal {
+  //   width: 7000px;
+  // }
   .card {
     width: 8rem;
   }
@@ -1621,9 +1528,10 @@ li {
   }
 
   .split-stage {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
+    @include flex-define(row, space-between, center, $inline-flex: false);
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+    // flex-direction: row;
   }
 }

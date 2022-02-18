@@ -40,13 +40,16 @@ body {
   justify-content: flex-end;
 }
 
-.btn-system {
-  margin: 0% 1%;
+.grid__round-info {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 4;
 }
 
 .round-info__label {
   font-size: 2.5rem;
-  color: purple;
+  color: #c052d1;
 }
 
 .round-info__value {
@@ -61,17 +64,15 @@ body {
   display: inline;
 }
 
-.grid__round-info {
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 2;
+.grid__dealer-hand-info {
+  grid-column-start: 3;
+  grid-column-end: -1;
+  grid-row-start: 3;
   grid-row-end: 4;
-}
-
-.dealer-total__label {
-  color: green;
-  font-size: 2.5rem;
-  margin-right: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .grid__dealer-cards {
@@ -82,20 +83,17 @@ body {
   max-width: 50%;
 }
 
-.grid__dealer-hand-info {
-  grid-column-start: 3;
-  grid-column-end: -1;
-  grid-row-start: 3;
-  grid-row-end: 4;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+.dealer-total__label {
+  color: green;
+  font-size: 2.5rem;
+  margin-right: 1rem;
 }
 
 .dealer-total__container {
   color: yellow;
   margin: 0% 10%;
   display: inline-flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
@@ -120,21 +118,8 @@ body {
   grid-row-end: 5;
 }
 
-.btn-side-bet {
-  font-family: dPad;
-  color: white;
-  font-weight: 700;
-  padding: 1rem;
-}
-
-.btn-side-bet__even-money-accept {
-  display: none;
-  background-color: green;
-}
-
-.btn-side-bet__even-money-decline {
-  display: none;
-  background-color: red;
+.game-message__text {
+  display: inline-block;
 }
 
 .grid__player-cards {
@@ -144,14 +129,13 @@ body {
   grid-row-end: 7;
 }
 
-.game-message__text {
-  display: inline-block;
-}
-
-.dealer-cards__container,
-.player-cards__container {
-  position: relative;
-  left: 0rem;
+.grid__player-hand-info {
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 7;
+  grid-row-end: 8;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .player-total__container {
@@ -162,6 +146,7 @@ body {
   text-align: right;
   margin: 0% 10%;
   display: inline-flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
@@ -206,13 +191,46 @@ body {
   border-color: purple;
 }
 
-.grid__player-hand-info {
-  grid-column-start: 2;
-  grid-column-end: -1;
-  grid-row-start: 7;
-  grid-row-end: 8;
-  display: flex;
-  justify-content: flex-start;
+.split-stage {
+  display: inline-block;
+  border-style: double;
+  border-color: purple;
+  border-width: 2px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.split-stage-1__container,
+.split-stage-2__container,
+.split-stage-3__container {
+  display: none;
+}
+
+.split-stage__label {
+  font-weight: 700;
+  color: orange;
+}
+
+.split-stage__hand-num {
+  color: yellow;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.split-stage__cards {
+  border-style: double;
+  border-color: blue;
+  border-width: 2px;
+  padding: 0rem 1rem;
+}
+
+.split-stage__total {
+  color: yellow;
+}
+
+.split-stage__result {
+  text-align: center;
+  padding: 0rem 1rem;
 }
 
 .grid__player-actions {
@@ -232,50 +250,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   z-index: 2;
-}
-
-.split-stage {
-  display: inline-block;
-  border-width: 2px;
-  border-style: double;
-  border-color: purple;
-  padding: 1rem;
-  text-align: center;
-}
-
-.split-stage-1__container,
-.split-stage-2__container,
-.split-stage-3__container {
-  display: none;
-}
-
-.split-stage__label {
-  font-weight: 700;
-  color: orange;
-  text-decoration: underline;
-}
-
-.split-stage__hand-num {
-  color: yellow;
-  text-decoration: none;
-  margin-left: 1rem;
-}
-
-.split-stage__cards {
-  border-width: 2px;
-  border-color: blue;
-  border-style: double;
-  padding: 0rem 1rem;
-}
-
-.split-stage__total {
-  color: yellow;
-}
-
-.split-stage__result {
-  text-align: center;
-  padding: 0rem 1rem;
 }
 
 .dealer-message__container:first-letter,
@@ -285,6 +261,12 @@ body {
   text-transform: uppercase;
 }
 
+.dealer-cards__container,
+.player-cards__container {
+  position: relative;
+  left: 0rem;
+}
+
 .--natural {
   background: yellow;
   color: black !important;
@@ -292,44 +274,112 @@ body {
 
 .--bust,
 .--lose {
-  background: red;
   color: white;
+  background-color: red;
 }
 
 .--win {
-  background: green;
   color: white;
+  background-color: green;
 }
 
 .--charlie {
-  background: orange;
   color: white;
+  background-color: orange;
 }
 
 .--stand {
-  background: gray;
   color: white;
+  background-color: gray;
 }
 
 .--push,
 .--surrender {
-  background: gray;
   color: white;
+  background-color: gray;
 }
 
 .--dealerHit {
-  background: gray;
   color: white;
+  background-color: gray;
 }
 
 .btn {
   display: inline-block;
 }
+.btn-system {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  background-color: #d9c8db;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0% 1%;
+  border-style: double;
+  border-color: purple;
+  border-width: 5px;
+}
+.btn-system__new-game, .btn-system__check-side-bet-outcome {
+  display: inline-block;
+}
+.btn-action {
+  min-width: 3rem;
+  padding: 1rem 3rem;
+  font-weight: 700;
+  background-color: transparent;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-style: double;
+  border-color: blue;
+  border-width: 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+.btn-action:disabled {
+  color: gray;
+  background-color: transparent;
+  border-color: gray;
+}
+.btn-action__doubleDown {
+  color: orange;
+  background-color: transparent;
+  border-color: orange;
+}
+.btn-action__hit {
+  color: red;
+  background-color: transparent;
+  border-color: red;
+}
+.btn-action__stand {
+  color: green;
+  background-color: transparent;
+  border-color: green;
+  font-size: 40px;
+}
+.btn-action__split {
+  color: blue;
+  background-color: transparent;
+  border-color: blue;
+}
+.btn-action__surrender {
+  color: gray;
+  background-color: transparent;
+  border-color: gray;
+  text-align: center;
+}
 .btn__answer, .btn__trivia-difficulty {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -341,45 +391,47 @@ body {
   font-weight: 700;
 }
 .btn-basic-bet-modal__chip:disabled {
-  border-color: gray;
   color: gray;
   background-color: black;
+  border-color: gray;
 }
 .btn-basic-bet-modal__1 {
-  border-color: white;
-  background-color: #4c4c4c;
   color: white;
+  background-color: #4c4c4c;
+  border-color: white;
 }
 .btn-basic-bet-modal__5 {
-  border-color: white;
-  background-color: #2cbbc1;
   color: white;
+  background-color: #2cbbc1;
+  border-color: white;
 }
 .btn-basic-bet-modal__10 {
-  border-color: white;
-  background-color: #ce3501;
   color: white;
+  background-color: #ce3501;
+  border-color: white;
 }
 .btn-basic-bet-modal__25 {
-  border-color: white;
-  background-color: #019934;
   color: white;
+  background-color: #019934;
+  border-color: white;
 }
 .btn-basic-bet-modal__100 {
-  border-color: white;
-  background-color: #663398;
   color: white;
+  background-color: #663398;
+  border-color: white;
 }
 .btn-basic-bet-modal__500 {
-  border-color: white;
-  background-color: #d88206;
   color: white;
+  background-color: #d88206;
+  border-color: white;
 }
 .btn-basic-bet-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -395,45 +447,47 @@ body {
   font-weight: 700;
 }
 .btn-side-bet-modal__chip:disabled {
-  border-color: gray;
   color: gray;
   background-color: black;
+  border-color: gray;
 }
 .btn-side-bet-modal__1 {
-  border-color: white;
-  background-color: #4c4c4c;
   color: white;
+  background-color: #4c4c4c;
+  border-color: white;
 }
 .btn-side-bet-modal__5 {
-  border-color: white;
-  background-color: #2cbbc1;
   color: white;
+  background-color: #2cbbc1;
+  border-color: white;
 }
 .btn-side-bet-modal__10 {
-  border-color: white;
-  background-color: #ce3501;
   color: white;
+  background-color: #ce3501;
+  border-color: white;
 }
 .btn-side-bet-modal__25 {
-  border-color: white;
-  background-color: #019934;
   color: white;
+  background-color: #019934;
+  border-color: white;
 }
 .btn-side-bet-modal__100 {
-  border-color: white;
-  background-color: #663398;
   color: white;
+  background-color: #663398;
+  border-color: white;
 }
 .btn-side-bet-modal__500 {
-  border-color: white;
-  background-color: #d88206;
   color: white;
+  background-color: #d88206;
+  border-color: white;
 }
 .btn-side-bet-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -449,45 +503,47 @@ body {
   font-weight: 700;
 }
 .btn-extra-bet-modal__chip:disabled {
-  border-color: gray;
   color: gray;
   background-color: black;
+  border-color: gray;
 }
 .btn-extra-bet-modal__1 {
-  border-color: white;
-  background-color: #4c4c4c;
   color: white;
+  background-color: #4c4c4c;
+  border-color: white;
 }
 .btn-extra-bet-modal__5 {
-  border-color: white;
-  background-color: #2cbbc1;
   color: white;
+  background-color: #2cbbc1;
+  border-color: white;
 }
 .btn-extra-bet-modal__10 {
-  border-color: white;
-  background-color: #ce3501;
   color: white;
+  background-color: #ce3501;
+  border-color: white;
 }
 .btn-extra-bet-modal__25 {
-  border-color: white;
-  background-color: #019934;
   color: white;
+  background-color: #019934;
+  border-color: white;
 }
 .btn-extra-bet-modal__100 {
-  border-color: white;
-  background-color: #663398;
   color: white;
+  background-color: #663398;
+  border-color: white;
 }
 .btn-extra-bet-modal__500 {
-  border-color: white;
-  background-color: #d88206;
   color: white;
+  background-color: #d88206;
+  border-color: white;
 }
 .btn-extra-bet-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -499,9 +555,15 @@ body {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.btn-generic-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
 }
 .btn-generic-modal__accept-bet {
   margin-right: 10px;
@@ -510,25 +572,43 @@ body {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.btn-summary-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
 }
 .btn-winnings-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.btn-winnings-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
 }
 .btn-winning-hand-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.btn-winning-hand-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
 }
 .btn-winning-hand-modal__accept-early-surrender {
   margin-right: 20px;
@@ -537,25 +617,43 @@ body {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.btn-house-money-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
 }
 .btn-extra-bet-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.btn-extra-bet-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
 }
 .btn-options-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
+  background-color: #d9c8db;
   display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.btn-options-modal__action:disabled {
+  background: rgba(76, 76, 76, 0.5);
+  color: white;
 }
 
 #incorrectAnswer {
@@ -574,63 +672,6 @@ body {
 }
 .trivia__credits-modifier--plus-1, .trivia__credits-modifier--plus-5 {
   color: green;
-}
-
-.btn-system__new-game {
-  display: inline-block;
-}
-
-.btn-system__check-side-bet-outcome {
-  display: inline-block;
-}
-
-.btn-action {
-  min-width: 3rem;
-  padding: 1rem 3rem;
-  font-weight: 700;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  border-width: 5px;
-  border-color: blue;
-  border-style: double;
-  cursor: pointer;
-  overflow: hidden;
-  outline: none;
-}
-
-.btn-action:disabled {
-  border-color: gray;
-  color: gray;
-}
-
-.btn-action__doubleDown {
-  border-color: orange;
-  color: orange;
-}
-
-.btn-action__hit {
-  border-color: red;
-  color: red;
-}
-
-.btn-action__stand {
-  border-color: green;
-  color: green;
-  font-size: 40px;
-}
-
-.btn-action__split {
-  border-color: blue;
-  color: blue;
-}
-
-.btn-action__surrender {
-  border-color: gray;
-  color: gray;
-  text-align: center;
 }
 
 ul ul {
@@ -653,8 +694,25 @@ li {
   width: 10rem;
 }
 
-.side-bet-modal__active-bet {
-  background-color: blue;
+.display-none {
+  display: none !important;
+}
+
+.two-section-modal {
+  display: grid;
+  grid-template-rows: 150px auto;
+}
+
+.three-section-modal {
+  display: grid;
+  grid-template-rows: 100px auto 100px;
+}
+.three-section-modal--scrollbar {
+  height: 100%;
+}
+
+.modal__main {
+  overflow-y: auto;
 }
 
 .basic-bet-modal__container,
@@ -670,6 +728,7 @@ li {
   background-color: black;
   border-style: double;
   border-color: purple;
+  border-width: 5px;
   padding: 1rem;
 }
 .basic-bet-modal__title,
@@ -683,10 +742,6 @@ li {
 .trivia-modal__title,
 .options-modal__title {
   text-align: center !important;
-}
-
-.display-none {
-  display: none !important;
 }
 
 .options-modal__footer {
@@ -710,8 +765,9 @@ li {
 }
 .basic-bet-modal__bet-container {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: purple;
   width: 75px;
@@ -721,7 +777,7 @@ li {
   text-align: center;
 }
 .basic-bet-modal__bank-label {
-  color: purple;
+  color: #c052d1;
 }
 
 .side-bet-modal__container {
@@ -733,8 +789,9 @@ li {
 }
 .side-bet-modal__total-container {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: purple;
   width: 75px;
@@ -748,12 +805,16 @@ li {
 }
 .side-bet-modal__side-bet-value-container {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: purple;
   width: 50px;
   height: 50px;
+}
+.side-bet-modal__active-bet {
+  background-color: blue;
 }
 .side-bet-modal__chip-container, .side-bet-modal__action-btn-container {
   display: flex;
@@ -761,7 +822,7 @@ li {
   margin: 2rem 0rem;
 }
 .side-bet-modal__bank-label {
-  color: purple;
+  color: #c052d1;
 }
 
 .generic-modal__title {
@@ -798,7 +859,7 @@ li {
   color: yellow;
 }
 .base-round-outcome-modal__split-hand-handnum-label {
-  color: purple;
+  color: #c052d1;
 }
 .base-round-outcome-modal__split-hand-outcome-div > span {
   margin-right: 10px;
@@ -806,7 +867,7 @@ li {
 
 .summary-modal__name-label {
   font-size: 3rem;
-  color: purple;
+  color: #c052d1;
 }
 .summary-modal__side-bet-div, .summary-modal__base-round-hand-div {
   margin-bottom: 10px;
@@ -893,7 +954,7 @@ li {
   text-align: center;
 }
 .house-money-modal__win-condition-label, .house-money-modal__payout-label {
-  color: purple;
+  color: #c052d1;
 }
 .house-money-modal__main {
   display: grid;
@@ -902,7 +963,7 @@ li {
   gap: 10px;
 }
 .house-money-modal__base-bet-label {
-  color: purple;
+  color: #c052d1;
 }
 .house-money-modal__side-bet-label, .house-money-modal__winnings-label {
   color: yellow;
@@ -1015,9 +1076,9 @@ li {
   width: 100px;
   height: 100px;
   border-style: solid;
-  display: inline-block;
   font-size: 3rem;
-  display: flex;
+  display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -1087,8 +1148,9 @@ li {
   grid-row-start: 1;
   grid-row-end: -1;
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: purple;
   width: 75px;
@@ -1102,7 +1164,7 @@ li {
   text-align: center;
 }
 .extra-bet-modal__bank-label, .extra-bet-modal__base-bet-label, .extra-bet-modal__initial-side-bet-label {
-  color: purple;
+  color: #c052d1;
   font-size: 3rem;
 }
 .extra-bet-modal__fee-label {
@@ -1119,6 +1181,7 @@ li {
 }
 .extra-bet-modal__action-btn-container {
   display: flex;
+  flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
   margin-top: 20px;
@@ -1131,7 +1194,10 @@ li {
   text-align: center !important;
 }
 .trivia-modal__label {
-  color: purple;
+  color: #c052d1;
+}
+.trivia-modal__answer-label {
+  color: blue;
 }
 .trivia-modal__title--correctAnswer {
   color: green !important;
@@ -1174,23 +1240,6 @@ li {
   margin: 2rem 0rem;
 }
 
-.two-section-modal {
-  display: grid;
-  grid-template-rows: 150px auto;
-}
-
-.three-section-modal {
-  display: grid;
-  grid-template-rows: 100px auto 100px;
-}
-.three-section-modal--scrollbar {
-  height: 100%;
-}
-
-.modal__main {
-  overflow-y: auto;
-}
-
 @media screen and (min-width: 700px) {
   html {
     font-size: 8px;
@@ -1222,9 +1271,9 @@ li {
     grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 3;
-    border-width: 2px;
     border-style: double;
     border-color: purple;
+    border-width: 2px;
     padding-left: 5px;
   }
 
@@ -1251,13 +1300,14 @@ li {
 
   .dealer-total__value {
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    background: green;
-    font-size: 30px;
+    align-items: center;
     border-radius: 50%;
+    background-color: green;
     width: 40px;
     height: 40px;
+    font-size: 30px;
   }
 
   .dealer-message__container {
@@ -1292,6 +1342,7 @@ li {
     grid-column-end: 4;
     grid-row-start: 4;
     grid-row-end: 5;
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
@@ -1299,13 +1350,14 @@ li {
 
   .player-total__value {
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    background: blue;
-    font-size: 30px;
+    align-items: center;
     border-radius: 50%;
+    background-color: blue;
     width: 40px;
     height: 40px;
+    font-size: 30px;
   }
 
   .player-message__container {
@@ -1538,9 +1590,9 @@ li {
 
   .split-stage {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    flex-direction: row;
   }
 }
 
