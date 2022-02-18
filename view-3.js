@@ -836,7 +836,7 @@ export let splitStageField = {
       changeSplitStageResult(this.stage3.result, outcome, outcomeText);
 
     function changeSplitStageResult(elem, outcome, outcomeText) {
-      elem.classList.add(`split-stage__result--${outcome}`);
+      elem.classList.add(`--${outcome}`);
       elem.textContent = outcomeText;
     }
   },
