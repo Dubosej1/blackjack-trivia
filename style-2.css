@@ -582,6 +582,11 @@ body {
   background: rgba(76, 76, 76, 0.5);
   color: white;
 }
+.btn-summary-modal__display-hand {
+  font-weight: 700;
+  background-color: #d9c8db;
+  padding: 5px 5px;
+}
 .btn-winnings-modal__action {
   min-width: 3rem;
   padding: 1rem 3rem;
@@ -654,24 +659,6 @@ body {
 .btn-options-modal__action:disabled {
   background: rgba(76, 76, 76, 0.5);
   color: white;
-}
-
-#incorrectAnswer {
-  background-color: red !important;
-}
-
-.correctAnswer--display {
-  background-color: green !important;
-}
-
-.trivia__credits-modifier {
-  display: none;
-}
-.trivia__credits-modifier--minus-1 {
-  color: red;
-}
-.trivia__credits-modifier--plus-1, .trivia__credits-modifier--plus-5 {
-  color: green;
 }
 
 ul ul {
@@ -783,6 +770,9 @@ li {
 .side-bet-modal__container {
   grid-template-rows: 150px auto 100px !important;
 }
+.side-bet-modal__directions-text {
+  text-align: center;
+}
 .side-bet-modal__info-container {
   display: flex;
   justify-content: space-around;
@@ -801,7 +791,7 @@ li {
   display: flex;
   justify-content: space-between;
   margin: 10px 0px;
-  padding: 5px 0px;
+  padding: 5px 10px;
 }
 .side-bet-modal__side-bet-value-container {
   display: flex;
@@ -990,7 +980,7 @@ li {
   grid-row-start: 2;
   grid-row-end: -1;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 230px auto;
   grid-template-rows: auto auto auto auto auto;
   gap: 10px;
 }
@@ -1240,6 +1230,24 @@ li {
   margin: 2rem 0rem;
 }
 
+#incorrectAnswer {
+  background-color: red !important;
+}
+
+.correctAnswer--display {
+  background-color: green !important;
+}
+
+.trivia__credits-modifier {
+  display: none;
+}
+.trivia__credits-modifier--minus-1 {
+  color: red;
+}
+.trivia__credits-modifier--plus-1, .trivia__credits-modifier--plus-5 {
+  color: green;
+}
+
 @media screen and (min-width: 700px) {
   html {
     font-size: 8px;
@@ -1251,6 +1259,10 @@ li {
     align-items: center;
     height: 100vh;
     width: 100vw;
+  }
+
+  .modal {
+    font-size: 18px;
   }
 
   .grid-container {
@@ -1319,11 +1331,6 @@ li {
     grid-column-end: -1;
     grid-row-start: 3;
     grid-row-end: 4;
-  }
-
-  .btn-side-bet {
-    font-size: 30px;
-    min-width: 70px;
   }
 
   .player-total__hand-num {
@@ -1428,6 +1435,14 @@ li {
     width: 90px;
   }
 }
+.side-bet-modal__container {
+  grid-template-rows: 150px auto 150px !important;
+}
+
+.house-money-modal__action-container {
+  grid-template-columns: auto auto;
+}
+
 @media screen and (min-width: 1000px) {
   html {
     font-size: 11px;
@@ -1593,6 +1608,25 @@ li {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .side-bet-modal__total-container {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .three-section-modal,
+.two-section-modal {
+    grid-template-rows: 110px auto 90px !important;
+  }
+}
+@media screen and (max-width: 430px) and (min-height: 700px) {
+  html {
+    font-size: 8px !important;
+  }
+
+  .house-money-modal__action-container {
+    grid-template-columns: 230px auto;
   }
 }
 
