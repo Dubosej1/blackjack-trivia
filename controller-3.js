@@ -387,6 +387,7 @@ export function clearRoundData(gameState) {
     let bank = 0;
     view.gameInfoFields.updateBank(bank);
     view.demoCards.renderFields();
+    view.gameInfoFields.toggleDisplayStartNextRoundBtn(false);
     view.gameInfoFields.toggleDisplayOptionsBtn(true);
     view.gameInfoFields.toggleDisplayNewGameBtn(true);
     gameState.toggleEnableActionBtns = {
