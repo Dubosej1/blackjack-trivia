@@ -385,6 +385,9 @@ export let sideBetModal = {
     if (elem.dataset.betType == `no-chip`) toggleActivateSideBetBtn(true, this);
     else toggleActivateSideBetBtn(false, this);
 
+    if (elemBetField.textContent == 0) toggleDisableBtn(this.clearBetBtn, true);
+    else toggleDisableBtn(this.clearBetBtn, false);
+
     elem.classList.add(`side-bet-modal__active-bet`);
     elemBetField.classList.add(`side-bet-modal__active-value`);
 
@@ -412,6 +415,10 @@ export let sideBetModal = {
         modalObj.toggleDisplayElementOn(modalObj.activateBetBtn, false);
         // modalObj.activateBetBtn.style.display = `none`;
       }
+    }
+
+    function toggleDisableClearBtn(toggle, modal) {
+      toggle ? modal.clearBetBtn.disable = true : modal.clearBetBtn.disable = false;
     }
   },
 
