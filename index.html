@@ -4,117 +4,978 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>BlackJack Trivia</title>
+    <title>BlackJack Trivia REDO</title>
     <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style-2.css" />
+    <link rel="stylesheet" href="popbox/popbox.css" />
   </head>
   <body>
-    <div class="nav">
-      <button class="btn btn__nav btn__newGame">New Game</button>
-      <button class="btn btn__nav btn__endGame">End Game</button>
-    </div>
-
-    <div class="info">
-      <div class="info__bank-container">
-        <p class="info__bank">Bank <span class="bank"></span></p>
+    <div class="grid-container">
+      <div class="grid__system-btn-container">
+        <button class="btn btn-system btn-system__end-game display-none">End Game</button>
+        <button class="btn btn-system btn-system__settings" data-popbox-target="options-modal">Options</button>
+        <button class="btn btn-system btn-system__log display-none">Log</button>
       </div>
-      <div class="info__notice-container">
-        <h1 class="notice">Welcome to BlackJack Trivia!</h1>
-      </div>
-    </div>
-    <div class="dealer-info">
-      <div class="dealer-info__notice-container"></div>
-      <div class="dealer-info__card-container">
-        <span class="dealerHand"></span>
-      </div>
-      <div class="dealer-info__count-container">
-        <span class="dealer-info__count">Dealer </span><div class="dealer-info__count-background"><span class="dealerHandTotal">  </span></div>
-      </div>
-    </div>
-
-    <div class="player-actions">
-      <div class="player-actions__actions-container">
-        <button class="btn btn__action btn__hit">Hit</button>
-        <button class="btn btn__action btn__doubleDown">Double Down</button>
-        <button class="btn btn__action btn__split">Split</button>
-        <button class="btn btn__action btn__insurance">Insurance</button>
-        <button class="btn btn__action btn__evenMoney">Even Money</button>
-        <button class="btn btn__action btn__surrender">Surrender</button>
-      </div>
-      <div class="player-actions__bet-container">
-        <p class="player-actions__bet">Current Bet <span class="betAmount"></span></p>
-        <p class="player-actions__insurance">Insurance Bet <span class="insuranceBetAmount"> </span></p>
-        <p class="player-actions__submit-bet"><label for="betValue">How much to bet:</label>
-        <input type="text" id="betValue" name="betValue" />
-        <button type="button" class="btn btn__submitBetValue">Submit</button
-        ></p><br /><br />
-      </div>
-      <div class="player-actions__deal-container">
-        <button class="btn btn__action btn__deal-cards">Deal</button>
-        <button class="btn btn__action btn__stand">Stand</button>
-      </div>
-    </div>
-
-    <div class="player-info">
-      <div class="player-info__notice-container"></div>
-      <div class="player-info__card-container">
-      <span class="playerHand"></span>
-      </div>
-      <div class="player-info__count-container">
-        <span class="player-info__count">Player </span><div class="player-info__count-background"><span class="playerHandTotal">  </span></div>
-      </div>
-    </div>
-
-    <div class="split-info">
-      <div class="split-info__blank">
-        <p class="split-info__bet">Bet <span class="splitBetAmount">---</span></p>
-      </div>
-      <div class="split-info__card-container">
-        <span class="playerSplitHand"></span>
-      </div>
-      <div class="split-info__count-container">
-        <span class="split-info__count">Hand 2 </span><div class="split-info__count-background"><span class="playerSplitHandTotal">  </span></div>
-      </div>
-    </div>
-    <br />
-
-    <div id="trivia__modal" class="trivia__modal">
-      <div class="trivia__modal-content">
-        <h1 class="trivia__modal-heading">Hit Trivia Question</h1>
-        <div class="trivia__modal-label--container">
-          <div>Category: <span class="trivia__category"></span></div>
-          <div>Difficulty: <span class="trivia__difficulty"></span></div>
+      <!-- <div class="topArea"> -->
+      <div class="grid__round-info">
+        <div class="round-info__label bank__label">
+          Bank: <span class="round-info__value bank__value">0</span>
         </div>
-        <div><h2 class="trivia__question">Select Trivia Difficulty</h2></div>
-        <div class="trivia__modal-answer-table">
-          <div class="trivia__modal-answer-table--item">A: <span class="trivia__answer-a"></span></div>
-          <div class="trivia__modal-answer-table--item">B: <span class="trivia__answer-b"></span></div><br /></br /><hr>
-          <div class="break"> </div>
-          <div class="trivia__modal-answer-table--item">C: <span class="trivia__answer-c"></span></div>
-          <div class="trivia__modal-answer-table--item">D: <span class="trivia__answer-d"></span></div>
+        <div class="round-info__label bet__label">
+          Bet: <span class="round-info__value bet__value">0</span>
+          <span class="round-info__double-down-marker display-none">X 2</span>
         </div>
-        <div class="trivia__modal-button-container">
-          <button class="btn btn__answer btn__answer-multiple btn__answer-a">A</button>
-          <button class="btn btn__answer btn__answer-multiple btn__answer-b">B</button>
-          <button class="btn btn__answer btn__answer-multiple btn__answer-c">C</button>
-          <button class="btn btn__answer btn__answer-multiple btn__answer-d">D</button><br /><br />
-          <button class="btn btn__answer btn__answer-boolean btn__answer-true" data-ans="True">True</button>
-          <button class="btn btn__answer btn__answer-boolean btn__answer-false" data-ans="False">False</button><br /><br />
-          <button class="btn btn__trivia-difficulty btn__easy">Easy</button>
-          <button class="btn btn__trivia-difficulty btn__medium">Medium</button>
-          <button class="btn btn__trivia-difficulty btn__hard">Hard</button>
-        </div>
-          <h2 class="trivia__modal-answer-correct--container">Correct Answer: <span class="trivia__answer-correct"></span></h2>
-
+        <!--- Programmatically add current info here like streak counts, jackpots, view Jackpot btn, view side bet btn, etc-->
+      </div>
+      <div class="grid__dealer-cards">
+        <div class="dealer-cards__container">
+          <ul>
+            <li class="dealerCardPos dealer-cards__li">
+              <img
+                class="card dealerCard dealer-cards__card"
+                src="https://deckofcardsapi.com/static/img/2S.png"
+              />
+              <ul>
+                <li class="dealerCardPos dealer-cards__li">
+                  <img
+                    class="card dealerCard dealer-cards__card"
+                    src="https://deckofcardsapi.com/static/img/8C.png"
+                  />
+                  <ul>
+                    <li class="dealerCardPos dealer-cards__li">
+                      <img
+                        class="card dealerCard dealer-cards__card"
+                        src="https://deckofcardsapi.com/static/img/0S.png"
+                      />
+                      <ul>
+                        <li class="dealerCardPos dealer-cards__li">
+                          <img
+                            class="card dealerCard dealer-cards__card"
+                            src="https://deckofcardsapi.com/static/img/JC.png"
+                          />
+                          <ul>
+                            <li class="dealerCardPos dealer-cards__li">
+                              <img
+                                class="card dealerCard dealer-cards__card"
+                                src="https://deckofcardsapi.com/static/img/QS.png"
+                              />
+                              <ul>
+                                <li class="dealerCardPos dealer-cards__li">
+                                  <img
+                                    class="card dealerCard dealer-cards__card"
+                                    src="https://deckofcardsapi.com/static/img/KC.png"
+                                  />
+                                  <ul>
+                                    <li class="dealerCardPos dealer-cards__li">
+                                      <img
+                                        class="
+                                          card
+                                          dealerCard
+                                          dealer-cards__card
+                                        "
+                                        src="https://deckofcardsapi.com/static/img/AS.png"
+                                      />
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
+      <div class="dealerHandInfo grid__dealer-hand-info">
+        <div class="dealerTotalField dealer-total__container">
+          <span class="dealerLabel dealer-total__label">Dealer</span>
+          <span class="dealerTotal dealer-total__value"> </span>
+        </div>
+        <div class="dealerMessageField dealer-message__container">
+          <span class="dealerMessageText dealer-message__text"></span>
+        </div>
+      </div>
+      <!-- <div class="dealerResultArea">
+            <span class="dealerMessageText">Bust</span>
+
+        </div> -->
+      <!-- </div> -->
+      <div class="grid__game-message">
+        <!--Programmatically add Win status and total won, and the pregame actions (Even Money, Insurance, etc)-->
+        <div class="game-message__container">
+          <h1 class="game-message__text">Blackjack Trivia </h1>
+        </div>
+        <button class="btn btn-system btn-system__new-game">Start New Game</button>
+        <button class="btn btn-system btn-system__check-side-bet-outcome display-none">Check Side Bets!</button>
+        <button class="btn btn-system btn-system__start-next-round display-none">Start Next Round</button>
+      </div>
+      <div class="grid__split-stages-container">
+        <div class="split-stage split-stage-1__container">
+          <div class="split-stage__label">
+            Hand
+            <span class="split-stage__hand-num split-stage-1__hand-num"></span>
+          </div>
+          <div class="split-stage__cards split-stage-1__cards"></div>
+          <div class="split-stage__total split-stage-1__total"></div>
+          <div class="split-stage__result split-stage-1__result"></div>
+          <!-- <span class="splitStage2Hand">Hand 3:</span><span class="splitStage2Cards">[AD, AH, 2S, AS, AC, 2C, KD]</span><span class="splitStage2Total">Total: 17</span><span class="splitStage2Result">7 Card Charlie</span><br>
+            <span class="splitStage3Hand">Hand 4:</span><span class="splitStage3Cards">[AH, KD]</span><span class="splitStage3Total">Total: 19</span><span class="splitStage3Result">Blackjack</span> -->
+        </div>
+        <div class="split-stage split-stage-2__container">
+          <div class="split-stage__label">
+            Hand
+            <span class="split-stage__hand-num split-stage-2__hand-num"></span>
+          </div>
+          <div class="split-stage__cards split-stage-2__cards split-stage-2__cards-row-1"></div>
+          <div class="split-stage__cards split-stage-2__cards-row-2"></div>
+          <div class="split-stage__total split-stage-2__total"></div>
+          <div class="split-stage__result split-stage-2__result"></div>
+        </div>
+        <div class="split-stage split-stage-3__container">
+          <div class="split-stage__label">
+            Hand
+            <span class="split-stage__hand-num split-stage-3__hand-num"></span>
+          </div>
+          <div class="split-stage__cards split-stage-3__cards"></div>
+          <div class="split-stage__total split-stage-3__total"></div>
+          <div class="split-stage__result split-stage-3__result"></div>
+        </div>
+      </div>
+      <!-- <div class="playerArea"> -->
+      <!-- <div class="playerCurrentHandArea">
+              <span class="playerCurrentHandField">Hand <span class="playerCurrentHand">1</span></span>
+          </div> -->
+      <div class="grid__player-cards">
+        <div class="player-cards__container">
+          <ul>
+            <li class="playerCardPos player-cards__li">
+              <img
+                class="card playerCard player-cards__card"
+                src="https://deckofcardsapi.com/static/img/AH.png"
+              />
+              <ul>
+                <li class="playerCardPos player-cards__li">
+                  <img
+                    class="card playerCard player-cards__card"
+                    src="https://deckofcardsapi.com/static/img/KH.png"/>
+                  <ul>
+                    <li class="playerCardPos player-cards__li">
+                      <img
+                        class="card playerCard player-cards__card"
+                        src="https://deckofcardsapi.com/static/img/QD.png"
+                      />
+                      <ul>
+                        <li class="playerCardPos player-cards__li">
+                          <img
+                            class="card playerCard player-cards__card"
+                            src="https://deckofcardsapi.com/static/img/JH.png"
+                          />
+                          <ul>
+                            <li class="playerCardPos player-cards__li">
+                              <img
+                                class="card playerCard player-cards__card"
+                                src="https://deckofcardsapi.com/static/img/0D.png"
+                              />
+                              <ul>
+                                <li class="playerCardPos player-cards__li">
+                                  <img
+                                    class="card playerCard player-cards__card"
+                                    src="https://deckofcardsapi.com/static/img/8H.png"
+                                  />
+                                  <ul>
+                                    <li class="playerCardPos player-cards__li">
+                                      <img
+                                        class="
+                                          card
+                                          playerCard
+                                          player-cards__card
+                                        "
+                                        src="https://deckofcardsapi.com/static/img/2D.png"
+                                      />
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid__player-hand-info">
+        <div class="player-total__container">
+          <span class="player-total__label">Player </span
+          ><span class="player-total__hand-num"></span>
+          <span class="player-total__value"></span>
+        </div>
+        <div class="player-message__container">
+          <span class="player-message__text"></span>
+        </div>
+      </div>
+      <!-- </div> -->
+
+      <div class="grid__player-actions">
+        <button class="btn btn-action btn-action__doubleDown">X2</button>
+        <button class="btn btn-action btn-action__hit">+</button>
+        <button class="btn btn-action btn-action__stand">-</button>
+        <button class="btn btn-action btn-action__split">/</button>
+      </div>
+      <div class="grid__surrender-container">
+        <button class="btn btn-action btn-action__surrender">⚑</button>
+      </div>
     </div>
 
-    <!-- <script src="index.js" async defer></script> -->
-    <script type="module" src="/controller.js" async defer></script>
+    <!-- <div id="trivia__modal" class="trivia__modal"> -->
+    <div data-popbox-id="trivia-modal" class="popbox modal">
+      <div class="trivia-modal__container">
+        <div class="trivia-modal__header">
+          <h1 class="trivia-modal__title">Hit Trivia Question</h1>
+        </div>
+        <div class="trivia-modal__main">
+    
+          <div class="trivia-modal__credits-container">
+            <span><span class="trivia-modal__label">Current Credits:  </span><span class="trivia__credits"></span></span>
+            <span class="trivia__credits-modifier trivia__credits-modifier--minus-1 display-none">    -1</span>
+            <span class="trivia__credits-modifier trivia__credits-modifier--plus-1 display-none">     +1</span>
+            <span class="trivia__credits-modifier trivia__credits-modifier--plus-5 display-none">     +5</span>
+          </div>
+          <div class="trivia-modal__label-container display-none">
+            <div><span class="trivia-modal__label">Category:  </span><span class="trivia__category"></span></div>
+            <div><span class="trivia-modal__label">Difficulty:  </span><span class="trivia__difficulty"></span></div>
+          </div>
+
+          <div class="trivia-modal__trivia-question-container"><h2 class="trivia__question">Select Trivia Difficulty</h2></div>
+          <div class="trivia-modal__answer-table display-none">
+            <div class="trivia-modal__answer-table-item-a"><span class="trivia-modal__answer-label">A: </span><span class="trivia-modal__answer trivia-modal__answer-a"></span></div>
+            <div class="trivia-modal__answer-table-item-b"><span class="trivia-modal__answer-label">B: </span><span class="trivia-modal__answer trivia-modal__answer-b"></span></div>
+            <!-- <div class="break"> </div> -->
+            <div class="trivia-modal__answer-table-item-c"><span class="trivia-modal__answer-label">C: </span><span class="trivia-modal__answer trivia-modal__answer-c"></span></div>
+            <div class="trivia-modal__answer-table-item-d"><span class="trivia-modal__answer-label">D: </span><span class="trivia-modal__answer trivia-modal__answer-d"></span></div>
+          </div>
+          <div class="trivia-modal__footer">
+            <div class="trivia-modal__multiple-choice-btn-container display-none">
+            <button class="btn btn__answer btn__answer-multiple btn__answer-a">A</button>
+            <button class="btn btn__answer btn__answer-multiple btn__answer-b">B</button>
+            <button class="btn btn__answer btn__answer-multiple btn__answer-c">C</button>
+            <button class="btn btn__answer btn__answer-multiple btn__answer-d">D</button>
+            </div>
+            <div class="trivia-modal__boolean-choice-btn-container display-none">
+            <button class="btn btn__answer btn__answer-boolean btn__answer-true" data-ans="True">True</button>
+            <button class="btn btn__answer btn__answer-boolean btn__answer-false" data-ans="False">False</button>
+            </div>
+            <div class="trivia-modal__difficulty-btn-container">
+            <button class="btn btn__trivia-difficulty btn__easy" data-difficulty="easy">Easy</button>
+           <button class="btn btn__trivia-difficulty btn__medium" data-difficulty="medium">Medium</button>
+           <button class="btn btn__trivia-difficulty btn__hard" data-difficulty="hard">Hard</button>
+           </div>
+          </div>
+            <h2 class="trivia-modal__answer-correct-container display-none">Correct Answer: <span class="trivia-modal__answer-correct"></span></h2>
+
+        </div>
+      </div>
+    </div>
+
+    <div data-popbox-id="basic-bet-modal" class="popbox modal">
+    <!-- <div class="basic-bet-modal modal"> -->
+      <div class="basic-bet-modal__container two-section-modal">
+        <div class="basic-bet-modal__header modal__header">
+          <h1 class="basic-bet-modal__title">Place Your Bets!</h1>
+        </div>
+        <div class="basic-bet-modal__main modal__main">
+          <div class="basic-bet-modal__info-container">
+            <div class="basic-bet-modal__bank-container">
+              <span class="basic-bet-modal__bank-label">Bank</span><br />
+              <span class="basic-bet-modal__bank-value"></span>
+            </div>
+            <div class="basic-bet-modal__bet-container">
+              <span class="basic-bet-modal__bet-value">0</span>
+            </div>
+            <div class="basic-bet-modal__side-bet-placed-container">
+              <button
+                class="
+                  btn btn-basic-bet-modal btn-basic-bet-modal__action btn-basic-bet-modal__side-bet-placed
+                " disabled 
+                data-popbox-target="generic-modal"
+              >
+                No Side Bets<br> Placed
+              </button>
+            </div>
+          </div>
+          <div class="basic-bet-modal__bet-btn-container">
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__1
+              "
+              data-value="1"
+            >
+              $1
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__5
+              "
+              data-value="5"
+            >
+              $5
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__10
+              "
+              data-value="10"
+            >
+              $10
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__25
+              "
+              data-value="25"
+            >
+              $25
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__100
+              "
+              data-value="100"
+            >
+              $100
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__chip
+                btn-basic-bet-modal__500
+              "
+              data-value="500"
+            >
+              $500
+            </button>
+          </div>
+          <div class="basic-bet-modal__action-btn-container">
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__clear-bet
+              "
+            >
+              Clear Bet
+            </button>
+            <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__place-side-bets
+              "
+              data-popbox-target="side-bet-modal"
+            >
+              Side Bets Menu
+            </button>
+            <!-- <button
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__clear-side-bets
+              "
+            >
+              Clear Side Bets
+            </button> -->
+            <button data-popbox-close="basic-bet-modal"
+              class="
+                btn
+                btn-basic-bet-modal
+                btn-basic-bet-modal__action
+                btn-basic-bet-modal__deal-cards
+              " disabled
+            >
+              Deal Cards
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-popbox-id="extra-bet-modal" class="popbox modal">
+      <!-- <div class="extra-bet-modal modal"> -->
+        <div class="extra-bet-modal__container two-section-modal">
+          <div class="extra-bet-modal__header modal__header">
+            <div class="extra-bet-modal__title-container">
+            <h1 class="extra-bet-modal__title">Raise the Roof</h1>
+            </div>
+            <div class="extra-bet-modal__directions-container">
+              <h2 class="extra-bet-modal__directions-text">Place an extra bet worth up to 5x base bet</h2>
+              <h2 class="extra-bet-modal__directions-text-2">NOTE: Fee for placing extra bet: 20% of base bet</h2>
+            </div>
+          </div>
+          <div class="extra-bet-modal__main modal__main">
+            <div class="extra-bet-modal__info-container">
+              <div class="extra-bet-modal__bank-container">
+                <span class="extra-bet-modal__bank-label">Bank: </span>
+                <span class="extra-bet-modal__bank-value">1000</span>
+              </div>
+              <div class="extra-bet-modal__base-bet-container">
+                <span class="extra-bet-modal__base-bet-label">Base Bet: </span>
+                <span class="extra-bet-modal__base-bet-value">100</span>
+              </div>
+              <div class="extra-bet-modal__initial-side-bet-container">
+                <span class="extra-bet-modal__initial-side-bet-label">Initial Side Bet: </span>
+                <span class="extra-bet-modal__initial-side-bet-value">50</span>
+              </div>
+              <div class="extra-bet-modal__bet-container">
+                <span class="extra-bet-modal__bet-value">100</span>
+              </div>
+              <div class="extra-bet-modal__fee-container">
+                <span class="extra-bet-modal__fee-label">Fee</span><br>
+                <span class="extra-bet-modal__fee-value">0</span>
+              </div>
+            </div>
+
+          
+            <div class="extra-bet-modal__bet-btn-container">
+            <button
+              class="
+                btn
+                btn-extra-bet-modal
+                btn-extra-bet-modal__chip
+                btn-extra-bet-modal__1
+              "
+              data-value="1"
+            >
+              $1
+            </button>
+            <button
+              class="
+                btn
+                btn-extra-bet-modal
+                btn-extra-bet-modal__chip
+                btn-extra-bet-modal__5
+              "
+              data-value="5"
+            >
+              $5
+            </button>
+            <button
+              class="
+                btn
+                btn-extra-bet-modal
+                btn-extra-bet-modal__chip
+                btn-extra-bet-modal__10
+              "
+              data-value="10"
+            >
+              $10
+            </button>
+            <button
+              class="
+                btn
+                btn-extra-bet-modal
+                btn-extra-bet-modal__chip
+                btn-extra-bet-modal__25
+              "
+              data-value="25"
+            >
+              $25
+            </button>
+            <button
+              class="
+                btn
+                btn-extra-bet-modal
+                btn-extra-bet-modal__chip
+                btn-extra-bet-modal__100
+              "
+              data-value="100"
+            >
+              $100
+            </button>
+            <button
+              class="
+                btn
+                btn-extra-bet-modal
+                btn-extra-bet-modal__chip
+                btn-extra-bet-modal__500
+              "
+              data-value="500"
+            >
+              $500
+            </button>
+            </div>
+            <div class="extra-bet-modal__action-btn-container">
+              <button
+                class="
+                  btn
+                  btn-extra-bet-modal
+                  btn-extra-bet-modal__action
+                  btn-extra-bet-modal__clear-bet
+                "
+              >
+                Clear Bet
+              </button>
+              <button
+                class="
+                  btn
+                  btn-extra-bet-modal
+                  btn-extra-bet-modal__action
+                  btn-extra-bet-modal__place-extra-bet
+                "
+                data-popbox-close="extra-bet-modal"
+              >
+                Place Extra Bet
+              </button>
+              <button
+              class="
+                btn
+                btn-extra-bet-modal
+                btn-extra-bet-modal__action
+                btn-extra-bet-modal__raise-the-roof
+              "
+              data-popbox-close="extra-bet-modal"
+            >
+              Raise the Roof!
+            </button>
+              <button
+                class="
+                  btn
+                  btn-extra-bet-modal
+                  btn-extra-bet-modal__action
+                  btn-extra-bet-modal__decline-bet
+                "
+                data-popbox-close="extra-bet-modal"
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div data-popbox-id="house-money-modal" class="popbox modal">
+      <!-- <div class="house-money-modal modal"> -->
+      <div class="house-money-modal__container two-section-modal">
+        <div class="house-money-modal__header modal__header">
+          <h1 class="house-money-modal__title">You won House Money!</h1>
+          <h2 class="house-money-modal__directions-text">Collect bet and winnings or parlay them into the base bet </h2>
+        </div>
+        <div class="house-money-modal__main modal__main modal__main">
+          <div class="house-money-modal__winning-hand-container">
+            <div class="house-money-modal__player-cards"></div>
+            <div class="house-money-modal__win-condition-container"><span class="house-money-modal__win-condition-label">Hand Outcome: </span><span class="house-money-modal__win-condition"></span></div>
+            <div class="house-money-modal__payout-container"><span class="house-money-modal__payout-label">Payout: </span><span class="house-money-modal__payout"></span></div>
+          </div>
+          <div class="house-money-modal__info-container">
+            <span class="house-money-modal__base-bet-label">Base Bet: </span>
+            <span class="house-money-modal__base-bet-value">100</span><br>
+            <span class="house-money-modal__side-bet-label">House Money Bet: </span>
+            <span class="house-money-modal__side-bet-value">50</span><br>
+            <span class="house-money-modal__winnings-label">House Money Winnings: </span>
+            <span class="house-money-modal__winnings-value">450</span><br>
+          </div>
+          <div class="house-money-modal__action-container">
+            <div class="house-money-grid__btn-label">
+              <span>Action Buttons</span>
+            </div>
+            <div class="house-money-grid__bet-label">
+              <span>New Base Bet</span>
+            </div>
+            <div class="house-money-grid__collect-button">
+              <button class="btn btn-house-money-modal btn-modal-action btn-house-money-modal__action btn-house-money-modal__collect-money" data-choice="collect" data-popbox-close="house-money-modal">Collect House Money Winnings and Bet</button>
+            </div>
+            <div class="house-money-grid__parlay-winnings-button">
+              <button class="btn btn-house-money-modal btn-modal-action btn-house-money-modal__action btn-house-money-modal__parlay-winnings" data-choice="parlay-winnings" data-popbox-close="house-money-modal">Parlay House Money Winnings</button>
+            </div>
+            <div class="house-money-grid__parlay-bet-button">
+              <button class="btn btn-house-money-modal btn-modal-action btn-house-money-modal__action btn-house-money-modal__parlay-bet" data-choice="parlay-bet" data-popbox-close="house-money-modal">Parlay House Money Bet</button>
+            </div>
+            <div class="house-money-grid__parlay-all-button">
+              <button class="btn btn-house-money-modal btn-modal-action btn-house-money-modal__action btn-house-money-modal__parlay-all" data-choice="parlay-all" data-popbox-close="house-money-modal">Parlay Both</button>
+            </div>
+            <div class="house-money-grid__collect-money-value">
+              <span>No Change</span>
+            </div>
+            <div class="house-money-grid__parlay-winnings-value">
+              <span class="house-money-modal__parlay-winnings-value">500</span>
+            </div>
+            <div class="house-money-grid__parlay-bet-value">
+              <span class="house-money-modal__parlay-bet-value">150</span>
+            </div>
+            <div class="house-money-grid__parlay-all-value">
+              <span class="house-money-modal__parlay-all-value">650</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Win Summary and Side Bet Outcome-->
+    <div data-popbox-id="summary-modal" class="popbox modal">
+      <!-- <div class="summary-modal modal"> -->
+      <div class="summary-modal__container three-section-modal">
+        <div class="summary-modal__header modal__header">
+          <h1 class="summary-modal__title">Win Summary</h1>
+        </div>
+        <div class="summary-modal__main modal__main">
+          <!-- <span>21 + 3</span><div class="summary-modal__outcome--win">Win</div><span class="summary-modal__payout-text">Payout 100:1</span><br>
+          <span class="summary-modal__hand-text">"Suited 3 of a Kind"</span><span class="summary-modal__winnings-value">600</span> -->
+        </div>
+        <div class="summary-modal__footer modal__footer">
+          <button class="btn btn-summary-modal btn-modal-action btn-summary-modal__action btn-summary-modal__close" data-popbox-close="summary-modal">Close</button>
+          <button class="btn btn-summary-modal btn-modal-action btn-summary-modal__action btn-summary-modal__next" data-popbox-close="summary-modal">Next</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div data-popbox-id="winning-hand-modal" class="popbox modal">
+      <!-- <div class="winning-hand-modal modal"> -->
+        <div class="winning-hand-modal__container three-section-modal">
+          <div class="winning-hand-modal__header modal__header">
+            <h1 class="winning-hand-modal__title">Winning Hand</h1>
+          </div>
+          <div class="winning-hand-modal__main modal__main">
+            <div class="winning-hand-modal__side-bet-name-container">
+              <h2 class="winning-hand-modal__side-bet-name">21 + 3</h2>
+            </div>
+            <div class="winning-hand-modal__card-info-container">
+              <div class="winning-hand-modal__dealer-cards-container">
+                <span class="winning-hand-modal__player-label">Dealer</span>
+                <div class="winning-hand-modal__dealer-cards">
+                  Hand
+                </div>
+              </div>
+              <div class="winning-hand-modal__player-cards-container">
+                <span class="winning-hand-modal__player-label">Player</span>
+                <div class="winning-hand-modal__player-cards">
+                  Hand
+                </div>
+              </div>
+            </div>
+            <div class="winning-hand-modal__winnings-info-container">
+              <h2 class="winning-hand-modal__winning-hand-name">"Suited 3 of a Kind"</h2>
+              <h2 class="winning-hand-modal__winning-hand-payout-field"><span class="winning-hand-modal__payout-label">Payout: </span><span class="winning-hand-modal__payout">100:1</span></h2>
+            </div>
+
+          </div>
+          <div class="winning-hand-modal__footer modal__footer">
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__close" data-popbox-close="winning-hand-modal">Close</button>
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__next display-none" data-popbox-close="winning-hand-modal">Next</button>
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__accept-early-surrender display-none" data-popbox-close="winning-hand-modal">Accept</button>
+            <button class="btn btn-winning-hand-modal btn-modal-action btn-winning-hand-modal__action btn-winning-hand-modal__decline-early-surrender display-none" data-popbox-close="winning-hand-modal">Decline</button>
+          </div>
+        </div>
+  
+      </div>
+
+    <!-- Rules, Mystery Box, Dice-->
+    <div data-popbox-id="generic-modal" class="popbox modal">
+      <!-- <div class="generic-modal modal"> -->
+        <div class="generic-modal__container three-section-modal">
+          <div class="generic-modal__header modal__header">
+            <h1 class="generic-modal__title">Rules</h1>
+          </div>
+          <div class="generic-modal__main modal__main">
+          
+
+          </div>
+          <div class="generic-modal__footer modal__footer">
+            <button class="btn btn-generic-modal btn-modal-action btn-generic-modal__action btn-generic-modal__close" data-popbox-close="generic-modal">Close</button>
+            <button class="btn btn-generic-modal btn-modal-action btn-generic-modal__action btn-generic-modal__next" data-popbox-close="generic-modal">Next</button>
+          </div>
+        </div>
+  
+      </div>
+
+    <div data-popbox-id="winnings-modal" class="popbox modal">
+    <!-- <div class="winnings-modal modal"> -->
+      <div class="winnings-modal__container">
+        <h1 class="winnings-modal__title"><span class="winnings-modal__title-label">Total Winnings: </span><span class="winnings-modal__winnings-value">100</span></h1>
+        <div class="winnings-modal__btn-container">
+          <button class="btn btn-winnings-modal btn-winnings-modal__action btn-winnings-modal__win-summary" data-popbox-open="summary-modal">Win Summary</button>
+          <button class="btn btn-winnings-modal btn-winnings-modal__action btn-winnings-modal__close" data-popbox-close="winnings-modal">Close</button>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div data-popbox-id="notice-modal" class="popbox modal">
+      <!-- <div class="notice-modal modal"> -->
+        <div class="notice-modal__container">
+            <h1 class="notice-modal__notice">Player Bust</h1>
+ 
+          <div class="notice-modal__btn-container">
+            <button class="btn btn-notice-modal btn-notice-modal__next" data-popbox-close="notice-modal">Next</button>
+            <button class="btn btn-notice-modal btn-notice-modal__close" data-popbox-close="notice-modal">Close</button>
+          </div>
+        </div>
+      </div>
+
+    <div data-popbox-id="options-modal" class="popbox modal">
+    <!-- <div class="options-modal modal"> -->
+      <div class="options-modal__container three-section-modal">
+        <div class="options-modal__header modal__header">
+          <h1 class="options-modal__title">Options Menu</h1>
+        </div>
+        <div class="options-modal__main modal__main">
+          <form class="options-modal__form">
+            <span class="options-modal__form-label">Trivia Mode:</span><br>
+            <input type="radio" checked="checked" id="trivia-on" name="toggle-trivia" value="trivia-on">
+            <label for="trivia-on">On (default)</label>
+            <input type="radio" id="trivia-off" name="toggle-trivia" value="trivia-off">
+            <label for="trivia-off">Off</label><br>
+
+            <span class="options-modal__form-label">Side Bets:</span><br>
+            <input type="radio" checked="checked" id="side-bets-on" name="toggle-side-bets" value="side-bets-on">
+            <label for="side-bets-on">On (default)</label>
+            <input type="radio" id="side-bets-off" name="toggle-side-bets" value="side-bets-off">
+            <label for="side-bets-off">Off</label><br>
+
+            <span class="options-modal__form-label">Blackjack Payout:</span><br>
+            <input type="radio" id="blackjack-2-to-1" name="blackjack-payout" value="blackjack-2-to-1">
+            <label for="blackjack-2-to-1">2:1</label>
+            <input type="radio" checked="checked" id="blackjack-3-to-2" name="blackjack-payout" value="blackjack-3-to-2">
+            <label for="blackjack-3-to-2">3:2 (default)</label>
+            <input type="radio" id="blackjack-6-to-5" name="blackjack-payout" value="blackjack-6-to-5">
+            <label for="blackjack-6-to-5">6:5</label><br>
+
+            <span class="options-modal__form-label">Dealer Stands On:</span><br>
+            <input type="radio" id="soft-16" name="dealer-stands" value="soft-16">
+            <label for="soft-16">Soft 16</label>
+            <input type="radio" id="hard-16" name="dealer-stands" value="hard-16">
+            <label for="hard-16">Hard 16</label>
+            <input type="radio" checked="checked" id="soft-17" name="dealer-stands" value="soft-17">
+            <label for="soft-17">Soft 17 (default)</label>
+            <input type="radio" id="hard-17" name="dealer-stands" value="hard-17">
+            <label for="hard-17">Hard 17</label><br>
+
+            <span class="options-modal__form-label">Number of Decks Used:</span><br>
+            <input type="radio" id="one-deck" name="deck-count" value="1">
+            <label for="one-deck">1</label>
+            <input type="radio" id="two-deck" name="deck-count" value="2">
+            <label for="two-deck">2</label>
+            <input type="radio" id="three-deck" name="deck-count" value="3">
+            <label for="three-deck">3</label>
+            <input type="radio" id="four-deck" name="deck-count" value="4">
+            <label for="four-deck">4</label>
+            <input type="radio" id="five-deck" name="deck-count" value="5">
+            <label for="five-deck">5</label>
+            <input type="radio" checked="checked" id="six-deck" name="deck-count" value="6">
+            <label for="six-deck">6 (default)</label>
+            <input type="radio" id="seven-deck" name="deck-count" value="7">
+            <label for="seven-deck">7</label>
+            <input type="radio" id="eight-deck" name="deck-count" value="8">
+            <label for="eight-deck">8</label><br>
+
+            <span class="options-modal__form-label">5 Card Charlie:</span><br>
+            <input type="checkbox" id="disable-five-card-charlie" name="disable-five-card-charlie" value="true">
+            <label for="disable-five-card-charlie">Disable Five Card Charlie</label><br>
+
+            <span class="options-modal__form-label">Split Options:</span><br>
+            <input type="checkbox" id="split-any-ten" name="split-any-ten" value="true">
+            <label for="split-any-ten">Splitting ANY 10 pt value card allowed</label><br>
+            <input type="checkbox" id="double-after-split" name="double-after-split" value="true">
+            <label for="double-after-split">Double Down after Split allowed</label><br>
+            <input type="checkbox" id="split-aces-on" name="split-aces-on" value="true">
+            <label for="split-aces-on">Splitting Aces allowed</label><br>
+            <input type="checkbox" id="double-after-split-ace" name="double-after-split-ace" value="true">
+            <label for="double-after-split-ace">Double Down allowed after splitting Aces</label><br>
+            <input type="checkbox" id="split-ace-draw-limit-on" name="split-ace-draw-limit-on" value="true">
+            <label for="split-ace-draw-limit-on">Draw only 1 card after each split Ace</label><br>
+            <input type="checkbox" id="resplit-on" name="resplit-on" value="true">
+            <label for="resplit-on">Re-splitting allowed (up to 4 hands)</label><br>
+            <input type="checkbox" id="resplit-aces-on" name="resplit-aces-on" value="true">
+            <label for="resplit-aces-on">Re-splitting aces allowed</label><br>
+            <input type="checkbox" id="resplit-after-split-aces" name="resplit-after-split-aces" value="true">
+            <label for="resplit-after-split-aces">Re-splitting after split Aces allowed</label><br>
+
+            <span class="options-modal__form-label">Surrender:</span><br>
+            <input type="checkbox" id="disable-surrender" name="disable-surrender" value="true">
+            <label for="disable-surrender">Disable Surrender</label><br>
+            <input type="radio" id="early-surrender" name="surrender-options" value="early-surrender">
+            <label for="early-surrender">Early Surrender</label>
+            <input type="radio" checked="checked" id="late-surrender" name="surrender-options" value="late-surrender">
+            <label for="late-surrender">Late Surrender (default)</label><br>
+
+            <span class="options-modal__form-label">Insurance Side Bet:</span><br>
+            <input type="checkbox" id="disable-insurance" name="disable-insurance" value="true">
+            <label for="disable-insurance">Disable Insurance</label><br>
+
+            <span class="options-modal__form-label">Even Money Side Bet:</span><br>
+            <input type="checkbox" id="disable-even-money" name="disable-even-money" value="true">
+            <label for="disable-even-money">Disable Even Money</label><br>
+
+            <input type="submit" value="Send" style="display: none" disabled>
+      
+          </form>
+        </div>
+        <div class="options-modal__footer modal__footer">
+          <button class="btn btn-options-modal btn-options-modal__action btn-options-modal__reset-default">Reset Options to Default</button>
+          <button class="btn btn-options-modal btn-options-modal__action btn-options-modal__close" data-popbox-close="options-modal">Close</button>
+          <button class="btn btn-options-modal btn-options-modal__action btn-options-modal__submit-options" data-popbox-close="options-modal">Apply Options</button>
+        </div>
+      </div>
+    </div>
+
+    
+
+
+
+    <div data-popbox-id="side-bet-modal" class="popbox modal">
+      <div class="side-bet-modal__container three-section-modal">
+        <div class="side-bet-modal__header modal__header">
+          <h1 class="side-bet-modal__title">Place Side Bets</h1>
+          <div class="side-bet-modal__info-container">
+            <div class="side-bet-modal__bank-container">
+              <span class="side-bet-modal__bank-label">Bank</span><br>
+              <span class="side-bet-modal__bank-value"></span>
+            </div>
+            <div class="side-bet-modal__total-container">
+              <span class="side-bet-modal__total-value">0</span>
+            </div>
+            <div class="side-bet-modal__rules-btn-container">
+              <button class="btn btn-side-bet-modal btn-side-bet-modal__action btn-side-bet-modal__rules display-none">Rules</button>
+            </div>
+          </div>
+        </div>
+        <div class="side-bet-modal__main modal__main">
+          <div class="side-bet-modal__directions-container">
+            <h3 class="side-bet-modal__directions-text">Click on the side bet and press chip buttons to add money to it</h2>
+          </div>
+          <div class="side-bet-modal__side-bet-container">
+            <!-- <form> -->
+
+              <div class="side-bet-modal__side-bet-div perfect-pair__container side-bet-modal__active-bet" data-sideBet="perfectPair">
+                <div class="side-bet-modal__side-bet-input-container">
+                  <!-- <input type="checkbox" id="perfect-pair" name="perfect-pair" value="perfect-pair">
+                  <label for="perfect-pair">Perfect Pair</label> -->
+                  <span class="side-bet-modal__side-bet-label">Perfect Pair</span>
+                </div>
+                <div class="side-bet-modal__side-bet-value-container">
+                  <span class="side-bet-modal__side-bet-value perfect-pair__value side-bet-modal__active-value">0</span>
+                </div>
+              </div>
+
+                <div class="side-bet-modal__side-bet-div 21-plus-3__container" data-sideBet="21Plus3">
+                  <div class="side-bet-modal__side-bet-input-container">
+                    <!-- <input type="checkbox" id="21-plus-3" name="21-plus-3" value="21-plus-3">
+                    <label for="21-plus-3">21 + 3</label> -->
+                    <span class="side-bet-modal__side-bet-label">21 + 3</span>
+                  </div>
+                  <div class="side-bet-modal__side-bet-value-container">
+                    <span class="side-bet-modal__side-bet-value 21-plus-3__value">0</span>
+                  </div>
+                </div>
+
+                <div class="side-bet-modal__side-bet-div perfect-11s__container" data-sideBet="perfect11s">
+                  <div class="side-bet-modal__side-bet-input-container">
+                    <!-- <input type="checkbox" id="perfect-11s" name="perfect-11s" value="perfect-11s">
+                    <label for="perfect-11s">Perfect 11s</label> -->
+                    <span class="side-bet-modal__side-bet-label">Perfect 11s</span>
+                  </div>
+                  <div class="side-bet-modal__side-bet-value-container">
+                    <span class="side-bet-modal__side-bet-value perfect-11s__value">0</span>
+                  </div>
+                </div>
+
+                <div class="side-bet-modal__side-bet-div extra-bet-blackjack__container" data-bet-type="no-chip" data-sideBet="extraBetBlackjack">
+                  <div class="side-bet-modal__side-bet-input-container">
+                    <!-- <input type="checkbox" id="extra-bet-blackjack" name="extra-bet-blackjack" value="extra-bet-blackjack">
+                    <label for="extra-bet-blackjack">Extra Bet Blackjack</label> -->
+                    <span class="side-bet-modal__side-bet-label">Extra Bet Blackjack</span>
+                  </div>
+                  <div class="side-bet-modal__side-bet-value-container">
+                    <span class="side-bet-modal__side-bet-value extra-bet-blackjack__value">0</span>
+                  </div>
+                </div>
+
+                <div class="side-bet-modal__side-bet-div house-money__container" data-sideBet="houseMoney">
+                  <div class="side-bet-modal__side-bet-input-container">
+                    <!-- <input type="checkbox" id="house-money" name="house-money" value="house-money">
+                    <label for="house-money">House Money</label> -->
+                    <span class="side-bet-modal__side-bet-label">House Money</span>
+                  </div>
+                  <div class="side-bet-modal__side-bet-value-container">
+                    <span class="side-bet-modal__side-bet-value house-money__value">0</span>
+                  </div>
+                </div>
+
+                <div class="side-bet-modal__side-bet-div lucky-ladies__container" data-sideBet="luckyLadies">
+                  <div class="side-bet-modal__side-bet-input-container">
+                    <!-- <input type="checkbox" id="lucky-ladies" name="lucky-ladies" value="lucky-ladies">
+                    <label for="lucky-ladies">Lucky Ladies</label> -->
+                    <span class="side-bet-modal__side-bet-label">Lucky Ladies</span>
+                  </div>
+                  <div class="side-bet-modal__side-bet-value-container">
+                    <span class="side-bet-modal__side-bet-value lucky-ladies__value">0</span>
+                  </div>
+                </div>
+
+
+            <!-- </form> -->
+          </div>
+        </div>
+        <div class="side-bet-modal__footer modal__footer">
+          <div class="side-bet-modal__chip-container">
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__1" data-value="1">$1</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__5" data-value="5">$5</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__10" data-value="10">$10</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__25" data-value="25">$25</button>
+            <button class="btn btn-side-bet-modal btn-chip btn-side-bet-modal__chip btn-side-bet-modal__100" data-value="100">$100</button>
+            <button class="btn btn-side-bet-modal btn-side-bet-modal__action btn-side-bet-modal__activate-bet display-none">Activate Bet</button>
+          </div>
+          <div class="side-bet-modal__action-btn-container">
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-bet" disabled>Clear</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__clear-all" disabled>Clear All</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__place-bets" disabled data-popbox-close="side-bet-modal">Place Bets</button>
+            <button class="btn btn-side-bet-modal btn-modal-action btn-side-bet-modal__action btn-side-bet-modal__exit" data-popbox-close="side-bet-modal">Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="/view.js" async defer></script>
+    <script type="module" src="/listeners.js" async defer></script>
+    <script type="module" src="/controller.js" async defer></script>
     <script type="module" src="/blackjack-model.js" async defer></script>
     <script type="module" src="/trivia-model.js" async defer></script>
+    <script type="module" src="/bet-model.js" async defer></script>
+    <script type="text/javascript" src="/popbox/popbox.js"></script></script>
+    <script type="text/javascript">
+      var popbox = new Popbox({
+        blur: true,
+        overlay: true,
+      });
+    </script>
   </body>
 </html>
