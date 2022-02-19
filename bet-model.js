@@ -711,6 +711,7 @@ export function generateSideBetObj(name) {
       break;
     case `luckyLadies`:
       sideBet = new SideBet(sideBetMod.luckyLadies);
+      break;
     default:
       console.log(`no side bet`);
   }
