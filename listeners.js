@@ -1,5 +1,5 @@
-import * as controller from "./controller.js";
 import * as view from "./view.js";
+import * as controller from "./controller.js";
 import { globalState } from "./state.js";
 
 let guard = false;
