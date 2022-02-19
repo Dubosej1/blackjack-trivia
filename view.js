@@ -1,5 +1,403 @@
 import * as listeners from "./listeners.js";
 
+/////////Game Field Objs/////////
+
+export let gameInfoFields = {
+  bankField: document.querySelector(`.bank__value`),
+  baseBetField: document.querySelector(`.bet__value`),
+  doubleDownMarker: document.querySelector(`.round-info__double-down-marker`),
+  noticeField: document.querySelector(`.game-message__text`),
+  newGameBtn: document.querySelector(`.btn-system__new-game`),
+  endGameBtn: document.querySelector(`.btn-system__end-game`),
+  startNextRoundBtn: document.querySelector(`.btn-system__start-next-round`),
+  optionsBtn: document.querySelector(`.btn-system__settings`),
+  checkSideBetBtn: document.querySelector(
+    `.btn-system__check-side-bet-outcome`
+  ),
+  toggleEventListeners: toggleEventListeners,
+  toggleDisplayElementOn: toggleDisplayElementOn,
+
+  updateBank(bank) {
+    this.bankField.textContent = bank;
+  },
+
+  updateBaseBet(bet) {
+    this.baseBetField.textContent = bet;
+  },
+
+  toggleDoubleDownMarker(toggle) {
+    if (toggle) this.toggleDisplayElementOn(this.doubleDownMarker, true);
+    else this.toggleDisplayElementOn(this.doubleDownMarker, false);
+  },
+
+
+  renderNoticeText(str) {
+    this.noticeField.textContent = str;
+  },
+
+
+  toggleDisplayStartNextRoundBtn(toggle) {
+    toggle
+      ? this.toggleDisplayElementOn(this.startNextRoundBtn, true)
+      : this.toggleDisplayElementOn(this.startNextRoundBtn, false);
+  },
+
+
+  toggleDisplayNewGameBtn(toggle) {
+    if (toggle) {
+      this.toggleDisplayElementOn(this.newGameBtn, true);
+      this.toggleDisplayElementOn(this.endGameBtn, false);
+    } else {
+      this.toggleDisplayElementOn(this.newGameBtn, false);
+      this.toggleDisplayElementOn(this.endGameBtn, true);
+    }
+  },
+
+
+  toggleDisplayOptionsBtn(toggle) {
+    toggle
+      ? this.toggleDisplayElementOn(this.optionsBtn, true)
+      : this.toggleDisplayElementOn(this.optionsBtn, false);
+  },
+
+
+  toggleCheckSideBetBtn(toggle) {
+    toggle
+      ? this.toggleDisplayElementOn(this.checkSideBetBtn, true)
+      : this.toggleDisplayElementOn(this.checkSideBetBtn, false);
+  },
+
+  clearRoundUI() {
+    this.toggleDoubleDownMarker(false);
+
+    this.baseBetField.textContent = 0;
+  },
+};
+
+export let gameActionBtns = {
+  hit: document.querySelector(`.btn-action__hit`),
+  stand: document.querySelector(`.btn-action__stand`),
+  doubleDown: document.querySelector(`.btn-action__doubleDown`),
+  split: document.querySelector(`.btn-action__split`),
+  surrender: document.querySelector(`.btn-action__surrender`),
+  toggleEventListeners: toggleEventListeners,
+
+  renderBtns(btnState) {
+    let changeArr = Object.entries(btnState);
+
+    changeArr.forEach(function (arr) {
+      let [key, boolean] = arr;
+
+      this.toggleEnableBtn(this[key], boolean);
+    }, this);
+  },
+
+  toggleEnableBtn(prop, boolean) {
+    prop.disabled = !boolean;
+  },
+};
+
+export let playerField = {
+  cardsContainer: document.querySelector(".player-cards__container"),
+  total: document.querySelector(".player-total__value"),
+  label: document.querySelector(`.player-total__label`),
+  handNum: document.querySelector(`.player-total__hand-num`),
+  messageContainer: document.querySelector(`.player-message__container`),
+  messageText: document.querySelector(`.player-message__text`),
+  renderOutcome: renderCardHolderOutcome,
+  removeOutcomeModifierClass: removeOutcomeModifierClass,
+
+
+  renderField(hand) {
+    let handNum = hand.handNum;
+    let finalImages = [...hand.images, ...hand.endTags];
+
+    this.cardsContainer.innerHTML = finalImages.join(``);
+
+    this.total.textContent = hand.total;
+
+    if (handNum > 0) this.togglePlayerFieldLabel(handNum);
+  },
+
+  togglePlayerFieldLabel(handNum) {
+    let dataObj = {};
+
+    if (handNum == 0) {
+      dataObj.playerLabel = `Player`;
+      dataObj.handNumDisplay = `none`;
+    } else {
+      dataObj.playerLabel = `Hand `;
+      dataObj.handNumDisplay = `inline`;
+      dataObj.handNumText = handNum;
+    }
+
+    renderPlayerLabelField(dataObj, this);
+
+    function renderPlayerLabelField(dataObj, gameField) {
+      gameField.label.textContent = dataObj.playerLabel;
+      gameField.handNum.style.display = dataObj.handNumDisplay;
+      gameField.handNum.textContent = dataObj.handNumText;
+    }
+  },
+
+  resetOutcomeField() {
+    this.removeOutcomeModifierClass(this.messageContainer);
+    this.messageText.textContent = ``;
+  },
+
+  clearRoundUI() {
+    this.cardsContainer.innerHTML = ` `;
+    this.total.textContent = 0;
+    this.messageText.textContent = ` `;
+  },
+};
+
+export let dealerField = {
+  cardsContainer: document.querySelector(".dealer-cards__container"),
+  total: document.querySelector(".dealer-total__value"),
+  messageContainer: document.querySelector(`.dealer-message__container`),
+  messageText: document.querySelector(`.dealer-message__text`),
+
+  renderOutcome: renderCardHolderOutcome,
+  removeOutcomeModifierClass: removeOutcomeModifierClass,
+
+  renderField(hand) {
+    let finalImages = [...hand.images, ...hand.endTags];
+
+    this.cardsContainer.innerHTML = finalImages.join(``);
+    this.total.textContent = hand.visibleTotal;
+  },
+
+  resetOutcomeField() {
+    this.removeOutcomeModifierClass(this.messageContainer);
+    this.messageText.textContent = ``;
+  },
+
+  clearRoundUI() {
+    this.cardsContainer.innerHTML = ` `;
+    this.total.textContent = 0;
+    this.messageText.textContent = ` `;
+  },
+};
+
+export let splitStageField = {
+  stageContainer: document.querySelector(`.grid__split-stages-container`),
+  cardFields: document.querySelectorAll(`.split-stage__cards`),
+  totalFields: document.querySelectorAll(`.split-stage__total`),
+  resultFields: document.querySelectorAll(`.split-stage__result`),
+  stage1: {
+    container: document.querySelector(`.split-stage-1__container`),
+    handNum: document.querySelector(`.split-stage-1__hand-num`),
+    cards: document.querySelector(`.split-stage-1__cards`),
+    total: document.querySelector(`.split-stage-1__total`),
+    result: document.querySelector(`.split-stage-1__result`),
+  },
+
+  stage2: {
+    container: document.querySelector(`.split-stage-2__container`),
+    handNum: document.querySelector(`.split-stage-2__hand-num`),
+    cards: document.querySelector(`.split-stage-1__cards`),
+    total: document.querySelector(`.split-stage-1__total`),
+    result: document.querySelector(`.split-stage-2__result`),
+  },
+
+  stage3: {
+    container: document.querySelector(`.split-stage-3__container`),
+    handNum: document.querySelector(`.split-stage-2__hand-num`),
+    cards: document.querySelector(`.split-stage-1__cards`),
+    total: document.querySelector(`.split-stage-1__total`),
+    result: document.querySelector(`.split-stage-3__result`),
+  },
+  removeOutcomeModifierClass: removeOutcomeModifierClass,
+
+  renderOutcome(splitStageNum, outcome, outcomeText) {
+    if (splitStageNum == 1)
+      changeSplitStageResult(this.stage1.result, outcome, outcomeText);
+    if (splitStageNum == 2)
+      changeSplitStageResult(this.stage2.result, outcome, outcomeText);
+    if (splitStageNum == 3)
+      changeSplitStageResult(this.stage3.result, outcome, outcomeText);
+
+    function changeSplitStageResult(elem, outcome, outcomeText) {
+      elem.classList.add(`--${outcome}`);
+      elem.textContent = outcomeText;
+    }
+  },
+
+  renderStage(hand, stageNum) {
+    this.stageContainer.style.display = `flex`;
+
+    if (stageNum == 1) changeSplitStageField(this.stage1, hand, `split-1`);
+    if (stageNum == 2) changeSplitStageField(this.stage2, hand, `split-2`);
+    if (stageNum == 3) changeSplitStageField(this.stage3, hand, `split-3`);
+
+    function changeSplitStageField(elemObj, hand, splitHandField) {
+      let { handNum, codes, total } = hand;
+
+      elemObj.container.style.display = `block`;
+      elemObj.handNum.textContent = handNum;
+      elemObj.cards.textContent = codes.join(` `);
+      elemObj.total.textContent = total;
+    }
+  },
+
+  resetOutcomeField(stageNum) {
+    if (stageNum == 1) changeOutcomeField(this.split1.result);
+    if (stageNum == 2) changeOutcomeField(this.split2.result);
+    if (stageNum == 3) changeOutcomeField(this.split3.result);
+
+    function changeOutcomeField(elem) {
+      splitStageField.removeOutcomeModifierClass(elem);
+      elem.textContent = ``;
+    }
+  },
+
+  clearRoundUI() {
+    this.cardFields.forEach(function (elem) {
+      elem.innerHTML = ` `;
+    });
+
+    this.totalFields.forEach(function (elem) {
+      elem.textContent = 0;
+    });
+
+    this.resultFields.forEach(function (elem) {
+      elem.textContent = ` `;
+    });
+
+    this.stageContainer.style.display = `none`;
+  },
+};
+
+export let gameField = {
+  player: playerField,
+  dealer: dealerField,
+  splitStages: splitStageField,
+
+
+  renderHandOutcome(hand, field) {
+    if (!hand.outcome) return;
+
+    let outcome = hand.outcome;
+    let outcomeText = chooseOutcomeText(outcome, hand);
+
+    if (field == `player`) this.player.renderOutcome(outcome, outcomeText);
+    if (field == `dealer`) {
+      this.dealer.removeOutcomeModifierClass(this.dealer.messageContainer);
+      this.dealer.renderOutcome(outcome, outcomeText);
+    }
+    if (field == `split-stage-1`)
+      this.splitStages.renderOutcome(1, outcome, outcomeText);
+    if (field == `split-stage-2`)
+      this.splitStages.renderOutcome(2, outcome, outcomeText);
+    if (field == `split-stage-3`)
+      this.splitStages.renderOutcome(3, outcome, outcomeText);
+
+    function chooseOutcomeText(outcome, hand) {
+      let outcomeText;
+
+      if (outcome == `bust`) outcomeText = `Bust`;
+      if (outcome == `charlie`)
+        outcomeText = `${hand.charlieType} Card Charlie`;
+      if (outcome == `natural`) outcomeText = `Blackjack!`;
+      if (outcome == `stand`) outcomeText = `Stand`;
+      if (outcome == `dealerHit`) outcomeText = `Hitting...`;
+      if (outcome == `surrender`) outcomeText = `Surrender`;
+
+      return outcomeText;
+    }
+  },
+
+
+  renderPlayerHands(player, reset = null) {
+    let active = player.currentSplitHand;
+    let count;
+    if (player.type == "split player") count = player.splitHands.length;
+
+    if (reset) this.resetOutcomeField(0);
+
+    if (active == 0) {
+      this.player.renderField(player.hand);
+      this.renderHandOutcome(player.hand, `player`);
+      return;
+    }
+
+    let stageOrderArr = createStageOrderArr(player, count);
+
+    reorderStageOrderArr(stageOrderArr, active);
+
+    renderCardFields(stageOrderArr);
+
+    renderOutcomeFields(stageOrderArr);
+
+    function renderCardFields(stageOrderArr) {
+      gameField.player.renderField(stageOrderArr[0]);
+      gameField.splitStages.renderStage(stageOrderArr[1], 1);
+      if (count >= 3) gameField.splitStages.renderStage(stageOrderArr[2], 2);
+      if (count == 4) gameField.splitStages.renderStage(stageOrderArr[3], 3);
+    }
+
+    function renderOutcomeFields(stageOrderArr) {
+      gameField.renderHandOutcome(stageOrderArr[0], `player`);
+      gameField.renderHandOutcome(stageOrderArr[1], `split-stage-1`);
+      if (count >= 3)
+        gameField.renderHandOutcome(stageOrderArr[2], `split-stage-2`);
+      if (count == 4)
+        gameField.renderHandOutcome(stageOrderArr[3], `split-stage-3`);
+    }
+
+    function createStageOrderArr(player, count) {
+      let stageOrderArr = [];
+
+      stageOrderArr.push(player.getSplitHand(1));
+      stageOrderArr.push(player.getSplitHand(2));
+      if (count >= 3) stageOrderArr.push(player.getSplitHand(3));
+      if (count == 4) stageOrderArr.push(player.getSplitHand(4));
+
+      return stageOrderArr;
+    }
+
+    function reorderStageOrderArr(stageOrderArr, active) {
+      if (active == 1) return;
+      if (active == 2) changeArrOrder(1, stageOrderArr);
+      if (active == 3) changeArrOrder(2, stageOrderArr);
+      if (active == 4) changeArrOrder(3, stageOrderArr);
+
+      function changeArrOrder(index, arr) {
+        let handArr = arr.splice(index, 1);
+        arr.unshift(handArr[0]);
+      }
+    }
+  },
+
+
+  resetOutcomeField(stageNum) {
+    if (stageNum == 0) this.player.resetOutcomeField();
+    if (stageNum == 10) this.dealer.resetOutcomeField();
+    if (stageNum == 1) this.splitStages.resetOutcomeField(1);
+    if (stageNum == 2) this.splitStages.resetOutcomeField(2);
+    if (stageNum == 3) this.splitStages.resetOutcomeField(3);
+  },
+
+  clearRoundUI() {
+    this.dealer.clearRoundUI();
+
+    this.player.clearRoundUI();
+
+    this.splitStages.clearRoundUI();
+
+    this.resetAllMessageFieldUI();
+  },
+
+  resetAllMessageFieldUI() {
+    this.player.removeOutcomeModifierClass(this.player.messageContainer);
+    this.dealer.removeOutcomeModifierClass(this.dealer.messageContainer);
+    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage1.result);
+    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage2.result);
+    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage3.result);
+  },
+};
+
 export const demoCards = {
   playerCardsContainer: document.querySelector(`.player-cards__container`),
   dealerCardsContainer: document.querySelector(`.dealer-cards__container`),
@@ -47,130 +445,7 @@ export const demoCards = {
   },
 };
 
-export let gameActionBtns = {
-  hit: document.querySelector(`.btn-action__hit`),
-  stand: document.querySelector(`.btn-action__stand`),
-  doubleDown: document.querySelector(`.btn-action__doubleDown`),
-  split: document.querySelector(`.btn-action__split`),
-  surrender: document.querySelector(`.btn-action__surrender`),
-  toggleEventListeners: toggleEventListeners,
-
-  renderBtns(btnState) {
-    let changeArr = Object.entries(btnState);
-
-    changeArr.forEach(function (arr) {
-      let [key, boolean] = arr;
-
-      this.toggleEnableBtn(this[key], boolean);
-    }, this);
-  },
-
-  toggleEnableBtn(prop, boolean) {
-    prop.disabled = !boolean;
-  },
-};
-
-function toggleEventListeners(funcObj, toggle) {
-  let keysArr = Object.entries(funcObj);
-
-  keysArr.forEach(function (arr) {
-    let [key, clbk] = arr;
-
-    if (this[key] instanceof NodeList)
-      addMultipleEventListeners(this[key], clbk, toggle);
-    else addSingleEventListener(this[key], clbk, toggle);
-  }, this);
-
-  function addMultipleEventListeners(elems, clbk, toggle) {
-    if (toggle == `add`) {
-      elems.forEach(function (elem) {
-        elem.addEventListener(`click`, clbk);
-      });
-    } else {
-      elems.forEach(function (elem) {
-        elem.removeEventListener(`click`, clbk);
-      });
-    }
-  }
-
-  function addSingleEventListener(elem, clbk, toggle) {
-    if (toggle == `add`) elem.addEventListener(`click`, clbk);
-    else elem.removeEventListener(`click`, clbk);
-  }
-}
-
-export let gameInfoFields = {
-  bankField: document.querySelector(`.bank__value`),
-  baseBetField: document.querySelector(`.bet__value`),
-  doubleDownMarker: document.querySelector(`.round-info__double-down-marker`),
-  noticeField: document.querySelector(`.game-message__text`),
-  newGameBtn: document.querySelector(`.btn-system__new-game`),
-  endGameBtn: document.querySelector(`.btn-system__end-game`),
-  startNextRoundBtn: document.querySelector(`.btn-system__start-next-round`),
-  optionsBtn: document.querySelector(`.btn-system__settings`),
-  checkSideBetBtn: document.querySelector(
-    `.btn-system__check-side-bet-outcome`
-  ),
-  toggleEventListeners: toggleEventListeners,
-  toggleDisplayElementOn: toggleDisplayElementOn,
-
-  updateBank(bank) {
-    this.bankField.textContent = bank;
-  },
-
-  updateBaseBet(bet) {
-    this.baseBetField.textContent = bet;
-  },
-
-  toggleDoubleDownMarker(toggle) {
-    if (toggle) this.toggleDisplayElementOn(this.doubleDownMarker, true);
-    else this.toggleDisplayElementOn(this.doubleDownMarker, false);
-  },
-
-  //replaces renderNoticeText
-  renderNoticeText(str) {
-    this.noticeField.textContent = str;
-  },
-
-  //replaces toggleDisplayStartNextRoundBtn
-  toggleDisplayStartNextRoundBtn(toggle) {
-    toggle
-      ? this.toggleDisplayElementOn(this.startNextRoundBtn, true)
-      : this.toggleDisplayElementOn(this.startNextRoundBtn, false);
-  },
-
-  //replaces toggleDisplayNewGameBtn
-  toggleDisplayNewGameBtn(toggle) {
-    if (toggle) {
-      this.toggleDisplayElementOn(this.newGameBtn, true);
-      this.toggleDisplayElementOn(this.endGameBtn, false);
-    } else {
-      this.toggleDisplayElementOn(this.newGameBtn, false);
-      this.toggleDisplayElementOn(this.endGameBtn, true);
-    }
-  },
-
-  //replaces toggleDisplayOptionsBtn
-  toggleDisplayOptionsBtn(toggle) {
-    toggle
-      ? this.toggleDisplayElementOn(this.optionsBtn, true)
-      : this.toggleDisplayElementOn(this.optionsBtn, false);
-  },
-
-  //replaces toggleCheckSideBetBtn
-  toggleCheckSideBetBtn(toggle) {
-    toggle
-      ? this.toggleDisplayElementOn(this.checkSideBetBtn, true)
-      : this.toggleDisplayElementOn(this.checkSideBetBtn, false);
-  },
-
-  clearRoundUI() {
-    this.toggleDoubleDownMarker(false);
-
-    this.baseBetField.textContent = 0;
-  },
-};
-
+//////// Betting Modals /////////
 export let baseBetModal = {
   bankValue: document.querySelector(`.basic-bet-modal__bank-value`),
   baseBetValue: document.querySelector(`.basic-bet-modal__bet-value`),
@@ -189,7 +464,7 @@ export let baseBetModal = {
   toggleDisplayElementOn: toggleDisplayElementOn,
   toggleEventListeners: toggleEventListeners,
 
-  //replaces openBaseBetModal
+
   openModal(gameState) {
     let bank = gameState.bank;
     let sideBetsOff = gameState.options.sideBets;
@@ -205,7 +480,7 @@ export let baseBetModal = {
     popbox.open(`basic-bet-modal`);
   },
 
-  //replace checkBasicBetChipBtnsValid
+
   checkChipBtnsValid(value) {
     this.chipBtns.forEach(function (btn) {
       value >= btn.dataset.value
@@ -214,7 +489,7 @@ export let baseBetModal = {
     }, this);
   },
 
-  //replaces updateBaseBetModalTotal
+
   updateModalTotal(gameState) {
     let betTotal = gameState.betObj.getTempBaseBet();
     this.baseBetValue.textContent = betTotal;
@@ -226,12 +501,12 @@ export let baseBetModal = {
     this.checkToDisableDealCardsBtn(betTotal);
   },
 
-  //replaces updateBasicBetInfo
+
   updateModalInfo(gameState) {
     this.bankValue.textContent = gameState.bank;
   },
 
-  //replaces resetBasicBetModal
+
   resetModal(gameState) {
     this.bankValue.textContent = gameState.bank;
     this.baseBetValue.textContent = 0;
@@ -245,7 +520,7 @@ export let baseBetModal = {
       : (this.dealCardsBtn.disabled = false);
   },
 
-  //replaces toggleSideBetPlacedBtn
+
   toggleSideBetPlacedBtn(toggle, gameState = null) {
     let disable;
 
@@ -272,9 +547,39 @@ export let baseBetModal = {
   },
 };
 
-function toggleDisableBtn(elem, toggle) {
-  toggle ? (elem.disabled = true) : (elem.disabled = false);
-}
+export let sideBetPlacedModal = {
+  titleField: document.querySelector(`.generic-modal__title`),
+  mainContainer: document.querySelector(`.generic-modal__main`),
+  nextBtn: document.querySelector(`.btn-generic-modal__next`),
+  closeBtn: document.querySelector(`.btn-generic-modal__close`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
+
+  toggleActivateModal(toggle, gameState = null) {
+    let dataObj = {
+      closeBtn: true,
+    };
+
+    if (toggle) {
+      dataObj.titleText = `Side Bets Placed`;
+      dataObj.modalText = gameState.betObj.getSideBetsPlacedModalText();
+      dataObj.nextBtn = false;
+    } else {
+      dataObj.titleText = `Generic Modal`;
+      dataObj.modalText = ` `;
+      dataObj.nextBtn = true;
+    }
+
+    this.renderModalFields(dataObj);
+  },
+
+  renderModalFields(dataObj) {
+    this.titleField.textContent = dataObj.titleText;
+    this.mainContainer.innerHTML = dataObj.modalText;
+
+    this.toggleDisplayElementOn(this.nextBtn, dataObj.nextBtn);
+    this.toggleDisplayElementOn(this.closeBtn, dataObj.closeBtn);
+  },
+};
 
 export let sideBetModal = {
   modalContainer: document.querySelector(`.side-bet-modal__container`),
@@ -303,13 +608,13 @@ export let sideBetModal = {
   checkNeedModalScrollbar: checkNeedModalScrollbar,
   toggleAddScrollbarToModal: toggleAddScrollbarToModal,
 
-  //replaces updateSideBetModalInfo
+
   updateModalInfo(gameState) {
     this.bankValue.textContent = gameState.betObj.tempValue.bank;
     this.checkNeedModalScrollbar();
   },
 
-  //replaces clearSideBetModal
+
   clearModal(gameState) {
     this.totalValue.textContent = 0;
     this.bankValue.textContent = 0;
@@ -318,7 +623,7 @@ export let sideBetModal = {
     });
   },
 
-  //replaces resetSideBetModal
+
   resetModal(gameState) {
     const bank = gameState.betObj.getTempBank();
 
@@ -331,7 +636,7 @@ export let sideBetModal = {
     this.checkToEnableActionBtns(gameState);
   },
 
-  //replaces updateSideBetModalTotals
+
   updateModalTotals(sideBet, gameState) {
     let sideBetObj = gameState.betObj.getSideBet(sideBet);
     let sideBetValue = sideBetObj.getTempBet();
@@ -429,81 +734,137 @@ export let sideBetModal = {
   },
 };
 
-function checkNeedModalScrollbar() {
-  let modalHeight = this.modalContainer.offsetHeight;
-
-  let viewportHeight = Math.max(
-    document.documentElement.clientHeight || 0,
-    window.innerHeight || 0
-  );
-
-  modalHeight > viewportHeight
-    ? this.toggleAddScrollbarToModal(true)
-    : this.toggleAddScrollbarToModal(false);
-}
-
-function toggleAddScrollbarToModal(toggle) {
-  if (toggle) {
-    if (
-      this.modalContainer.classList.contains(`three-section-modal--scrollbar`)
-    )
-      return;
-    this.modalContainer.classList.add(`three-section-modal--scrollbar`);
-  } else this.modalContainer.classList.remove(`three-section-modal--scrollbar`);
-}
-
-export let sideBetPlacedModal = {
-  titleField: document.querySelector(`.generic-modal__title`),
-  mainContainer: document.querySelector(`.generic-modal__main`),
-  nextBtn: document.querySelector(`.btn-generic-modal__next`),
-  closeBtn: document.querySelector(`.btn-generic-modal__close`),
+export const extraBetModal = {
+  titleField: document.querySelector(`.extra-bet-modal__title`),
+  bankValue: document.querySelector(`.extra-bet-modal__bank-value`),
+  baseBetValue: document.querySelector(`.extra-bet-modal__base-bet-value`),
+  betValue: document.querySelector(`.extra-bet-modal__bet-value`),
+  initialSideBetField: document.querySelector(
+    `.extra-bet-modal__initial-side-bet-container`
+  ),
+  initialSideBetValue: document.querySelector(
+    `.extra-bet-modal__initial-side-bet-value`
+  ),
+  feeField: document.querySelector(`.extra-bet-modal__fee-container`),
+  feeValue: document.querySelector(`.extra-bet-modal__fee-value`),
+  mainContainer: document.querySelector(`.extra-bet-modal__main`),
+  placeExtraBetBtn: document.querySelector(
+    `.btn-extra-bet-modal__place-extra-bet`
+  ),
+  raiseTheRoofBtn: document.querySelector(
+    `.btn-extra-bet-modal__raise-the-roof`
+  ),
+  chipBtns: document.querySelectorAll(`.btn-extra-bet-modal__chip`),
+  clearBetBtn: document.querySelector(`.btn-extra-bet-modal__clear-bet`),
+  placeBetBtn: document.querySelector(`.btn-extra-bet-modal__place-extra-bet`),
+  declineBetBtn: document.querySelector(`.btn-extra-bet-modal__decline-bet`),
   toggleDisplayElementOn: toggleDisplayElementOn,
+  enableChipBtn: enableChipBtn,
+  disableChipBtn: disableChipBtn,
+  toggleDisableBtn: toggleDisableBtn,
+  toggleEventListeners: toggleEventListeners,
 
-  //replaces both activateSideBetPlacedModal (true) & deactivateSideBetPlacedModal (false)
-  toggleActivateModal(toggle, gameState = null) {
-    let dataObj = {
-      closeBtn: true,
-    };
+  displayModal(gameState) {
+    changeBtnDisplay(this);
 
-    if (toggle) {
-      dataObj.titleText = `Side Bets Placed`;
-      dataObj.modalText = gameState.betObj.getSideBetsPlacedModalText();
-      dataObj.nextBtn = false;
-    } else {
-      dataObj.titleText = `Generic Modal`;
-      dataObj.modalText = ` `;
-      dataObj.nextBtn = true;
+    this.toggleDisplayElementOn(this.initialSideBetField, false);
+    this.toggleDisplayElementOn(this.feeField, true);
+
+    let bank = gameState.bank;
+    let baseBet = gameState.betObj.baseBet;
+
+    this.titleField.textContent = `Extra Bet Blackjack`;
+    this.bankValue.textContent = bank;
+    this.baseBetValue.textContent = baseBet;
+    this.mainContainer.dataset.sidebet = `extraBetBlackjack`;
+
+    this.checkChipBtnsValid(bank, 0, baseBet);
+    this.checkToEnableActionBtns(gameState);
+
+    popbox.open(`extra-bet-modal`);
+
+    function changeBtnDisplay(modal) {
+      modal.toggleDisplayElementOn(modal.placeExtraBetBtn, true);
+      modal.toggleDisplayElementOn(modal.raiseTheRoofBtn, false);
     }
-
-    this.renderModalFields(dataObj);
   },
 
-  renderModalFields(dataObj) {
-    this.titleField.textContent = dataObj.titleText;
-    this.mainContainer.innerHTML = dataObj.modalText;
+  updateModalTotal(sideBetObj, gameState) {
+    let betTotal = sideBetObj.getTempBet();
+    let bank = sideBetObj.getTempBank();
+    let fee = sideBetObj.fee;
+    let baseBet = gameState.betObj.baseBet;
 
-    this.toggleDisplayElementOn(this.nextBtn, dataObj.nextBtn);
-    this.toggleDisplayElementOn(this.closeBtn, dataObj.closeBtn);
+    this.bankValue.textContent = bank;
+    this.betValue.textContent = betTotal;
+    this.feeValue.textContent = fee;
+
+    this.checkChipBtnsValid(bank, betTotal, baseBet);
+    this.checkToEnableActionBtns(gameState);
+  },
+
+  checkChipBtnsValid(value, sideBet, baseBet) {
+    this.chipBtns.forEach(function (btn) {
+      value >= btn.dataset.value
+        ? enableChipBtn(btn, this)
+        : disableChipBtn(btn, this);
+    }, this);
+
+    let maxValue = baseBet * 5;
+
+    sideBet >= maxValue ? toggleDisableChips(true) : toggleDisableChips(false);
+
+    function enableChipBtn(btn, modal) {
+      modal.enableChipBtn(btn);
+      btn.dataset.disabledbyvalue = false;
+    }
+
+    function disableChipBtn(btn, modal) {
+      modal.disableChipBtn(btn);
+      btn.dataset.disabledbyvalue = true;
+    }
+
+    function toggleDisableChips(toggle) {
+      if (toggle) {
+        extraBetModal.chipBtns.forEach(function (elem) {
+          extraBetModal.disableChipBtn(elem);
+        });
+      } else {
+        extraBetModal.chipBtns.forEach(function (elem) {
+          if (elem.dataset.disabledbyvalue) return;
+          extraBetModal.enableChipBtn(elem);
+        });
+      }
+    }
+  },
+
+  deactivateModal() {
+    this.bankValue.textContent = 0;
+    this.baseBetValue.textContent = 0;
+    this.betValue.textContent = 0;
+    this.feeValue.textContent = 0;
+
+    this.chipBtns.forEach(function (btn) {
+      btn.removeAttribute(`data-disabledbyvalue`);
+    });
+
+    this.mainContainer.dataset.sidebet = ` `;
+  },
+
+  checkToEnableActionBtns(gameState) {
+    let sideBetObj = gameState.betObj.getSideBet(`extraBetBlackjack`);
+    let betValue = sideBetObj.getTempBet();
+
+    betValue > 0 ? enableActionBtns(true) : enableActionBtns(false);
+
+    function enableActionBtns(boolean) {
+      extraBetModal.toggleDisableBtn(extraBetModal.clearBetBtn, !boolean);
+      extraBetModal.toggleDisableBtn(extraBetModal.placeBetBtn, !boolean);
+    }
   },
 };
 
-function toggleDisplayBtn(elem, toggle) {
-  toggle
-    ? (elem.style.display = `inline-block`)
-    : (elem.style.display = `none`);
-}
-
-function enableChipBtn(element) {
-  element.disabled = false;
-  if (element.classList.contains(`disabled`))
-    element.classList.remove("disabled");
-}
-
-function disableChipBtn(element) {
-  element.disabled = true;
-  element.classList.add(`disabled`);
-}
-
+////////// Options Modal /////////
 export const optionsModal = {
   modalContainer: document.querySelector(`.options-modal__container`),
   formElem: document.querySelector(`.options-modal__form`),
@@ -703,335 +1064,497 @@ export const optionsModal = {
   },
 };
 
-export let playerField = {
-  cardsContainer: document.querySelector(".player-cards__container"),
-  total: document.querySelector(".player-total__value"),
-  label: document.querySelector(`.player-total__label`),
-  handNum: document.querySelector(`.player-total__hand-num`),
-  messageContainer: document.querySelector(`.player-message__container`),
-  messageText: document.querySelector(`.player-message__text`),
-  renderOutcome: renderCardHolderOutcome,
-  removeOutcomeModifierClass: removeOutcomeModifierClass,
+////////// Outcome Modals //////////
 
-  //replaces renderPlayerField
-  renderField(hand) {
-    let handNum = hand.handNum;
-    let finalImages = [...hand.images, ...hand.endTags];
+export const baseRoundOutcomeModal = {
+  mainContainer: document.querySelector(`.generic-modal__main`),
+  titleField: document.querySelector(`.generic-modal__title`),
+  nextBtn: document.querySelector(`.btn-generic-modal__next`),
+  closeBtn: document.querySelector(`.btn-generic-modal__close`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
 
-    this.cardsContainer.innerHTML = finalImages.join(``);
+  renderSingleHandOutcome(gameState) {
+    let player = gameState.player;
+    let outcomePackage = player.hand.outcomePackage;
+    let roundOutcome = outcomePackage.roundOutcome;
 
-    this.total.textContent = hand.total;
+    this.prepareModal();
 
-    if (handNum > 0) this.togglePlayerFieldLabel(handNum);
-  },
+    let roundOutcomeHeading = createRoundOutcomeElement(roundOutcome);
 
-  togglePlayerFieldLabel(handNum) {
-    let dataObj = {};
+    let outcomeHeading = createOutcomeHeadingElement();
 
-    if (handNum == 0) {
-      dataObj.playerLabel = `Player`;
-      dataObj.handNumDisplay = `none`;
-    } else {
-      dataObj.playerLabel = `Hand `;
-      dataObj.handNumDisplay = `inline`;
-      dataObj.handNumText = handNum;
+    let winningsHeading = createWinningsElement();
+
+    this.mainContainer.appendChild(roundOutcomeHeading);
+    this.mainContainer.appendChild(outcomeHeading);
+    this.mainContainer.appendChild(winningsHeading);
+
+    listeners.addBaseRoundOutcomeModalListener();
+
+    popbox.open(`generic-modal`);
+
+    function createRoundOutcomeElement(roundOutcome) {
+      let noticeText = baseRoundOutcomeModal.createNoticeText(roundOutcome);
+
+      const roundOutcomeHeading = document.createElement(`h1`);
+      const roundOutcomeHeadingContent = document.createTextNode(noticeText);
+      roundOutcomeHeading.appendChild(roundOutcomeHeadingContent);
+
+      roundOutcomeHeading.classList.add(
+        `base-round-outcome-modal__single-hand-outcome-heading--${roundOutcome}`
+      );
+
+      return roundOutcomeHeading;
     }
 
-    renderPlayerLabelField(dataObj, this);
+    function createOutcomeHeadingElement() {
+      const outcomeHeading = document.createElement(`h2`);
+      const outcomeHeadingContent = document.createTextNode(
+        outcomePackage.outcomeText
+      );
+      outcomeHeading.appendChild(outcomeHeadingContent);
 
-    function renderPlayerLabelField(dataObj, gameField) {
-      gameField.label.textContent = dataObj.playerLabel;
-      gameField.handNum.style.display = dataObj.handNumDisplay;
-      gameField.handNum.textContent = dataObj.handNumText;
+      return outcomeHeading;
     }
-  },
 
-  resetOutcomeField() {
-    this.removeOutcomeModifierClass(this.messageContainer);
-    this.messageText.textContent = ``;
-  },
+    function createWinningsElement() {
+      const winningsHeading = document.createElement(`h2`);
 
-  clearRoundUI() {
-    this.cardsContainer.innerHTML = ` `;
-    this.total.textContent = 0;
-    this.messageText.textContent = ` `;
-  },
-};
+      const winningsLabelSpan = document.createElement(`span`);
+      const winningsValueSpan = document.createElement(`span`);
 
-export let dealerField = {
-  cardsContainer: document.querySelector(".dealer-cards__container"),
-  total: document.querySelector(".dealer-total__value"),
-  messageContainer: document.querySelector(`.dealer-message__container`),
-  messageText: document.querySelector(`.dealer-message__text`),
+      const winningsLabelContent = document.createTextNode(`Winnings: `);
+      const winningsValueContent = document.createTextNode(
+        outcomePackage.winnings
+      );
 
-  renderOutcome: renderCardHolderOutcome,
-  removeOutcomeModifierClass: removeOutcomeModifierClass,
+      winningsLabelSpan.appendChild(winningsLabelContent);
+      winningsValueSpan.appendChild(winningsValueContent);
 
-  renderField(hand) {
-    let finalImages = [...hand.images, ...hand.endTags];
+      winningsHeading.appendChild(winningsLabelSpan);
+      winningsHeading.appendChild(winningsValueSpan);
 
-    this.cardsContainer.innerHTML = finalImages.join(``);
-    this.total.textContent = hand.visibleTotal;
-  },
+      winningsLabelSpan.classList.add(
+        `base-round-outcome-modal__single-hand-winnings-label`
+      );
 
-  resetOutcomeField() {
-    this.removeOutcomeModifierClass(this.messageContainer);
-    this.messageText.textContent = ``;
-  },
-
-  clearRoundUI() {
-    this.cardsContainer.innerHTML = ` `;
-    this.total.textContent = 0;
-    this.messageText.textContent = ` `;
-  },
-};
-
-export let splitStageField = {
-  stageContainer: document.querySelector(`.grid__split-stages-container`),
-  cardFields: document.querySelectorAll(`.split-stage__cards`),
-  totalFields: document.querySelectorAll(`.split-stage__total`),
-  resultFields: document.querySelectorAll(`.split-stage__result`),
-  stage1: {
-    container: document.querySelector(`.split-stage-1__container`),
-    handNum: document.querySelector(`.split-stage-1__hand-num`),
-    cards: document.querySelector(`.split-stage-1__cards`),
-    total: document.querySelector(`.split-stage-1__total`),
-    result: document.querySelector(`.split-stage-1__result`),
-  },
-
-  stage2: {
-    container: document.querySelector(`.split-stage-2__container`),
-    handNum: document.querySelector(`.split-stage-2__hand-num`),
-    cards: document.querySelector(`.split-stage-1__cards`),
-    total: document.querySelector(`.split-stage-1__total`),
-    result: document.querySelector(`.split-stage-2__result`),
-  },
-
-  stage3: {
-    container: document.querySelector(`.split-stage-3__container`),
-    handNum: document.querySelector(`.split-stage-2__hand-num`),
-    cards: document.querySelector(`.split-stage-1__cards`),
-    total: document.querySelector(`.split-stage-1__total`),
-    result: document.querySelector(`.split-stage-3__result`),
-  },
-  removeOutcomeModifierClass: removeOutcomeModifierClass,
-
-  renderOutcome(splitStageNum, outcome, outcomeText) {
-    if (splitStageNum == 1)
-      changeSplitStageResult(this.stage1.result, outcome, outcomeText);
-    if (splitStageNum == 2)
-      changeSplitStageResult(this.stage2.result, outcome, outcomeText);
-    if (splitStageNum == 3)
-      changeSplitStageResult(this.stage3.result, outcome, outcomeText);
-
-    function changeSplitStageResult(elem, outcome, outcomeText) {
-      elem.classList.add(`--${outcome}`);
-      elem.textContent = outcomeText;
+      return winningsHeading;
     }
   },
 
-  renderStage(hand, stageNum) {
-    this.stageContainer.style.display = `flex`;
+  renderSplitHandOutcome(gameState) {
+    let splitHands = gameState.player.splitHands;
 
-    if (stageNum == 1) changeSplitStageField(this.stage1, hand, `split-1`);
-    if (stageNum == 2) changeSplitStageField(this.stage2, hand, `split-2`);
-    if (stageNum == 3) changeSplitStageField(this.stage3, hand, `split-3`);
+    this.prepareModal();
 
-    function changeSplitStageField(elemObj, hand, splitHandField) {
-      let { handNum, codes, total } = hand;
+    let handElems = splitHands.map((obj) => renderSplitOutcomeText(obj));
 
-      elemObj.container.style.display = `block`;
-      elemObj.handNum.textContent = handNum;
-      elemObj.cards.textContent = codes.join(` `);
-      elemObj.total.textContent = total;
-    }
-  },
+    handElems.forEach(function (elem) {
+      this.mainContainer.appendChild(elem);
+    }, this);
 
-  resetOutcomeField(stageNum) {
-    if (stageNum == 1) changeOutcomeField(this.split1.result);
-    if (stageNum == 2) changeOutcomeField(this.split2.result);
-    if (stageNum == 3) changeOutcomeField(this.split3.result);
+    listeners.addBaseRoundOutcomeModalListener();
 
-    function changeOutcomeField(elem) {
-      splitStageField.removeOutcomeModifierClass(elem);
-      elem.textContent = ``;
-    }
-  },
+    popbox.open(`generic-modal`);
 
-  clearRoundUI() {
-    this.cardFields.forEach(function (elem) {
-      elem.innerHTML = ` `;
-    });
+    function renderSplitOutcomeText(hand) {
+      let handNum = hand.handNum;
+      let roundOutcome = hand.roundOutcome;
+      let outcomeText = hand.outcomePackage.outcomeText;
+      let winnings = hand.outcomePackage.winnings;
 
-    this.totalFields.forEach(function (elem) {
-      elem.textContent = 0;
-    });
+      let noticeText = baseRoundOutcomeModal.createNoticeText(roundOutcome);
 
-    this.resultFields.forEach(function (elem) {
-      elem.textContent = ` `;
-    });
+      const outcomeDiv = document.createElement(`div`);
+      outcomeDiv.classList.add(
+        `base-round-outcome-modal__split-hand-outcome-div`
+      );
 
-    this.stageContainer.style.display = `none`;
-  },
-};
+      let handNumSpan = createHandNumElement(handNum);
 
-function renderCardHolderOutcome(outcome, outcomeText) {
-  this.messageContainer.classList.add(`--${outcome}`);
-  this.messageText.textContent = outcomeText;
-}
+      let roundOutcomeSpan = createRoundOutcomeElement(
+        noticeText,
+        roundOutcome
+      );
 
-export let gameField = {
-  player: playerField,
-  dealer: dealerField,
-  splitStages: splitStageField,
+      let outcomeTextSpan = createOutcomeTextElement(outcomeText);
 
-  //replaces renderPlayerHandOutcome
-  renderHandOutcome(hand, field) {
-    if (!hand.outcome) return;
+      let winningsSpan = createWinningsElement(winnings);
 
-    let outcome = hand.outcome;
-    let outcomeText = chooseOutcomeText(outcome, hand);
+      outcomeDiv.appendChild(handNumSpan);
+      outcomeDiv.appendChild(roundOutcomeSpan);
+      outcomeDiv.appendChild(outcomeTextSpan);
+      outcomeDiv.appendChild(winningsSpan);
 
-    if (field == `player`) this.player.renderOutcome(outcome, outcomeText);
-    if (field == `dealer`) {
-      this.dealer.removeOutcomeModifierClass(this.dealer.messageContainer);
-      this.dealer.renderOutcome(outcome, outcomeText);
-    }
-    if (field == `split-stage-1`)
-      this.splitStages.renderOutcome(1, outcome, outcomeText);
-    if (field == `split-stage-2`)
-      this.splitStages.renderOutcome(2, outcome, outcomeText);
-    if (field == `split-stage-3`)
-      this.splitStages.renderOutcome(3, outcome, outcomeText);
+      return outcomeDiv;
 
-    function chooseOutcomeText(outcome, hand) {
-      let outcomeText;
+      function createHandNumElement(handNum) {
+        const handNumSpan = document.createElement(`span`);
+        const handNumSpanContent = document.createTextNode(`Hand ${handNum}: `);
+        handNumSpan.appendChild(handNumSpanContent);
+        handNumSpan.classList.add(
+          `base-round-outcome-modal__split-hand-handnum-label`
+        );
 
-      if (outcome == `bust`) outcomeText = `Bust`;
-      if (outcome == `charlie`)
-        outcomeText = `${hand.charlieType} Card Charlie`;
-      if (outcome == `natural`) outcomeText = `Blackjack!`;
-      if (outcome == `stand`) outcomeText = `Stand`;
-      if (outcome == `dealerHit`) outcomeText = `Hitting...`;
-      if (outcome == `surrender`) outcomeText = `Surrender`;
+        return handNumSpan;
+      }
 
-      return outcomeText;
-    }
-  },
+      function createRoundOutcomeElement(noticeText, roundOutcome) {
+        const roundOutcomeSpan = document.createElement(`span`);
+        const roundOutcomeSpanContent = document.createTextNode(
+          `${noticeText}  `
+        );
+        roundOutcomeSpan.appendChild(roundOutcomeSpanContent);
+        roundOutcomeSpan.classList.add(
+          `base-round-outcome-modal__split-hand-outcome--${roundOutcome}`
+        );
 
-  //replaces renderPlayerHands
-  renderPlayerHands(player, reset = null) {
-    let active = player.currentSplitHand;
-    let count;
-    if (player.type == "split player") count = player.splitHands.length;
+        return roundOutcomeSpan;
+      }
 
-    if (reset) this.resetOutcomeField(0);
+      function createOutcomeTextElement(outcomeText) {
+        const outcomeTextSpan = document.createElement(`span`);
+        const outcomeTextSpanContent = document.createTextNode(
+          `${outcomeText}`
+        );
+        outcomeTextSpan.appendChild(outcomeTextSpanContent);
 
-    if (active == 0) {
-      this.player.renderField(player.hand);
-      this.renderHandOutcome(player.hand, `player`);
-      return;
-    }
+        return outcomeTextSpan;
+      }
 
-    let stageOrderArr = createStageOrderArr(player, count);
+      function createWinningsElement(winnings) {
+        const winningsSpan = document.createElement(`span`);
+        const winningsLabelSpan = document.createElement(`span`);
+        const winningsValueSpan = document.createElement(`span`);
 
-    reorderStageOrderArr(stageOrderArr, active);
+        const winningsLabelContent = document.createTextNode(`Winnings: `);
 
-    renderCardFields(stageOrderArr);
+        const winningsValueContent = document.createTextNode(winnings);
 
-    renderOutcomeFields(stageOrderArr);
+        winningsLabelSpan.appendChild(winningsLabelContent);
+        winningsValueSpan.appendChild(winningsValueContent);
 
-    function renderCardFields(stageOrderArr) {
-      gameField.player.renderField(stageOrderArr[0]);
-      gameField.splitStages.renderStage(stageOrderArr[1], 1);
-      if (count >= 3) gameField.splitStages.renderStage(stageOrderArr[2], 2);
-      if (count == 4) gameField.splitStages.renderStage(stageOrderArr[3], 3);
-    }
+        winningsSpan.appendChild(winningsLabelSpan);
+        winningsSpan.appendChild(winningsValueSpan);
 
-    function renderOutcomeFields(stageOrderArr) {
-      gameField.renderHandOutcome(stageOrderArr[0], `player`);
-      gameField.renderHandOutcome(stageOrderArr[1], `split-stage-1`);
-      if (count >= 3)
-        gameField.renderHandOutcome(stageOrderArr[2], `split-stage-2`);
-      if (count == 4)
-        gameField.renderHandOutcome(stageOrderArr[3], `split-stage-3`);
-    }
+        winningsLabelSpan.classList.add(
+          `base-round-outcome-modal__split-hand-winnings-label`
+        );
 
-    function createStageOrderArr(player, count) {
-      let stageOrderArr = [];
-
-      stageOrderArr.push(player.getSplitHand(1));
-      stageOrderArr.push(player.getSplitHand(2));
-      if (count >= 3) stageOrderArr.push(player.getSplitHand(3));
-      if (count == 4) stageOrderArr.push(player.getSplitHand(4));
-
-      return stageOrderArr;
-    }
-
-    function reorderStageOrderArr(stageOrderArr, active) {
-      if (active == 1) return;
-      if (active == 2) changeArrOrder(1, stageOrderArr);
-      if (active == 3) changeArrOrder(2, stageOrderArr);
-      if (active == 4) changeArrOrder(3, stageOrderArr);
-
-      function changeArrOrder(index, arr) {
-        let handArr = arr.splice(index, 1);
-        arr.unshift(handArr[0]);
+        return winningsSpan;
       }
     }
   },
 
-  //replaces resetOutcomeField
-  resetOutcomeField(stageNum) {
-    if (stageNum == 0) this.player.resetOutcomeField();
-    if (stageNum == 10) this.dealer.resetOutcomeField();
-    if (stageNum == 1) this.splitStages.resetOutcomeField(1);
-    if (stageNum == 2) this.splitStages.resetOutcomeField(2);
-    if (stageNum == 3) this.splitStages.resetOutcomeField(3);
+  clearModal() {
+    this.mainContainer.innerHTML = ` `;
   },
 
-  clearRoundUI() {
-    this.dealer.clearRoundUI();
+  prepareModal() {
+    this.titleField.textContent = `Round Outcome`;
+    this.toggleDisplayElementOn(this.nextBtn, true);
+    this.toggleDisplayElementOn(this.closeBtn, false);
 
-    this.player.clearRoundUI();
+    this.toggleAddClassToModalContainer(true);
 
-    this.splitStages.clearRoundUI();
-
-    this.resetAllMessageFieldUI();
+    this.clearModal();
   },
 
-  resetAllMessageFieldUI() {
-    // let outcomeArr = [
-    //   `bust`,
-    //   `charlie`,
-    //   `natural`,
-    //   `stand`,
-    //   `surrender`,
-    //   `dealerHit`,
-    // ];
+  toggleAddClassToModalContainer(toggle) {
+    toggle
+      ? this.mainContainer.classList.add(
+          `generic-modal__main--base-outcome-modal`
+        )
+      : this.mainContainer.classList.remove(
+          `generic-modal__main--base-round-outcome-modal`
+        );
+  },
 
-    this.player.removeOutcomeModifierClass(this.player.messageContainer);
-    this.dealer.removeOutcomeModifierClass(this.dealer.messageContainer);
-    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage1.result);
-    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage2.result);
-    this.splitStages.removeOutcomeModifierClass(this.splitStages.stage3.result);
+  createNoticeText(roundOutcome) {
+    let noticeText;
+
+    if (roundOutcome == `win`) noticeText = `WIN!`;
+    if (roundOutcome == `lose`) noticeText = `Lose`;
+    if (roundOutcome == `push`) noticeText = `Push`;
+    if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
+    if (roundOutcome == `surrender`) noticeText = `Surrender`;
+
+    return noticeText;
   },
 };
 
-function removeOutcomeModifierClass(elem) {
-  let classesArr = [
-    `natural`,
-    `bust`,
-    `charlie`,
-    `stand`,
-    `dealerHit`,
-    `surrender`,
-  ];
+export const totalWinningsModal = {
+  winningsField: document.querySelector(`.winnings-modal__winnings-value`),
+  winSummaryBtn: document.querySelector(`.btn-winnings-modal__win-summary`),
+  closeBtn: document.querySelector(`.btn-winnings-modal__close`),
+  toggleEventListeners: toggleEventListeners,
 
-  classesArr.forEach(function (str) {
-    elem.classList.remove(`--${str}`);
-  });
-}
+  displayModal(gameState) {
+    this.winningsField.textContent = gameState.totalWinnings;
+
+    popbox.open(`winnings-modal`);
+  },
+};
+
+export const winSummaryModal = {
+  modalContainer: document.querySelector(`.summary-modal__container`),
+  mainContainer: document.querySelector(`.summary-modal__main`),
+  titleField: document.querySelector(`.summary-modal__title`),
+  closeBtn: document.querySelector(`.btn-summary-modal__close`),
+  nextBtn: document.querySelector(`.btn-summary-modal__next`),
+  toggleDisplayElementOn: toggleDisplayElementOn,
+  checkNeedModalScrollbar: checkNeedModalScrollbar,
+  toggleAddScrollbarToModal: toggleAddScrollbarToModal,
+
+  displayModal(gameState) {
+    this.prepareModal();
+
+    let baseGameDiv = this.createBaseGameSummaryElements(gameState);
+
+    this.mainContainer.appendChild(baseGameDiv);
+
+    let initialOutcomePackages = gameState.betObj.initialOutcomePackages;
+    let endingOutcomePackages = gameState.betObj.endingOutcomePackages;
+
+    if (initialOutcomePackages || endingOutcomePackages) {
+      let sideBetLabelSpan = this.createSideBetLabelElement();
+      this.mainContainer.appendChild(sideBetLabelSpan);
+      sideBetLabelSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
+    }
+
+    if (initialOutcomePackages)
+      initialOutcomePackages.forEach(generateSummaryElements, this);
+
+    if (endingOutcomePackages)
+      endingOutcomePackages.forEach(generateSummaryElements, this);
+
+    this.checkNeedModalScrollbar();
+
+    popbox.open(`summary-modal`);
+
+    function generateSummaryElements(outcomeObj) {
+      let sideBetDiv = winSummaryModal.createSideBetSummaryElements(outcomeObj);
+
+      winSummaryModal.mainContainer.appendChild(sideBetDiv);
+    }
+  },
+
+  createBaseGameSummaryElements(gameState) {
+    let player = gameState.player;
+    let blackjackPayout = gameState.options.blackjackPayout;
+
+    const newDiv = document.createElement(`div`);
+
+    let roundLabel = createRoundLabelElement();
+
+    let outcomeElems = createOutcomeElems(player, blackjackPayout);
+
+    newDiv.appendChild(roundLabel);
+
+    outcomeElems.forEach(function (elem) {
+      newDiv.appendChild(elem);
+    });
+
+    return newDiv;
+
+    function createRoundLabelElement() {
+      const roundLabel = document.createElement(`h2`);
+      let roundLabelContent = document.createTextNode(`Base Round`);
+      roundLabel.appendChild(roundLabelContent);
+
+      roundLabel.classList.add(`summary-modal__win-summary-round-label`);
+
+      return roundLabel;
+    }
+
+    function createOutcomeElems(player, blackjackPayout) {
+      let activeHand = player.currentSplitHand;
+      let outcomeElems = [];
+
+      if (activeHand == 0) {
+        let hand = player.hand;
+        outcomeElems.push(
+          winSummaryModal.createPlayerSummaryFieldElements(
+            hand,
+            blackjackPayout
+          )
+        );
+      } else {
+        player.splitHands.forEach(function (hand) {
+          outcomeElems.push(
+            this.createPlayerSummaryFieldElements(hand, blackjackPayout)
+          );
+        }, winSummaryModal);
+      }
+
+      return outcomeElems;
+    }
+  },
+
+  createPlayerSummaryFieldElements(hand, blackjackPayout) {
+    let { name, roundOutcome, winnings } = hand.outcomePackage;
+
+    const playerDiv = document.createElement(`div`);
+    playerDiv.classList.add(`summary-modal__base-round-hand-div`);
+
+    let nameSpan = this.createNameElement(name);
+
+    let outcomeDiv = this.createOutcomeElement(roundOutcome);
+
+    let payoutSpan = createPayoutElement(roundOutcome, blackjackPayout);
+
+    let winningsSpan = this.createWinningsElement(winnings);
+
+    playerDiv.appendChild(nameSpan);
+    playerDiv.appendChild(outcomeDiv);
+    playerDiv.appendChild(payoutSpan);
+    playerDiv.appendChild(winningsSpan);
+
+    return playerDiv;
+
+    function createPayoutElement(roundOutcome, blackjackPayout) {
+      let payout = determinePayoutText(roundOutcome, blackjackPayout);
+
+      return winSummaryModal.createPayoutNodes(payout);
+
+      function determinePayoutText(roundOutcome, blackjackPayout) {
+        let payout;
+        if (roundOutcome == `win`) payout = `2:1`;
+        else if (roundOutcome == `natural`) payout = blackjackPayout;
+        else if (roundOutcome == `push`) payout = `Bet Returned`;
+        else if (roundOutcome == `surrender`) payout = `1/2 Bet Returned`;
+        else payout = `0:0`;
+
+        return payout;
+      }
+    }
+  },
+
+  createSideBetSummaryElements(outcomeObj) {
+    let { name, outcome, payout, winCondition, winnings } = outcomeObj;
+
+    const newDiv = document.createElement(`div`);
+    newDiv.classList.add(`summary-modal__side-bet-div`);
+
+    let nameSpan = this.createNameElement(name);
+
+    let outcomeDiv = this.createOutcomeElement(outcome);
+
+    let payoutSpan = this.createPayoutNodes(payout);
+
+    let winConditionSpan = createWinConditionElement(winCondition);
+
+    let winningsSpan = this.createWinningsElement(winnings);
+
+    newDiv.appendChild(nameSpan);
+    newDiv.appendChild(outcomeDiv);
+    newDiv.appendChild(winningsSpan);
+    winningsSpan.insertAdjacentHTML(`afterend`, `<br>`);
+    newDiv.appendChild(winConditionSpan);
+    newDiv.appendChild(payoutSpan);
+
+    return newDiv;
+
+    function createWinConditionElement(winCondition) {
+      const winConditionSpan = document.createElement(`span`);
+      const winConditionSpanContent = document.createTextNode(
+        `Hand Outcome: "${winCondition}"`
+      );
+      winConditionSpan.appendChild(winConditionSpanContent);
+
+      return winConditionSpan;
+    }
+  },
+
+  createSideBetLabelElement() {
+    const sideBetLabelSpan = document.createElement(`h2`);
+    let sideBetLabelContent = document.createTextNode(`Side Bets`);
+    sideBetLabelSpan.appendChild(sideBetLabelContent);
+
+    sideBetLabelSpan.classList.add(`summary-modal__win-summary-side-bet-label`);
+
+    return sideBetLabelSpan;
+  },
+
+  createNameElement(name) {
+    const nameSpan = document.createElement(`span`);
+    let nameSpanContent = document.createTextNode(`${name} `);
+    nameSpan.appendChild(nameSpanContent);
+
+    nameSpan.classList.add(`summary-modal__name-label`);
+
+    return nameSpan;
+  },
+
+  createOutcomeElement(roundOutcome) {
+    const outcomeDiv = document.createElement(`div`);
+    outcomeDiv.classList.add(`summary-modal__outcome`);
+    outcomeDiv.classList.add(`--${roundOutcome}`);
+    let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
+    outcomeDiv.appendChild(outcomeDivContent);
+
+    return outcomeDiv;
+  },
+
+  createPayoutNodes(payout) {
+    const payoutSpan = document.createElement(`span`);
+
+    const labelSpan = document.createElement(`span`);
+    const valueSpan = document.createElement(`span`);
+
+    const labelContent = document.createTextNode(`Payout: `);
+    const valueContent = document.createTextNode(payout);
+
+    labelSpan.appendChild(labelContent);
+    valueSpan.appendChild(valueContent);
+
+    payoutSpan.appendChild(labelSpan);
+    payoutSpan.appendChild(valueSpan);
+
+    labelSpan.classList.add(`summary-modal__payout-label`);
+
+    payoutSpan.classList.add(`summary-modal__payout-value`);
+
+    return payoutSpan;
+  },
+
+  createWinningsElement(winnings) {
+    const winningsSpan = document.createElement(`span`);
+
+    const labelSpan = document.createElement(`span`);
+    const valueSpan = document.createElement(`span`);
+
+    const labelContent = document.createTextNode(`Winnings: `);
+    const valueContent = document.createTextNode(winnings);
+
+    labelSpan.appendChild(labelContent);
+    valueSpan.appendChild(valueContent);
+
+    winningsSpan.appendChild(labelSpan);
+    winningsSpan.appendChild(valueSpan);
+
+    labelSpan.classList.add(`summary-modal__winnings-label`);
+
+    winningsSpan.classList.add(`summary-modal__winnings-value`);
+
+    return winningsSpan;
+  },
+
+  clearModal() {
+    this.mainContainer.innerHTML = ` `;
+  },
+
+  prepareModal() {
+    this.toggleDisplayElementOn(this.closeBtn, true);
+    this.toggleDisplayElementOn(this.nextBtn, false);
+
+    this.titleField.textContent = `Win Summary`;
+
+    this.clearModal();
+  },
+};
+
 
 export let sideBetOutcomeModal = {
   modalContainer: document.querySelector(`.summary-modal__container`),
@@ -1043,7 +1566,7 @@ export let sideBetOutcomeModal = {
   checkNeedModalScrollbar: checkNeedModalScrollbar,
   toggleAddScrollbarToModal: toggleAddScrollbarToModal,
 
-  //replaces displayInitialSideBetOutcome and displayEndingSideBetOutcome
+
   displayModal(gameState, phase) {
     let betObj = gameState.betObj;
 
@@ -1128,7 +1651,7 @@ export let sideBetOutcomeModal = {
     }
   },
 
-  //replaces createSummaryFieldElements
+
   createSummaryElements(outcomeObj) {
     let { name, outcome, winCondition } = outcomeObj;
 
@@ -1264,7 +1787,7 @@ export const winningHandModal = {
   ),
   toggleDisplayElementOn: toggleDisplayElementOn,
 
-  //replaces both initialSideBetOutcomeWinHand and endingsideBetOutcomeWinHand
+
   displayModal(event, gameState, phase) {
     let key = event.target.dataset.sideBet;
 
@@ -1315,7 +1838,6 @@ export const winningHandModal = {
         toggle
           ? winningHandModal.toggleDisplayElementOn(elem, true)
           : winningHandModal.toggleDisplayElementOn(elem, false);
-        // toggle ? (elem.style.display = `block`) : (elem.style.display = `none`);
       }
 
       function displayCards(elem, hand, phase) {
@@ -1344,15 +1866,15 @@ export const winningHandModal = {
   },
 };
 
+///////// Individual Side Bet Modals /////////
+
 export const perfect11sDiceModal = {
   title: document.querySelector(`.generic-modal__title`),
-  //replaces displayField
   mainContainer: document.querySelector(`.generic-modal__main`),
   closeBtn: document.querySelector(`.btn-generic-modal__close`),
   nextBtn: document.querySelector(`.btn-generic-modal__next`),
   toggleDisplayElementOn: toggleDisplayElementOn,
 
-  //replaces displayPerfect11sDiceRoll
   displayModal(diceRolls) {
     this.clearModal();
 
@@ -1536,7 +2058,6 @@ export const perfect11sDiceModal = {
     });
   },
 
-  //replaces displayStopInfinityDice
   displayStopInfinityDice(event) {
     const dice1 = document.querySelector(`.infinity-dice-1`);
     const dice2 = document.querySelector(`.infinity-dice-2`);
@@ -1606,140 +2127,6 @@ export const perfect11sDiceModal = {
   },
 };
 
-export const extraBetModal = {
-  titleField: document.querySelector(`.extra-bet-modal__title`),
-  bankValue: document.querySelector(`.extra-bet-modal__bank-value`),
-  baseBetValue: document.querySelector(`.extra-bet-modal__base-bet-value`),
-  betValue: document.querySelector(`.extra-bet-modal__bet-value`),
-  initialSideBetField: document.querySelector(
-    `.extra-bet-modal__initial-side-bet-container`
-  ),
-  initialSideBetValue: document.querySelector(
-    `.extra-bet-modal__initial-side-bet-value`
-  ),
-  feeField: document.querySelector(`.extra-bet-modal__fee-container`),
-  feeValue: document.querySelector(`.extra-bet-modal__fee-value`),
-  mainContainer: document.querySelector(`.extra-bet-modal__main`),
-  placeExtraBetBtn: document.querySelector(
-    `.btn-extra-bet-modal__place-extra-bet`
-  ),
-  raiseTheRoofBtn: document.querySelector(
-    `.btn-extra-bet-modal__raise-the-roof`
-  ),
-  chipBtns: document.querySelectorAll(`.btn-extra-bet-modal__chip`),
-  clearBetBtn: document.querySelector(`.btn-extra-bet-modal__clear-bet`),
-  placeBetBtn: document.querySelector(`.btn-extra-bet-modal__place-extra-bet`),
-  declineBetBtn: document.querySelector(`.btn-extra-bet-modal__decline-bet`),
-  toggleDisplayElementOn: toggleDisplayElementOn,
-  enableChipBtn: enableChipBtn,
-  disableChipBtn: disableChipBtn,
-  toggleDisableBtn: toggleDisableBtn,
-  toggleEventListeners: toggleEventListeners,
-
-  //replaces displayExtraBetModal
-  displayModal(gameState) {
-    changeBtnDisplay(this);
-
-    this.toggleDisplayElementOn(this.initialSideBetField, false);
-    this.toggleDisplayElementOn(this.feeField, true);
-
-    let bank = gameState.bank;
-    let baseBet = gameState.betObj.baseBet;
-
-    this.titleField.textContent = `Extra Bet Blackjack`;
-    this.bankValue.textContent = bank;
-    this.baseBetValue.textContent = baseBet;
-    this.mainContainer.dataset.sidebet = `extraBetBlackjack`;
-
-    this.checkChipBtnsValid(bank, 0, baseBet);
-    this.checkToEnableActionBtns(gameState);
-
-    popbox.open(`extra-bet-modal`);
-
-    function changeBtnDisplay(modal) {
-      modal.toggleDisplayElementOn(modal.placeExtraBetBtn, true);
-      modal.toggleDisplayElementOn(modal.raiseTheRoofBtn, false);
-    }
-  },
-
-  //replaces updateExtraBetModalTotal
-  updateModalTotal(sideBetObj, gameState) {
-    let betTotal = sideBetObj.getTempBet();
-    let bank = sideBetObj.getTempBank();
-    let fee = sideBetObj.fee;
-    let baseBet = gameState.betObj.baseBet;
-
-    this.bankValue.textContent = bank;
-    this.betValue.textContent = betTotal;
-    this.feeValue.textContent = fee;
-
-    this.checkChipBtnsValid(bank, betTotal, baseBet);
-    this.checkToEnableActionBtns(gameState);
-  },
-
-  //replaces checkExtraBetChipBtnsValid
-  checkChipBtnsValid(value, sideBet, baseBet) {
-    this.chipBtns.forEach(function (btn) {
-      value >= btn.dataset.value
-        ? enableChipBtn(btn, this)
-        : disableChipBtn(btn, this);
-    }, this);
-
-    let maxValue = baseBet * 5;
-
-    sideBet >= maxValue ? toggleDisableChips(true) : toggleDisableChips(false);
-
-    function enableChipBtn(btn, modal) {
-      modal.enableChipBtn(btn);
-      btn.dataset.disabledbyvalue = false;
-    }
-
-    function disableChipBtn(btn, modal) {
-      modal.disableChipBtn(btn);
-      btn.dataset.disabledbyvalue = true;
-    }
-
-    function toggleDisableChips(toggle) {
-      if (toggle) {
-        extraBetModal.chipBtns.forEach(function (elem) {
-          extraBetModal.disableChipBtn(elem);
-        });
-      } else {
-        extraBetModal.chipBtns.forEach(function (elem) {
-          if (elem.dataset.disabledbyvalue) return;
-          extraBetModal.enableChipBtn(elem);
-        });
-      }
-    }
-  },
-
-  //replaces deactivateExtraBetModal
-  deactivateModal() {
-    this.bankValue.textContent = 0;
-    this.baseBetValue.textContent = 0;
-    this.betValue.textContent = 0;
-    this.feeValue.textContent = 0;
-
-    this.chipBtns.forEach(function (btn) {
-      btn.removeAttribute(`data-disabledbyvalue`);
-    });
-
-    this.mainContainer.dataset.sidebet = ` `;
-  },
-
-  checkToEnableActionBtns(gameState) {
-    let sideBetObj = gameState.betObj.getSideBet(`extraBetBlackjack`);
-    let betValue = sideBetObj.getTempBet();
-
-    betValue > 0 ? enableActionBtns(true) : enableActionBtns(false);
-
-    function enableActionBtns(boolean) {
-      extraBetModal.toggleDisableBtn(extraBetModal.clearBetBtn, !boolean);
-      extraBetModal.toggleDisableBtn(extraBetModal.placeBetBtn, !boolean);
-    }
-  },
-};
-
 export const houseMoneyModal = {
   sideBetField: document.querySelector(`.house-money-modal__side-bet-value`),
   baseBetField: document.querySelector(`.house-money-modal__base-bet-value`),
@@ -1760,7 +2147,6 @@ export const houseMoneyModal = {
   actionBtns: document.querySelectorAll(`.btn-house-money-modal__action`),
   toggleEventListeners: toggleEventListeners,
 
-  //replaces displayHouseMoneyModal
   displayModal(gameState) {
     let houseMoneyObj = gameState.betObj.getSideBet(`houseMoney`);
     let baseBet = gameState.betObj.baseBet;
@@ -1803,7 +2189,6 @@ export const evenMoneyInsuranceModal = {
   closeBtn: document.querySelector(`.btn-generic-modal__close`),
   toggleDisplayElementOn: toggleDisplayElementOn,
 
-  //replaces activateEvenMoneyModal and activateInsuranceModal
   activateModal(modalType) {
     //modalType either evenMoney or insurance
     this.title.textContent = `Decide Side Bet`;
@@ -1907,7 +2292,6 @@ export const evenMoneyInsuranceModal = {
     }
   },
 
-  //replaces renderEvenMoneyOutcome and renderInsuranceOutcome
   renderOutcome(modalType, outcome, gameState) {
     const outcomeField = document.querySelector(`.generic-modal__outcome-text`);
     const headingElem = document.querySelector(
@@ -1947,7 +2331,6 @@ export const evenMoneyInsuranceModal = {
     }
   },
 
-  //replaces removeSideBetDecideBtns
   removeSideBetDecideBtns() {
     const btnContainer = document.querySelector(
       `.generic-modal__side-bet-title`
@@ -1971,509 +2354,7 @@ export const evenMoneyInsuranceModal = {
   },
 };
 
-export const baseRoundOutcomeModal = {
-  mainContainer: document.querySelector(`.generic-modal__main`),
-  titleField: document.querySelector(`.generic-modal__title`),
-  nextBtn: document.querySelector(`.btn-generic-modal__next`),
-  closeBtn: document.querySelector(`.btn-generic-modal__close`),
-  toggleDisplayElementOn: toggleDisplayElementOn,
-
-  //replaces renderSingleHandOutcome
-  renderSingleHandOutcome(gameState) {
-    let player = gameState.player;
-    let outcomePackage = player.hand.outcomePackage;
-    let roundOutcome = outcomePackage.roundOutcome;
-
-    this.prepareModal();
-
-    let roundOutcomeHeading = createRoundOutcomeElement(roundOutcome);
-
-    let outcomeHeading = createOutcomeHeadingElement();
-
-    let winningsHeading = createWinningsElement();
-
-    this.mainContainer.appendChild(roundOutcomeHeading);
-    this.mainContainer.appendChild(outcomeHeading);
-    this.mainContainer.appendChild(winningsHeading);
-
-    listeners.addBaseRoundOutcomeModalListener();
-
-    popbox.open(`generic-modal`);
-
-    function createRoundOutcomeElement(roundOutcome) {
-      let noticeText = baseRoundOutcomeModal.createNoticeText(roundOutcome);
-
-      const roundOutcomeHeading = document.createElement(`h1`);
-      const roundOutcomeHeadingContent = document.createTextNode(noticeText);
-      roundOutcomeHeading.appendChild(roundOutcomeHeadingContent);
-
-      roundOutcomeHeading.classList.add(
-        `base-round-outcome-modal__single-hand-outcome-heading--${roundOutcome}`
-      );
-
-      return roundOutcomeHeading;
-    }
-
-    function createOutcomeHeadingElement() {
-      const outcomeHeading = document.createElement(`h2`);
-      const outcomeHeadingContent = document.createTextNode(
-        outcomePackage.outcomeText
-      );
-      outcomeHeading.appendChild(outcomeHeadingContent);
-
-      return outcomeHeading;
-    }
-
-    function createWinningsElement() {
-      const winningsHeading = document.createElement(`h2`);
-
-      const winningsLabelSpan = document.createElement(`span`);
-      const winningsValueSpan = document.createElement(`span`);
-
-      const winningsLabelContent = document.createTextNode(`Winnings: `);
-      const winningsValueContent = document.createTextNode(
-        outcomePackage.winnings
-      );
-
-      winningsLabelSpan.appendChild(winningsLabelContent);
-      winningsValueSpan.appendChild(winningsValueContent);
-
-      winningsHeading.appendChild(winningsLabelSpan);
-      winningsHeading.appendChild(winningsValueSpan);
-
-      winningsLabelSpan.classList.add(
-        `base-round-outcome-modal__single-hand-winnings-label`
-      );
-
-      return winningsHeading;
-    }
-  },
-
-  //replaces renderSplitHandOutcome
-  renderSplitHandOutcome(gameState) {
-    let splitHands = gameState.player.splitHands;
-
-    this.prepareModal();
-
-    let handElems = splitHands.map((obj) => renderSplitOutcomeText(obj));
-
-    handElems.forEach(function (elem) {
-      this.mainContainer.appendChild(elem);
-    }, this);
-
-    listeners.addBaseRoundOutcomeModalListener();
-
-    popbox.open(`generic-modal`);
-
-    function renderSplitOutcomeText(hand) {
-      let handNum = hand.handNum;
-      let roundOutcome = hand.roundOutcome;
-      let outcomeText = hand.outcomePackage.outcomeText;
-      let winnings = hand.outcomePackage.winnings;
-
-      let noticeText = baseRoundOutcomeModal.createNoticeText(roundOutcome);
-
-      const outcomeDiv = document.createElement(`div`);
-      outcomeDiv.classList.add(
-        `base-round-outcome-modal__split-hand-outcome-div`
-      );
-
-      let handNumSpan = createHandNumElement(handNum);
-
-      let roundOutcomeSpan = createRoundOutcomeElement(
-        noticeText,
-        roundOutcome
-      );
-
-      let outcomeTextSpan = createOutcomeTextElement(outcomeText);
-
-      let winningsSpan = createWinningsElement(winnings);
-
-      outcomeDiv.appendChild(handNumSpan);
-      outcomeDiv.appendChild(roundOutcomeSpan);
-      outcomeDiv.appendChild(outcomeTextSpan);
-      outcomeDiv.appendChild(winningsSpan);
-
-      return outcomeDiv;
-
-      function createHandNumElement(handNum) {
-        const handNumSpan = document.createElement(`span`);
-        const handNumSpanContent = document.createTextNode(`Hand ${handNum}: `);
-        handNumSpan.appendChild(handNumSpanContent);
-        handNumSpan.classList.add(
-          `base-round-outcome-modal__split-hand-handnum-label`
-        );
-
-        return handNumSpan;
-      }
-
-      function createRoundOutcomeElement(noticeText, roundOutcome) {
-        const roundOutcomeSpan = document.createElement(`span`);
-        const roundOutcomeSpanContent = document.createTextNode(
-          `${noticeText}  `
-        );
-        roundOutcomeSpan.appendChild(roundOutcomeSpanContent);
-        roundOutcomeSpan.classList.add(
-          `base-round-outcome-modal__split-hand-outcome--${roundOutcome}`
-        );
-
-        return roundOutcomeSpan;
-      }
-
-      function createOutcomeTextElement(outcomeText) {
-        const outcomeTextSpan = document.createElement(`span`);
-        const outcomeTextSpanContent = document.createTextNode(
-          `${outcomeText}`
-        );
-        outcomeTextSpan.appendChild(outcomeTextSpanContent);
-
-        return outcomeTextSpan;
-      }
-
-      function createWinningsElement(winnings) {
-        const winningsSpan = document.createElement(`span`);
-        const winningsLabelSpan = document.createElement(`span`);
-        const winningsValueSpan = document.createElement(`span`);
-
-        const winningsLabelContent = document.createTextNode(`Winnings: `);
-
-        const winningsValueContent = document.createTextNode(winnings);
-
-        winningsLabelSpan.appendChild(winningsLabelContent);
-        winningsValueSpan.appendChild(winningsValueContent);
-
-        winningsSpan.appendChild(winningsLabelSpan);
-        winningsSpan.appendChild(winningsValueSpan);
-
-        winningsLabelSpan.classList.add(
-          `base-round-outcome-modal__split-hand-winnings-label`
-        );
-
-        return winningsSpan;
-      }
-    }
-  },
-
-  clearModal() {
-    this.mainContainer.innerHTML = ` `;
-  },
-
-  prepareModal() {
-    this.titleField.textContent = `Round Outcome`;
-    this.toggleDisplayElementOn(this.nextBtn, true);
-    this.toggleDisplayElementOn(this.closeBtn, false);
-
-    this.toggleAddClassToModalContainer(true);
-
-    this.clearModal();
-  },
-
-  toggleAddClassToModalContainer(toggle) {
-    toggle
-      ? this.mainContainer.classList.add(
-          `generic-modal__main--base-outcome-modal`
-        )
-      : this.mainContainer.classList.remove(
-          `generic-modal__main--base-round-outcome-modal`
-        );
-  },
-
-  createNoticeText(roundOutcome) {
-    let noticeText;
-
-    if (roundOutcome == `win`) noticeText = `WIN!`;
-    if (roundOutcome == `lose`) noticeText = `Lose`;
-    if (roundOutcome == `push`) noticeText = `Push`;
-    if (roundOutcome == `natural`) noticeText = `Blackjack!!!`;
-    if (roundOutcome == `surrender`) noticeText = `Surrender`;
-
-    return noticeText;
-  },
-};
-
-export const totalWinningsModal = {
-  winningsField: document.querySelector(`.winnings-modal__winnings-value`),
-  winSummaryBtn: document.querySelector(`.btn-winnings-modal__win-summary`),
-  closeBtn: document.querySelector(`.btn-winnings-modal__close`),
-  toggleEventListeners: toggleEventListeners,
-
-  //replaces displayTotalWinningsModal
-  displayModal(gameState) {
-    this.winningsField.textContent = gameState.totalWinnings;
-
-    popbox.open(`winnings-modal`);
-  },
-};
-
-export const winSummaryModal = {
-  modalContainer: document.querySelector(`.summary-modal__container`),
-  mainContainer: document.querySelector(`.summary-modal__main`),
-  titleField: document.querySelector(`.summary-modal__title`),
-  closeBtn: document.querySelector(`.btn-summary-modal__close`),
-  nextBtn: document.querySelector(`.btn-summary-modal__next`),
-  toggleDisplayElementOn: toggleDisplayElementOn,
-  checkNeedModalScrollbar: checkNeedModalScrollbar,
-  toggleAddScrollbarToModal: toggleAddScrollbarToModal,
-
-  //replaces displayWinSummaryModal
-  displayModal(gameState) {
-    this.prepareModal();
-
-    let baseGameDiv = this.createBaseGameSummaryElements(gameState);
-
-    this.mainContainer.appendChild(baseGameDiv);
-
-    let initialOutcomePackages = gameState.betObj.initialOutcomePackages;
-    let endingOutcomePackages = gameState.betObj.endingOutcomePackages;
-
-    if (initialOutcomePackages || endingOutcomePackages) {
-      let sideBetLabelSpan = this.createSideBetLabelElement();
-      this.mainContainer.appendChild(sideBetLabelSpan);
-      sideBetLabelSpan.insertAdjacentHTML(`beforebegin`, `<br>`);
-    }
-
-    if (initialOutcomePackages)
-      initialOutcomePackages.forEach(generateSummaryElements, this);
-
-    if (endingOutcomePackages)
-      endingOutcomePackages.forEach(generateSummaryElements, this);
-
-    this.checkNeedModalScrollbar();
-
-    popbox.open(`summary-modal`);
-
-    function generateSummaryElements(outcomeObj) {
-      let sideBetDiv = winSummaryModal.createSideBetSummaryElements(outcomeObj);
-
-      winSummaryModal.mainContainer.appendChild(sideBetDiv);
-    }
-  },
-
-  //replaces createBaseGameSummaryElements
-  createBaseGameSummaryElements(gameState) {
-    let player = gameState.player;
-    let blackjackPayout = gameState.options.blackjackPayout;
-
-    const newDiv = document.createElement(`div`);
-
-    let roundLabel = createRoundLabelElement();
-
-    let outcomeElems = createOutcomeElems(player, blackjackPayout);
-
-    newDiv.appendChild(roundLabel);
-
-    outcomeElems.forEach(function (elem) {
-      newDiv.appendChild(elem);
-    });
-
-    return newDiv;
-
-    function createRoundLabelElement() {
-      const roundLabel = document.createElement(`h2`);
-      let roundLabelContent = document.createTextNode(`Base Round`);
-      roundLabel.appendChild(roundLabelContent);
-
-      roundLabel.classList.add(`summary-modal__win-summary-round-label`);
-
-      return roundLabel;
-    }
-
-    function createOutcomeElems(player, blackjackPayout) {
-      let activeHand = player.currentSplitHand;
-      let outcomeElems = [];
-
-      if (activeHand == 0) {
-        let hand = player.hand;
-        outcomeElems.push(
-          winSummaryModal.createPlayerSummaryFieldElements(
-            hand,
-            blackjackPayout
-          )
-        );
-      } else {
-        player.splitHands.forEach(function (hand) {
-          outcomeElems.push(
-            this.createPlayerSummaryFieldElements(hand, blackjackPayout)
-          );
-        }, winSummaryModal);
-      }
-
-      return outcomeElems;
-    }
-  },
-
-  //replaces createPlayerSummaryFieldElements
-  createPlayerSummaryFieldElements(hand, blackjackPayout) {
-    let { name, roundOutcome, winnings } = hand.outcomePackage;
-
-    const playerDiv = document.createElement(`div`);
-    playerDiv.classList.add(`summary-modal__base-round-hand-div`);
-
-    let nameSpan = this.createNameElement(name);
-
-    let outcomeDiv = this.createOutcomeElement(roundOutcome);
-
-    let payoutSpan = createPayoutElement(roundOutcome, blackjackPayout);
-
-    let winningsSpan = this.createWinningsElement(winnings);
-
-    playerDiv.appendChild(nameSpan);
-    playerDiv.appendChild(outcomeDiv);
-    playerDiv.appendChild(payoutSpan);
-    playerDiv.appendChild(winningsSpan);
-
-    return playerDiv;
-
-    function createPayoutElement(roundOutcome, blackjackPayout) {
-      let payout = determinePayoutText(roundOutcome, blackjackPayout);
-
-      return winSummaryModal.createPayoutNodes(payout);
-
-      function determinePayoutText(roundOutcome, blackjackPayout) {
-        let payout;
-        if (roundOutcome == `win`) payout = `2:1`;
-        else if (roundOutcome == `natural`) payout = blackjackPayout;
-        else if (roundOutcome == `push`) payout = `Bet Returned`;
-        else if (roundOutcome == `surrender`) payout = `1/2 Bet Returned`;
-        else payout = `0:0`;
-
-        return payout;
-      }
-    }
-  },
-
-  //replaces createSideBetSummaryElements
-  createSideBetSummaryElements(outcomeObj) {
-    let { name, outcome, payout, winCondition, winnings } = outcomeObj;
-
-    const newDiv = document.createElement(`div`);
-    newDiv.classList.add(`summary-modal__side-bet-div`);
-
-    let nameSpan = this.createNameElement(name);
-
-    let outcomeDiv = this.createOutcomeElement(outcome);
-
-    let payoutSpan = this.createPayoutNodes(payout);
-
-    let winConditionSpan = createWinConditionElement(winCondition);
-
-    let winningsSpan = this.createWinningsElement(winnings);
-
-    newDiv.appendChild(nameSpan);
-    newDiv.appendChild(outcomeDiv);
-    newDiv.appendChild(winningsSpan);
-    winningsSpan.insertAdjacentHTML(`afterend`, `<br>`);
-    newDiv.appendChild(winConditionSpan);
-    newDiv.appendChild(payoutSpan);
-
-    return newDiv;
-
-    function createWinConditionElement(winCondition) {
-      const winConditionSpan = document.createElement(`span`);
-      const winConditionSpanContent = document.createTextNode(
-        `Hand Outcome: "${winCondition}"`
-      );
-      winConditionSpan.appendChild(winConditionSpanContent);
-
-      return winConditionSpan;
-    }
-  },
-
-  createSideBetLabelElement() {
-    const sideBetLabelSpan = document.createElement(`h2`);
-    let sideBetLabelContent = document.createTextNode(`Side Bets`);
-    sideBetLabelSpan.appendChild(sideBetLabelContent);
-
-    sideBetLabelSpan.classList.add(`summary-modal__win-summary-side-bet-label`);
-
-    return sideBetLabelSpan;
-  },
-
-  createNameElement(name) {
-    const nameSpan = document.createElement(`span`);
-    let nameSpanContent = document.createTextNode(`${name} `);
-    nameSpan.appendChild(nameSpanContent);
-
-    nameSpan.classList.add(`summary-modal__name-label`);
-
-    return nameSpan;
-  },
-
-  createOutcomeElement(roundOutcome) {
-    const outcomeDiv = document.createElement(`div`);
-    outcomeDiv.classList.add(`summary-modal__outcome`);
-    outcomeDiv.classList.add(`--${roundOutcome}`);
-    let outcomeDivContent = document.createTextNode(`${roundOutcome} `);
-    outcomeDiv.appendChild(outcomeDivContent);
-
-    return outcomeDiv;
-  },
-
-  createPayoutNodes(payout) {
-    const payoutSpan = document.createElement(`span`);
-
-    const labelSpan = document.createElement(`span`);
-    const valueSpan = document.createElement(`span`);
-
-    const labelContent = document.createTextNode(`Payout: `);
-    const valueContent = document.createTextNode(payout);
-
-    labelSpan.appendChild(labelContent);
-    valueSpan.appendChild(valueContent);
-
-    payoutSpan.appendChild(labelSpan);
-    payoutSpan.appendChild(valueSpan);
-
-    labelSpan.classList.add(`summary-modal__payout-label`);
-
-    payoutSpan.classList.add(`summary-modal__payout-value`);
-
-    return payoutSpan;
-  },
-
-  createWinningsElement(winnings) {
-    const winningsSpan = document.createElement(`span`);
-
-    const labelSpan = document.createElement(`span`);
-    const valueSpan = document.createElement(`span`);
-
-    const labelContent = document.createTextNode(`Winnings: `);
-    const valueContent = document.createTextNode(winnings);
-
-    labelSpan.appendChild(labelContent);
-    valueSpan.appendChild(valueContent);
-
-    winningsSpan.appendChild(labelSpan);
-    winningsSpan.appendChild(valueSpan);
-
-    labelSpan.classList.add(`summary-modal__winnings-label`);
-
-    winningsSpan.classList.add(`summary-modal__winnings-value`);
-
-    return winningsSpan;
-  },
-
-  clearModal() {
-    this.mainContainer.innerHTML = ` `;
-  },
-
-  prepareModal() {
-    this.toggleDisplayElementOn(this.closeBtn, true);
-    this.toggleDisplayElementOn(this.nextBtn, false);
-
-    this.titleField.textContent = `Win Summary`;
-
-    this.clearModal();
-  },
-};
-
-export function resetUI() {
-  sideBetModal.clearModal();
-
-  gameInfoFields.clearRoundUI();
-
-  gameField.clearRoundUI();
-}
+///////// Trivia Modal ////////
 
 export const triviaModal = {
   titleField: document.querySelector(`.trivia-modal__title`),
@@ -2484,9 +2365,7 @@ export const triviaModal = {
   ),
 
   credits: {
-    //replaces creditsField
     field: document.querySelector(`.trivia__credits`),
-    //replaces creditModifiers
     modifiers: document.querySelectorAll(`.trivia__credits-modifier`),
     minus1Modifier: document.querySelector(
       `.trivia__credits-modifier--minus-1`
@@ -2496,18 +2375,14 @@ export const triviaModal = {
   },
 
   label: {
-    //replaces labelContainer
     container: document.querySelector(`.trivia-modal__label-container`),
     categoryField: document.querySelector(`.trivia__category`),
     difficultyField: document.querySelector(`.trivia__difficulty`),
   },
 
   answerTable: {
-    //replaces answerTableField
     field: document.querySelector(`.trivia-modal__answer-table`),
-    //replaces answerFields
     answerValueFields: document.querySelectorAll(`.trivia-modal__answer`),
-    //replaces answerAField - answerDField
     fieldA: document.querySelector(`.trivia-modal__answer-a`),
     fieldB: document.querySelector(`.trivia-modal__answer-b`),
     fieldC: document.querySelector(`.trivia-modal__answer-c`),
@@ -2515,13 +2390,11 @@ export const triviaModal = {
   },
 
   answerBtns: {
-    //replaces answerBtns
     allBtns: document.querySelectorAll(`.btn__answer`),
     multChoiceBtnContainer: document.querySelector(
       `.trivia-modal__multiple-choice-btn-container`
     ),
     multChoiceBtns: document.querySelectorAll(`.btn__answer-multiple`),
-    //replaces answerABtn - answerDBtn, trueBtn, falseBtn
     btnA: document.querySelector(`.btn__answer-a`),
     btnB: document.querySelector(`.btn__answer-b`),
     btnC: document.querySelector(`.btn__answer-c`),
@@ -2535,13 +2408,11 @@ export const triviaModal = {
   },
 
   correctAnswer: {
-    //replaces correctAnswerField and Text
     field: document.querySelector(`.trivia-modal__answer-correct-container`),
     text: document.querySelector(`.trivia-modal__answer-correct`),
   },
   toggleDisplayElementOn: toggleDisplayElementOn,
 
-  //replaces renderTriviaQuestion
   renderQuestion(questionObj) {
     this.toggleDisplayElementOn(this.difficultyBtnContainer, false);
 
@@ -2569,7 +2440,6 @@ export const triviaModal = {
     }
   },
 
-  //replaces renderMultipleChoiceAnswers
   renderMultipleChoiceAnswers(questionObj) {
     setAnswersToBtnElements(questionObj);
 
@@ -2641,25 +2511,21 @@ export const triviaModal = {
     }
   },
 
-  //replaces toggleDisplayTriviaDifficultyBtns
   toggleDisplayDifficultyBtns(toggle) {
     this.toggleDisplayElementOn(this.difficultyBtnContainer, toggle);
   },
 
-  //replaces displayTriviaCorrectAnswer
   displayCorrectAnswer(questionObj) {
     this.toggleDisplayElementOn(this.correctAnswer.field, true);
     this.correctAnswer.text.innerHTML = questionObj.correctAnswer;
   },
 
-  //replaces renderTriviaCorrectAnswer
   renderPlayerCorrectResult() {
     this.toggleApplyCorrectAnswerColor(true);
     this.titleField.textContent = `Correct Answer!`;
     this.changeModalTitleState(`correctAnswer`);
   },
 
-  //replaces renderTriviaIncorrectAnswer
   renderPlayerIncorrectResult(event) {
     this.toggleApplyCorrectAnswerColor(true);
 
@@ -2695,7 +2561,6 @@ export const triviaModal = {
     } else this.titleField.classList.add(`trivia-modal__title--${state}`);
   },
 
-  //replaces resetTriviaModal
   resetModal(answerCorrectly) {
     this.clearModalFields();
     this.clearAnswerBtnData(answerCorrectly);
@@ -2705,7 +2570,6 @@ export const triviaModal = {
     popbox.close(`trivia-modal`);
   },
 
-  //replaces clearTriviaUI
   clearModalFields() {
     this.titleField.textContent = `Hit Trivia Question`;
     this.titleField.style.color = `white`;
@@ -2726,7 +2590,6 @@ export const triviaModal = {
     });
   },
 
-  //replaces clearAnswerBtnData
   clearAnswerBtnData(answerCorrectly) {
     this.answerBtns.multChoiceBtns.forEach(function (elem) {
       elem.removeAttribute(`data-ans`);
@@ -2740,7 +2603,6 @@ export const triviaModal = {
     }
   },
 
-  //replaces renderTriviaCredits
   renderCredits(credits, modifier = null) {
     this.credits.field.textContent = credits;
 
@@ -2752,14 +2614,12 @@ export const triviaModal = {
       this.toggleDisplayElementOn(this.credits.plus5Modifier, true);
   },
 
-  //replaces resetTriviaCreditsModifier
   resetCreditsModifier() {
     this.credits.modifiers.forEach(function (elem) {
       this.toggleDisplayElementOn(elem, false);
     }, this);
   },
 
-  //replaces resetTriviaBtns
   resetAnswerBtns() {
     this.toggleDisableAnswerBtns(false);
 
@@ -2767,7 +2627,6 @@ export const triviaModal = {
     this.toggleDisplayElementOn(this.answerBtns.boolChoiceBtnContainer, false);
   },
 
-  //replaces toggleDisableTriviaAnswerBtns
   toggleDisableAnswerBtns(toggle) {
     let disableValue;
 
@@ -2799,11 +2658,7 @@ export const triviaModal = {
   },
 };
 
-function toggleDisplayElementOn(elem, toggle) {
-  toggle
-    ? elem.classList.remove(`display-none`)
-    : elem.classList.add(`display-none`);
-}
+///////// Base Game Support Modals /////////
 
 export const earlySurrenderModal = {
   titleField: document.querySelector(`.winning-hand-modal__title`),
@@ -2836,7 +2691,6 @@ export const earlySurrenderModal = {
   toggleDisplayElementOn: toggleDisplayElementOn,
   toggleEventListeners: toggleEventListeners,
 
-  //replaces activateEarlySurrenderModal
   activateModal(gameState) {
     let playerHand = gameState.player.hand;
     let dealerHand = gameState.dealer.hand;
@@ -2887,3 +2741,105 @@ export const earlySurrenderModal = {
     }
   },
 };
+
+////////// Utility Functions //////////
+export function resetUI() {
+  sideBetModal.clearModal();
+
+  gameInfoFields.clearRoundUI();
+
+  gameField.clearRoundUI();
+}
+
+function toggleEventListeners(funcObj, toggle) {
+  let keysArr = Object.entries(funcObj);
+
+  keysArr.forEach(function (arr) {
+    let [key, clbk] = arr;
+
+    if (this[key] instanceof NodeList)
+      addMultipleEventListeners(this[key], clbk, toggle);
+    else addSingleEventListener(this[key], clbk, toggle);
+  }, this);
+
+  function addMultipleEventListeners(elems, clbk, toggle) {
+    if (toggle == `add`) {
+      elems.forEach(function (elem) {
+        elem.addEventListener(`click`, clbk);
+      });
+    } else {
+      elems.forEach(function (elem) {
+        elem.removeEventListener(`click`, clbk);
+      });
+    }
+  }
+
+  function addSingleEventListener(elem, clbk, toggle) {
+    if (toggle == `add`) elem.addEventListener(`click`, clbk);
+    else elem.removeEventListener(`click`, clbk);
+  }
+}
+
+function toggleDisplayElementOn(elem, toggle) {
+  toggle
+    ? elem.classList.remove(`display-none`)
+    : elem.classList.add(`display-none`);
+}
+
+function toggleDisableBtn(elem, toggle) {
+  toggle ? (elem.disabled = true) : (elem.disabled = false);
+}
+
+function enableChipBtn(element) {
+  element.disabled = false;
+  if (element.classList.contains(`disabled`))
+    element.classList.remove("disabled");
+}
+
+function disableChipBtn(element) {
+  element.disabled = true;
+  element.classList.add(`disabled`);
+}
+
+function checkNeedModalScrollbar() {
+  let modalHeight = this.modalContainer.offsetHeight;
+
+  let viewportHeight = Math.max(
+    document.documentElement.clientHeight || 0,
+    window.innerHeight || 0
+  );
+
+  modalHeight > viewportHeight
+    ? this.toggleAddScrollbarToModal(true)
+    : this.toggleAddScrollbarToModal(false);
+}
+
+function toggleAddScrollbarToModal(toggle) {
+  if (toggle) {
+    if (
+      this.modalContainer.classList.contains(`three-section-modal--scrollbar`)
+    )
+      return;
+    this.modalContainer.classList.add(`three-section-modal--scrollbar`);
+  } else this.modalContainer.classList.remove(`three-section-modal--scrollbar`);
+}
+
+function renderCardHolderOutcome(outcome, outcomeText) {
+  this.messageContainer.classList.add(`--${outcome}`);
+  this.messageText.textContent = outcomeText;
+}
+
+function removeOutcomeModifierClass(elem) {
+  let classesArr = [
+    `natural`,
+    `bust`,
+    `charlie`,
+    `stand`,
+    `dealerHit`,
+    `surrender`,
+  ];
+
+  classesArr.forEach(function (str) {
+    elem.classList.remove(`--${str}`);
+  });
+}
