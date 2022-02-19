@@ -1,6 +1,6 @@
-import * as bjModel from "./blackjack-model-3.js";
+import * as bjModel from "./blackjack-model.js";
 import * as triviaModel from "./trivia-model.js";
-import * as view from "./view-3.js";
+import * as view from "./view.js";
 import * as listeners from "./listeners.js";
 import * as betModel from "./bet-model.js";
 import * as state from "./state.js";

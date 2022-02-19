@@ -1,4 +1,4 @@
-import * as view from "./view-3.js";
+import * as view from "./view.js";
 export let globalState;
 
 let roundNumber = 1;

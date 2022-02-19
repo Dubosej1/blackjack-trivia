@@ -4,7 +4,7 @@
   "description": "A game that combines Blackjack and Trivia",
   "main": "controller-2.js",
   "scripts": {
-    "compile:sass": "sass sass/main-2.scss style-2.css --watch",
+    "compile:sass": "sass sass/main.scss style.css --watch",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "Johnaven Dubose",

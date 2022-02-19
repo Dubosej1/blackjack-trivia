@@ -1,4 +1,4 @@
-import * as view from "./view-3.js";
+import * as view from "./view.js";
 import * as sideBetMod from "./side-bet-objs.js";
 import * as sideBetFunc from "./side-bet-functions.js";
 

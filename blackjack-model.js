@@ -1,5 +1,5 @@
 import * as testCard from "./test-cards.js";
-import * as controller from "./controller-3.js";
+import * as controller from "./controller.js";
 
 class Cardholder {
   hand;
@@ -598,8 +598,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
   drawCards(deckID, 2)
     .then(function (cardsObj) {
       // console.log(cardsObj);
-      // currentPlayer.hand.addCardToHand = cardsObj.card1;
-      // currentPlayer.hand.addCardToHand = cardsObj.card2;
+      currentPlayer.hand.addCardToHand = cardsObj.card1;
+      currentPlayer.hand.addCardToHand = cardsObj.card2;
       gameState.updateRemainingCards = cardsObj.remaining;
 
       //Test Perfect Pair
@@ -627,8 +627,8 @@ function dealPlayerCards(deckID, currentPlayer, gameState) {
       // currentPlayer.hand.addCardToHand = testCard.spadeJack;
 
       //Test Perfect 11s (regularHand)
-      currentPlayer.hand.addCardToHand = testCard.heart7;
-      currentPlayer.hand.addCardToHand = testCard.heart4;
+      // currentPlayer.hand.addCardToHand = testCard.heart7;
+      // currentPlayer.hand.addCardToHand = testCard.heart4;
 
       //Test Extra Bet Blackjack
       // currentPlayer.hand.addCardToHand = testCard.diamondKing;
