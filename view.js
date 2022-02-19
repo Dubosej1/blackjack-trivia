@@ -186,11 +186,17 @@ export let baseBetModal = {
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
   toggleDisableBtn: toggleDisableBtn,
+  toggleDisplayElementOn: toggleDisplayElementOn,
   toggleEventListeners: toggleEventListeners,
 
   //replaces openBaseBetModal
   openModal(gameState) {
     let bank = gameState.bank;
+    let sideBetsOff = gameState.options.sideBets;
+
+    console.log(sideBetsOff);
+
+    this.toggleSideBetBtnsOff(sideBetsOff);
 
     this.bankValue.textContent = bank;
 
@@ -252,6 +258,16 @@ export let baseBetModal = {
     } else {
       this.toggleDisableBtn(this.sideBetPlacedBtn, disable);
       this.sideBetPlacedBtn.innerHTML = `No Side Bets <br> Placed`;
+    }
+  },
+
+  toggleSideBetBtnsOff (sideBetsOff) {
+    if (!sideBetsOff) {
+      this.toggleDisplayElementOn(this.sideBetMenuBtn, false);
+      this.toggleDisplayElementOn(this.sideBetPlacedBtn, false);
+    } else {
+      this.toggleDisplayElementOn(this.sideBetMenuBtn, true);
+      this.toggleDisplayElementOn(this.sideBetPlacedBtn, true);
     }
   },
 };
