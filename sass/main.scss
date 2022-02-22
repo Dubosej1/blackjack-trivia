@@ -637,7 +637,7 @@ li {
   &__container {
     background-color: black;
     @include border-style($color-border-default, 5px);
-    padding: 1rem;
+    padding: 2rem;
   }
 
   &__title {
@@ -1243,8 +1243,24 @@ li {
     width: 100vw;
   }
 
-  .modal {
-    font-size: 18px;
+  .basic-bet-modal,
+  .side-bet-modal,
+  .generic-modal,
+  .summary-modal,
+  .winning-hand-modal,
+  .winnings-modal,
+  .house-money-modal,
+  .extra-bet-modal,
+  .trivia-modal,
+  .options-modal {
+    &__container {
+      max-width: 700px;
+      margin: auto;
+    }
+  
+    &__title {
+      text-align: center !important;
+    }
   }
 
   .grid-container {
@@ -1253,6 +1269,10 @@ li {
     grid-template-rows: 40px 135px 55px 135px 65px 155px;
     width: 600px;
     height: 605px;
+  }
+
+  .modal {
+    max-width: 850px;
   }
 
   // .three-section-modal,
