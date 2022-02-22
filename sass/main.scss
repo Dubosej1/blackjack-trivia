@@ -7,7 +7,6 @@ $font-size-default: 2rem;
 
 $color-btn-system-default: #d9c8db;
 $color-btn-modal-action: #d9c8db;
-// $color-default: #524254;
 $color-label-default: #c052d1;
 $color-label-secondary: blue;
 $color-label-highlight: yellow;
@@ -84,10 +83,6 @@ $color-btn-surrender: gray;
   background-color: $bg-color;
 
   @include flex-define(row, center, center, $inline-flex:true);
-
-  // display: inline-flex;
-  // justify-content: center;
-  // align-items: center;
 }
 
 @mixin btn-modal-action-style-default {
