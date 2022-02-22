@@ -1409,6 +1409,7 @@ export const winSummaryModal = {
     playerDiv.appendChild(nameSpan);
     playerDiv.appendChild(outcomeDiv);
     playerDiv.appendChild(payoutSpan);
+    payoutSpan.insertAdjacentHTML(`afterend`, `<br>`);
     playerDiv.appendChild(winningsSpan);
 
     return playerDiv;
@@ -1449,6 +1450,7 @@ export const winSummaryModal = {
 
     newDiv.appendChild(nameSpan);
     newDiv.appendChild(outcomeDiv);
+    outcomeDiv.insertAdjacentHTML(`afterend`, `<br>`);
     newDiv.appendChild(winningsSpan);
     winningsSpan.insertAdjacentHTML(`afterend`, `<br>`);
     newDiv.appendChild(winConditionSpan);
