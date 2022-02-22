@@ -650,6 +650,10 @@ li {
 
 
 .options-modal {
+  &__form-label {
+    color: $color-label-default;
+  }
+  
   &__footer {
     @include flex-define(row, flex-end, flex-end, $inline-flex: false);
 
