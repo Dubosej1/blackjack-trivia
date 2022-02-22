@@ -698,7 +698,7 @@ function dealDealerCards(deckID, currentDealer, gameState) {
       // createFiveCardCharlieTestHand(`dealer`);
 
       //To Test "Dealer Stands On" routines
-      currentDealer.hand.addCardToHand = testCard.heartAce;
+      // currentDealer.hand.addCardToHand = testCard.heartAce;
       // currentDealer.hand.addCardToHand = testCard.spade6;
       // currentDealer.hand.addCardToHand = testCard.spade5;
 
