@@ -857,6 +857,12 @@ li {
 }
 
 .winning-hand-modal {
+  &__main {
+    @include  flex-define(column, flex-start, center, $inline-flex: false);
+    & > div {
+      margin-bottom: 2rem;
+    }
+  }
   &__side-bet-name {
     color: purple;
   }
