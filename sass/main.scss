@@ -461,11 +461,33 @@ body {
     @include btn-action-style-default(transparent);
 
     @include border-style(blue, 5px);
+
+    position: relative;
   
     background-repeat: no-repeat;
     cursor: pointer;
-    overflow: hidden;
+    // overflow: hidden;
     outline: none;
+
+    &:hover::before {
+      display: inline-block;
+
+      content: attr(data-tooltip);
+      position: absolute;
+
+      top: -5rem;
+      left: 50%;
+      transform:translate(-50%, -25%);
+
+      width: 100%;
+      // height: 50%;
+      padding: 1rem;
+      background-color: #222;
+      @include border-style($color-border-default, 2px);
+      font-size: 50%;
+      color: $color-label-default;
+      z-index:3;
+    }
 
     &:disabled {
       @include btn-blackjack-action-color($color-btn-disabled-background);
