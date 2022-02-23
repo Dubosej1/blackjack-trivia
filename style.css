@@ -62,6 +62,8 @@ body {
   font-weight: 700;
   font-size: 3rem;
   display: inline;
+  overflow: visible;
+  white-space: nowrap;
 }
 
 .grid__dealer-hand-info {
@@ -336,10 +338,27 @@ body {
   border-style: double;
   border-color: blue;
   border-width: 5px;
+  position: relative;
   background-repeat: no-repeat;
   cursor: pointer;
-  overflow: hidden;
   outline: none;
+}
+.btn-action:hover::before {
+  display: inline-block;
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -5rem;
+  left: 50%;
+  transform: translate(-50%, -25%);
+  width: 100%;
+  padding: 1rem;
+  background-color: #222;
+  border-style: double;
+  border-color: purple;
+  border-width: 2px;
+  font-size: 50%;
+  color: #c052d1;
+  z-index: 3;
 }
 .btn-action:disabled {
   color: gray;
@@ -716,7 +735,7 @@ li {
   border-style: double;
   border-color: purple;
   border-width: 5px;
-  padding: 1rem;
+  padding: 2rem;
 }
 .basic-bet-modal__title,
 .side-bet-modal__title,
@@ -731,6 +750,9 @@ li {
   text-align: center !important;
 }
 
+.options-modal__form-label {
+  color: #c052d1;
+}
 .options-modal__footer {
   display: flex;
   flex-direction: row;
@@ -739,6 +761,8 @@ li {
 }
 .options-modal__footer > button {
   margin-left: 20px;
+  flex-grow: 1;
+  min-height: 50px;
 }
 
 .basic-bet-modal__info-container {
@@ -904,6 +928,15 @@ li {
   align-items: flex-end;
 }
 
+.winning-hand-modal__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.winning-hand-modal__main > div {
+  margin-bottom: 2rem;
+}
 .winning-hand-modal__side-bet-name {
   color: purple;
 }
@@ -940,6 +973,9 @@ li {
   align-items: center !important;
 }
 
+.house-money-modal__container {
+  grid-template-rows: 200px auto;
+}
 .house-money-modal__directions-text {
   text-align: center;
 }
@@ -1104,7 +1140,7 @@ li {
 }
 
 .extra-bet-modal__container {
-  grid-template-rows: 150px auto 100px !important;
+  grid-template-rows: 200px auto !important;
 }
 .extra-bet-modal__header {
   text-align: center;
@@ -1261,8 +1297,30 @@ li {
     width: 100vw;
   }
 
-  .modal {
-    font-size: 18px;
+  .basic-bet-modal__container,
+.side-bet-modal__container,
+.generic-modal__container,
+.summary-modal__container,
+.winning-hand-modal__container,
+.winnings-modal__container,
+.house-money-modal__container,
+.extra-bet-modal__container,
+.trivia-modal__container,
+.options-modal__container {
+    max-width: 700px;
+    margin: auto;
+  }
+  .basic-bet-modal__title,
+.side-bet-modal__title,
+.generic-modal__title,
+.summary-modal__title,
+.winning-hand-modal__title,
+.winnings-modal__title,
+.house-money-modal__title,
+.extra-bet-modal__title,
+.trivia-modal__title,
+.options-modal__title {
+    text-align: center !important;
   }
 
   .grid-container {
@@ -1271,6 +1329,10 @@ li {
     grid-template-rows: 40px 135px 55px 135px 65px 155px;
     width: 600px;
     height: 605px;
+  }
+
+  .modal {
+    max-width: 850px;
   }
 
   .btn-system {
@@ -1627,6 +1689,31 @@ li {
 
   .house-money-modal__action-container {
     grid-template-columns: 230px auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  .trivia-modal__label-container > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .house-money-modal__container {
+    grid-template-rows: 150px auto;
+  }
+
+  .extra-bet-modal__container {
+    grid-template-rows: 150px auto !important;
+  }
+  .extra-bet-modal__directions-container {
+    font-size: 1.5rem;
+  }
+  .extra-bet-modal__bet-btn-container {
+    flex-wrap: wrap;
+  }
+
+  .btn-extra-bet-modal__action {
+    min-height: 60px;
   }
 }
 
