@@ -262,6 +262,7 @@ body {
 .grid__game-message {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 
   background: linear-gradient(
     45deg,
@@ -273,8 +274,13 @@ body {
   @include grid-item-define(1, -1, 4, 5);
 }
 
-.game-message__text {
-  display: inline-block;
+.game-message {
+  &__text {
+  display: block;
+  }
+  &__container {
+    display: block;
+  }
 }
 
 //Player Field Classes
