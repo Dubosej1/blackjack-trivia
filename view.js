@@ -469,8 +469,6 @@ export let baseBetModal = {
     let bank = gameState.bank;
     let sideBetsOff = gameState.options.sideBets;
 
-    console.log(sideBetsOff);
-
     this.toggleSideBetBtnsOff(sideBetsOff);
 
     this.bankValue.textContent = bank;
