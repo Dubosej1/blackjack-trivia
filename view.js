@@ -1844,7 +1844,7 @@ export const winningHandModal = {
 
       function displayCards(elem, hand, phase) {
         if (phase == `ending`) hand.simpleImages[0] = hand.simpleUnrevealedCard;
-        elem.innerHTML = hand.simpleImages.join();
+        elem.innerHTML = hand.simpleImages.join(``);
       }
     }
   },
