@@ -121,7 +121,7 @@ export const triviaObj = {
   },
 
   determineCorrectAnswer(selectedAnswer) {
-    return selectedAnswer == this.activeQuestion.correctAnswer;
+    return selectedAnswer === this.activeQuestion.correctAnswer;
   },
 
   toggleDoubleDownToken(toggle) {
