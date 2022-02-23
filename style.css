@@ -113,6 +113,7 @@ body {
 .grid__game-message {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   background: linear-gradient(45deg, transparent 25%, gray 50%, transparent 75%);
   grid-column-start: 1;
   grid-column-end: -1;
@@ -121,7 +122,10 @@ body {
 }
 
 .game-message__text {
-  display: inline-block;
+  display: block;
+}
+.game-message__container {
+  display: block;
 }
 
 .grid__player-cards {
