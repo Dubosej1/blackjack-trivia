@@ -45,6 +45,8 @@ export const triviaObj = {
             return acc;
           }, {});
           question.difficulty = capitalizeFirstLetter(question.difficulty);
+          if (question.correctAnswer == `True`) question.correctAnswer = `true-answer`;
+          if (question.correctAnswer == `False`) question.correctAnswer = `false-answer`;
           let questionObj = new TriviaQuestion(question);
 
           questions.push(questionObj);
