@@ -356,7 +356,7 @@ body {
   border-style: double;
   border-color: purple;
   border-width: 2px;
-  font-size: 2rem;
+  font-size: 2rem !important;
   color: #c052d1;
   z-index: 3;
 }
