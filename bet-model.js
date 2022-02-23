@@ -153,7 +153,7 @@ class Bet {
     this.sideBetObjs.forEach(function (obj) {
       modalText.push(obj.getSideBetAmountInfoText());
     });
-    return modalText.join();
+    return modalText.join(``);
   }
 
   splitBet(currentSplitHand, totalSplitHands) {
