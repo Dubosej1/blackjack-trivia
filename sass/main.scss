@@ -1073,7 +1073,7 @@ li {
 
 .extra-bet-modal {
   &__container {
-    grid-template-rows: 150px auto !important;
+    grid-template-rows: 200px auto !important;
   }
 
   &__header {
@@ -1575,6 +1575,9 @@ li {
   }
 
   .extra-bet-modal {
+    &__container {
+      grid-template-rows: 150px auto !important;
+    }
     &__directions-container {
       font-size: 1.5rem;
     }
