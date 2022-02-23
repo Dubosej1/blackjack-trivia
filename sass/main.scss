@@ -486,7 +486,7 @@ body {
       padding: 1rem;
       background-color: #222;
       @include border-style($color-border-default, 2px);
-      font-size: 2rem;
+      font-size: 2rem !important;
       color: $color-label-default;
       z-index:3;
     }

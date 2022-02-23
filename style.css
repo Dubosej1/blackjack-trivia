@@ -183,10 +183,6 @@ body {
   align-items: center;
 }
 
-.player-message__text {
-  color: white;
-}
-
 .grid__split-stages-container {
   grid-column-start: 1;
   grid-column-end: -1;
@@ -353,14 +349,14 @@ body {
   position: absolute;
   top: -5rem;
   left: 50%;
-  transform: translate(-50%, -25%);
-  width: 100%;
+  transform: translate(-50%, -35%);
+  width: 120%;
   padding: 1rem;
   background-color: #222;
   border-style: double;
   border-color: purple;
   border-width: 2px;
-  font-size: 50%;
+  font-size: 2rem;
   color: #c052d1;
   z-index: 3;
 }
