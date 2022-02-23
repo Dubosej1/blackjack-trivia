@@ -479,14 +479,14 @@ body {
 
       top: -5rem;
       left: 50%;
-      transform:translate(-50%, -25%);
+      transform:translate(-50%, -35%);
 
-      width: 100%;
+      width: 120%;
       // height: 50%;
       padding: 1rem;
       background-color: #222;
       @include border-style($color-border-default, 2px);
-      font-size: 50%;
+      font-size: 2rem;
       color: $color-label-default;
       z-index:3;
     }
