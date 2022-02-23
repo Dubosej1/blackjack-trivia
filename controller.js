@@ -297,9 +297,13 @@ export function determineEndGameRoutineOrder(gameState) {
     roundOutcome: true,
   };
 
+  let dealerOutcome = gameState.dealer.hand.outcome;
+
   gameState.updateNoticeText = `Round Ended`;
 
   gameState.revealDealerFaceDown();
+
+  if (dealerOutcome == `natural`) view.dealerField.renderOutcome(dealerOutcome, `Blackjack!`);
 
   gameState.determineBaseRoundOutcome();
 
