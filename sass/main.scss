@@ -935,6 +935,9 @@ li {
 }
 
 .house-money-modal {
+  &__container {
+    grid-template-rows: 200px auto;
+  }
   &__directions-text {
     text-align: center;
   }
@@ -1594,6 +1597,12 @@ li {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .house-money-modal {
+    &__container {
+      grid-template-rows: 150px auto;
+    }
   }
 
   .extra-bet-modal {
