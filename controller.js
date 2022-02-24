@@ -146,6 +146,8 @@ export function determineBeginGameRoutineOrder(gameState) {
     extraBetBJObj.checkValidBet(playerHand)
       ? (beginGameRoutineOrder.extraBet = true)
       : (beginGameRoutineOrder.extraBet = false);
+    
+    if (!beginGameRoutineOrder.extraBet) betObj.removeSideBetObj(`extraBetBlackjack`);
   }
 
   gameState.beginGameRoutineOrder = beginGameRoutineOrder;
