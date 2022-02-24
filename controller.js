@@ -816,8 +816,8 @@ export function nextPlayerAction(nextAction, gameState) {
       break;
     default:
       let btnObj = {
-        hit: true,
-        stand: true,
+        hit: false,
+        stand: false,
         doubleDown: false,
         split: false,
         surrender: false,
