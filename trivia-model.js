@@ -45,8 +45,6 @@ export const triviaObj = {
             return acc;
           }, {});
           question.difficulty = capitalizeFirstLetter(question.difficulty);
-          // if (question.correctAnswer == `True`) question.correctAnswer = `true-answer`;
-          // if (question.correctAnswer == `False`) question.correctAnswer = `false-answer`;
           let questionObj = new TriviaQuestion(question);
 
           questions.push(questionObj);
@@ -74,7 +72,7 @@ export const triviaObj = {
         if (this.easyCurrentIndex == 10) {
           this.easyCurrentIndex = 0;
           this.easyQuestions.splice(0);
-          this.fetchTriviaQuestions(easy).then((questions) => {
+          this.fetchTriviaQuestions(`easy`).then((questions) => {
             this.easyQuestions = questions;
           });
         }
@@ -90,7 +88,7 @@ export const triviaObj = {
         if (this.mediumCurrentIndex == 10) {
           this.mediumCurrentIndex = 0;
           this.mediumQuestions.splice(0);
-          this.fetchTriviaQuestions(easy).then((questions) => {
+          this.fetchTriviaQuestions(`medium`).then((questions) => {
             this.mediumQuestions = questions;
           });
         }
@@ -106,7 +104,7 @@ export const triviaObj = {
         if (this.hardCurrentIndex == 10) {
           this.hardCurrentIndex = 0;
           this.hardQuestions.splice(0);
-          this.fetchTriviaQuestions(easy).then((questions) => {
+          this.fetchTriviaQuestions(`hard`).then((questions) => {
             this.hardQuestions = questions;
           });
         }
