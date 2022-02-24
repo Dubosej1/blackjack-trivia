@@ -535,7 +535,7 @@ export function initDeck(gameState) {
         )
         .then(function (data) {
           gameInfo.updateDeckID = data.deck_id;
-          console.log(gameInfo.deckID);
+          // console.log(gameInfo.deckID);
           //   return gameInfo.deckID;
         })
         .finally(function () {

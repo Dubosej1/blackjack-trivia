@@ -2420,7 +2420,7 @@ export const triviaModal = {
 
     renderBtns(questionObj);
 
-    console.log(questionObj.correctAnswer);
+    // console.log(questionObj.correctAnswer);
 
     function displayQuestionInfo(questionObj) {
       triviaModal.toggleDisplayElementOn(triviaModal.label.container, true);

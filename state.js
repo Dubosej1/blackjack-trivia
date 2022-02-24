@@ -120,8 +120,6 @@ class State {
     if (activeHand == 0) hand = player.hand;
     else hand = player.getSplitHand(activeHand);
 
-    console.log(hand);
-
     this.checkForJackpotAce(hand);
     view.gameField.renderPlayerHands(this.player);
   }
@@ -130,7 +128,6 @@ class State {
     this.dealer = dealer;
     this.checkForJackpotAce(this.dealer.hand);
     view.dealerField.renderField(this.dealer.hand);
-    console.log(this.dealer.hand);
   }
 
   revealDealerFaceDown() {
@@ -369,7 +366,6 @@ export function addStateToLog(gameState) {
   gameState.addRoundNumber = roundNumber;
   log.push(gameState);
   roundNumber++;
-  console.log(log);
 }
 
 export function initNewState(bank, options, specialNum) {
