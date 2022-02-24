@@ -883,6 +883,9 @@ li {
 
   &__btn-container {
     @include flex-define(row, flex-end, flex-end, $inline-flex: false);
+    & > button:last-child {
+      margin-left: 1rem;
+    }
   }
 }
 
