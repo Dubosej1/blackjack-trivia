@@ -1433,7 +1433,7 @@ li {
   }
 
   .player-message__container {
-    text-align: right;
+    text-align: center;
     display: inline-block;
     padding: 2px 10px;
   }
