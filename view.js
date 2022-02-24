@@ -2493,7 +2493,7 @@ export const triviaModal = {
     if (questionObj.correctAnswer == `True`) {
       setCorrectAnswerToBtn(this.answerBtns.btnTrue, `True`);
     } else {
-      setCorrectAnswerToBtn(this.answerBtns.btnFalse, `True`);
+      setCorrectAnswerToBtn(this.answerBtns.btnFalse, `False`);
     }
 
     displayBooleanChoiceBtns();
