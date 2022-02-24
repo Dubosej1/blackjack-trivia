@@ -17,13 +17,12 @@
         <button class="btn btn-system btn-system__settings" data-popbox-target="options-modal">Options</button>
         <button class="btn btn-system btn-system__log display-none">Log</button>
       </div>
-      <!-- <div class="topArea"> -->
       <div class="grid__round-info">
         <div class="round-info__label bank__label">
-          Bank: <span class="round-info__value bank__value">0</span>
+          Bank: <span class="round-info__value bank__value"></span>
         </div>
         <div class="round-info__label bet__label">
-          Bet: <span class="round-info__value bet__value">0</span>
+          Bet: <span class="round-info__value bet__value"></span>
           <span class="round-info__double-down-marker display-none">X 2</span>
         </div>
         <!--- Programmatically add current info here like streak counts, jackpots, view Jackpot btn, view side bet btn, etc-->
@@ -101,13 +100,8 @@
           <span class="dealerMessageText dealer-message__text"></span>
         </div>
       </div>
-      <!-- <div class="dealerResultArea">
-            <span class="dealerMessageText">Bust</span>
 
-        </div> -->
-      <!-- </div> -->
       <div class="grid__game-message">
-        <!--Programmatically add Win status and total won, and the pregame actions (Even Money, Insurance, etc)-->
         <div class="game-message__container">
           <h1 class="game-message__text">Blackjack Trivia </h1>
         </div>
@@ -124,8 +118,6 @@
           <div class="split-stage__cards split-stage-1__cards"></div>
           <div class="split-stage__total split-stage-1__total"></div>
           <div class="split-stage__result split-stage-1__result"></div>
-          <!-- <span class="splitStage2Hand">Hand 3:</span><span class="splitStage2Cards">[AD, AH, 2S, AS, AC, 2C, KD]</span><span class="splitStage2Total">Total: 17</span><span class="splitStage2Result">7 Card Charlie</span><br>
-            <span class="splitStage3Hand">Hand 4:</span><span class="splitStage3Cards">[AH, KD]</span><span class="splitStage3Total">Total: 19</span><span class="splitStage3Result">Blackjack</span> -->
         </div>
         <div class="split-stage split-stage-2__container">
           <div class="split-stage__label">
@@ -147,10 +139,6 @@
           <div class="split-stage__result split-stage-3__result"></div>
         </div>
       </div>
-      <!-- <div class="playerArea"> -->
-      <!-- <div class="playerCurrentHandArea">
-              <span class="playerCurrentHandField">Hand <span class="playerCurrentHand">1</span></span>
-          </div> -->
       <div class="grid__player-cards">
         <div class="player-cards__container">
           <ul>
@@ -224,7 +212,6 @@
           <span class="player-message__text"></span>
         </div>
       </div>
-      <!-- </div> -->
 
       <div class="grid__player-actions">
         <button class="btn btn-action btn-action__doubleDown" data-tooltip="Double Down">X2</button>
@@ -237,7 +224,6 @@
       </div>
     </div>
 
-    <!-- <div id="trivia__modal" class="trivia__modal"> -->
     <div data-popbox-id="trivia-modal" class="popbox modal">
       <div class="trivia-modal__container">
         <div class="trivia-modal__header">
@@ -288,7 +274,6 @@
     </div>
 
     <div data-popbox-id="basic-bet-modal" class="popbox modal">
-    <!-- <div class="basic-bet-modal modal"> -->
       <div class="basic-bet-modal__container two-section-modal">
         <div class="basic-bet-modal__header modal__header">
           <h1 class="basic-bet-modal__title">Place Your Bets!</h1>
@@ -429,7 +414,6 @@
     </div>
 
     <div data-popbox-id="extra-bet-modal" class="popbox modal">
-      <!-- <div class="extra-bet-modal modal"> -->
         <div class="extra-bet-modal__container two-section-modal">
           <div class="extra-bet-modal__header modal__header">
             <div class="extra-bet-modal__title-container">
@@ -437,25 +421,25 @@
             </div>
             <div class="extra-bet-modal__directions-container">
               <h2 class="extra-bet-modal__directions-text">Place an extra bet worth up to 5x base bet</h2>
-              <h2 class="extra-bet-modal__directions-text-2">NOTE: Fee for placing extra bet: 20% of base bet</h2>
+              <h2 class="extra-bet-modal__directions-text-2">NOTE: Fee for placing extra bet: 20% of bet placed</h2>
             </div>
           </div>
           <div class="extra-bet-modal__main modal__main">
             <div class="extra-bet-modal__info-container">
               <div class="extra-bet-modal__bank-container">
                 <span class="extra-bet-modal__bank-label">Bank: </span>
-                <span class="extra-bet-modal__bank-value">1000</span>
+                <span class="extra-bet-modal__bank-value"></span>
               </div>
               <div class="extra-bet-modal__base-bet-container">
                 <span class="extra-bet-modal__base-bet-label">Base Bet: </span>
-                <span class="extra-bet-modal__base-bet-value">100</span>
+                <span class="extra-bet-modal__base-bet-value"></span>
               </div>
               <div class="extra-bet-modal__initial-side-bet-container">
                 <span class="extra-bet-modal__initial-side-bet-label">Initial Side Bet: </span>
-                <span class="extra-bet-modal__initial-side-bet-value">50</span>
+                <span class="extra-bet-modal__initial-side-bet-value"></span>
               </div>
               <div class="extra-bet-modal__bet-container">
-                <span class="extra-bet-modal__bet-value">100</span>
+                <span class="extra-bet-modal__bet-value">0</span>
               </div>
               <div class="extra-bet-modal__fee-container">
                 <span class="extra-bet-modal__fee-label">Fee</span><br>
@@ -582,7 +566,6 @@
     </div>
 
     <div data-popbox-id="house-money-modal" class="popbox modal">
-      <!-- <div class="house-money-modal modal"> -->
       <div class="house-money-modal__container two-section-modal">
         <div class="house-money-modal__header modal__header">
           <h1 class="house-money-modal__title">You won House Money!</h1>
@@ -596,11 +579,11 @@
           </div>
           <div class="house-money-modal__info-container">
             <span class="house-money-modal__base-bet-label">Base Bet: </span>
-            <span class="house-money-modal__base-bet-value">100</span><br>
+            <span class="house-money-modal__base-bet-value"></span><br>
             <span class="house-money-modal__side-bet-label">House Money Bet: </span>
-            <span class="house-money-modal__side-bet-value">50</span><br>
+            <span class="house-money-modal__side-bet-value"></span><br>
             <span class="house-money-modal__winnings-label">House Money Winnings: </span>
-            <span class="house-money-modal__winnings-value">450</span><br>
+            <span class="house-money-modal__winnings-value"></span><br>
           </div>
           <div class="house-money-modal__action-container">
             <div class="house-money-grid__btn-label">
@@ -625,13 +608,13 @@
               <span>No Change</span>
             </div>
             <div class="house-money-grid__parlay-winnings-value">
-              <span class="house-money-modal__parlay-winnings-value">500</span>
+              <span class="house-money-modal__parlay-winnings-value"></span>
             </div>
             <div class="house-money-grid__parlay-bet-value">
-              <span class="house-money-modal__parlay-bet-value">150</span>
+              <span class="house-money-modal__parlay-bet-value"></span>
             </div>
             <div class="house-money-grid__parlay-all-value">
-              <span class="house-money-modal__parlay-all-value">650</span>
+              <span class="house-money-modal__parlay-all-value"></span>
             </div>
           </div>
         </div>
@@ -640,14 +623,11 @@
 
     <!-- Win Summary and Side Bet Outcome-->
     <div data-popbox-id="summary-modal" class="popbox modal">
-      <!-- <div class="summary-modal modal"> -->
       <div class="summary-modal__container three-section-modal">
         <div class="summary-modal__header modal__header">
           <h1 class="summary-modal__title">Win Summary</h1>
         </div>
         <div class="summary-modal__main modal__main">
-          <!-- <span>21 + 3</span><div class="summary-modal__outcome--win">Win</div><span class="summary-modal__payout-text">Payout 100:1</span><br>
-          <span class="summary-modal__hand-text">"Suited 3 of a Kind"</span><span class="summary-modal__winnings-value">600</span> -->
         </div>
         <div class="summary-modal__footer modal__footer">
           <button class="btn btn-summary-modal btn-modal-action btn-summary-modal__action btn-summary-modal__close" data-popbox-close="summary-modal">Close</button>
@@ -658,14 +638,13 @@
     </div>
 
     <div data-popbox-id="winning-hand-modal" class="popbox modal">
-      <!-- <div class="winning-hand-modal modal"> -->
         <div class="winning-hand-modal__container three-section-modal">
           <div class="winning-hand-modal__header modal__header">
             <h1 class="winning-hand-modal__title">Winning Hand</h1>
           </div>
           <div class="winning-hand-modal__main modal__main">
             <div class="winning-hand-modal__side-bet-name-container">
-              <h2 class="winning-hand-modal__side-bet-name">21 + 3</h2>
+              <h2 class="winning-hand-modal__side-bet-name"></h2>
             </div>
             <div class="winning-hand-modal__card-info-container">
               <div class="winning-hand-modal__dealer-cards-container">
@@ -682,8 +661,8 @@
               </div>
             </div>
             <div class="winning-hand-modal__winnings-info-container">
-              <h2 class="winning-hand-modal__winning-hand-name">"Suited 3 of a Kind"</h2>
-              <h2 class="winning-hand-modal__winning-hand-payout-field"><span class="winning-hand-modal__payout-label">Payout: </span><span class="winning-hand-modal__payout">100:1</span></h2>
+              <h2 class="winning-hand-modal__winning-hand-name"></h2>
+              <h2 class="winning-hand-modal__winning-hand-payout-field"><span class="winning-hand-modal__payout-label">Payout: </span><span class="winning-hand-modal__payout"></span></h2>
             </div>
 
           </div>
@@ -699,7 +678,6 @@
 
     <!-- Rules, Mystery Box, Dice-->
     <div data-popbox-id="generic-modal" class="popbox modal">
-      <!-- <div class="generic-modal modal"> -->
         <div class="generic-modal__container three-section-modal">
           <div class="generic-modal__header modal__header">
             <h1 class="generic-modal__title">Rules</h1>
@@ -717,9 +695,8 @@
       </div>
 
     <div data-popbox-id="winnings-modal" class="popbox modal">
-    <!-- <div class="winnings-modal modal"> -->
       <div class="winnings-modal__container">
-        <h1 class="winnings-modal__title"><span class="winnings-modal__title-label">Total Winnings: </span><span class="winnings-modal__winnings-value">100</span></h1>
+        <h1 class="winnings-modal__title"><span class="winnings-modal__title-label">Total Winnings: </span><span class="winnings-modal__winnings-value"></span></h1>
         <div class="winnings-modal__btn-container">
           <button class="btn btn-winnings-modal btn-winnings-modal__action btn-winnings-modal__win-summary" data-popbox-open="summary-modal">Win Summary</button>
           <button class="btn btn-winnings-modal btn-winnings-modal__action btn-winnings-modal__close" data-popbox-close="winnings-modal">Close</button>
@@ -730,9 +707,8 @@
 
 
     <div data-popbox-id="notice-modal" class="popbox modal">
-      <!-- <div class="notice-modal modal"> -->
         <div class="notice-modal__container">
-            <h1 class="notice-modal__notice">Player Bust</h1>
+            <h1 class="notice-modal__notice"></h1>
  
           <div class="notice-modal__btn-container">
             <button class="btn btn-notice-modal btn-notice-modal__next" data-popbox-close="notice-modal">Next</button>
@@ -742,7 +718,6 @@
       </div>
 
     <div data-popbox-id="options-modal" class="popbox modal">
-    <!-- <div class="options-modal modal"> -->
       <div class="options-modal__container three-section-modal">
         <div class="options-modal__header modal__header">
           <h1 class="options-modal__title">Options Menu</h1>
@@ -877,8 +852,6 @@
 
               <div class="side-bet-modal__side-bet-div perfect-pair__container side-bet-modal__active-bet" data-sideBet="perfectPair">
                 <div class="side-bet-modal__side-bet-input-container">
-                  <!-- <input type="checkbox" id="perfect-pair" name="perfect-pair" value="perfect-pair">
-                  <label for="perfect-pair">Perfect Pair</label> -->
                   <span class="side-bet-modal__side-bet-label">Perfect Pair</span>
                 </div>
                 <div class="side-bet-modal__side-bet-value-container">
@@ -888,8 +861,6 @@
 
                 <div class="side-bet-modal__side-bet-div 21-plus-3__container" data-sideBet="21Plus3">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <!-- <input type="checkbox" id="21-plus-3" name="21-plus-3" value="21-plus-3">
-                    <label for="21-plus-3">21 + 3</label> -->
                     <span class="side-bet-modal__side-bet-label">21 + 3</span>
                   </div>
                   <div class="side-bet-modal__side-bet-value-container">
@@ -899,8 +870,6 @@
 
                 <div class="side-bet-modal__side-bet-div perfect-11s__container" data-sideBet="perfect11s">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <!-- <input type="checkbox" id="perfect-11s" name="perfect-11s" value="perfect-11s">
-                    <label for="perfect-11s">Perfect 11s</label> -->
                     <span class="side-bet-modal__side-bet-label">Perfect 11s</span>
                   </div>
                   <div class="side-bet-modal__side-bet-value-container">
@@ -910,8 +879,6 @@
 
                 <div class="side-bet-modal__side-bet-div extra-bet-blackjack__container" data-bet-type="no-chip" data-sideBet="extraBetBlackjack">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <!-- <input type="checkbox" id="extra-bet-blackjack" name="extra-bet-blackjack" value="extra-bet-blackjack">
-                    <label for="extra-bet-blackjack">Extra Bet Blackjack</label> -->
                     <span class="side-bet-modal__side-bet-label">Extra Bet Blackjack</span>
                   </div>
                   <div class="side-bet-modal__side-bet-value-container">
@@ -921,8 +888,6 @@
 
                 <div class="side-bet-modal__side-bet-div house-money__container" data-sideBet="houseMoney">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <!-- <input type="checkbox" id="house-money" name="house-money" value="house-money">
-                    <label for="house-money">House Money</label> -->
                     <span class="side-bet-modal__side-bet-label">House Money</span>
                   </div>
                   <div class="side-bet-modal__side-bet-value-container">
@@ -932,8 +897,6 @@
 
                 <div class="side-bet-modal__side-bet-div lucky-ladies__container" data-sideBet="luckyLadies">
                   <div class="side-bet-modal__side-bet-input-container">
-                    <!-- <input type="checkbox" id="lucky-ladies" name="lucky-ladies" value="lucky-ladies">
-                    <label for="lucky-ladies">Lucky Ladies</label> -->
                     <span class="side-bet-modal__side-bet-label">Lucky Ladies</span>
                   </div>
                   <div class="side-bet-modal__side-bet-value-container">
