@@ -1,28 +1,48 @@
 # Basic Blackjack Trivia Rules
 
-## Overview
+## General Overview
 
 Blackjack Trivia is a game app that combines the classic card game Blackjack with answering trivia questions.
 
-Blackjack is played with a standard 52 deck of cards, usually with 2 or more decks shuffled together.  In this game app, Blackjack is played with 2 players, the CPU controlled DEALER and you as the PLAYER.  Initially, the Dealer deals 2 cards to the Player and to itself.  Each card is worth a certain point value.  The object of the game is to have a hand of cards that is as close to 21 total points as possible, without going over.
+Blackjack is played with standard decks of 52 cards, usually 2 or more decks shuffled together.
 
-The Player is able to place a bet on whether they can beat the Dealer’s hand total, without going over 21 pts.  The Player will have a bank of money to bet money from.  The Player can keep playing and betting on rounds of Blackjack, as long as they have money in the bank.  If the Player runs out of money in their bank, it’s GAME OVER.
+In normal Blackjack, the game is usually played with 2+ players, with one of the players performing the role of "Dealer".  The Dealer deals the other players their cards and the other players play against them.  However, this game app is a 1 player game, with the Dealer being CPU controlled.
 
-Throughout a round of Blackjack, the PLAYER and DEALER can be dealt additional cards.  In this game app, when the PLAYER wants an additional card, they’ll have to successfully answer a trivia question.  The PLAYER has a separate bank of Trivia Credits that they can win or lose, by correctly and incorrectly answering trivia credits respectively.  If the Player runs out of Trivia Credits, it’s also GAME OVER.
+Initially, the Dealer deals 2 cards to the Player and to itself.  Each card is worth a certain point value.  The object of the game is to have a hand of cards that is as close to 21 total points as possible, without going over.
 
-## Start of the game and Point Totals
+The Player is able to place a bet on whether they can beat the Dealer’s hand total, without going over 21 pts.  The Player will have a bank of money to bet money from.  The Player can keep playing and betting on rounds of Blackjack, as long as they have money in their bank.  If the Player runs out of money in their bank, it’s GAME OVER.
 
-The DEALER will deal 2 cards to itself and to you, the PLAYER.  The Player’s cards will be face up, while only 1 of the Dealer’s cards will be face up and visible to the Player.  
+Throughout a round of Blackjack, the Player and the Dealer can be dealt additional cards.  In this game app, when the Player wants an additional card, they’ll have to successfully answer a trivia question.  The Player has a separate bank of Trivia Credits that they can win or lose, by correctly and incorrectly answering trivia credits respectively.  If the Player runs out of Trivia Credits, it’s also GAME OVER.
 
-The Player’s initial 2 cards will be the start of their HAND, the set of cards they have in hand.  Each card is assigned a point value, based on the value of the card.  The suits don’t matter.  The point values are:
+## The Player and The Dealer
 
--Number cards (Cards 2 - 10) are worth their number value.
--Face cards (Jack, Queen, or King) are worth 10 pts.
--Aces are worth either 1 pt or 11 pts, based on whichever value gets the HAND closest to 21 pts.
+Blackjack Trivia is a 1 player game.  You will be playing as the sole PLAYER in the game.  PLAYER will be playing against the DEALER, who is CPU controlled.  The DEALER's job is to deal cards to itself and PLAYER throughout the course of the game.
+
+## Dealing the Cards
+
+At the start of the game, DEALER will deal 2 cards to itself and PLAYER.  
+
+PLAYER's cards will both be face up.  DEALER's 1st card will be face up, while the 2nd card will be face down and non-visible to PLAYER.  DEALER's face down card is known as the [HOLE CARD].  
+
+The PLAYER and DEALER cards are referred to as their [HAND].
+
+## Card Point Values
+
+Each card is assigned a point value, based on the rank of the card.  The suits don't matter.
+
+The point values are:
+
+- Number cards (Cards 2 - 10) are worth their rank.
+
+- Face cards (Jack, Queen, or King) are worth 10 pts.
+
+- Aces are worth either 1 pt or 11 pts, based on whichever value gets a hand closest to 21 pts.
+
+10 pt value cards (10, JACK, QUEEN, KING) are referred to as [TEN-CARDS] collectively.
 
 ## Objective of the game
 
-The objective of the game is to have 21 total points in your HAND, or as close to 21 pts as possible, while beating the Dealer’s point total.
+The objective of the game is to have 21 total points a hand, or as close to 21 pts as possible, while beating DEALER's hand total.  You can't go over 21 pts.
 
 ## Hit
 
