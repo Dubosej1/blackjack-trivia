@@ -730,7 +730,8 @@ li {
 .house-money-modal__container,
 .extra-bet-modal__container,
 .trivia-modal__container,
-.options-modal__container {
+.options-modal__container,
+.instructions-modal__container {
   background-color: black;
   border-style: double;
   border-color: purple;
@@ -746,7 +747,8 @@ li {
 .house-money-modal__title,
 .extra-bet-modal__title,
 .trivia-modal__title,
-.options-modal__title {
+.options-modal__title,
+.instructions-modal__title {
   text-align: center !important;
 }
 

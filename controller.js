@@ -5,6 +5,7 @@ import * as listeners from "./listeners.js";
 import * as betModel from "./bet-model.js";
 import * as state from "./state.js";
 import { triviaObj } from "./trivia-model.js";
+import * as rulesView from "./rules-view.js";
 
 export let optionsPlaceholder;
 export let bankPlaceholder;
@@ -953,6 +954,7 @@ function init() {
   let credits = triviaObj.getTriviaCredits();
   view.triviaModal.renderCredits(credits);
   submitOptions();
+  rulesView.instructionsModal.generateModalContent();
 }
 
 init();
