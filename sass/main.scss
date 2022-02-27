@@ -659,7 +659,8 @@ li {
 .house-money-modal,
 .extra-bet-modal,
 .trivia-modal,
-.options-modal {
+.options-modal,
+.instructions-modal {
   &__container {
     background-color: black;
     @include border-style($color-border-default, 5px);
