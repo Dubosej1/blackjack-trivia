@@ -10,9 +10,13 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - DEALER: A CPU controlled player that you are playing against.  DEALER deals the cards to itself and PLAYER throughout the game.
 
+- DOUBLE DOWN: An action only PLAYER can make.  Their Base Bet gets doubled and they are dealt only 1 more additional card.  Afterwards, the hand has to Stand.
+
 - GAME OVER: When the game app ends due to the PLAYER losing. Game Over occurs when PLAYER runs out of money in their bank or runs out of Trivia Credits in Trivia Mode. 
 
 - HAND: The cards that PLAYER and DEALER are dealt throughout the game.
+
+- HIT: An action PLAYER and DEALER can make, to have 1 additional card dealt their hand.
 
 - HOLE CARD: DEALER's face down card.  It's revealed to PLAYER when the game ends.
 
@@ -21,6 +25,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 - RANK: The regular value of a card, basically its name.  For example: A 2 card has the rank of "2", a JACK has a rank of "JACK", etc.
 
 - SIDE BET: An additional bet that the PLAYER can place on the upcoming round, separate from the Base Bet.  It usually has its own set of rules and conditions, separate from the basic game rules.
+
+- STAND: An action PLAYER and DEALER can make, to end any further actions on their current hand.
 
 - SUIT: What grouping a card belongs to.  Either CLUBS, DIAMONDS, SPADES or HEARTS.
 

@@ -70,17 +70,35 @@ Then the next round will begin, rinse and repeat.
 
 ## Hit
 
-After you are dealt your initial 2 cards, it will be your turn to act.  If you think your HAND needs more points to reach 21, then you can HIT and the Dealer will deal you another card to add to your HAND.  You can HIT as many times as you want, as long as your point total doesn’t go over 21.
+This is an action that is available to PLAYER throughout their turn.
+
+`[HIT]` is a request PLAYER makes to DEALER, for them to deal them 1 additional card.  Usually a player `Hits` when they think their hand total is too low to win with.
+
+PLAYER can `Hit` as many times as they want during the round, as long as their hand doesn't go over 21 pts.
+
+In this game app, if PLAYER wants to `Hit`, then they'll have to successfully answer a Trivia Question.  See TRIVIA SECTION for more info on this.
+
+DEALER is also able to `Hit` and that's covered in the [DEALER'S TURN](#dealer39**s-turn) section of this page.
 
 ## Stand
 
-Whenever you’re satisfied with your HAND’s point total, you can STAND.  When you STAND, your turn will end and it’ll be the Dealer’s turn.   You won’t have another opportunity to add cards to your hand for the rest of the round.
+This is an action that is available to PLAYER throughout their turn.
+
+`[STAND]` is an indication PLAYER makes that they're done making actions on their current hand.  PLAYER won't have any other opportunities to add cards to that hand afterwards.
+
+Usually a player `Stands` when they think their current hand is as close to 21 pts as they can get.
+
+If PLAYER is playing a single hand and they `Stand`, then their turn ends and it'll be DEALER's turn.  If PLAYER is playing multiple hands and they `Stand`, then their turn continues until they have played all of their hands.
+
+DEALER is also able to `Stand` and that's covered in the [DEALER'S TURN](#dealer39s-turn) section of this page.
 
 ## Double Down
 
-After you’re dealt your initial 2 cards, you’ll have the opportunity to DOUBLE DOWN.  When you DOUBLE DOWN, your Base Bet will double and the Dealer will deal you only 1 extra card.  After you’re dealt this extra card, you will automatically STAND and it’ll be the Dealer’s Turn.
+This is an action that is available to PLAYER **only** as the first action of playing a hand.
 
-NOTE: DOUBLE DOWN is only available as the first move after you’re dealt your initial 2 cards.  If you choose another action, you won’t be able to DOUBLE DOWN anymore.
+`[DOUBLE DOWN]` is a special request that PLAYER makes to DEALER.  PLAYER's Base Bet will be doubled and DEALER will deal them **ONLY** 1 additional card.  After PLAYER is dealt this extra card, the hand will automatically be `Stand`.
+
+**NOTE**: DEALER is unable to `Double Down`.
 
 ## Split
 
@@ -124,7 +142,7 @@ When a HAND has an ACE in it, the HAND is considered to be a SOFT hand, since th
 
 If an ACE’s 11 pts will put a HAND over 21 pts, then the ACE will automatically be only worth 1 pt and the SOFT HAND will become a HARD HAND (since it can only be 1 total value now).  For example, if the Player’s HAND has a HEART ACE, CLUB 9 and a DIAMOND 4, then the PLAYER now has a HARD 14 HAND (Ace = 1 pt, 9 = 9 pts, 4 = 4pts).
 
-## Dealer’s Turn
+## Dealer's Turn
 
 After your turn is over, it’ll be the Dealer’s Turn to try to reach 21 pts.  The Dealer will only be able to HIT or STAND with their hand.  The Dealer can’t SPLIT or DOUBLE DOWN their HAND, as they’re not betting.  The Dealer also won’t be required to answer a Trivia Question when they HIT.
 
