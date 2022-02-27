@@ -32,6 +32,10 @@ This section covers all of the game settings that can be changed in the Options 
 
 This section covers all of the various side bets that can be played in the game.
 
+#### [Terminology](terms.md)
+
+This section lists all the various terms used throughout the game and this documentation
+
 
 
 
