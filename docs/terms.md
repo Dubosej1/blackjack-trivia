@@ -24,7 +24,13 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - RANK: The regular value of a card, basically its name.  For example: A 2 card has the rank of "2", a JACK has a rank of "JACK", etc.
 
+- RESPLITTING: When a player splits a Split Hand.
+
 - SIDE BET: An additional bet that the PLAYER can place on the upcoming round, separate from the Base Bet.  It usually has its own set of rules and conditions, separate from the basic game rules.
+
+- SPLIT: An action only PLAYER can make.  If PLAYER's hand has 2 cards of the same rank, then PLAYER can split that hand to form 2 new split hands.
+
+- SPLIT HAND: A new hand that is formed when PLAYER splits a hand.
 
 - STAND: An action PLAYER and DEALER can make, to end any further actions on their current hand.
 

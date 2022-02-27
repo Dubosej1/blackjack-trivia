@@ -24,7 +24,10 @@ Blackjack Trivia is a 1 player game.  You will be playing as the sole PLAYER in 
 
 Before the start of a round, PLAYER is able to place a bet on whether they can win the upcoming round or not.  This bet is called the [BASE BET].
 
-PLAYER has a [BANK] of money, that they can use to bet with.  PLAYER is free to bet whatever amount of money they want, as long as they have money in their bank.  When they run out of money in their bank, they're no longer able to play anymore and its GAME OVER.
+PLAYER has a [BANK] of money, that they can use to bet with.  PLAYER is free to bet whatever amount of money they want, as long as they have money in their bank.  
+
+>:warning: **Warning**  
+>If PLAYER runs out of money in their bank, they're no longer able to play anymore and its GAME OVER.
 
 #### Side Bets
 
@@ -102,25 +105,105 @@ This is an action that is available to PLAYER **only** as the first action of pl
 
 ## Split
 
-If your initial 2 cards have the same card value, then you’ll have the opportunity to SPLIT.  When you SPLIT, each card in your Hand will form the base for a new HAND.  You’re splitting your 1 HAND into 2 separate SPLIT HANDS.  Then the Dealer will deal you 1 additional card for each SPLIT HAND.  Now you have 2 SPLIT HANDS with 2 cards each.
+This is an action that is available to PLAYER **only** as the first action of playing a hand.
 
-For each new hand you create from a SPLIT, you’ll take out an additional bet equal to your initial Base Bet.  If you don’t have enough money in the bank for an additional bet, then you won’t be able to SPLIT.
+`[SPLIT]` is a special request that PLAYER makes to DEALER.  If the 2 card's in PLAYER's initial hand have the same rank, then PLAYER can split the hand.  Each card will be the 1st card of 2 new [SPLIT HANDS].  Then DEALER will deal 1 additional card to each of those split hands.  The end result is PLAYER goes from having 1 initial hand with 2 cards, to having 2 split hands with 2 cards in each of them.
 
-As an example, let’s say you have a Base Bet of $100 and your initial 2 cards are a CLUB 6 and a DIAMOND 6.  You’ll be able to SPLIT them!  The CLUB 6 will be the 1st card of your 1st SPLIT HAND and the DIAMOND 6 will be the 1st card of your 2nd SPLIT HAND.  Your 1st SPLIT HAND will inherit your Base Bet of $100, and you’ll place an additional $100 bet for your 2nd SPLIT HAND, for a total bet of $200 for the round.  Then the Dealer will deal an additional card for each of your SPLIT HANDs.  Now your 1st SPLIT HAND will be a CLUB 6 and a SPADE 10, while your 2nd SPLIT HAND will be a DIAMOND 6 and a HEART JACK.  
 
-After you SPLIT, you’ll play each HAND separately against the Dealer’s Hand, one after another.  Each HAND can win or lose against the Dealer’s Hand separately from each other.  
+>Splitting Hands Example:
+>
+>**Before `Split`**:
+>
+>>HAND: `7-SPADES`, `7-HEARTS`
+>
+>**After `Split`**:
+>
+>>SPLIT HAND 1: `7-SPADES`, `5-DIAMONDS`
+>>
+>>SPLIT HAND 2: `7-HEARTS`, `QUEEN-CLUBS`
+>
 
-You’ll have the opportunity to HIT and STAND for each hand.  Once you STAND all of your split hands, then it’ll be the Dealer’s turn.  
+**NOTE**: DEALER is unable to `Split`.
 
-NOTE: In normal play, you can’t DOUBLE DOWN with an already split hand.  But you can change this with the “Double Down after Split” setting in the Options Menu.  See OPTIONS for more info.
+#### Splitting Cards with the Same Rank vs Point Value
 
-NOTE: In normal play, you can’t SPLIT an already split hand (this is called “Resplitting).  You can change this with the “Resplitting Allowed” setting in the Options Menu.  If you turn the setting on, you can resplit up to a total of 4 SPLIT HANDs.  There are a variety of other options related to Resplitting.  See OPTIONS for more info.
+By default, PLAYER can only `Split` cards that have the same rank.  PLAYER is **NOT** allowed to `Split` cards that have the same point value, but different rank.
 
-NOTE: In normal play, you can only SPLIT cards that have the same “card” value.  For example, you can split two 7s and two KINGs, but you can’t split a JACK or a QUEEN, even though they have the same point value.  If you want to SPLIT cards with the same point value, you can change the “Split any 10 pt value card” setting via the Options Menu.  See OPTIONS for more info.
+>**Allowed**:
+>
+>>HAND: `8-SPADES`, `8-HEARTS`
+>
+>>HAND: `QUEEN-SPADES`, `QUEEN-DIAMONDS`
+>
+>**NOT Allowed**:
+>
+>>HAND: `10-CLUBS`, `JACK-CLUBS`
+>
+>>HAND: `QUEEN-SPADES`, `KING-HEARTS`
+>
 
-NOTE: In normal play, you can’t SPLIT if your initial 2 cards are two ACES.  If you want to split ACES, you can change the “Splitting Aces Allowed” setting via the Options Menu.  See OPTIONS for more info.
+This can be changed with the ["Split Any Ten-Card"](options-menu.md#split-any-ten-card) setting in the Options Menu.  Click the link for more info.
 
-NOTE: You can only SPLIT as the first move after you are dealt your initial 2 cards.  If you choose another action, you won’t be able to SPLIT anymore.  This applies to resplitting SPLIT HANDS too, if you have resplitting activated via the OPTIONS Menu.
+#### Splitting Aces
+
+By default, PLAYER is **NOT** allowed to `Split` a hand with 2 ACES.
+
+This can be changed with the ["Splitting Aces Allowed"](options-menu.md#splitting-aces-allowed) setting in the Options Menu.  Click the link for more info.
+
+
+#### Split Betting
+
+When PLAYER `Splits` a hand, the 1st Split Hand will inherit the Base Bet of the initial hand.  As for the 2nd Split Hand, PLAYER needs to take out an additional Base Bet for it.
+
+>:warning: **WARNING**:  
+>If PLAYER doesn't have enough money in their Bank for an additional Base Bet, then they won’t be able to `Split`.
+
+>Split Betting Example:
+>
+>**Before `Split`**:
+>
+>>HAND: Base Bet = $100
+>>
+>>BET TOTAL: $100
+>
+>**After `Split`**:
+>
+>>SPLIT HAND 1: Base Bet = $100
+>>
+>>SPLIT HAND 2: Base Bet = $100
+>>
+>>BET TOTAL: $200
+>
+
+#### Game Flow with Split Hands
+
+After PLAYER `Splits`, they'll play each Split Hand separately against the Dealer’s Hand, one after another.  Each Split Hand can win or lose against the Dealer’s Hand separately from each other.
+
+#### Player Actions for Split Hands
+
+PLAYER can `Hit` and `Stand` for each Split Hand.
+
+When PLAYER `Stands` a Split Hand, if they have another one available, then their turn will continue with the other Split Hand.  Once PLAYER `Stands` all of their split hands, then it’ll be the DEALER's turn.
+
+#### Double Down after Split
+
+By default, PLAYER is **NOT** allowed to `Double Down` with an already Split Hand.  
+
+This can be changed this with the [“Double Down after Split”](options-menu.md#double-down-after-split) setting in the Options Menu.  Click link for more info.
+
+#### Resplitting
+
+[RESPLITTING] is when a player `Splits` a Split Hand.  By default, PLAYER is **NOT** allowed to do this.
+
+This can be changed with the ["Resplitting Allowed"](options-menu.md#resplitting-allowed) setting in the Options Menu.  Click the link for more info.
+
+If Resplitting is allowed, PLAYER is allowed to resplit up to a maximum total of 4 Split Hands.
+
+>:warning: **Warning**:  
+>If Resplitting is allowed, PLAYER is only allowed to `Split` a Split Hand at the very beginning of playing that Split Hand.  Same as a normal `Split`.
+
+**NOTE**: There are a variety of other options related to Resplitting.  See [Options Menu](options-menu.md) for more info.
+
 
 ## Bust
 
