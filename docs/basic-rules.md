@@ -18,6 +18,18 @@ Throughout a round of Blackjack, the Player and the Dealer can be dealt addition
 
 Blackjack Trivia is a 1 player game.  You will be playing as the sole PLAYER in the game.  PLAYER will be playing against the DEALER, who is CPU controlled.  The DEALER's job is to deal cards to itself and PLAYER throughout the course of the game.
 
+## Betting
+
+#### Base Bet
+
+Before the start of a round, PLAYER is able to place a bet on whether they can win the upcoming round or not.  This bet is called the [BASE BET].
+
+PLAYER has a [BANK] of money, that they can use to bet with.  PLAYER is free to bet whatever amount of money they want, as long as they have money in their bank.  When they run out of money in their bank, they're no longer able to play anymore and its GAME OVER.
+
+#### Side Bets
+
+PLAYER is also able to place [SIDE BETS], bets that they can place in addition to the Base Bet.  Side Bets usually have their own sets of rules and conditions of winning, based on what happens during the round.  This topic is covered more in-depth in the [SIDE BETS](side-bet-rules.md) section of the documenation.
+
 ## Dealing the Cards
 
 At the start of the game, DEALER will deal 2 cards to itself and PLAYER.  
@@ -40,9 +52,21 @@ The point values are:
 
 10 pt value cards (10, JACK, QUEEN, KING) are referred to as [TEN-CARDS] collectively.
 
-## Objective of the game
+## Objective of the Game
 
 The objective of the game is to have 21 total points a hand, or as close to 21 pts as possible, while beating DEALER's hand total.  You can't go over 21 pts.
+
+## Flow of the Game
+
+After all betting and card dealing are over, it'll be PLAYER's turn.  PLAYER has a variety of actions that they can take, in order to help their odds of winning the round and more money, or minimize their risk of losing money. 
+
+Once PLAYER's turn is over, then DEALER will be able to act.  DEALER has a predetermined set of actions that they have to take during their turn.
+
+Once DEALER's turn is over, the round will end and the outcome of the round is determined.  Any Base Bets will be resolved at this point and PLAYER will receive their winnings, if applicable.
+
+If PLAYER has any Side Bets, they are resolved at first opportunity.  See [SIDE BETS]{side-bet-rules.md} for more info on this.
+
+Then the next round will begin, rinse and repeat.
 
 ## Hit
 
