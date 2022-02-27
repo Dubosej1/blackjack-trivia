@@ -64,7 +64,7 @@ Once PLAYER's turn is over, then DEALER will be able to act.  DEALER has a prede
 
 Once DEALER's turn is over, the round will end and the outcome of the round is determined.  Any Base Bets will be resolved at this point and PLAYER will receive their winnings, if applicable.
 
-If PLAYER has any Side Bets, they are resolved at first opportunity.  See [SIDE BETS]{side-bet-rules.md} for more info on this.
+If PLAYER has any Side Bets, they are resolved at first opportunity.  See [SIDE BETS](side-bet-rules.md) for more info on this.
 
 Then the next round will begin, rinse and repeat.
 
