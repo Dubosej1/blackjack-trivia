@@ -16,11 +16,15 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - CREDIT: See TRIVIA CREDIT.
 
+- CORE SIDE BET: A type of Side Bet that is a native part of the basic Blackjack game.  This is compared to other Side Bets, that are simple additions.
+
 - DEALER: A CPU controlled player that you are playing against.  DEALER deals the cards to itself and PLAYER throughout the game.
 
 - DOUBLE DOWN: An action only PLAYER can make.  Their Base Bet gets doubled and they are dealt only 1 more additional card.  Afterwards, the hand has to Stand.
 
 - EARLY SURRENDER: When PLAYER can Surrender their hand at the beginning of a hand, regardless if DEALER has a Natural or not.
+
+- EVEN MONEY: A Core Side Bet that PLAYER can make, if both PLAYER has a NATURAL and DEALER has an ACE showing at the beginning of the round.  The Bet protects the PLAYER from a PUSH, in case DEALER has a Natural.
 
 - GAME OVER: When the game app ends due to the PLAYER losing. Game Over occurs when PLAYER runs out of money in their bank or runs out of Trivia Credits in Trivia Mode. 
 
@@ -33,6 +37,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 - HIT: An action PLAYER and DEALER can make, to have 1 additional card dealt their hand.
 
 - HOLE CARD: DEALER's face down card.  It's revealed to PLAYER when the game ends.
+
+- INSURANCE: A Core Side Bet that PLAYER can make, if DEALER has an ACE showing at the beginning of the round.  The Bet protects the PLAYER from a LOSS, in case DEALER has a Natural.
 
 - LATE SURRENDER: When PLAYER can only Surrender their hand after DEALER Peeks for a Natural.
 

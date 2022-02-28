@@ -519,24 +519,69 @@ By default, a `CHARLIE` is determined at 5 total cards in a Hand.  If [“Disabl
 
 ## Insurance
 
-If the Dealer’s initial face up card is an ACE, then the Player is given the option of placing an INSURANCE Side Bet.  The purpose of this Side Bet is for the Player to recover some money in case the Dealer has a NATURAL, which would be an automatic Player loss.  The amount of this Side Bet is half of the Base Bet.
+[INSURANCE] is a Side Bet that PLAYER can make at the beginning of a round.  It's a [CORE SIDE BET] that is a part of the base Blackjack game.
 
-After the Insurance Side Bet has been placed, the Dealer peeks at their face down card to check for a NATURAL.
+#### Insurance Basics
 
-If the Dealer has a NATURAL, the round ends immediately.  The Player loses the round and their Base Bet.  At the same time, The Player wins the INSURANCE Side Bet, which has a payout of 2:1 of the Side Bet.
+If DEALER's initial face up card is an ACE, then PLAYER is given the option of placing an Insurance Bet.  
 
-If the Dealer doesn’t have a NATURAL, then the Player loses the INSURANCE Side Bet and the round continues as normal.
+The purpose of this Side Bet is for PLAYER to recover some money, in case DEALER has a `NATURAL`, which would be an automatic PLAYER loss.
 
-By default, the INSURANCE Side Bet is offered.  You can select “Disable Insurance Bet” in the Options Menu to not have this bet offered.  See OPTIONS for more info.
+#### Amount of Insurance Bet
+
+The amount of this Side Bet is half of the Base Bet.
+
+#### Determining Insurance Outcome
+
+After the Insurance Bet has been placed, DEALER `Peeks` at their Hole Card to check for a `NATURAL`.
+
+If DEALER has a `NATURAL`, the round ends immediately.  PLAYER loses the round and their Base Bet.  At the same time, PLAYER WINS the Insurance Bet, which has a Payout of 2:1.
+
+If DEALER does NOT have a `NATURAL`, then PLAYER LOSES the Insurance Bet and the round continues as normal.
+
+By default, the Insurance Side Bet is offered.  You can select [“Disable Insurance Bet”](options-menu.md#disable-insurance-side-bet) in the Options Menu to not have this bet offered.  Click the link for more info.
 
 ## Even Money
 
-If the Player has a NATURAL and the Dealer’s initial face up card is an ACE, then the Player is given the option of placing an EVEN MONEY Side Bet.  The purpose of this Side Bet is for the Player to recover some money in case the Dealer also has a NATURAL (which would result in a PUSH and a reduced payout).  The amount of this Side Bet is half of the Base Bet.
+[EVEN MONEY] is a Side Bet that PLAYER can make at the beginning of a round.  It's a Core Side Bet that is a part of the base Blackjack game.
 
-Since the round is already ending immediately, the Dealer reveals their face down card to the Player.
+#### Even Money Basics
 
-If the Dealer has a NATURAL, then the Player wins the Even Money Side Bet, which has a payout of 2:1 of the Side Bet.  The Player’s NATURAL becomes a PUSH and the Player also receives their Base Bet back.
+If PLAYER has a `NATURAL` and DEALER's initial Face Up card is an ACE, then PLAYER is given the option of placing an Even Money Bet.  
 
-If the Dealer doesn’t have a NATURAL, then the Player loses the EVEN MONEY Side Bet.  However, the Player still has their NATURAL and receives the increased payout for the NATURAL.
+The purpose of this Side Bet is for PLAYER to recover some money in case DEALER also has a `NATURAL` (which would result in a PUSH and a reduced payout).
 
-By default, the EVEN MONEY Side Bet is offered.  You can select “Disable Even Money Bet” in the Options Menu to not have this bet offered.  See OPTIONS for more info.
+#### Amount of Even Money Bet
+
+The amount of this Side Bet is half of the Base Bet.
+
+#### Determining Even Money Outcome
+
+Since the round is already ending immediately, DEALER reveals their Hole Card to PLAYER.
+
+If DEALER has a `NATURA`L, then PLAYER WINS the Even Money Bet, which has a payout of 2:1.  The Player’s `NATURAL` becomes a PUSH and the PLAYER also receives their Base Bet back.
+
+If DEALER doesn’t have a `NATURAL`, then PLAYER LOSES the Even Money Bet.  However, PLAYER still has their `NATURAL` and receives the increased payout for the `NATURAL`.
+
+By default, the Even Money Side Bet is offered.  You can select [“Disable Even Money Side Bet”](options-menu.md#disable-even-money-side-bet) in the Options Menu to not have this bet offered.  Click the link for more info.
+
+## Payouts at a glance
+
+This is a quick look at all the various Payouts in the round:
+
+- WIN: 1:1 Payout
+
+- LOSE: 0 Payout
+
+- PUSH: Base Bet returned
+
+- SURRENDER: 1/2 Base Bet returned
+
+- NATURAL: 3:2 Payout (default).  Can also be changed to 3:2 and 6:5 Payouts via the Options Menu.
+
+- INSURANCE SIDE BET: 2:1 Payout of Side Bet.
+
+- EVEN MONEY SIDE BET: 2:1 Payout of Side Bet.
+
+**NOTE**: There is no special payout for a CHARLIE win
+
