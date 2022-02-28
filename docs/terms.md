@@ -4,11 +4,15 @@
 
 This page collects all the terms that are used throughout the game app.  If you ever come across a term you don't understand, come this page.
 
+- \# CARD CHARLIE: A term used to refer to a Charlie.  # is the number of cards the Hand reached to become a Charlie.
+
 - BANK: The pool of money PLAYER uses to bet with.  If the bank reaches 0, then it's GAME OVER.
 
 - BASE BET: The bet PLAYER makes on whether they can win the upcoming round of Blackjack.
 
 - BUST: When a hand goes over 21 total pts.
+
+- CHARLIE: A Win Condition for the round, where if a Hand reaches a total of 5 or more cards, it's an automatic win for that cardplayer.
 
 - CREDIT: See TRIVIA CREDIT.
 

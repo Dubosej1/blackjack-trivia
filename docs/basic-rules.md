@@ -504,15 +504,18 @@ An [EARLY SURRENDER] is when the Player can `Surrender` regardless if DEALER has
 
 ## Charlie
 
-If the Player’s HAND reaches a total of 5 or more cards without BUSTING, then the Player’s HAND is a CHARLIE.  When this happens, the round immediately ends and the Player’s HAND automatically wins.
+If any Hand reaches a total of 5 or more cards without BUSTING, then that Hand is a `[CHARLIE]` and the round usually ends immediately.
 
-The Dealer’s hand can also have a CHARLIE.  When that happens, the round immediately ends and the Player automatically loses.
+When referring to a `CHARLIE`, the term `[# CARD CHARLIE]` is used, where # is the number of total cards the cardplayer's hand had reached.
 
-If both the Player and Dealer’s Hands are CHARLIEs, then it’s considered a PUSH and the Player’s bet is returned.
+If any of PLAYER's hand is a `CHARLIE, then it's an automatic win for that Hand.  If it's a Split Hand, then the round may still continue, if there are other Split Hands needing to be played.
 
-If a Player’s Split Hand has a CHARLIE, then the round continues as normal, in order to determine the outcome of the other split hands.
+DEALER's hand can also be a `CHARLIE`, and when that happens, it's an automatic loss for PLAYER.
 
-By default, a CHARLIE is determined at 5 total cards in a HAND.  If “Disable Five Card Charlie” is selected in the Options Menu, then a CHARLIE is determined at 7 cards in a HAND.  See OPTIONS for more info.
+If both PLAYER and DEALER's Hands have `CHARLIES`, then it is considered a PUSH and the PLAYER's Base Bet is returned for that Hand.
+
+By default, a `CHARLIE` is determined at 5 total cards in a Hand.  If [“Disable Five Card Charlie”](options-menu.md#disable-five-card-charlie) is selected in the Options Menu, then a `CHARLIE` can be determined up to a limit 7 cards in a Hand.  Click the link for more info.
+
 
 ## Insurance
 
