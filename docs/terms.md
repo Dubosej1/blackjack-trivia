@@ -16,6 +16,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - CREDIT: See TRIVIA CREDIT.
 
+- CODE (Card): A 2 character symbol that is an alternative way to display cards.  The 1st character is a card's Rank and the 2nd character is the card's Suit.
+
 - CORE SIDE BET: A type of Side Bet that is a native part of the basic Blackjack game.  This is compared to other Side Bets, that are simple additions.
 
 - DEALER: A CPU controlled player that you are playing against.  DEALER deals the cards to itself and PLAYER throughout the game.

@@ -10,57 +10,241 @@ Before you start the game, you can change the game settings in the “OPTIONS ME
 
 ## Placing your bets
 
-#### Base Bet
+#### Base Bet Menu
 
 <pic of the Base Bet Menu>
 
-When you press the `[Start New Game]` button, the round begins and the “BASE BET MENU” appears on screen.  Here you can place a [BASE BET].  
+When you press the `[Start New Game]` button, the round begins and the “BASE BET MENU” appears on screen.  Here you can place a [BASE BET]. 
+
+##### Bank Field
 
 The “BANK FIELD” shows how much money you currently have in your [BANK].
 
 See ["Betting: Base Bet"](basic-rules.md#base-bet) in the Basic Rules Page for more info on Base Bet and PLAYER's Bank. 
 
+##### Chip Buttons
+
 <pic of Chip Buttons>
 
 Use the `[Chip]` buttons to add money to the Base Bet.  The “CURRENT BASE BET FIELD” will increase as you add chip amounts, and the “BANK FIELD” will decrease.
 
+##### Clear Bet Button
+
 Use the `[Clear Bet]` button to clear the Current Base Bet and reset all fields back to default.
+
+##### Side Bet Menu Button
 
 If you want to place any [SIDE BETS] for the current round, press the `[Side Bet Menu]` button to open the "SIDE BET MENU".  See the ["Side Bets"](side-bet-rules.md) section of the documentation for more info.
 
+##### Side Bets Placed Button
+
 After you have placed some Side Bets, you can press the `[Side Bets Placed]` button to open the “SIDE BETS PLACED SCREEN".  This screen lists all the Side Bets you placed and the amount of money you put on them.  The `[Side Bets Placed]` button itself will show the total money amount of all the Side Bets placed.
 
->:warning: **WARNING**:
+>:warning: **WARNING**:  
 > If you have the “Side Bets” Option set to OFF, the [`Side Bet Menu]` and `[Side Bets Placed]` buttons won’t be displayed.  See the ["Side Bets"](options-menu.md#side-bets) section in the Options Menu documentation for more info.
+
+##### Deal Cards Button
 
 When you are done placing your Base Bet, press the `[Deal Cards]` button to close the menu and start the game.
 
-H2: Side Bets
+#### Side Bet Menu
 
 <pic of the side bet menu>
 
-You can place any “Side Bets” from the “Side Bet Menu”.
+You can place any Side Bets from the “SIDE BET MENU”.
 
-Near the top of the menu is the “Bank Field” which shows your current “Bank” value (if you have a “Current Base Bet” from the “Base Bet Menu”, the “Bank Field” will show the updated value).
+##### Bank Field
 
-All available “Side Bets” are listed in the middle of the menu.  Press the Side Bet in order to select it.  The Side Bet’s field will turn blue to indicate that it’s the currently selected Side Bet.
+Near the top of the menu is the “BANK FIELD” which shows your current Bank value (if you have a Current Base Bet from the “BASE BET MENU”, the “BANK FIELD” will show the updated value).
 
-After you select a Side Bet, you can press the [Rules] button at the top of the screen to read the rules for it.  Use the [Chip] buttons to add money to that Side Bet.  The amount of money you add to the Side Bet will be listed in its field, in the purple circle.
+##### Selecting Side Bets
 
-Some Side Bets, such as “Extra Bet Blackjack”, don’t require the [Chip] buttons.  Instead the [Activate Bet] button will be shown in their place.  Press the button to activate the Side Bet.  The word “Activated” will be shown in the Side Bet’s amount field.
+All available Side Bets are listed in the middle of the menu.  Press a `Side Bet Field` in order to select it.  The `Side Bet’s field` will turn blue to indicate that it’s the currently selected Side Bet.
+
+##### Side Bet Rules Button
+
+After you select a Side Bet, you can press the `[Rules]` button at the top of the screen to read the rules for it.
+
+##### Side Bet Chip Buttons
+
+Use the `[Chip]` buttons to add money to that Side Bet.  The amount of money you add to the Side Bet will be listed in its `Side Bet Field`, in the purple circle.
+
+##### Activate Bet Button
+
+Some Side Bets, such as “Extra Bet Blackjack”, don’t require the `[Chip]` buttons.  Instead the `[Activate Bet]` button will be shown in their place.  Press the button to activate the Side Bet.  The word “Activated” will be shown in the `Side Bet Field's` amount area.
+
+##### Side Bets Total Field
 
 You can select multiple side bets and add money to them, as long as you have the money in the bank for them.  The total amount of money for all Side Bets is shown in the purple circle at the top of the menu.
 
-If you want to clear an individual Side Bet, select it and press the [Clear] button.  In order to clear all Side Bets at once, press the [Clear All Bets] button.
+##### Clear and Clear All Buttons
 
-When you are done selecting Side Bets, press the [Place Bets] button to place the side bets and return to the “Base Bet Menu”.  You can also return to the “Base Bet Menu” without placing Side Bets by pressing the [Back] button.
+If you want to clear an individual Side Bet, select it and press the `[Clear]` button.  In order to clear all Side Bets at once, press the `[Clear All Bets]` button.
+
+##### Placing the Side Bets
+
+When you are done selecting Side Bets, press the `[Place Bets]` button to place the side bets and return to the “BASE BET MENU”.
+
+##### Back Button
+
+You can also return to the “BASE BET MENU” without placing Side Bets by pressing the `[Back]` button.
+
+## The Game Field
+
+<pic of the desktop version of the Game Field>
+
+When you press the `[Deal Cards]` button in the "BASE BET MENU", then menu will close and you will be brought back to the "GAME FIELD".  
+
+The "GAME FIELD" is where the main action of the game app will take place.  The specific layout of the "GAME FIELD" can change depending on the screen dimensions the app is playing in.   But overall, all the elements of the screen will be included.
+
+Let's take a closer look at all the different areas.
 
 
--Dealing Cards
+#### Nav Area
+
+<display pic of the Nav Area>
+
+This is usually at the top of the screen.  It's an area that contains some of the game app's "SYSTEM BUTTONS". 
+
+##### End Game Button
+
+<display pic of END GAME button>
+
+When you press the `[End Game]` button, the current round and the entire game itself will immediately end.  
+
+The "BANK FIELD", "BET FIELD", "DEALER FIELD" and "PLAYER FIELD" will reset to their default displays.  
+
+*“Game Ended”* will be displayed in the “GAME MESSAGE FIELD".  The `[Start New Game]` button will also be displayed in the “GAME MESSAGE FIELD".
+
+##### Options Button
+
+The '[Options]` button will open the "OPTIONS MENU", where you can change the various game settings.  The button will only appear when a round isn't being currently played.
+
+For more info, see the ["Options Menu"](options-menu.md) section of the documentation.
+
+##### Rules Button
+
+The `[Rules]` button will open up the documentation for this game app.  You can learn about how to play the game and navigate the game app.
+
+#### Game Info Area
+
+<display pic of game info area>
+
+This is usually near the top of the screen.  It displays general info about PLAYER.
+
+##### Bank Field
+
+The "BANK FIELD" displays PLAYER's current [BANK] value.
+
+See ["Betting: Base Bet"](basic-rules.md#base-bet) in the Basic Rules Page for more info on PLAYER's Bank. 
+
+##### Bet Field
+
+The "BET FIELD" displays PLAYER's current [BASE BET] value.  
+
+If PLAYER `Doubles Down`, then the "DOUBLE DOWN MARKER" will be placed inside of this field, indicating that the Base Bet has been doubled. The "DOUBLE DOWN MARKER" looks like an *"X2"*.
+
+See ["Betting: Base Bet"](basic-rules.md#base-bet) and ["Double Down"](basic-rules.md#double-down) sections in the Basic Rules Page for more info about those subjects.
+
+#### Dealer Field
+
+<display pic of Dealer Field>
+
+"DEALER FIELD" is usually near the top of the screen.  It displays DEALER's current [HAND] and information about it.
+
+##### Dealer Card Area
+
+The "DEALER CARD AREA" displays the DEALER's current Hand.
+
+##### Dealer Hand Total Field
+
+The "DEALER HAND TOTAL FIELD" displays the total points of DEALER's **VISIBLE** cards during the round.  Once DEALER's [HOLE CARD] is revealed, the display will update with the real total.
+
+##### Dealer Message Field
+
+The "DEALER MESSAGE FIELD" displays messages indicating the actions DEALER is currently taking.  It also displays any outcomes for DEALER's Hand.
+
+#### Game Message Field
+
+<display pic of Game Message Field>
+
+The "GAME MESSAGE FIELD" is usually near the center of the screen.  It displays the current status of the current round and the game itself, along with other info.  
+
+The `[Start New Game]`, `[Start New Round]` and `[Check Side Bets]` buttons will also be displayed here when they become active.
+
+#### Player Field
+
+The "PLAYER FIELD" is usually near the bottom of the screen. It displays PLAYER's current Hand and information about it.
+
+##### Player Card Area
+
+The "PLAYER CARD AREA" displays the PLAYER's currently active Hand.  
+
+The label near the "PLAYER CARD AREA" will also change to indicate which PLAYER hand is currently active.  It can say either *"PLAYER"* (indicating PLAYER is playing a single Hand) or *"HAND #"* (indicating PLAYER is playing a Split Hand, where # is the number of active Split Hand).
+
+#####  Player Hand Total Field
+
+The "PLAYER HAND TOTAL FIELD" displays the total points of PLAYER's currently active Hand.
+
+##### Player Message Field
+
+The "PLAYER MESSAGE FIELD" displays any outcomes for PLAYER's currently active HAND.
+
+#### Game Action Buttons Field
+
+<display pic of game action buttons field>
+
+The "GAME ACTION BUTTONS FIELD" is usually located next to the "PLAYER FIELD".  It displays the `[Hit]`, `[Stand]`, `[Double Down]`, and `[Split]` buttons.
+
+The buttons will be highlighted depending on if they're currently active or disabled.
+
+For more info on these buttons, see their individual sections on this page.
+
+##### Surrender Button Field
+
+The "SURRENDER BUTTON FIELD" is usually located somewhere near the "PLAYER FIELD" and "GAME ACTION BUTTON FIELD".  It displays the `Surrender` button.  The button will be highlighted depending on if its currently active or disabled.
+
+For more info about this button, see ["Surrender Button"](#surrender-button) on this page.
+
+#### Split Stages Field
+
+The "SPLIT STAGES FIELD" is usually located somewhere near the "PLAYER FIELD".  All currrently inactive [SPLIT HANDS] are displayed here, up to a total of 3.
+
+Each Split Hand is displayed in its own little box within the field.  Each box displays the SPLIT HAND’s Number, hand total and a message field to display any outcomes.  Pretty much the same info the "PLAYER FIELD" would show about the currently active Hand.
+
+##### Card Codes
+
+The cards of a Split Hand are also displayed, but they're represented as [CODES] instead of cards, due to space limitations.  
+
+The 1st character of the code is the card's [RANK] and the 2nd character is the card's [SUIT].
+
+Here are the Code Character Values:
+
+| **RANKS** |  2 - 9 | 10 | JACK | QUEEN | KING | ACE |
+|:---------:|:------:|:--:|:----:|:-----:|:----:|:---:|
+| **CODES** | Itself |  0 |   J  |   Q   |   K  |  A  |
+
+| **SUITS** | SPADES | CLUBS | DIAMONDS | HEARTS |
+|:---------:|:------:|:-----:|:--------:|:------:|
+| **CODES** |    S   |   C   |     D    |    H   |
+
+Here are some examples of card codes:
+
+| **CARDS**      | **CODES** |
+|----------------|-----------|
+| `8-SPADES`     | `8S`      |
+| `10-DIAMONDS`  | `0D`      |
+| `JACK-CLUBS`   | `JC`      |
+| `QUEEN-HEARTS` | `QH`      |
+| `KING-HEARTS`  | `KH`      |
+| `ACE-CLUBS`    | `AC`      |
+
+
+##Dealing Cards
 
 <pic of the active game field>
 
-After you press the [Deal Cards] button in the “Base Bet Menu”, the menu will close and all of your bets will be placed.  Near the top of the screen, the “Bank Field” will show your updated Bank value and the “Bet Field” will show the “Base Bet” value that you placed.
+After you press the `[Deal Cards]` button in the “BASE BET MENU”, the menu will close and all of your bets will be placed.  Near the top of the screen, the “Bank Field” will show your updated Bank value and the “Bet Field” will show the “Base Bet” value that you placed.
 
 The Dealer deals 2 cards to itself and the Player.  You can see the Player’s Hand and it’s total value in the “Player Field” near the bottom of the screen.  If the Player’s Hand is SOFT, then the total value shown is calculated with the ACE worth 11 pts.  You can also see the Dealer’s Hand and its total value in the “Dealer Field” near the top of the screen.  The Dealer’s total value only factors in the value of the face up cards.
 
@@ -343,41 +527,4 @@ At the top of the list are the “Base Round” outcomes.  These are the same as
 After the “Base Round” outcomes, all of the “Side Bet” outcomes will be listed.  Each Side Bet will be listed, along with their outcome, any winnings received, the win condition fulfilled and the payout for the win condition.
 
 At the bottom of the screen is the [CLOSE] button.  Press this button to close the screen and return to the “Total Winnings” Screen.
-
-The Game Field
-
-<pic of the desktop version of the Game Field>
-
-The Game Field is where the main action of the game app will take place.  The specific layout of the Game Field can change depending on the screen dimensions the app is playing in.   But overall, all the elements of the screen will be included.
-
--Nav Area
-This is usually at the top of the screen.  It includes the [END GAME] button, which will end the game.  The [OPTIONS] button, which will display the OPTIONS MENU.  And the [RULES] button, which will display the Game App’s instructions.
-
--Game Info Area
-This is usually near the top of the screen.  It includes the “Bank Field” which displays the Player’s current Bank Value.  The “Bet Field” which displays the PLAYER’s current Base Bet value.  If the PLAYER DOUBLES DOWN, then an “X2” marker will be placed in the “Bet Field”, indicating that the Base Bet has been doubled.
-
--Dealer Field
-This is usually near the top of the screen.  It includes the “Card Area”, which displays the DEALER’s HAND.  The “Hand Total Field” which displays the total points of the Dealer’s visible cards.  The “Dealer Message Field” displays messages indicating the actions the Dealer is currently taking and any outcomes for the hand.
--Game Message Field
-This is usually near the center of the screen.  It displays the current status of the round and game, along with other info.  The [START NEW GAME], [START NEW ROUND] and [CHECK SIDE BETS] buttons will also be displayed here when they become active.
-
--Player Field
-This is usually near the bottom of the screen. It includes the “Card Area”, which always displays the Player’s currently active HAND.  The label next to the “Card Area” will also indicate which Player Hand is active.  It can say either “PLAYER” or “HAND 1 - 4”, depending on if the PLAYER is playing a single HAND or SPLIT HANDS.  The “Player Total Field” will display the total of the currently active HAND.  The “Player Message Field” will display the outcome of the currently active HAND.
-
--Player Action Buttons Field
-This is usually located next to the Player Field.  It displays the [HIT], [STAND], [DOUBLE DOWN] and [SPLIT] buttons.  The buttons will be highlighted depending on if they’re active or disabled.
-
--Surrender Button Field
-This is usually located somewhere near the Player Field and Action Button Field.  It displays the [SURRENDER] button.  The button will be highlighted depending on if its active or disabled.
-
--Split Stages Field
-This is usually located somewhere near the Player Field.  All currently inactive SPLIT HANDS are displayed here, up to a total of 3.
-
-Each SPLIT HAND is displayed in its own little box in the field.  Each box displays the SPLIT HAND’s Number, hand total and a message field to display any outcomes.  
-
-The SPLIT HAND’s cards are also displayed, but they’re represented as Codes instead of Cards, due to space limitations.  The 1st character of the code is the Card’s value and the 2nd character is the Card’s suit.  For example, the code JC means a JACK of CLUBS.
-
-Code Characters:
-VALUES: 0 = 10, J = JACK, Q = QUEEN, K =KING, A = ACE, 2 - 9 = self-explanatory.
-SUITS: C = CLUBS, D = DIAMONDS, H = HEARTS, S = SPADES
 
