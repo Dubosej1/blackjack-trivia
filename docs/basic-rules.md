@@ -22,7 +22,7 @@ Blackjack Trivia is a 1 player game.  You will be playing as the sole PLAYER in 
 
 #### Base Bet
 
-Before the start of a round, PLAYER is able to place a bet on whether they can win the upcoming round or not.  This bet is called the [BASE BET].
+Before the start of a round, PLAYER is able to place a bet on whether they can beat DEALER in the upcoming round or not.  This bet is called the [BASE BET].
 
 PLAYER has a [BANK] of money, that they can use to bet with.  PLAYER is free to bet whatever amount of money they want, as long as they have money in their bank.  
 
@@ -57,7 +57,7 @@ The point values are:
 
 ## Objective of the Game
 
-The objective of the game is to have 21 total points a hand, or as close to 21 pts as possible, while beating DEALER's hand total.  You can't go over 21 pts.
+The objective of the game is to have 21 total points in a hand, or as close to 21 pts as possible, while beating DEALER's hand total.  You can't go over 21 pts.
 
 ## Flow of the Game
 
@@ -411,49 +411,96 @@ Most of the time, the bet is also returned to PLAYER, in addition to the Winning
 >>Calc Method 2: ($50 / 5) * 6 + $50 = $110
 >>````  
 
-## Ending Round Outcomes and Payouts
+## Determining Bet Outcomes
+
+#### Ending the Round
 
 When DEALER's turn is over or DEALER's turn is skipped, the round ends.  At this point, DEALER's Hole Card will be revealed to PLAYER.  
 
-The point totals of PLAYER's hand and DEALER's hand will then be matched up against each other.  This will determine the winner of the round.
+The point totals of PLAYER's hand and DEALER's hand will then be matched up against each other.  This will determine the outcome of PLAYER's Base Bet against DEALER.
 
+#### Win
 
+If PLAYER's hand total beats DEALER's hand total without BUSTING, then PLAYER's hand WINS and receives winnings.
 
+The regular hand Payout for winning the round is 1:1.
 
-  Depending on the outcome of this matchup, PLAYER may receive [WINNINGS] 
+#### Lose
 
+If DEALER's hand total beats PLAYER's hand total without BUSTING, then PLAYER's hand LOSES and receives nothing.
 
-  If PLAYER's hand total beats DEALER's hand total without BUSTING, then PLAYER's hand wins and receives [WINNINGS] (money received for a successful bet outcome).  If the DEALER's hand total beats PLAYER's hand total, then PLAYER's hand loses and receives nothing.
+#### Push
 
-If PLAYER has Split Hands, then each Split Hand receives a separate payout based on if it wins or loses.  For example, your 1st Split Hand can win a 2:1 payout and your 2nd Split Hand can lose and receive nothing.
+When PLAYER and DEALER end the round with the same hand totals, then the outcome is a TIE or a [PUSH].  When this happens, PLAYER gets their Base Bet returned back to them in "Winnings".
 
-## Push
+#### Split Hands
 
-If the Player’s HAND and Dealer’s HAND have the same point total at the end of a round, then their hands will be a PUSH.  When this happens, the Player gets their base bet returned to them for that HAND.
+If PLAYER has Split Hands, then each Split Hand receives separate winnings based on if it WINS,LOSES or PUSHES.
+
+>**Examples of Determining the Outcome of Split Hands**
+>
+>>Base Bet: $100
+>>
+>>Split Hand 1: **HAND WINS**  Winnings: $200 (Payout: 1:1)
+>>
+>>Split Hand 2: **HAND PUSHES** Winnings: $100 (Returned Base Bet)
+>>
+>>PLAYER Total Winnings: $300
+>
+>>Base Bet: $100
+>>
+>>Split Hand 1: **HAND LOSES**  Winnings: $0
+>>
+>>Split Hand 2: **HAND WINS** Winnings: $200 (Payout: 1/1)
+>>
+>>PLAYER Total Winnings: $200
 
 ## Natural
 
-If the Player’s initial 2 cards have an exact total of 21 pts (an ACE and 10 pt card), then the Player will have a NATURAL.  When this happens, the round ends immediately and the Player automatically wins.
+#### Player Natural
 
-The Dealer can also have a NATURAL.  If the Dealer’s initial face up card is either an ACE or 10 pt Card, then the Dealer will PEEK at their face down card to see if they have a NATURAL.  If the Dealer has a NATURAL, the round ends immediately and the Dealer reveals their face down card to the Player.  The Player automatically loses.
+If PLAYER's initial 2 cards have an exact total of 21 pts (an ACE and TEN-CARD), then PLAYER will have a `[NATURAL]`.  When this happens, the round ends immediately and PLAYER automatically wins.
 
-If the Player and Dealer both have NATURALs, then their hands will be a PUSH and the base bet will be returned to the Player.
+>:warning: **WARNING**:
+>If a Split Hand’s initial 2 cards equal 21 pts, then that’s **NOT** considered a NATURAL and that Split Hand will not received an increased Payout for winning.
 
-The payout for a Player NATURAL is greater than a normal win.  By default, the payout for a NATURAL is 3:2.  This payout amount can be changed with the “Blackjack Payout” setting via the Options Menu.  See OPTIONS for more info.
+#### Dealer Natural
 
-NOTE: If a split hand’s initial 2 cards equal 21 pts, then that’s NOT considered a NATURAL.
+DEALER can also have a `NATURAL`.  
+
+If DEALER's initial face up card is either an ACE or TEN-CARD, then the Dealer will `[PEEK]` at their Hole Card to see if they have a `NATURAL`.  If DEALER has a `NATURAL`, the round ends immediately and DEALER reveals their Hole Card to PLAYER.  PLAYER automatically loses.
+
+#### Natural Push
+
+If Player and Dealer both have `NATURALs`, then the outcome will be a PUSH and the Base Bet will be returned to the Player.
+
+#### Payout for Player Natural
+
+The Payout for a Player NATURAL is greater than a normal win.  By default, the Payout for a `NATURAL` is 3:2.  
+
+The `NATURAL` payout amount can be changed with the [“Blackjack Payout”](options-menu.md#blackjack-payout) setting via the Options Menu.  Click the link for more info.
 
 ## Surrender
 
-After all of the initial cards are first dealt, the Player has the option to SURRENDER their hand, if they think they’re likely to lose the round.  When the Player SURRENDERS, the round ends immediately and the Player receives half of their Base Bet back.
+This is an action that is available to PLAYER **only** as the first action of playing a hand.
 
-SURRENDER is only offered as the first move after a Player’s HAND is dealt their initial 2 cards.  SPLIT HANDs can be SURRENDERED, so this applies to those hands as well.  When a Split Hand is SURRENDERED, the round continues as normal, in order to determine the outcome of the other split hands.
+PLAYER has the option to `[SURRENDER]` their hand, if they think they’re likely to lose the round.  When PLAYER `Surrenders`, the round ends immediately and PLAYER receives half of their Base Bet back.
 
-By default, if the Dealer’s face up card is either an ACE or 10 pt card, then the Dealer will first PEEK for a NATURAL before the Player can SURRENDER.  This is called a LATE SURRENDER.  If the Dealer has a NATURAL, then the Player can’t SURRENDER their hand and they’ll automatically lose.
+This action can be disabled with the ["Disable Surrender"](options-menu.md#disable-surrender) setting in the Options Menu.  Click the link for more info.
 
-An EARLY SURRENDER is when the Player can SURRENDER regardless if the Dealer has a NATURAL or not.  If you want this option, you can choose the “Early Surrender” setting in the Options Menu.  See OPTIONS for more info.
+**NOTE**: DEALER can't `Surrender` their hand.
 
-NOTE: The Dealer can’t SURRENDER their hand.
+#### Split Hands
+
+Split Hands can be `Surrendered`, also only when their initial cards are first dealt.  When a Split Hand is `Surrendered`, the round continues as normal, in order to determine the outcome of the other Split Hands.  If the other Split Hands have `Stand` or their outcomes have been determined, then the round ends.
+
+#### Late Surrender
+
+By default, if DEALER's face up card is either an ACE or TEN-CARD, then DEALER will first `Peek` for a `NATURAL` before the Player can `Surrender`.  This is called a [LATE SURRENDER].  If the Dealer has a `NATURAL`, then the Player can’t `Surrender` their hand and they’ll automatically lose.
+
+#### Early Surrender
+
+An [EARLY SURRENDER] is when the Player can `Surrender` regardless if DEALER has a `NATURAL` or not.  If you want this option, you can choose the [“Early Surrender”](options-menu.md#early-surrender) setting in the Options Menu.  Click the link for more info.
 
 ## Charlie
 

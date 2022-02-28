@@ -16,6 +16,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - DOUBLE DOWN: An action only PLAYER can make.  Their Base Bet gets doubled and they are dealt only 1 more additional card.  Afterwards, the hand has to Stand.
 
+- EARLY SURRENDER: When PLAYER can Surrender their hand at the beginning of a hand, regardless if DEALER has a Natural or not.
+
 - GAME OVER: When the game app ends due to the PLAYER losing. Game Over occurs when PLAYER runs out of money in their bank or runs out of Trivia Credits in Trivia Mode. 
 
 - HAND: The cards that PLAYER and DEALER are dealt throughout the game.
@@ -28,9 +30,17 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - HOLE CARD: DEALER's face down card.  It's revealed to PLAYER when the game ends.
 
+- LATE SURRENDER: When PLAYER can only Surrender their hand after DEALER Peeks for a Natural.
+
+- NATURAL: Also referred to as "BLACKJACK".  When PLAYER or DEALER's initial 2 cards equal exactly 21 pts.  Only possible with an ACE and TEN-CARD.  PLAYER receives an increased Payout.
+
 - PAYOUT: The formula in which the Winnings are calculated from the PLAYER's bet amount.  Different Bet outcomes and Win Conditions will have different Payouts listed for them.
 
+- PEEK: An action DEALER takes when their initial face up card is either an ACE or TEN-CARD.  DEALER checks their Hole Card to see if they have a Natural.  If they do, the round ends.
+
 - PLAYER: The sole player of this game app
+
+- PUSH: When the outcome of a bet is a tie between PLAYER and DEALER.
 
 - RANK: The regular value of a card, basically its name.  For example: A 2 card has the rank of "2", a JACK has a rank of "JACK", etc.
 
@@ -51,6 +61,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 - STAND ON A (SOFT/HARD) ##: This is a shorthand phrase for when DEALER has to Stand during their turn.  ## represents the total hand value that DEALER needs to reach before they're forced to Stand.  What DEALER does when they have that exact total value, depends on if the phrase says SOFT or HARD.  If the phrase says HARD, DEALER is still allowed to Hit.  IF SOFT, then DEALER has to Stand.
 
 - SUIT: What grouping a card belongs to.  Either CLUBS, DIAMONDS, SPADES or HEARTS.
+
+- SURRENDER: An action only PLAYER can make.  At the beginning of any Hand or Split Hand, PLAYER can forfeit the hand and receive half of their Base Bet back.
 
 - TEN-CARD: A 10 pt value card.  Either a 10, JACK, QUEEN or KING.
 
