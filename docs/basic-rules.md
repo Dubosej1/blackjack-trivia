@@ -249,19 +249,69 @@ PLAYER can gain more Credits by answering questions of a certain difficulty.
 
 If PLAYER runs out of Trivia Credits, its GAME OVER.
 
-## Turning off Trivia Mode
+#### Turning off Trivia Mode
 
 By default, Trivia Mode is active.  But this can be changed with the ["Trivia Mode"](options-menu.md#trivia-mode) setting in the Options Menu.  Click the link for more info.
 
 When Trivia Mode is inactive, when PLAYER `Hits` or `Doubles Down`, they'll receive their card from DEALER like a regular game of Blackjack.
 
-H2: Soft Hands vs Hard Hands
+## Soft Hands and Hard Hands
 
-If you recall, an ACE can either be worth 1 pt or 11pts, depending on whichever point value brings the HAND’s total value closest to 21 pts.
+If you recall, an ACE can either be worth 1 pt or 11 pts, depending on PLAYER's choice.
 
-When a HAND has an ACE in it, the HAND is considered to be a SOFT hand, since the HAND can be worth 2 different total values (a HAND without an ACE in it is a HARD hand).  For example, if the Player’s HAND has a HEART ACE and CLUB 9, then the Player has a SOFT 20 HAND (Ace = 11 pts, 9 = 9 pts).
+#### Soft Hand
 
-If an ACE’s 11 pts will put a HAND over 21 pts, then the ACE will automatically be only worth 1 pt and the SOFT HAND will become a HARD HAND (since it can only be 1 total value now).  For example, if the Player’s HAND has a HEART ACE, CLUB 9 and a DIAMOND 4, then the PLAYER now has a HARD 14 HAND (Ace = 1 pt, 9 = 9 pts, 4 = 4pts).
+When a hand has an ACE in it, the hand is considered to be a [SOFT HAND], since the hand can be worth 2 different total values.
+
+When referring to a Soft Hand, the term "SOFT ##" is used, where ## is the higher of the 2 possible total values (when ACE = 11 pts).  For example, SOFT 13 or SOFT 17.
+
+>**Soft Hand Examples**:  
+>
+>>HAND: `ACE-SPADES`, `3-HEARTS`
+>>
+>>TOTAL: **4** (1 + 3) OR **14** (11 + 3)
+>>
+>>SOFT HAND: **SOFT 14**
+>
+>>HAND: `5-CLUBS`, `ACE-DIAMONDS`, `4-CLUBS`
+>>
+>>TOTAL: **10** (5 + 1 + 4) OR **20** (5 + 11 + 4)
+>>
+>>SOFT HAND: **SOFT 20**
+>
+>>HAND: `ACE-HEARTS`, `ACE-CLUBS`, `7-DIAMONDS`
+>>
+>>TOTAL: **18** (11 + 1 + 7) OR **9** (1 + 1 + 7)
+>
+
+#### Hard Hands
+
+If a hand doesn't have an ACE in it, it's considered to be a [HARD HAND], because there's only 1 possible total value.  Hard Hands have the same terminology as Soft Hands.  Example: HARD 7, HARD 20, etc.
+
+#### Changing from Soft to Hard
+
+Let's say PLAYER or DEALER `Hits` and their Soft Hand goes over 21 pts only when ACE = 11 pts.  Then their Soft Hand changes into a Hard Hand.  This is because now there's only 1 possible total value, instead of 2.
+
+If a hand includes multiple ACES, the hand will remain a Soft Hand as long as 1 of the ACES can still be worth 2 different values.
+
+>Soft to Hard Examples
+>
+>**Before `Hit`**:
+>
+>>HAND 1: `ACE-DIAMONDS`, `9-SPADES` **(SOFT 20)**
+>>
+>>HAND 2: `ACE-SPADES`, `ACE-HEARTS`, `7-CLUBS`  **(SOFT 18)**
+>>
+>>HAND 3: `ACE-CLUBS`, `10-DIAMONDS`, **(SOFT 21)**
+>
+>**AFTER `Hit`**
+>
+>>HAND 1: `ACE-DIAMONDS`, `9-SPADES` + `JACK-CLUBS` **(HARD 20)**
+>>
+>>HAND 2: `ACE-SPADES`, `ACE-HEARTS`, `7-CLUBS` + `8-SPADES`  **(HARD 17)**
+>>
+>>HAND 3: `ACE-CLUBS`, `10-DIAMONDS` + `KING-CLUBS` **(HARD 21)**
+>
 
 ## Dealer's Turn
 

@@ -20,6 +20,10 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - HAND: The cards that PLAYER and DEALER are dealt throughout the game.
 
+- HARD ##: A term referring to a Hard Hand.  ## is the total points of the hand.
+
+- HARD HAND: A hand with only 1 possible total value, because it doesn't have an ACE in it.
+
 - HIT: An action PLAYER and DEALER can make, to have 1 additional card dealt their hand.
 
 - HOLE CARD: DEALER's face down card.  It's revealed to PLAYER when the game ends.
@@ -31,6 +35,10 @@ This page collects all the terms that are used throughout the game app.  If you 
 - RESPLITTING: When a player splits a Split Hand.
 
 - SIDE BET: An additional bet that the PLAYER can place on the upcoming round, separate from the Base Bet.  It usually has its own set of rules and conditions, separate from the basic game rules.
+
+- SOFT ##: Term referring to a Soft Hand.  ## is the higher of the 2 possible total points of the hand, when ACE == 11 pts.
+
+- SOFT HAND: A hand with 2 possible total values, because it has an ACE in it.
 
 - SPLIT: An action only PLAYER can make.  If PLAYER's hand has 2 cards of the same rank, then PLAYER can split that hand to form 2 new split hands.
 
