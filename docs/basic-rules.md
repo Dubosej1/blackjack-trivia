@@ -315,17 +315,117 @@ If a hand includes multiple ACES, the hand will remain a Soft Hand as long as 1 
 
 ## Dealer's Turn
 
-After your turn is over, it’ll be the Dealer’s Turn to try to reach 21 pts.  The Dealer will only be able to HIT or STAND with their hand.  The Dealer can’t SPLIT or DOUBLE DOWN their HAND, as they’re not betting.  The Dealer also won’t be required to answer a Trivia Question when they HIT.
+After PLAYER's turn is over, it'll be DEALER's turn to try and reach a 21 pt hand.
 
-The Dealer has certain rules on when they can HIT or STAND with their hand.  By default, the Dealer has to STAND on a SOFT 17 HAND or greater.  For example, if the Dealer’s HAND total is under 17 pts, then the Dealer has to keep HITTING until their point total is 17 pts or above, then they have to STAND.  If the Dealer’s HAND has exactly 17 pts, then the Dealer has to STAND, even if their hand is SOFT.
+DEALER will only be able to `Hit` or `Stand` with their hand.  DEALER can't `Split`, `Double Down` or `Surrender` their hand.  DEALER will also not be required to answer a Trivia Question when they `Hit`.
 
-NOTE: The total value that the Dealer has to STAND on can be changed via the “Dealer Stands On” setting in the Options Menu.  The available options are HARD 16, SOFT 16, HARD 17 and SOFT 17 (default).  If the Dealer Stands on a HARD hand, that means that if the Dealer reaches that exact total value with a SOFT hand, then they can still hit.  See OPTIONS for more info.
+DEALER has to abide by certain rules on when they can `Hit` or `Stand` with their hand.  By default, DEALER has to `[STAND ON A SOFT 17]` Hand or greater.  If DEALER's hand total is less than 17, then they have to keep `Hitting` until their total points are at least 17.  Otherwise they `Stand`, regardless if their hand is SOFT or HARD.
 
-## End of the Round
+>**Example of DEALER `STANDS on SOFT 17`**:
+>
+>>HAND: `4-SPADES`, `ACE-CLUBS` **(SOFT 15)**
+>>
+>>**DEALER `HITS`**
+>>
+>>HAND: `5-SPADES`, `ACE-CLUBS` + `2-DIAMONDS` **(SOFT 17)**
+>>
+>>**DEALER `STANDS`**
 
-Once the Dealer STANDS, the round ends.  The Dealer’s face down card will be revealed to the Player and the HAND totals will be calculated.  If the Player’s HAND total beats the Dealer’s HAND total without BUSTING, then the Player’s HAND wins and receives a 2:1 payout of the Base Bet.  If the Dealer’s HAND beats the Player’s HAND, then the Player loses and receives nothing.
+The total hand value that DEALER has to `Stand` on can be changed via the [“Dealer Stands On”](options-menu.md#dealer-stands-on) setting in the Options Menu.  The available options are `HARD 16`, `SOFT 16`, `HARD 17` and `SOFT 17` (default).  Click the link for more info.
 
-If the Player has SPLIT HANDs, then each HAND receives a separate payout based on if it wins or loses.  For example, your 1st Split Hand can win a 2:1 payout and your 2nd Split Hand can lose and receive nothing.
+If DEALER `Stands on a Hard Hand`, that means that if DEALER reaches that exact total value with a SOFT hand, they are still allowed to `Hit`.
+
+>**Example of DEALER `STANDS on HARD 16`**:
+>
+>>HAND: `3-DIAMONDS`, `ACE-SPADES` **(SOFT 14)**
+>>
+>>**DEALER `HITS`**
+>>
+>>HAND: `3-DIAMONDS`, `ACE-SPADES` + `2-DIAMONDS` **(SOFT 16)**
+>>
+>>**DEALER `HITS`**
+>>
+>>HAND: `3-DIAMONDS`, `ACE-SPADES`, `2-DIAMONDS` + `9-DIAMONDS` **(HARD 15)**
+>>
+>>**DEALER `HITS`**
+>>
+>>HAND: `3-DIAMONDS`, `ACE-SPADES`, `2-DIAMONDS`, `9-DIAMONDS` + `5-HEARTS` **(HARD 20)**
+>>
+>>**DEALER `STANDS`**
+
+## Payouts and Winnings
+
+#### Winnings
+
+[WINNINGS] is the money PLAYER will receive for a successful bet outcome.  Winnings are calculated from PLAYER's Bet amount and from the Payout.
+
+
+#### Payouts
+
+[PAYOUT] is the formula used to calculate the Winnings from the Bet amount.
+
+Payout is usually determined from the outcome of PLAYER's bet.  Different bet outcomes will have different Payouts attached to them, which will be listed in the rules and documentation.
+
+Payout can also be determined from the way in which PLAYER won a bet.  These different ways of winnings a bet are called the bet's [WIN CONDITIONS].  Different Win Conditions will typically have different Payouts attached to them.
+
+#### How to calculate Winnings from Payouts
+
+Typically, Payouts will be in the form of a ratio.  For example: 1:1, 2:1, 3:2, etc.
+
+To calculate the winnings: 
+
+1. First turn the ratio into a fraction.  For example: 1:1 = 1/1, 3:2 = 3/2.  
+
+2. Then multiply the Bet amount by the fraction.  For example: $100 x 3/2 (or 1.5 as a decimal) = $150.
+
+Another method of calculating the winnings:
+
+1. Take the Bet amount and divide it by the 2nd number in the Payout ratio.  For example: If the Bet amount is $100 and the Payout is 3:2, $100 / 2 = $50.
+
+2. Multiply the sum by the 1st number in the Payout ratio.  From the example in #1: $50 x 3 = $150.
+
+Most of the time, the bet is also returned to PLAYER, in addition to the Winnings they've earned.  So typically, the returned bet is lumped into the overall Winnings amount for PLAYER.  When calculating Winnings, also add the bet amount to the final sum.  That is the 3rd and final step in both of the above methods.
+
+>:warning: **WARNING**:
+>Some Side Bets and Payouts don't return the bet to PLAYER.  This will always be listed in the rules for the Side Bet and Payout.
+
+>**Examples of Payouts and Winnings**
+>
+>>Bet Amount: $100, Payout: 5:1
+>>
+>>Winnings: $600   
+>>````
+>>Calc Method 1: $100 * (5/1) + $100 = $600  
+>>````
+>>````
+>>Calc Method 2: ($500 / 1) * 5 + $100 = $600  
+>>````
+>
+>>Bet Amount: $50, Payout: 6:5
+>>
+>>Winnings: $110
+>>````
+>>Calc Method 1: $50 * (6/5) + $50 = $110
+>>````
+>>````
+>>Calc Method 2: ($50 / 5) * 6 + $50 = $110
+>>````  
+
+## Ending Round Outcomes and Payouts
+
+When DEALER's turn is over or DEALER's turn is skipped, the round ends.  At this point, DEALER's Hole Card will be revealed to PLAYER.  
+
+The point totals of PLAYER's hand and DEALER's hand will then be matched up against each other.  This will determine the winner of the round.
+
+
+
+
+  Depending on the outcome of this matchup, PLAYER may receive [WINNINGS] 
+
+
+  If PLAYER's hand total beats DEALER's hand total without BUSTING, then PLAYER's hand wins and receives [WINNINGS] (money received for a successful bet outcome).  If the DEALER's hand total beats PLAYER's hand total, then PLAYER's hand loses and receives nothing.
+
+If PLAYER has Split Hands, then each Split Hand receives a separate payout based on if it wins or loses.  For example, your 1st Split Hand can win a 2:1 payout and your 2nd Split Hand can lose and receive nothing.
 
 ## Push
 

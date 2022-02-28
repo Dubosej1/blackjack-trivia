@@ -28,6 +28,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - HOLE CARD: DEALER's face down card.  It's revealed to PLAYER when the game ends.
 
+- PAYOUT: The formula in which the Winnings are calculated from the PLAYER's bet amount.  Different Bet outcomes and Win Conditions will have different Payouts listed for them.
+
 - PLAYER: The sole player of this game app
 
 - RANK: The regular value of a card, basically its name.  For example: A 2 card has the rank of "2", a JACK has a rank of "JACK", etc.
@@ -46,6 +48,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - STAND: An action PLAYER and DEALER can make, to end any further actions on their current hand.
 
+- STAND ON A (SOFT/HARD) ##: This is a shorthand phrase for when DEALER has to Stand during their turn.  ## represents the total hand value that DEALER needs to reach before they're forced to Stand.  What DEALER does when they have that exact total value, depends on if the phrase says SOFT or HARD.  If the phrase says HARD, DEALER is still allowed to Hit.  IF SOFT, then DEALER has to Stand.
+
 - SUIT: What grouping a card belongs to.  Either CLUBS, DIAMONDS, SPADES or HEARTS.
 
 - TEN-CARD: A 10 pt value card.  Either a 10, JACK, QUEEN or KING.
@@ -55,3 +59,7 @@ This page collects all the terms that are used throughout the game app.  If you 
 - TRIVIA MODE: The game mode where PLAYER has to answer a Trivia Question, whenever they Hit or Double Down.
 
 - VALUE (Card): A number that is how much a card is worth in Blackjack's scoring system.  Based on a card's rank.
+
+- WIN CONDITION: A way in which a PLAYER can win a bet.  
+
+- WINNINGS: The money won from a successful bet outcome.  Calculated from the PLAYER's bet amount and the PAYOUT for the Bet outcome or Win Condition fulfilled.
