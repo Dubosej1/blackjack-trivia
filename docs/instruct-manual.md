@@ -1,32 +1,39 @@
 # Game Instruction Manual
 
--Starting The Game
+## Starting The Game
 
 <pic of beginning screen>
 
-When you first open the app, press the [Start New Game] button in the “Game Message Field”, in the middle of the screen.  Before you start the game, you can change the game settings in the “Options Menu” via the [Options] button at the top of the screen.
+When you first open the app, press the `[Start New Game]` button in the “GAME MESSAGE FIELD”, in the middle of the screen.  
 
--Placing your bets
+Before you start the game, you can change the game settings in the “OPTIONS MENU” via the `[Options]` button at the top of the screen.
 
-H2: Base Bet
+## Placing your bets
+
+#### Base Bet
 
 <pic of the Base Bet Menu>
 
-When you press the [Start New Game] button, the round begins and the “Base Bet Menu” appears on screen.  Here you can place a “Base Bet”, a bet on whether you can beat the Dealer in the current round of Blackjack.  The “Bank Field” shows how much money you currently have in your “BANK”, which is where the money for your bets will come from.
+When you press the `[Start New Game]` button, the round begins and the “BASE BET MENU” appears on screen.  Here you can place a [BASE BET].  
+
+The “BANK FIELD” shows how much money you currently have in your [BANK].
+
+See ["Betting: Base Bet"](basic-rules.md#base-bet) in the Basic Rules Page for more info on Base Bet and PLAYER's Bank. 
 
 <pic of Chip Buttons>
 
-Use the [Chip] buttons to add money to the “Base Bet”.  The “Current Base Bet” field will increase as you add chip amounts, and the “Bank field” will decrease.
+Use the `[Chip]` buttons to add money to the Base Bet.  The “CURRENT BASE BET FIELD” will increase as you add chip amounts, and the “BANK FIELD” will decrease.
 
-Use the [Clear Bet] button to clear the “Current Base Bet” and reset all fields back to default.
+Use the `[Clear Bet]` button to clear the Current Base Bet and reset all fields back to default.
 
-If you want to place any side bets for the current round, press the [Side Bet Menu] button to open the menu.  
+If you want to place any [SIDE BETS] for the current round, press the `[Side Bet Menu]` button to open the "SIDE BET MENU".  See the ["Side Bets"](side-bet-rules.md) section of the documentation for more info.
 
-After you have placed some side bets, you can press the [Side Bets Placed] button to open the “Side Bets Placed” Menu.  This menu lists all the side bets you placed and their bet amounts.  The [Side Bets Placed] button itself will show the total money amount of all the side bets placed.
+After you have placed some Side Bets, you can press the `[Side Bets Placed]` button to open the “SIDE BETS PLACED SCREEN".  This screen lists all the Side Bets you placed and the amount of money you put on them.  The `[Side Bets Placed]` button itself will show the total money amount of all the Side Bets placed.
 
-NOTE: If you have the “Side Bets” Option set to OFF, the [Side Bet Menu] and [Side Bets Placed] buttons won’t be displayed.
+>:warning: **WARNING**:
+> If you have the “Side Bets” Option set to OFF, the [`Side Bet Menu]` and `[Side Bets Placed]` buttons won’t be displayed.  See the ["Side Bets"](options-menu.md#side-bets) section in the Options Menu documentation for more info.
 
-When you are done placing your “Base Bet”, press the [Deal Cards] button to close the menu and start the game.
+When you are done placing your Base Bet, press the `[Deal Cards]` button to close the menu and start the game.
 
 H2: Side Bets
 
