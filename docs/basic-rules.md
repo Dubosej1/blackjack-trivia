@@ -207,15 +207,53 @@ If Resplitting is allowed, PLAYER is allowed to resplit up to a maximum total of
 
 ## Bust
 
-If your HAND has over 21 pts, then your Hand will BUST.  When this happens, the round will immediately end and Player’s HAND loses the round.  The Dealer’s HAND can also BUST, and they will lose the round.
+Whenever a hand goes over 21 total pts, then that hand is a [BUST].
 
-If a Player’s split hand BUSTS, then the round will continue as normal unless all split hands BUSTS, then the round immediately ends.
+If PLAYER's hand BUSTS, then the round immediately ends and PLAYER automatically loses.  DEALER doesn't play their turn.
 
-## Trivia Question
+DEALER's hand can also BUST.  When this happens, normally it's an automatic loss for DEALER.
 
-In normal play, whenever you HIT or DOUBLE DOWN, you will be asked a Trivia Question.  If you successfully answer the Trivia Question, then the Dealer will deal you the card.  If you get the question wrong, then you will automatically STAND and it’ll be the Dealer’s Turn.  See the TRIVIA section for more info about this.
+If a PLAYER's Split Hand BUSTS, it's an automatic loss for that hand.  However, the round still continues as normal, in order to determine the outcomes of the other Split Hands.  If all the other Split Hands already have an outcome determined (such as BUST, CHARLIE or SURRENDER), then the round ends and DEALER's turn is skipped.
 
-NOTE: You can turn the Trivia Question feature off with the “Trivia Mode” setting via the Options Menu.  See OPTIONS for more info.
+>:warning: **WARNING**:  
+>When a Split Hand and DEALER's hand both BUST, then that Split Hand will still lose.
+
+## Trivia Mode
+
+In this game app, whenever PLAYER `Hits` or `Doubles Down`, they will be asked a Trivia Question.  
+
+If they correctly answer the Question, then DEALER will deal them the card.  If they answer incorrectly, their hand will automatically `Stand`.
+
+By default, Trivia Mode is active.  But this can be changed
+
+#### Question Types
+
+PLAYER can select the difficulty of the question they have to answer, either EASY, MEDIUM or HARD.  There are bonuses for answering MEDIUM and HARD difficulty questions.  See the next subsection "Trivia Credits" for more info.
+
+The question is chosen at random from a variety of different categories.  They can either be a Multiple Choice question or True/False question.
+
+
+#### Trivia Credits
+
+Trivia Mode has its own point system named [TRIVIA CREDITS].  PLAYER starts out with 10 Credits.
+
+PLAYER loses 1 Credit for every incorrect answer.
+
+PLAYER can gain more Credits by answering questions of a certain difficulty.
+
+- EASY questions earn no Credits
+
+- MEDIUM questions earn 1 Credit
+
+- HARD questions earn 5 Credits
+
+If PLAYER runs out of Trivia Credits, its GAME OVER.
+
+## Turning off Trivia Mode
+
+By default, Trivia Mode is active.  But this can be changed with the ["Trivia Mode"](options-menu.md#trivia-mode) setting in the Options Menu.  Click the link for more info.
+
+When Trivia Mode is inactive, when PLAYER `Hits` or `Doubles Down`, they'll receive their card from DEALER like a regular game of Blackjack.
 
 H2: Soft Hands vs Hard Hands
 

@@ -8,6 +8,10 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - BASE BET: The bet PLAYER makes on whether they can win the upcoming round of Blackjack.
 
+- BUST: When a hand goes over 21 total pts.
+
+- CREDIT: See TRIVIA CREDIT.
+
 - DEALER: A CPU controlled player that you are playing against.  DEALER deals the cards to itself and PLAYER throughout the game.
 
 - DOUBLE DOWN: An action only PLAYER can make.  Their Base Bet gets doubled and they are dealt only 1 more additional card.  Afterwards, the hand has to Stand.
@@ -38,4 +42,8 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - TEN-CARD: A 10 pt value card.  Either a 10, JACK, QUEEN or KING.
 
-- VALUE: A number that is how much a card is worth in Blackjack's scoring system.  Based on a card's rank.
+- TRIVIA CREDIT: The point system used in Trivia Mode.  If PLAYER runs out of credits, it's GAME OVER.
+
+- TRIVIA MODE: The game mode where PLAYER has to answer a Trivia Question, whenever they Hit or Double Down.
+
+- VALUE (Card): A number that is how much a card is worth in Blackjack's scoring system.  Based on a card's rank.
