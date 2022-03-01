@@ -414,85 +414,117 @@ If you SURRENDER a split hand, then the round will continue as normal.  When the
 >
 >See the ["Late Surrender"](options-menu.md) section in the Options Menu documention for more info about this setting.  
 
--TRIVIA SECTION
--Overview
-Whenever the Player HITs or DOUBLE DOWNs, they will have to answer a Trivia Question in order to complete the action.
+## TRIVIA SECTION
 
-Trivia Questions can be in a variety of categories across 3 difficulty levels: EASY, MEDIUM and HARD.  Questions can be either Multiple Choice or True/False (Boolean Choice).
+#### Overview
 
-The Player starts out with 10 Trivia Credits.  You lose 1 Credit for every Trivia Question answered incorrectly.  You can gain more credits by successfully answering MEDIUM and HARD Trivia Questions.  MEDIUM Questions are worth 1 credit and HARD Questions are worth 5 credits.  
+Whenever PLAYER `HITS` or `DOUBLES DOWN`, they will have to answer a Trivia Question in order to complete the action.
 
-Answer the Question correctly, and the Dealer adds an additional card to the Player’s HAND.  Answer incorrectly, and the Player’s HAND automatically STANDS.
+See ["Trivia Mode"](basic-rules.md#trivia-mode) in the Basic Rules Section for more about this mode.
 
-If you run out of Trivia Credits, it’s GAME OVER.
+#### Select Trivia Difficulty Screen
 
--Select Trivia Difficulty Screen
+When you first press the `[HIT]` or `[DOUBLE DOWN]` button, the "SELECT TRIVIA DIFFICULTY SCREEN" will be displayed.
 
-When you press the [HIT] or [DOUBLE DOWN] button, the “Select Trivia Difficulty” screen will be displayed.  
+The "CURRENT TRIVIA CREDITS FIELD" displays the current amount of [TRIVIA CREDITS] PLAYER has.
 
-The “Current Trivia Credits” field displays the number of credits you currently have.
+You can select the difficulty level of the upcoming Trivia Question, by pressing either the `[EASY]`, `[MEDIUM]` or `[HARD]` buttons.
 
-Select the difficulty level for the trivia question by pressing either the [EASY], [MEDIUM] or [HARD] buttons.
+There are different benefits for selecting the different difficulties.  See ["Trivia Credits"](basic-rules.md#trivia-credits) for more info.
 
--Trivia Question Screen
+#### Trivia Question Screen
 
-After selecting the Trivia Difficulty, the “Trivia Question Screen” will be displayed.
+After selecting the Trivia Difficulty, the “TRIVIA QUESTION SCREEN” will be displayed.  Here you'll see the Trivia Question you have to answer, along with any information about it.
 
-The “Current Trivia Credits” field displays the number of credits you currently have.
+##### Trivia Info Fields
 
-The “Category” field displays the category of the Trivia Question.
+At the top of the screen, info about the Trivia Question will be displayed.
 
-The “Difficulty” field displays the difficulty level of the Trivia Question.
+The “CURRENT TRIVIA CREDITS FIELD” displays the number of credits PLAYER currently has.
 
-The “Question” field displays the Current Trivia Question.
+The “CATEGORY FIELD" displays the category of the Trivia Question.
 
-If the Trivia Question is Multiple Choice, the “Answer Table” field will be displayed.  The Multiple Choice answers will be displayed here, along with their corresponding letter A - D.
+The “DIFFICULTY FIELD" displays the difficulty level of the Trivia Question.
 
-The [ANSWER] buttons will be displayed at the bottom of the screen.  If the Question is a Multiple Choice question, The [A], [B], [C], [D] buttons will be displayed.  If the Question is a Boolean Choice question, then the [TRUE]  and [FALSE] buttons will be displayed instead.
+##### The Trivia Question
+
+Here you'll see the Trivia Question, the possible answers for it, and the answer buttons.
+
+The “QUESTION FIELD" displays the Trivia Question you have to answer.
+
+The "ANSWER TABLE" will be displayed if the Trivia Question is Multiple Choice.  The Multiple Choice Answers will be displayed here, along with their corresponding letters A - D.
+
+The `[Answer]` buttons will be displayed at the bottom of the screen.  If the Question is a Multiple Choice question, The `[A]`, `[B]`, `[C]`, `[D]` buttons will be displayed.  If the Question is a True/False question, then the `[True]`  and `[False]` buttons will be displayed instead.
+
+##### Correct Trivia Answer
 
 <display a correctly answered question>
 
-When you select the correct answer, “CORRECT ANSWER” will be displayed in green letters at the top of the screen.  The [ANSWER] button you pressed will also turn green.  If you answered a MEDIUM or HARD question, then a green marker will be displayed next to the “Trivia Credits” field, showing how many credits you earned.
+When you select the correct answer, *“CORRECT ANSWER”* will be displayed in green letters at the top of the screen.  The `[Answer]` button you pressed will also turn green.  
+
+If you answered a MEDIUM or HARD question, then a green marker will be displayed next to the “TRIVIA CREDITS FIELD", showing how many credits you earned.
 
 <display an incorrectly answered question>
 
-When you select an incorrect answer, “INCORRECT ANSWER” will be displayed in red letters at the top of the screen.  The [ANSWER] button you pressed will turn red, while the [ANSWER] button of the Correct Answer will turn green.  A red marker will be displayed next to the “Trivia Credits” field, showing that you lost 1 credit.
+When you select an incorrect answer, *“INCORRECT ANSWER”* will be displayed in red letters at the top of the screen.  The `[Answer]` button you pressed will turn red, while the `[Answer]` button of the Correct Answer will turn green.  
 
-Regardless of what answer you selected, the “Correct Answer” field will be revealed at the very bottom of the screen, showing the Correct Answer.
+A red marker will be displayed next to the “TRIVIA CREDITS SCREEN", showing that you lost 1 credit.
 
-After 5 seconds, the Trivia Question Screen will close by itself and the round will continue.  If you answered the question correctly, the Dealer will add a card to your HAND.  If you answered incorrectly,  your HAND will automatically STAND.
+##### Correct Answer Field
 
--Dealer’s Turn
+Regardless of what answer you selected, the “CORRECT ANSWER FIELD" will be revealed at the very bottom of the screen, showing the Correct Answer.
+
+After 5 seconds, the "TRIVIA QUESTION SCREEN" will close by itself and the round will continue.  If you answered the question correctly, DEALER will add a card to your HAND.  If you answered incorrectly,  your [HAND] will automatically `Stand`.
+
+## Dealer’s Turn
 
 <pic of the Dealer’s Turn>
 
-When the Player’s Turn is over, the Dealer begins their turn.  “Dealer’s Turn” will be displayed in the “Dealer Message Field”.
+When PLAYER's Turn is over, DEALER begins their turn.  *“Dealer’s Turn”* will be displayed in the “DEALER MESSAGE FIELD”.
 
-The Dealer only has 2 available actions: [HIT] and [STAND].  The Dealer chooses an action based on the total points in their HAND and the “Dealer Stands On” setting in the OPTIONS MENU.  See the DEALER’S TURN section in BLACKJACK TRIVIA BASIC RULES for more info.
+DEALER only has 2 available actions: `[HIT]` and `[STAND]`.  The Dealer chooses an action based on the total points in their [HAND] and the “Dealer Stands On” setting in the OPTIONS MENU.
 
-When the Dealer HITs, “Hitting” will be displayed in the “Dealer Message Field”.
+See ["Dealer's Turn"](basic-rules.md#dealer39s-turn) in the Basic Rules section and ["Dealer Stands On"](options-menu.md) in the Options Menu section for more info about these topics.
 
-When the Dealer STANDs, “Stand” will be displayed in the “Dealer Message Field” and the round ends.
+When DEALER `Hits`, *“Hitting”* will be displayed in the “DEALER MESSAGE FIELD”.
 
-The Dealer’s HAND can BUST or have a CHARLIE.  When that happens, the condition will be displayed in the “Dealer Message Field” and the round ends.  See the BUST and CHARLIE sections in BLACKJACK TRIVIA BASIC RULES for more info.
+When DEALER `Stands`, *“Stand”* will be displayed in the “DEALER MESSAGE FIELD” and the round ends.
 
--End of the Round
+DEALER's Hand can [BUST] or have a `[CHARLIE]`.  When that happens, the condition will be displayed in the “DEALER MESSAGE FIELD” and the round ends.  See ["Bust"](basic-rules.md#bust) and ["Charlie"](basic-rules.md#charlie) in the Basic Rules section for more info.
 
-When the Player and Dealer turns have ended, the round is over.
+## End of the Round
 
-The “Round Outcome” screen is then displayed.  This screen displays whether the Player’s hand WINS, LOSES, is a PUSH or NATURAL, or the hand has been SURRENDERED.  If the Player has split hands, then the outcome of each hand will be listed separately.  A brief description of the outcome and any winnings from the outcome will also be displayed.  See ROUND OUTCOME SCREEN for more info.
+When PLAYER and DEALER's turns have ended, the round is over.  Then a series of processes occurs, to display the various outcomes of the round.
 
-If the Player has certain Side Bets active, then the “Side Bet Outcome” screen will be displayed.  This screen shows the outcome of these Side Bets and any winnings from the outcome that you will receive.  See SIDE BET OUTCOME SCREEN for more info.
+**Round Outcome Screen**
 
-Finally the “Total Winnings” screen will be displayed.  This screen simply shows the total amount of money you won in this round.  Pressing the [CLOSE] button will close the screen.
+The “ROUND OUTCOME SCREEN" is first displayed.  This screen displays whether the PLAYER's [HAND] WINS, LOSES, is a [PUSH] or `[NATURAL]`, or the hand has been `[SURRENDERED]`.  
 
-Also at the bottom of this screen is the [WIN SUMMARY] button, which will display the “Win Summary” screen.  This screen lists all of the various HAND and SIDE BET outcomes from the round, along with any winnings you received from them.  See WIN SUMMARY SCREEN for more info.
+If the Player has split hands, then the outcome of each hand will be listed separately.  A brief description of the outcome and any winnings from the outcome will also be displayed.  
 
--Starting the Next Round
+See the ["Round Outcome Screen"](#round-outome-screen) section of this page for a more in-depth look of this screen.
 
-After pressing the [CLOSE] button on the “Total Winnings” screen, you’ll be brought back to the “Main Game” Screen.  The [START NEW ROUND] button will be displayed in the “Game Message” field.  Pressing the button to open up the “Base Bet Menu’, where you can place your bets for the new round.
+**Side Bet Outcome**
 
-The [OPTIONS] button will also be displayed near the top of the screen, where you can change any game settings before starting the new round.
+If PLAYER has certain [SIDE BETS] active, then the “SIDE BET OUTCOME” screen will be displayed.  This screen shows the outcome of these Side Bets and any [WINNINGS] from the outcome that you will receive.  
+
+See the ["Side Bet Outcome Screen"](#side-bet-outcome-screen) section of this page for a more in-depth look of this screen.
+
+#### Total Winnings
+
+Finally the “TOTAL WINNINGS" screen will be displayed.  This screen simply shows the total amount of money you won in this round.  Pressing the `[Close]` button will close the screen.
+
+Also at the bottom of this screen is the `[Win Summary]` button, which will display the “WIN SUMMARY SCREEN".  This screen lists all of the various Hand and Side Bet outcomes from the round, along with any winnings you received from them.  
+
+See the ["Win Summary Screen"](#win-summary-screen) section of this page for a more in-depth look at this screen.
+
+## Starting the Next Round
+
+After pressing the `[Close]` button on the “TOTAL WINNINGS SCREEN", you’ll be brought back to the “GAME FIELD".  
+
+The `[Start New Round]` button will be displayed in the “GAME MESSAGE FIELD".  Pressing the button to open up the “BASE BET MENU’, where you can place your bets for the new round.
+
+The `[Options]` button will also be displayed near the top of the screen, where you can change any game settings before starting the new round.
 
 -Decide SIde Bets Screen
 
