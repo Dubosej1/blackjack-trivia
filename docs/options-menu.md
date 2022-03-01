@@ -1,108 +1,167 @@
 # OPTIONS MENU SECTION
 
-Pressing the [OPTIONS] Button on the main screen, will bring you to the OPTIONS MENU.  Here you can change a variety of settings for the game.  
+## Options Menu Actions
 
-If you have changed some settings, you can press the [APPLY OPTIONS] button to confirm the changes and apply them to the game. This will close the OPTIONS MENU afterwards.
+Pressing the `[Options]` button on the "GAME FIELD SCREEN", will bring you to the "OPTIONS MENU".  Here you can change a variety of settings for the game.  
 
-If you want to reset the settings back to their default values, press the [RESET OPTIONS TO DEFAULT] button. You have to press the [APPLY OPTIONS] button afterwards to confirm the reset values.
+If you have changed some settings, you can press the `[Apply Options]` button to confirm the changes and apply them to the game. This will close the "OPTIONS MENU" afterwards.
 
-If you want to exit the OPTIONS MENU without making any changes, press the [CLOSE] button.
+If you want to `RESET` the settings back to their default values, press the `[Reset Options To Default]` button. You have to press the `[Apply Options]` button afterwards to confirm the newly reset values.
 
--TRIVIA MODE setting
-Trivia mode is when a trivia question is given to the PLAYER, whenever they press the [HIT] or [DOUBLE DOWN] buttons.  You can toggle this setting ON or OFF.  By default, it’s turned ON.
+If you want to exit the "OPTIONS MENU" without making any changes, press the `[Close]` button.
 
-See TRIVIA SECTION in Blackjack Trivia Instructions for more info
+## Options Menu Settings
 
--SIDE BETS Setting
+This section will cover all of the various settings in the "OPTIONS MENU".
 
-When the SIDE BETS setting is turned ON, the PLAYER has access to the “Side Bets Menu”, so they’re able to place side bets.  You can toggle this setting ON or OFF.  By defaut, it’s turned ON.
+### Trivia Mode
 
-NOTE: Turning the setting OFF will NOT affect the INSURANCE and EVEN MONEY Side Bets, as they’re considered core side bets.  They have separate settings that deal with them.
+[TRIVIA MODE] is when a Trivia Question is given to PLAYER, whenever they press the `[Hit]` or `[Double Down]` buttons.  You can toggle this setting `ON` or `OFF`.  
 
-See the SIDE BETS section in the Blackjack Trivia Instructions for more info
+By DEFAULT, it’s turned `ON`.
 
--BLACKJACK PAYOUT Setting
+See ["Trivia Mode"](basic-rules#trivia-mode) in the Basic Rules section for more info
 
-When a player gets a NATURAL, they’ll receive a higher payout than normal.  This setting can change what that special payout will be.  Your options are “2:1”, “3:2” or “6:5”.  The default payout is “3:2”.  
+### Side Bets
 
-See the NATURAL and PAYOUT sections in Blackjack Trivia Basic Rules for more info.
+When this setting is turned `ON`, PLAYER has access to the “SIDE BETS MENU” during the round, so they’re able to place [SIDE BETS].  You can toggle this setting `ON` or `OFF`.  
 
--DEALER STANDS ON Setting
+By DEFAULT, it’s turned `ON`.
 
-The Dealer has to STAND when their HAND’s point total reaches a certain amount.  This setting changes what that point total is.  Your options are “SOFT 16”, “HARD 16”, “SOFT 17” and “HARD 17”.  By default, the Dealer STANDS on “SOFT 17”.
+See the ["Side Bets"](side-bet-rules.md) section in the documentation for more info on Side Bets.
 
-See the SOFT HANDS AND HARD HANDS and DEALER’S TURN sections of the Blackjack Trivia Basic Rules for more info.
+>:warning: **WARNING**:  
+>Turning the setting `OFF` will **NOT** affect the [INSURANCE] and [EVEN MONEY] Side Bets, as they’re considered [CORE SIDE BETS].  
+>
+>See ["Disable Insurance Side Bet"](#disable-insurance-side-bet) and ["Disable Even Money Side Bet"](#disable-even-money-side-bet) on this page, if you want to handle those particular Side Bets.
 
--NUMBER OF DECKS USED Setting
 
-Blackjack Trivia can be played with multiple 52 card decks shuffled together.  This setting determines how many decks the game will be played with.  You can play from 1 deck to 8 decks.  The default is 6 decks.
+### Blackjack Payout
 
--DISABLE 5 CARD CHARLIE
+When PLAYER gets a `NATURAL`, they’ll receive a higher [PAYOUT] than normal.  This setting can change what that increased Payout will be.  Your options are `2:1`, `3:2` or `6:5`.  
 
-In normal play, if the PLAYER or DEALER’s Hand reaches 5 cards without going over 21 pts, their hand will be a CHARLIE and they automatically win.  You can disable this feature by checking this setting. 
-When disabled, a HAND can gain up to a maximum of 7 cards.  The HAND will still be considered a CHARLIE at those higher card counts.
+The DEFAULT payout is `3:2`.  
 
-NOTE: Certain Side Bets can disable 5 Card Charlie.  That will be noted in their rules
+See ["NATURAL"](basic-rules.md#natural) and ["Payouts"](basic-rules.md#payouts)  in the Basic Rules section for more info.
 
--SPLITTING ANY 10 pt VALUE CARD Setting
+### Dealer Stands On
 
-In normal play, the PLAYER can only SPLIT a hand if the 2 cards have the same “card” value.  When you check this setting, then the PLAYER can SPLIT any two 10-pt value cards, regardless if they’re different card values.
+DEALER has to `Stand` when their [HAND] point total reaches a certain amount (referred to by the phrase `DEALER STANDS ON`).  This setting changes what that point total is.  Your options are `SOFT 16`, `HARD 16`, `SOFT 17` and `HARD 17`.  
 
--DOUBLE DOWN AFTER SPLIT Setting
+By DEFAULT, the DEALER `STANDS on SOFT 17`.
 
-In normal play, the PLAYER can’t DOUBLE DOWN an already SPLIT HAND.  When you check this setting, the PLAYER can DOUBLE DOWN on SPLIT HANDS.  This setting won’t work if the PLAYER SPLIT two ACES.
+See the ["SOFT HANDS AND HARD HANDS"](basic-rules#soft-hands-and-hard-hands) and ["Dealer's Turn"](basic-rules#dealer39s-turn) sections of the Basic Rules page for more info.
 
--SPLITTING ACES ALLOWED Setting
+### Dealer Stands On
 
-In normal play, the PLAYER can’t SPLIT two ACES.  When you check this setting, the PLAYER can SPLIT two ACES.  This setting won’t  work on resplit hands, only on a SPLIT from the initial hand.
+Blackjack Trivia can be played with multiple 52 card decks shuffled together.  This setting determines how many decks the game will be played with.  You can play from 1 deck to 8 decks.  
 
--DOUBLE DOWN AFTER SPLITTING ACES Setting
+The DEFAULT is `6 decks`.
 
-When checking this setting, the PLAYER will be able to DOUBLE DOWN a split hand that was SPLIT from two ACES.
+### Disable Five Card Charlie
 
-NOTE: Checking this setting will also check the “Double Down After Split” and “Splitting Aces” settings.
+By DEFAULT, if PLAYER or DEALER’s [HAND] reaches 5 cards without going over 21 pts, their Hand will be a `FIVE CARD CHARLIE` and they automatically win.  You can `Disable` this feature by checking this setting.  
 
--DRAW ONLY 1 CARD AFTER SPLITTING ACES Setting
+When `Disabled`, a Hand can gain up to a maximum of 7 cards.  The Hand will still be considered a `CHARLIE` at those higher card counts.
 
-When checking this setting, after the PLAYER SPLITS two ACES and each split hand receives their 2nd card, the hands will both STAND.  The Player won’t be allowed to receive any additional cards for them.
+See ["Charlie"](basic-rules.md#charlie) in the Basic Rules section for more info.
 
-NOTE: Checking this setting will also check the “Splitting Aces” Setting.
+>**NOTE**: Certain [SIDE BETS] can disable 5 Card Charlie.  That will be noted in their rules
 
--RE-SPLITTING ALLOWED Setting
+### Splitting Any Ten-Card
 
-In normal play, the PLAYER is only allowed to SPLIT their HAND once  Checking this setting will allow the PLAYER to SPLIT additional hands, which is called “Re-Splitting”.  The Player can resplit up to a maximum of 4 total hands.
--RE-SPLITTING ACES ALLOWED Setting
+By DEFAULT, PLAYER can only `Split` a hand if the 2 cards have the same [RANK].  When you `Enable` this setting, PLAYER can `Split` any 2 [TEN-CARDS], regardless if they’re different card Ranks.
 
-When checking this setting, if a Player’s SPLIT HAND has 2 ACES, the PLAYER will be allowed to SPLIT that hand.
+See ["Splitting Cards With the Same Rank vs Point Value"](basic-rules.md#splitting-cards-with-the-same-rank-vs-point-value) in the Basic Rules section for more info.
 
-NOTE: Checking this setting also checks the “Re-splitting” and “Splitting Aces” setting.
+### Double Down After Split
 
--RE-SPLITTING AFTER SPLIT ACES ALLOWED Setting
+By DEFAULT, PLAYER can’t `Double Down` an already [SPLIT HAND].  When you `Enable` this setting, PLAYER can `Double Down` on Split Hands.  
 
-When checking this setting, if the PLAYER SPLITS 2 ACES, they’ll be allowed to resplit the split hands.
+See ["Double Down"](basic-rules.md#double-down) and ["Split"](basic-rules.md#split) in the Basic Rules section for more info on these actions.
 
-NOTE: Checking this setting also checks the “Re-splitting” and “Splitting Aces” setting.
+>:warning: **WARNING**:  
+>This setting won’t work if PLAYER can't `Split` 2 ACES.
+>
+>See ["Splitting Aces"](basic-rules.md#splitting-aces) in the Basic Rules for more info.
 
--DISABLE SURRENDER Setting
+### Splitting Aces Allowed
 
-In normal play, the PLAYER is allowed to SURRENDER their hand.  Checking this setting will disable the PLAYER’S ability to SURRENDER.
+By default, PLAYER can’t `Split` 2 ACES.  When you `Enable` this setting, PLAYER can `Split` 2 ACES.  
 
--EARLY SURRENDER/LATE SURRENDER Settings
+See ["Splitting Aces"](basic-rules.md#splitting-aces) in the Basic Rules for more info.
 
-You can choose between the “Early Surrender” and “Late Surrender” options.
+>:warning: **WARNING**:  
+>This setting won’t work on [RESPLIT] Hands
+>
+>See ["Resplitting"](basic-rules.md#resplitting) in the Basic Rules for more info.
 
-When the PLAYER is able to SURRENDER at the start of the round, this is called EARLY SURRENDER.  When the PLAYER is only able to SURRENDER after the Dealer first checks their hand for a NATURAL, that is called a LATE SURRENDER.  
+### Double Down After Splitting Aces
 
-See SURRENDER in BLACKJACK TRIVIA BASIC RULES for more info.
+When you `Enable` this setting, PLAYER will be able to `Double Down` a [SPLIT HAND] that was `Split` from 2 ACES.
 
--DISABLE INSURANCE SIDE BET Setting
+See ["Double Down"](basic-rules.md#double-down), ["Double Down After Split"](basic-rules.md#double-down-after-split) and ["Splitting Aces](basic-rules.md#splitting-aces) in the Basic Rules Section for more info on these topics.
 
-In normal play, when the DEALER’s initial face up card is an ACE, the PLAYER will be given the option of placing the INSURANCE Side Bet.  You can disable this by checking this setting.
+**NOTE**: Checking this setting will also check the [“Double Down After Split”](#double-down-after-split) and [“Splitting Aces”](#splitting-aces) settings.  Click the links for more info.
 
-See INSURANCE in BLACKJACK TRIVIA BASIC RULES for more info.
+### Draw Only 1 Card After Splitting Aces
 
--DISABLE EVEN MONEY SIDE BET Setting
+When you `Enable` this setting, after PLAYER `Splits` 2 ACES and each [SPLIT HAND] receives their 2nd card, the hands will both `Stand`.  PLAYER won’t be allowed to receive any additional cards for them.
 
-In normal play, when the PLAYER has a NATURAL and the DEALER’s initial face up card is an ACE, the PLAYER will be given the option of placing the EVEN MONEY Side Bet.  You can disable this by checking this setting.
+See [“Splitting Aces”](#splitting-aces) in the Basic Rules section for more info.
 
-See EVEN MONEY in BLACKJACK TRIVIA BASIC RULES for more info.
+**NOTE**: Checking this setting will also check the [“Splitting Aces”](#splitting-aces) Setting.
+
+### Resplitting Allowed
+
+By DEFAULT, PLAYER is not allowed to `Resplit`.  
+
+This setting will `Enable` PLAYER to `Resplit` additional Hands up to a maximum of 4 total Hands.
+
+See ["Resplitting"](basic-rules#resplitting) in the Basic Rules for more info.
+
+### Resplitting Aces Allowed
+
+This setting will `Enable` PLAYER to `Resplit` a Split Hand that has 2 ACES.
+
+See ["Resplitting"](basic-rules.md#resplitting) and ["Splitting Aces"](basic-rules.md#splitting-aces) in the Basic Rules section for more info.
+
+**NOTE**: Checking this setting also checks the [“Resplitting Allowed”](#resplitting-allowed) and [“Splitting Aces”](#splitting-aces) setting.
+
+### Resplitting After Split Aces Allowed
+
+This setting will `Enable` PLAYER to `Resplit`, even if the initial `Split` was on a Hand with 2 ACES.
+
+See ["Resplitting"](basic-rules.md#resplitting) and ["Splitting Aces"](basic-rules.md#splitting-aces) in the Basic Rules section for more info.
+
+**NOTE**: Checking this setting also checks the [“Resplitting Allowed”](#resplitting-allowed) and [“Splitting Aces”](#splitting-aces) setting.
+
+### Disable Surrender
+
+By DEFAULT, PLAYER is allowed to `Surrender` their hand.  
+
+This setting will `Disable` PLAYER’S ability to `Surrender`.
+
+See ["Surrender"](basic-rules.md#surrender) in the Basic Rules section for more info.
+
+### Early and Late Surrender
+
+With this setting, you can choose between the `Early Surrender` and `Late Surrender` options.
+
+See Early and Late Surrender in the ["Surrender"](basic-rules.md#surrender) section of Basic Rules for more info.
+
+### Disable Insurance Side Bet
+
+By DEFAULT, the Insurance Side Bet will be offered when the conditions are met (DEALER has an ACE for their initial Face Up card).
+
+This setting will `Disable` the Insurance Bet.
+
+See ["Insurance"](basic-rules.md#insurance) in the Basic Rules section for more info.
+
+### Disable Even Money Side Bet
+
+By DEFAULT, the Even Money Side Bet will be offered when the conditions are met (PLAYER has a `Natural` and DEALER has an ACE for their initial Face Up card).
+
+This setting will `Disable` the Even Money Bet.
+
+See ["Even Money"](basic-rules.md#even-money) in the Basic Rules section for more info.
