@@ -70,7 +70,7 @@ This page collects all the terms that are used throughout the game app.  If you 
 
 - STAND: An action PLAYER and DEALER can make, to end any further actions on their current hand.
 
-- STAND ON A (SOFT/HARD) ##: This is a shorthand phrase for when DEALER has to Stand during their turn.  ## represents the total hand value that DEALER needs to reach before they're forced to Stand.  What DEALER does when they have that exact total value, depends on if the phrase says SOFT or HARD.  If the phrase says HARD, DEALER is still allowed to Hit.  IF SOFT, then DEALER has to Stand.
+- STAND ON (SOFT/HARD) ##: This is a shorthand phrase for when DEALER has to Stand during their turn.  ## represents the total hand value that DEALER needs to reach before they're forced to Stand.  What DEALER does when they have that exact total value, depends on if the phrase says SOFT or HARD.  If the phrase says HARD, DEALER is still allowed to Hit.  IF SOFT, then DEALER has to Stand.
 
 - SUIT: What grouping a card belongs to.  Either CLUBS, DIAMONDS, SPADES or HEARTS.
 
