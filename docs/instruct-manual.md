@@ -526,121 +526,166 @@ The `[Start New Round]` button will be displayed in the “GAME MESSAGE FIELD". 
 
 The `[Options]` button will also be displayed near the top of the screen, where you can change any game settings before starting the new round.
 
--Decide SIde Bets Screen
+## Game Screens In-Depth
 
-After the PLAYER is dealt their initial 2 cards, this screen will be displayed if the conditions for an INSURANCE or EVEN MONEY bet are fulfilled.  The screen will display different things depending on which Side Bet is being offered.
+This section features a more in-depth look at the various screens displayed during the round.
+
+### Decide Side Bets Screen
+
+After PLAYER is dealt their initial 2 cards, this screen will be displayed if the conditions for an [INSURANCE] or [EVEN MONEY] bet are fulfilled.  The screen will display different things depending on which Side Bet is being offered.
 
 If you have either the “Disable Insurance” or “Disable Even Money” selected in the OPTIONS MENU, then this screen may not appear.
 
+See ["Disable Insurance Side Bet"](options-menu.md#disable-insurance-side-bet) and ["Disable Even Money Side Bet"](options-menu.md#disable-even-money-side-bet) in the Options Menu documentation for more info on these settings.
+
+#### Insurance
+
 <pic of Insurance Modal>
 
-Insurance:
+See ["Insurance"](basic-rules.md#insurance) in the Basic Rules section if you're unfamiliar with the Insurance Bet.
 
-The center of the screen will display “Insurance?” and the [ACCEPT BET] and [DECLINE BET] buttons will be displayed underneath.
+If you are offered the Insurance Bet, then the "DECIDE SIDE BET SCREEN" will display the following info.
 
-Pressing the [DECLINE BET] button will exit the screen and the round will resume as normal.
+The center of the screen will display *“Insurance?”* and the `[Accept Bet]` and `[Decline Bet]` buttons will be displayed underneath.
 
-Pressing the [ACCEPT BET] button will confirm the Side Bet.  Half of your Base Bet will be deducted from your BANK and the results of the Side Bet will be calculated.
+Pressing the `[Decline Bet]` button will exit the screen and the round will resume as normal.
+
+Pressing the `[Accept Bet]` button will confirm the Side Bet.  Half of your Base Bet will be deducted from your [BANK] and the results of the Side Bet will be calculated.
+
+##### Insurance Outcome
 
 <pic of Insurance Modal results>
 
-The screen will change and display the results of the Side Bet.  If you won the Side Bet, the screen will explain that the DEALER has a NATURAL and the round will end.  If you lost the Side Bet, the screen will explain that the DEALER didn’t have a NATURAL and the round will continue.
+When you press `[Accept Bet]` button, the screen will change and display the results of the Side Bet.
 
-The [NEXT] button will be displayed on the bottom of the screen, and you can press that button to exit the screen.
+If you won the Side Bet, the screen will explain that DEALER has a `NATURAL` and the round will end.  
 
-Even Money:
+If you lost the Side Bet, the screen will explain that DEALER didn’t have a `NATURAL` and the round will continue.
+
+The `[Next]` button will be displayed on the bottom of the screen, and you can press that button to exit the screen.
+
+#### Even Money
 
 <pic of Even Money Modal>
 
-The center of the screen will display “Even Money?” and the [ACCEPT BET] and [DECLINE BET] buttons will be displayed underneath.
+See ["Even Money"](basic-rules.md#even-money) in the Basic Rules section if you're unfamiliar with the Insurance Bet.
 
-Pressing the [DECLINE BET] button will exit the screen and the round will end, since the PLAYER has a NATURAL.
+If you are offered the Even Money Bet, then the "DECIDE SIDE BET SCREEN" will display the following info.
 
-Pressing the [ACCEPT BET] button will confirm the Side Bet.  Half of your Base Bet will be deducted from your BANK and the results of the Side Bet will be calculated.
+The center of the screen will display *“Even Money?”* and the `[Accept Bet]` and `[Decline Bet]` buttons will be displayed underneath.
+
+Pressing the `[Decline Bet]` button will exit the screen and the round will end, since PLAYER has a 'NATURAL`.
+
+Pressing the `[Accept Bet]` button will confirm the Side Bet.  Half of your Base Bet will be deducted from your [BANK] and the results of the Side Bet will be calculated.
+
+##### Even Money Outcome
 
 <pic of Even Money Results>
 
-The screen will change and display the results of the Side Bet.  If you won the Side Bet, the screen will explain that the DEALER has a NATURAL and the round will end.  If you lost the Side Bet, the screen will explain that the DEALER didn’t have a NATURAL and the round will end.
+When you press `[Accept Bet]` button, the screen will change and display the results of the Side Bet.
 
-The [NEXT] button will be displayed on the bottom of the screen, and you can press that button to exit the screen.
+If you won the Side Bet, the screen will explain that DEALER has a `NATURAL` and the round will end.  
 
--Early Surrender Screen
+If you lost the Side Bet, the screen will explain that DEALER didn’t have a `NATURAL` and the round will end.
+
+The `[Next]` button will be displayed on the bottom of the screen, and you can press that button to exit the screen.
+
+### Early Surrender Screen
 
 <pic of Early Surrender Screen>
 
-After the PLAYER has received their initial 2 cards, this screen will appear if the “Early Surrender” setting is selected in the OPTIONS MENU.
+See ["Surrender"](basic-bet.md#surrender) in the Basic Rules section if you're unfamiliar with '[SURRENDER' and [EARLY SURRENDER].
 
-The screen will display the PLAYER and DEALER’s initial 2 cards.  The [ACCEPT SURRENDER] and [DECLINE SURRENDER] buttons will be displayed near the bottom of the screen.
+After PLAYER has received their initial 2 cards, this screen will appear if the “Early Surrender” setting is selected in the OPTIONS MENU.  See ["Early Surrender"](options-menu.md#early-surrender) in the Options Menu documentation for more info about this setting.
 
-If the PLAYER presses the [ACCEPT SURRENDER] button, the PLAYER SURRENDERS their HAND and the round ends immediately.
+The screen will display PLAYER and DEALER’s initial 2 cards.  The `[Accept Surrender]` and `[Decline Surrender]` buttons will be displayed near the bottom of the screen.
 
-If the PLAYER presses the [DECLINE SURRENDER] button, the screen will exit and the round resumes as normal.
+If you press the `[Accept Surrender]` button, PLAYER `Surrenders` their Hand and the round ends immediately.
 
--Round Outcome Screen
+If you press the `[Decline Surrender]` button, the screen will exit and the round resumes as normal.
 
-After a round ends, the “Round Outcome Screen” will be displayed.  What the screen displays will be slightly different, depending on whether the PLAYER SPLIT their HAND or not.
+### Round Outcome Screen
+
+After a round ends, the “ROUND OUTCOME SCREEN” will be displayed.  What the screen displays will be slightly different, depending on whether PLAYER `[SPLITS]` their Hand or not.
 
 <pic of Single Hand Round Outcome>
 
-Single Hand Display:
+#### Single Hand Display
 
-Near the top of the screen, the overall result of the PLAYER’s HAND will be displayed.  It’ll show either “WIN”, “LOSE”, “SURRENDER”, “PUSH” or “BLACKJACK!!!” (NATURAL).
+Near the top of the screen, the overall result of PLAYER’s Hand will be displayed.  It’ll show either *“WIN”*, *“LOSE”*, *“SURRENDER”*, *“PUSH”* or *“BLACKJACK!!!”* (`NATURAL`).
 
-Below that, a brief text will be displayed, explaining how the PLAYER reached the outcome (via BUST, CHARLIE, etc).
+Below that, a brief text will be displayed, explaining how PLAYER reached the outcome (via BUST, `CHARLIE`, etc).
 
-Finally, the winnings from the Base Bet will be displayed.
+Finally, the [WINNINGS] from the [BASE BET] will be displayed.
 
 <pic of Split Hand Round Outcome>
 
-Split Hand Display:
+#### Split Hand Display
 
-Each SPLIT HAND will be listed on the screen.  With each Split Hand, the oveallr result of the split hand, an explanation text and the winnings will be displayed.
+Each [SPLIT HAND] will be listed on the screen.  With each Split Hand, the following will be displayed:
 
-At the bottom of the screen, the [NEXT] button will be displayed.  Press this button to exit the screen and continue the game.
+- The overall result of the Split Hand  
+- An explanation text  
+- The winnings will be displayed  
 
-Side Bet Outcome Screen
+At the bottom of the screen, the `[Next]` button will be displayed.  Press this button to exit the screen and continue the game.
+
+### Side Bet Outcome Screen
 
 This screen will be displayed in the round whenever you have Side Bets that are active.
 
-Depending on which Side Bets you have active, this screen can be displayed at the beginning of the round via the [CHECK SIDE BETS] button, or displayed at the end of the round after the “Round Outcome Screen”, or both!
+Depending on which Side Bets you have active, this screen can be displayed at the beginning of the round via the `[Check Side Bets]` button, or displayed at the end of the round after the “ROUND OUTCOME SCREEN”, or both!
 
 <pic of Side Bet Outcome Screen>
 
 The screen will list all relevant Side Bets and info about their outcomes.
 
-Each Side Bet will display it’s overall outcome (either a “WIN” or “LOSE”), the condition the PLAYER fulfilled to reach the outcome and any winnings the PLAYER might receive.
+Each Side Bet will display:
 
-For each Side Bet that wins, a [CHECK HAND] button will also be displayed.  The PLAYER can press this button and the “Win Condition” screen will be displayed, which will show additional info about the PLAYER’s win.  See WIN CONDITION SCREEN for more info.
+- it’s overall outcome (either a “WIN” or “LOSE”)  
+- [WIN CONDITION] the PLAYER fulfilled to reach the outcome  
+- Any winnings the PLAYER might receive  
 
-Underneath the list of Side Bets, the “Total Winnings Field” will be displayed, which will display the total amount of money won from all the Side Bets.
+For each Side Bet that wins, a `[Check Hand]` button will also be displayed.  You can press this button and the “WINNING HAND SCREEN" will be displayed, which will show additional info about the PLAYER’s WIN.  See ["Winning Hand Screen"](#winning-hand-screen) in the next section for more info.
 
-At the bottom of the screen, the [NEXT] button is displayed.  Press this button to exit the screen and resume the game.
+Underneath the list of Side Bets, the “TOTAL WINNINGS FIELD” will be displayed, which will display the total amount of money won from all the Side Bets.
 
--Win Condition Screen
+At the bottom of the screen, the `[Next]` button is displayed.  Press this button to exit the screen and resume the game.
 
-<pic of Win Condition Screen>
+### Winning Hand Screen
 
-For each Side Bet won in the “Side Bet Outcome” screen, you can press the [CHECK HAND] button and open up this screen.
+<pic of Winning Hand Screen>
+
+For each Side Bet won in the “SIDE BET OUTCOME SCREEN", you can press the `[Check Hand]` button and open up this screen.
 
 Near the top of the screen, the screen will display the name of the Side Bet you’re currently checking out.
 
-Below that, the screen displays the relevant HANDS that resulted in the Side Bet being won.  It could either be the PLAYER’s hand, the DEALER’s hand, or both.
+Below that, the screen displays the relevant Hands that resulted in the Side Bet being won.  It could either be PLAYER’s Hand, DEALER’s Hand, or both.
 
-Underneath that, the Win Condition will be displayed, which shows the condition the PLAYER fulfilled in order to win the Side Bet.
+Underneath that, the Win Condition will be displayed, which shows the condition PLAYER fulfilled in order to win the Side Bet.
 
-Finally, the payout for the win condition is displayed.
+Finally, the [PAYOUT] for the Win Condition is displayed.
 
-At the bottom of the screen, the [CLOSE] button is displayed.  Press the button to exit the screen and return back to the “Side Bet Outcome” screen.
+At the bottom of the screen, the `[Close]` button is displayed.  Press the button to exit the screen and return back to the “SIDE BET OUTCOME SCREEN".
 
--Win Summary Screen
+### Win Summary Screen
 
-In the “Total Winnings Screen”, the [WIN SUMMARY] button will be displayed at the bottom.  Press that button to enter this screen.
+In the “TOTAL WINNINGS SCREEN”, the `[Win Summary]` button will be displayed at the bottom.  Press that button to enter this screen.
 
-This screen displays a list of ALL the outcomes the PLAYER had over the course of the round.
+This screen displays a list of ALL the outcomes PLAYER had over the course of the round.
 
-At the top of the list are the “Base Round” outcomes.  These are the same as the outcomes from the “Round Outcome” screen.  The PLAYER’s round outcome will be listed, along with the Payout and any winnings they received.  If the PLAYER played SPLIT HANDS, then each split hand will be listed separately.
+#### Base Round Outcomes
 
-After the “Base Round” outcomes, all of the “Side Bet” outcomes will be listed.  Each Side Bet will be listed, along with their outcome, any winnings received, the win condition fulfilled and the payout for the win condition.
+At the top of the list are the “Base Round” outcomes.  These are the same as the outcomes from the “ROUND OUTCOME SCREEN".  PLAYER’s round outcome will be listed, along with the Payout and any Winnings they received.  If PLAYER played Split Hands, then each Split Hand will be listed separately.
 
-At the bottom of the screen is the [CLOSE] button.  Press this button to close the screen and return to the “Total Winnings” Screen.
+#### Side Bet Outcomes
+
+After the “Base Round” outcomes, all of the “Side Bet” outcomes will be listed.  Each Side Bet will be listed, along with their:
+
+- Outcome  
+- Any winnings received  
+- The Win Condition fulfilled  
+- The Payout for the Win Condition  
+
+At the bottom of the screen is the `[Close]` button.  Press this button to close the screen and return to the “Total Winnings” Screen.
 
