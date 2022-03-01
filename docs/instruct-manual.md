@@ -186,6 +186,10 @@ The label near the "PLAYER CARD AREA" will also change to indicate which PLAYER 
 
 The "PLAYER HAND TOTAL FIELD" displays the total points of PLAYER's currently active Hand.
 
+If PLAYER has a [SOFT HAND], then the highest of the possible values will be displayed.
+
+See ["Soft Hands and Hard Hands"](basic-rules.md#soft-hands-and-hard-hands) in the Basic Rules page for more info.
+
 ##### Player Message Field
 
 The "PLAYER MESSAGE FIELD" displays any outcomes for PLAYER's currently active HAND.
@@ -240,95 +244,175 @@ Here are some examples of card codes:
 | `ACE-CLUBS`    | `AC`      |
 
 
-##Dealing Cards
+## Starting the Round
+
+After PLAYER bets, the round will begin.  A variety of different processes may occur before the action begins, with the main process being DEALER dealing the cards.
+
+This section will cover all of those various processes.
+
+After all of these various processes have been executed, then the round continues and it’ll be PLAYER’s Turn.
+
+#### Dealing the Cards
 
 <pic of the active game field>
 
-After you press the `[Deal Cards]` button in the “BASE BET MENU”, the menu will close and all of your bets will be placed.  Near the top of the screen, the “Bank Field” will show your updated Bank value and the “Bet Field” will show the “Base Bet” value that you placed.
+After you press the `[Deal Cards]` button in the “BASE BET MENU”, the menu will close and all of your bets will be placed.  
 
-The Dealer deals 2 cards to itself and the Player.  You can see the Player’s Hand and it’s total value in the “Player Field” near the bottom of the screen.  If the Player’s Hand is SOFT, then the total value shown is calculated with the ACE worth 11 pts.  You can also see the Dealer’s Hand and its total value in the “Dealer Field” near the top of the screen.  The Dealer’s total value only factors in the value of the face up cards.
+The “BANK FIELD” will show your updated [BANK] value and the “BET FIELD” will show the [BASE BET] value that you placed.
+
+DEALER deals 2 cards to itself and PLAYER.  These [HANDS] will appear in the "DEALER FIELD" and "PLAYER FIELD" respectively.
+
+See ["Dealing the Cards"](basic-rules.md#dealing-the-cards) section in the Basic Rules page for more info on this process.
+
+##### Checking the Side Bets
 
 <pic of the Check Side Bets Button>
 
-If you have certain Side Bets active, the [Check Side Bets!] button will appear in the Game Message Field.  The round won’t resume without pressing this button.  Press this button to check the outcome of the various Side Bets.  Depending on the active Side Bets, various screens will be displayed in succession.  At the minimum, the “Side Bet Outcome” screen will be  displayed to show a list of all the calculated Side Bets so far.  See SIDE BET OUTCOME SCREEN for more info.
+If you have certain [SIDE BETS] active, the `[Check Side Bets]` button will appear in the "GAME MESSAGE FIELD".  The round won’t resume without pressing this button.  
 
-The “Decide Side Bets” screen will be displayed if the INSURANCE and EVEN MONEY Side Bets need to be offered to the Player.  See DECIDE SIDE BETS SCREEN for more info.
+Press this button to check the outcome of the various Side Bets.  Depending on the active Side Bet, various screens will be displayed in succession.  
 
-If EARLY SURRENDER has been selected in the Options Menu, then the “Early Surrender” screen will be displayed at this time.  See EARLY SURRENDER SCREEN for more info.
+At a minimum, the “SIDE BET OUTCOME SCREEN" will be displayed to show a list of all the calculated Side Bets so far.  
 
-If the Player has a Natural, then “Player Natural” is displayed in the “Game Message” field  and “Blackjack!” is displayed in the “Player Message Field”.  Then the round ends immediately.  Otherwise, the round continues.
+See the ["Side Bet Outcome Screen"](#side-bet-outcome-screen) section in this page and ["Side Bets"](side-bet-rules.md) section in the documentation for more info.
 
-If the Dealer’s face up card is an ACE or 10 pt card, then “Dealer Peeks for Natural” will be displayed in the “Game Message” field.  If the Dealer has a Natural, then “Dealer Natural” will be displayed in the “Game Message” field and “Blackjack!” will be displayed in the “Dealer Message Field”.  The round then ends immediately.  Otherwise, the round continues.
+##### Decide Side Bets Screen
 
-After all of these various conditions have been checked, then the round continues and it’s the Player’s Turn.
+The “DECIDE SIDE BETS SCREEN” will be displayed if the [INSURANCE] and [EVEN MONEY] Side Bets need to be offered to the Player.  
 
--Player’s Turn
+See ["Decide Side Bets Screen"](#decide-side-bets-screen) for more info on this screen.  
 
-The “Game Message” field will display “Player’s Turn” and the Player can choose their actions.  The [HIT], [STAND], [DOUBLE DOWN], [SPLIT] and [SURRENDER] buttons will become active depending on if the action is available to the Player.
+See the ["Insurance"](basic-rules.md#insurance) and ["Even Money"](basic-rules.md#even-money) sections in the Basic Rules page for more info about those Side Bets.
 
--[HIT] Button (+)
+##### Early Surrender Screen
+
+If [EARLY SURRENDER] has been selected in the Options Menu, then the “EARLY SURRENDER SCREEN" will be displayed at this time.  
+
+See ["Early Surrender Screen"](#early-surrender-screen) for more info.
+
+##### Player Natural
+
+If PLAYER has a `[NATURAL]`, then *“Player Natural”* is displayed in the “GAME MESSAGE FIELD"  and *“Blackjack!”* is displayed in the “PLAYER MESSAGE FIELD”.  Then the round ends immediately at this point.
+
+See ["Natural"](basic-rules.md#natural) in the Basic Rules page for more info about this event.
+
+##### Dealer Peek and Dealer Natural
+
+If DEALER's face up card is an ACE or [TEN-CARD], then DEALER will `[PEEK]` for a 'NATURAL'.  *“Dealer Peeks for Natural”* will be displayed in the “GAME MESSAGE FIELD".  
+
+If DEALER has a `NATURAL`, then *“Dealer Natural”* will be displayed in the “GAME MESSAGE FIELD" and *“Blackjack!”* will be displayed in the “DEALER MESSAGE FIELD”.  The round then ends immediately.
+
+See ["Natural"](basic-rules.md#natural) in the Basic Rules page for more info about this event.
+
+
+## Player’s Turn
+
+After DEALER's deals the cards and all other processes have been handled, it'll be PLAYER's Turn.
+
+The “GAME MESSAGE FIELD" will display *“Player’s Turn”* and you can start to choose your actions.  
+
+The `[HIT]`, `[STAND]`, `[DOUBLE DOWN]`, `[SPLIT]` and `[SURRENDER]` buttons will become active, depending on if the action is available to PLAYER.
+
+#### Hit Button
+
 <display pic of HIT button>
 
-When you press the [HIT] button, this will open up the “Select Trivia Difficulty” screen.  See the TRIVIA section for more info.
+If you want to `Hit`, you can press the `[Hit]` button.
 
-If you successfully answer the Trivia Question, then the Dealer will deal you an additional card to add to your current HAND and your HAND total will update.  Then you’re free to select another action.
+See ["Hit"](basic-rules.md#hit) in the Basic Rules section for more info.
 
-You can bypass the Trivia Question if you select “Trivia Mode” to be OFF in the Options Menu.  See OPTIONS for more info.  If TRIVIA MODE is off, then the Dealer will immediately deal you an additional card when you press the [HIT] button.
+By default, [TRIVIA MODE] is on.  So when you press the `[Hit]` button, the "SELECT TRIVIA DIFFICULTY SCREEN" will be displayed.
 
--[STAND] Button (-)
+If you successfully answer the Trivia Question, then DEALER will deal you another card.  Then you’re free to select another available action.  If you answer incorrectly, then your [HAND] will `[STAND]`.
+
+For more info about Trivia Mode, see ["Trivia Mode"](basic-rules.md#trivia-mode) in the Basic Rules section.
+
+Trivia Mode can be turned off in the Options Menu.  If Trivia Mode is off, then DEALER will immediately deal you a card when you press `[Hit]` button.
+
+See ["Trivia Mode Setting"](options-menu.md#trivia-mode) in the Options Menu section of the documentation for more info on this setting.
+
+#### Stand Button
+
 <display pic of STAND button>
 
-When you press the [STAND] button, your turn will immediately end.  STAND will be displayed in the “Player Message Field”.  Then it’ll be the Dealer’s Turn.
+If you want to `Stand`, you can press the `[Stand]` button.
 
-If you STAND a split hand, then you’ll either play your next available Split Hand or your turn will end if there are no more split hands.
+See ["Stand"](basic-rules.md#stand) in the Basic Rules section for more info.
 
-If you incorrectly answer a Trivia Question, then your hand will automatically STAND and the above will apply.
+When you press the `[Stand]` button, you end any further actions on your current Hand.  *STAND* will be displayed in the "PLAYER MESSAGE FIELD".  
 
--[DOUBLE DOWN] Button (X2)
+If you're playing a single Hand, then your turn will end and it’ll be the DEALER's Turn.
+
+If you're playing a [SPLIT HAND], then you'll start playing the next available Split Hand.  If there are no more available Split Hands, then your turn will end and it'll be DEALER's Turn.
+
+#### Double Down Button
+
 <display pic of DOUBLE DOWN button>
 
-When you press the [DOUBLE DOWN] button, this will open up the “Select Trivia Difficulty” screen.  See the TRIVIA section for more info.
+If you want to `Double Down`, you can press the `[Double Down]` button.
 
-If you successfully answer the Trivia Question, then the Dealer will deal you an additional card to add to your current HAND and your HAND total will update.  
+See ["Double Down"](basic-rules.md#double-down) in the Basic Rules section for more info.
+
+When you press the `[Double Down]` button, the same exact actions as pressing the `[Hit]` button will apply.  See ["Hit Button"](#hit-button) for more info.
 
 <display pic of Double Down Marker>
 
-The “Double Down Marker” will be displayed next to the “Bet Field” near the top of the screen, indicating that your Base Bet has been doubled.
+If DEALER deals you another card, your [BASE BET] will be doubled at that point.  The "DOUBLE DOWN MARKER" will appear in the "BET FIELD".
 
-Afterwards, your hand will automatically STAND.  See the STAND BUTTON section for more info on what happens next.
+Afterwards, your Hand will automatically `Stand`.  The same exact actions for pressing the `[Stand]` button will occur.  See ["Stand Button](#stand-button) section on this page and ["Stand"](basic-rules.md#stand) in the Basic Rules section for more info. 
 
-You can bypass the Trivia Question if you select “Trivia Mode” to be OFF in the Options Menu.  See OPTIONS for more info.  If TRIVIA MODE is off, then the Dealer will immediately deal you an additional card when you press the [DOUBLE DOWN] button.
+>:warning: **Warning**:  
+>The `[Double Down]` button will be disabled if PLAYER doesn't have enough money in the [BANK] to cover the doubled Base Bet.  
+>
+>The button will also be disabled if you're playing a Split Hand and the "Double Down after Split" or "Double Down after Split Aces" settings aren't selected in the Options Menu.
+>
+>See ["Double Down after Split"](options-menu.md#double-down-after-split) and ["Double Down After Split Aces"](options-menu.md#double-down-after-split-aces) sections in the Options Menu documentation for more info about these settings.
 
-NOTE: The [DOUBLE DOWN] button will be disabled if the Player doesn’t have enough money in the bank to cover the doubled bet.  The button will also be disabled if you’re playing a Split Hand and the “Double Down after Split” or “Double Down after Split Aces” settings aren’t selected in the Options Menu.
+##### Split button
 
--[SPLIT] button (/)
 <display pic of SPLIT button>
 
-When you press the [SPLIT] button, the Player’s Hand will be SPLIT into 2 new Split Hands.
+If you want to `Split`, you can press the `[Split]` button.
+
+See ["Split"](basic-rules.md#split) in the Basic Rules section for more info.
+
+When you press the `[Split]` button, the Player’s Hand will be `Split` into 2 new Split Hands.
 
 <display pic of Player Field and Split Stages Field>
 
-The 1st Split Hand will be displayed in the “Player Field” and it’ll be the new currently active hand.  The “Player” label will change to display “Hand 1”, indicating that you’re now playing Split Hands.  The 2nd Split Hand will be displayed in the “Split Stages Field”.  See SPLIT STAGES FIELD for more info.
+The 1st Split Hand will be displayed in the “PLAYER FIELD” and it’ll be the new currently active hand.  The label in the "PLAYER FIELD" will change to display *“Hand #”*, indicating that you’re now playing Split Hands and # is the current Split Hand number.  The 2nd Split Hand will be displayed in the “SPLIT STAGES FIELD”.  
 
-If “Resplitting Allowed” is selected in the Options Menu, then you can further SPLIT already split hands.  When that happens, the label in the “Player Field” will display the number of the currently active split hand, and the new split hand will be added to and displayed in the “Split Stages Field”.
+See ["Split Stages Field](#split-stages-field) for more info.
 
-NOTE: The [SPLIT] button will be disabled if the Player doesn’t have enough money in the bank to cover the additional bet needed for a new split hand.  The button will also be disabled based on various settings in the Options Menu.  See OPTIONS for more info.
+If “Resplitting Allowed” is selected in the Options Menu, then you can further `Split` already split hands.  
 
--[SURRENDER] Button (Flag)
+When you `Resplit` a Split Hand, the label in the “PLAYER FIELD” will display the number of the currently active Split Hand, and the new Split Hand will be added to and displayed in the “SPLIT STAGES FIELD”.
+
+See ["Resplitting"](basic-rules.md#resplitting) in the Basic Rules section for more info about Resplitting.  See ["Resplitting Allowed"](options-menu.md#resplitting-allowed) in the Options Menu section of the documentation for more info about the Resplitting setting.
+
+>:warning: **Warning**:  
+>The `[Split]` button will be disabled if PLAYER doesn't have enough money in the Bank to cover the additional bet needed for a new Split Hand.  
+>
+>The button will also be disabled based on various settings in the Options Menu.  
+>
+>See the ["Options Menu"](options-menu.md) section of the documemtation to learn about the various settings related to Split.
+
+##### Surrender Button
+
 <display pic of SURRENDER button>
+
+If you want to `Surrender`, you can press the `[Surrender]` button.
+
+See ["Surrender"](basic-rules.md#surrender) in the Basic Rules section for more info.
 
 When you press the [SURRENDER] button, “Player has Surrendered” will be displayed in the “Game Message” field and “Surrender” will be displayed in the “Player Message Field”.  Then the round will immediately end.
 
 If you SURRENDER a split hand, then the round will continue as normal.  When the split hand is displayed in the Split Stages Field, “Surrender” will continue to be displayed in the stage’s message field.
 
--[END GAME] Button
-<display pic of END GAME button>
-
-When you press the [END GAME] button, the current round and the entire game itself will immediately end.  
-
-The Bank, Bet, Dealer and Player Fields will reset to their default displays.  “Game Ended” will be displayed in the “Game Message” field.  The [Start New Game] button will also be displayed in the “Game Message” field.
-
-The [OPTIONS] button will appear near the top of the screen, so you can change the various game settings before you start a new game.
+>:warning: **Warning**:  
+>The `[Surrender]` button is effectively the [LATE SURRENDER] button and it's active when Late Surrender is available.
+>
+>See the ["Late Surrender"](options-menu.md) section in the Options Menu documention for more info about this setting.  
 
 -TRIVIA SECTION
 -Overview
