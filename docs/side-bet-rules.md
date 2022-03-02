@@ -1,80 +1,112 @@
--SIDE BETS
+# SIDE BETS
 
--Overview
+## Overview
 
-In this game app, you can place a number of Side Bets for each round, in addition to the Base Bet.  These Side Bets have their own individual rules, conditions and win payouts.  They offer extra excitement to the game, so take advantage of them when possible.
+In this game app, you can place a number of [SIDE BETS] for each round, in addition to the [BASE BET].  These Side Bets have their own individual rules, conditions and win payouts.  They offer extra excitement to the game, so take advantage of them when possible.
 
-INSURANCE and EVEN MONEY are separate, “core” Side Bets that won’t be covered in this section.  They are covered in the BLACKJACK TRIVIA BASIC RULES section.
+This page will list all of the available Side Bets, their rules and their [PAYOUT TABLES].
 
--Perfect Pair
+Some Side Bets will have special functionality that will be displayed in their own screens during the game.  This will be noted in the Side Bets' sections and the screens will be reviewed in-depth.
 
-This side bet is played with the PLAYER and DEALER’s initial 2 cards.
+>**NOTE**:
+>
+>INSURANCE and EVEN MONEY are [CORE SIDE BETS] that are separate and won’t be covered in this section.  See ["Insurance"](options-menu.md#insurance) and ["Even Money"](options-menu.md#even-money) in the Basic Rules Section for more info on these bets.
 
-You are betting on whether the PLAYER’S initial 2 cards or the DEALER’s initial 2 cards match each other in specific ways.
+>**NOTE**:
+>
+>Side Bet rules have terms that are separate from the base game.  Words in [ ] are keywords and their definitions can be found in the ["Terms"](terms.md) section of the documentation.  
 
-Terms:
-Perfect Match: When both cards in the hand match each other in suit and value.
-Colored Pair: When both cards have the same value and color.  CLUBS/SPADES = Black, DIAMOND/HEARTS = Red.
-Red/Black Pair: When both cards have the same value and 1 card is a RED card and the other is BLACK.
+## Perfect Pair
 
--2 Perfect Matches Payout: 200:1
-Both the PLAYER’s initial 2 cards and the DEALER’s initial 2 cards are PERFECT MATCHES .
+This Side Bet is played with PLAYER and DEALER’s [INITIAL HAND].
 
--1 Perfect Match Payout: 25:1
-Either the PLAYER’s initial 2 cards or the DEALER’s initial 2 cards are a PERFECT MATCH.
+You are betting on whether PLAYER’S Initial Hand or DEALER’s Initial Hand match each other in specific ways.
 
--Colored Pair Payout 10:1
-The PLAYER’s initial 2 cards are a COLORED PAIR.
+### Perfect Pair Payout Table  
 
--Red/Black Pair Payout 5:1
-The PLAYER’s initial 2 cards are a RED/BLACK PAIR.
+| **Win Condition** | **Payout** |
+|:-----------------:|:----------:|
+| 2 Perfect Matches |    200:1   |
 
--21 + 3
+Both PLAYER’s Initial Hand **AND** DEALER’s Initial Hand are [PERFECT MATCHES].
 
-This Side Bet is played with the PLAYER’s initial 2 cards and the DEALER’s Face Up card.
+| 1 Perfect Match | 25:1 |
+|:---------------:|:----:|
 
-You are betting on whether the PLAYER’s initial 2 cards and DEALER’s Face Up card forms a Poker Hand when combined.
+Either PLAYER’s Initial Hand **OR** DEALER’s Initial Hand are a [PERFECT MATCH].
 
-Terms:
-Target Hand: The HAND formed from the PLAYER’s initial 2 cards and the DEALER’s Face Up card.
-Suited: When the cards in the Target Hand have the same suit.
-3 of a Kind: When the cards in the Target Hand have the same value.
-Straight: When the cards in the Target Hand have consecutive values.
-Flush: Same as Suited.
+| Colored Pair | 10:1 |
+|--------------|------|
 
--Suited 3 of a Kind (Queen - Ace) Payout: 1000:1 (formerly Jackpot)
-The Target Hand is a SUITED 3 of a KIND, and the card values are either a QUEEN, KING or ACE.
+PLAYER’s Initial Hand are a [COLORED] PAIR.
 
--Suited 3 of a Kind (2 - Jack) Payout: 100:1
-The Target Hand is a SUITED 3 of a KIND, and the card values are either a JACK or a lower value.
+| Red/Black Pair | 5:1 |
+|----------------|-----|
 
--3 of a Kind Payout 33:1
-The Target Hand is a 3 of a Kind.
+PLAYER’s Initial Hand are a [RED/BLACK] PAIR.
 
--Straight Flush 35:1
-The Target Hand is both a Straight and a Flush
 
--Straight 10:1
-The Target Hand is a Straight
+## 21 + 3
 
--Flush 5:1
-The Target Hand is a Flush
+This Side Bet is played with PLAYER’s [INITIAL HAND] and DEALER’s [UPCARD].  These 3 cards together will be referred to as the "TARGET HAND".
 
-Perfect 11s
+You are betting on whether the TARGET HAND forms a [POKER HAND] when combined.
 
-This Side Bet is played with the PLAYER’s initial 2 cards
+### 21 + 3 Payout Table
 
-You are betting on whether the PLAYER’s initial 2 cards equal a total of 11 pts, in specific ways.  
 
-For the purposes of this Side Bet, a NATURAL also counts as an 11 pt hand, since an ACE and a TEN-CARD can also equal 11 pts.
+|        **Win Condition**        |         **Payout**        |
+|:-------------------------------:|:-------------------------:|
+| Suited 3 of a Kind (QUEEN - ACE | 1000:1 (formerly Jackpot) |
 
-This Side Bet features a Jackpot Ace and 3 Infinity Dice:  
+The TARGET HAND is a [SUITED] [3 OF A KIND], and the card [RANKS] are either a QUEEN, KING or ACE.
 
--The Jackpot Ace is a SPADE ACE that is specially marked.  It’s only encountered 1 out of every 6 times a SPADE ACE is drawn.  The Jackpot Ace is needed to reach the higher payouts.
+| Suited 3 of a Kind (2 - JACK) | 100:1 |
+|-------------------------------|-------|
 
--The Infinity Dice are 3 six-sided dice that each have 5 blank sides and 1 side that features the infinity symbol.  When the PLAYER rolls the dice and gets infinity symbols, they can be used to receive higher payouts.
+The TARGET HAND is a [SUITED] [3 OF A KIND], and the card Ranks are either a JACK or a lower rank.
 
-When the PLAYER wins this Side Bet with a SUITED 11, then the “Perfect 11s Dice Roll” Screen will appear during the start of the round.  The PLAYER can use this screen to roll the Infinity Dice.  See below for more info on this screen.
+| 3 of a Kind | 33:1 |
+|-------------|------|
+
+The TARGET HAND is a [3 OF A KIND].
+
+| Straight Flush | 35:1 |
+|----------------|------|
+
+The TARGET HAND is a [STRAIGHT FLUSH]
+
+| Straight | 10:1 |
+|----------|------|
+
+The TARGET HAND is a [STRAIGHT]
+
+| Flush | 5:1 |
+|-------|-----|
+
+The TARGET HAND is a [FLUSH]
+
+## Perfect 11s
+
+This Side Bet is played with the PLAYER’s [INITIAL HAND]
+
+You are betting on whether PLAYER’s Initial Hand equals a total of 11 pts, in specific ways.  
+
+For the purposes of this Side Bet, a `NATURAL` also counts as an 11 pt hand, since an ACE and a [TEN-CARD] can also equal 11 pts.
+
+### Jackpot Ace
+
+This Side Bet features a `Jackpot Ace`.
+
+-The `Jackpot Ace` is an `ACE-SPADE` that is specially marked.  It’s only encountered 1 out of every 6 times an `ACE-SPADE` is drawn.  The `Jackpot Ace` is needed to reach the higher payouts.
+
+### Infinity Dice
+
+This Side Bet also features 3 `Infinity Dice`.
+
+-The `Infinity Dice` are 3 six-sided dice that each have 5 blank sides and 1 side that features the infinity symbol.  When PLAYER rolls the dice and gets `Infinity` symbols, they can be used to receive higher payouts.
+
+When PLAYER wins this Side Bet with a [SUITED] 11 pt Hand (which will referred to as a "SUITED 11"), then the “PERFECT 11s DICE ROLL SCREEN" will appear during the start of the round.  PLAYER can use this screen to roll the `Infinity Dice`.  See below for more info on this screen.
 
 NOTE: Mystery Jackpot will be implemented later
 
@@ -85,114 +117,167 @@ Terms:
 -Colored: Both cards have the same color.
 -Mixed: The 2 cards have different colors.
 
--Jackpot Ace and SPADE KING Payout: 720:10
-The Player has a NATURAL that includes the Jackpot Ace and a SPADE KING
+### Perfect 11s Payout Table
 
--Jackpot Ace and King Payout 131:10
-The Player has a NATURAL that includes the Jackpot Ace and a KING (other than a SPADE KING)
+|      **Win Condition**     | **Payout** |
+|:--------------------------:|:----------:|
+| Jackpot Ace and Spade King |   720:10   |
 
--Suited 11 & 3 Infinities Payout 25:10
-The PLAYER has a SUITED 11 pt Hand and has rolled 3 Infinities
+PLAYER has a `NATURAL` that includes the `Jackpot Ace` and a `KING-SPADE
 
--Suited 11 & 2 Infinities Payout 16:10
-The PLAYER has a SUITED 11 pt Hand and has rolled 2 infinities
+| Jackpot Ace and King | 131:10 |
+|----------------------|--------|
 
--Suited 11 Payout: 15:1
-The PLAYER has a SUITED 11 pt Hand.
+PLAYER has a `NATURAL` that includes the `Jackpot Ace` and a KING (other than a `KING-SPADE`)
 
--Colored 11 Payout 10:1
-The PLAYER has a COLORED 11 pt Hand.
--Mixed 11 Payout: 3:1
-The PLAYER has a MIXED 11 pt Hand.
+| Suited 11 and 3 Infinities | 25:10 |
+|----------------------------|-------|
 
--Perfect 11s Dice Roll Screen
+PLAYER has a SUITED 11 and has rolled 3 `Infinities`
+
+| Suited 11 and 2 Infinities | 16:10 |
+|----------------------------|-------|
+
+PLAYER has a SUITED 11 and has rolled 2 `Infinities`
+
+| Suited 11 | 15:1 |
+|-----------|------|
+
+PLAYER has a SUITED 11
+
+| Colored 11 | 10:1 |
+|------------|------|
+
+PLAYER has a [COLORED] 11 pt Hand.
+
+| Mixed 11 | 3:1 |
+|----------|-----|
+
+PLAYER has a [MIXED] 11 pt Hand.
+
+### Perfect 11s Dice Roll Screen
 
 <pic of screen>
 
-If the PLAYER has won this Side Bet with a SUITED 11, then this screen will appear.  When the PLAYER presses the [CHECK SIDE BETS!] button after their initial 2 cards have been dealt, this screen will be displayed.
+If PLAYER has won this Side Bet with a SUITED 11, then this screen will appear.  When PLAYER presses the `[Check Side Bets]` button after their Initial Hand has been dealt, this screen will be displayed.
 
-The 3 infinity dice will be displayed in the center of the screen and they will be rolling.  Use the [STOP] button to stop the Dice, one after another.  If you roll 2 or more infinity symbols, then you will win an increased payout!
+The 3 `Infinity Dice` will be displayed in the center of the screen and they will be rolling.  Use the `[Stop]` button to stop the Dice, one after another.  If you roll 2 or more `Infinity` symbols, then you will win an increased payout!
 
-After all  of the dice have been stopped, the [NEXT] button will be displayed at the bottom of the screen.  Press the button to exit the screen.
+After all of the dice have been stopped, the `[Next]` button will be displayed at the bottom of the screen.  Press the button to exit the screen.
 
--Extra Bet Blackjack
+## Extra Bet Blackjack
 
-This Side Bet is an extra bet that is placed when the PLAYER’s first card is a TEN-CARD.  You can place an extra bet up to a maximum of 5x the Base Bet.  There is also a fee for placing this extra bet, that is worth 20% of the bet being placed.  
+This Side Bet is an [EXTRA BET] that is placed when PLAYER’s first card is a [TEN-CARD].  
 
-This Side Bet first needs to be activated in the “Side Bets Menu” by pressing the [Activate Bet] button (in place of the [CHIP] buttons).
+You can place an Extra Bet up to a maximum of 5x the [BASE BET].  
 
-With the Side Bet activated, when the PLAYER is dealt their initial 2 cards and the first card is a TEN-CARD, then the “Extra Bet Menu” can appear.  When the PLAYER presses the [CHECK SIDE BETS!] button, the screen will be displayed.
+There is also a fee for placing this Extra Bet, that is worth 20% of the bet being placed. 
 
-Extra Bet Menu
+### Activating the Bet
 
-<pic of screen>
+This Side Bet first needs to be activated in the “SIDE BETS MENU” by pressing the `[Activate Bet]` button (in place of the `[Chip]` buttons).
 
-This screen is very similar in functionality to the “Base Bet Menu”.  
+With the Side Bet activated, when PLAYER is dealt their Initial Hand and the first card is a TEN-CARD, then the “EXTRA BET MENU” can appear.  When PLAYER presses the `[Check Side Bets]` button, the screen will be displayed.
 
-The “Bank Field” will show the current value of your BANK.  The “Base Bet Field” will show the value of your Base Bet.  The “Fee Field” will show you the current fee you will have to pay, once you place the extra bet.
+### Extra Bet Outcome
 
-You can use the [CHIP] buttons to add money to the Extra Bet.  The “Current Bet Field” (large purple circle) will update to show your current bet amount.  The Bank and Fee fields will also update to reflect their current values.
-If you want to clear the bet, use the [CLEAR BET] button to reset all values back to their starting values.
+You can use the "EXTRA BET MENU" to place the Extra Bet.  See ["Extra Bet Screen"](#extra-bet-screen) on this page for more info.  
 
-When you’re ready to place the extra bet, use the [PLACE EXTRA BET] button to confirm it.  This will exit the screen.
+If PLAYER WINS the round, then you'll receive a 2:1 [PAYOUT] on the Extra Bet, along with your normal [WINNINGS].
 
-If you don’t want to place an extra bet, press the [DECLINE] button to simply exit the screen.
+If PLAYER LOSES the round, then you'll receive no Winnings.
 
-House Money
+## House Money
 
-This Side Bet is played with the Player’s initial 2 cards, and also factors in whether the DEALER has a NATURAL or not.
+This Side Bet is played with PLAYER's [INITIAL HAND], and also factors in whether DEALER has a `NATURAL` or not.
 
-You are betting on whether the PLAYER’s initial 2 cards form a specific hand.
+You are betting on whether PLAYER’s Initial Hand forms a specific type of hand.
 
-Terms:
-Suited: When both cards are the same suit.
-Straight:  When both cards have consecutive values.
-Flush: Same as SUITED
-Pair: When both cards have the same values.
+### Option to Parlay
 
--Suited ACE and KING Payout 9:1
-The PLAYER has a SUITED NATURAL
+If PLAYER WINS the Side Bet and DEALER doesn’t have a `NATURAL`, then PLAYER will have the choice to either collect the Side Bet and [WINNINGS] or `[PARLAY]` them into the [BASE BET].
 
--Straight Flush Payout 4:1
-The PLAYER has both a STRAIGHT and a FLUSH
+To `Parlay` means to simply add the value into the Base Bet.  If DEALER does have a `NATURAL`, then you won’t be given the option to `Parlay`.
 
--Pair Payout: 3:1
-The PLAYER has a PAIR
+You can `Parlay` either the amount placed on the Side Bet, the Winnings from the Side Bet or both of these amounts.
 
--Straight Payout: 1:1
-The PLAYER has a STRAIGHT
+If PLAYER fulfills the conditions to `Parlay`, then when you press the `[Check Side Bets]` button at the beginning of the round, the "DECIDE HOUSE MONEY SCREEN" will be displayed.  See ["Decide House Money Screen"](#decide-house-money-screen) below for more info on this process.
 
-If the PLAYER wins the Side Bet and the DEALER doesn’t have a NATURAL, then the PLAYER will have the choice to collect the side bet and winnings or PARLAY them into the Base Bet.  To PARLAY means to simply add the value into the Base Bet.  If the Dealer does have a NATURAL, then you won’t be given the option to PARLAY.
+### House Money Payout Table
 
-You can PARLAY either the amount placed on the Side Bet, the winnings from Side Bet or both of these amounts.
+|  **Win Condition**  | **Payout** |
+|:-------------------:|:----------:|
+| Suited Ace and King |     9:1    |
 
-Decide House Money Screen
+PLAYER's Initial Hand is a [SUITED] `Natural`
 
-When the PLAYER wins the Side Bet and the DEALER doesn’t have a NATURAL, then the “Decide House Money Screen” can appear.  After the PLAYER’s initial 2 cards are dealt, the PLAYER can press the [CHECK SIDE BETS] button and this screen will be displayed.
+| Straight Flush | 4:1 |
+|----------------|-----|
 
-In the upper left hand portion of the screen is  the “Winning Hand Field”.  This field displays the PLAYER’S initial 2 cards used to win the side bet.  The field also displays the  WIN CONDITION that the PLAYER’s HAND fulfilled and the payout for it.
+PLAYER's Initial Hand is a [STRAIGHT FLUSH]
 
-In the upper right hand portion of the screen is the “Player Info Field”.  The “Bank Field” shows the PLAYER’s current BANK value.  The “Base Bet Field” shows the PLAYER’s current BASE BET value.  The “Side Bet Field” shows the amount of money that the PLAYER placed on the HOUSE MONEY Side Bet.  The “Winnings Field” shows the amount of money the PLAYER won from winning the Side Bet.
+| Pair | 3:1 |
+|------|-----|
 
-The bottom half of the screen displays a table of actions the PLAYER can take, regarding the Side Bet.  The left column shows the list of actions.  The right column shows the new amount of the Base Bet, after the PLAYER selects the corresponding action.
+PLAYER's Initial Hand is a [PAIR]
 
-If the PLAYER presses the [COLLECT BET AND WINNINGS] button, the PLAYER will receive their House Money Bet back plus their winnings.  This doesn’t affect the Base Bet, so the right hand column displays “No Change”.
+| Straight | 1:1 |
+|----------|-----|
 
-If the PLAYER presses the [PARLAY BET] button, the PLAYER will receive only their winnings.  The House Money Bet gets PARLAYED into the Base Bet, with the new bet amount shown in the right hand column.
+PLAYER's Initial Hand is a [STRAIGHT]
 
-If the PLAYER presses the [PARLAY WINNINGS] button, the PLAYER will receive only their House Money Bet back.  The winnings get PARLAYED into the Base Bet, with the new bet amount shown in the right hand column.
+### Decide House Money Screen
 
-If the PLAYER presses the [PARLAY ALL] button, the PLAYER will receive no money back at all.  The House Money Bet and winnings both get PARLAYED into the Base Bet, with the new Base Bet amount shown in the right hand column.
+<display Decide House Money Screen>
 
-Pressing any [ACTION] button will exit the screen and resume the game.
+When you win House Money, you can use this screen to either collect the House Money Bet and Winnings or `Parlay` them into the Base Bet for the normal round.
 
-In the resulting “Side Bet Outcome” screen, the House Money winnings displayed will be the amount of money that you didn’t PARLAY into the Base Bet.
+#### Winning Hand Field
 
--Lucky Ladies
+In the upper left hand portion of the screen is the “WINNING HAND FIELD”.  This field displays PLAYER’S Initial Hand, used to win the side bet.  The field also displays the [WIN CONDITION] that PLAYER’s Hand fulfilled and the [PAYOUT] for it.
 
-This Side Bet is played with the PLAYER’s hand, and also factors in whether the DEALER has a NATURAL or not.
+#### Player Info Area
 
-You are betting on whether the PLAYER’s hand will equal 20 total pts at the end of the round.
+In the upper right hand portion of the screen is the “PLAYER INFO AREA”, which shows various info on PLAYER's status.  
+
+The “BANK FIELD” shows PLAYER’s current [BANK] value.  
+
+The “BASE BET FIELD” shows PLAYER’s current Base Bet value.  
+
+The “SIDE BET FIELD” shows the amount of money that PLAYER placed on the House Money Side Bet.
+
+The “WINNINGS FIELD” shows the amount of money PLAYER won from winning the Side Bet.
+
+#### Player Parlay Table
+
+The bottom half of the screen displays the "PARLAY TABLE", a table of actions PLAYER can take, regarding `Parlaying` the Side Bet.  
+
+The left column shows the list of actions.  The right column shows the new amount of the Base Bet, after PLAYER selects the corresponding action.
+
+|          **PLAYER ACTIONS**         |         **NEW BASE BET AMOUNT**        |
+|:-----------------------------------:|:--------------------------------------:|
+| `[Collect Bet Amount and Winnings]` |          No Change in Base Bet         |
+|        `[Parlay Bet Amount]`        |         `Base Bet` + `Bet Amount`      |
+|         `[Parlay Winnings]`         |        `Base Bet` + `Winnings`         |
+|            `[Parlay All]`           | `Base Bet` + `Bet Amount` + `Winnings` |
+
+If you press the `[COLLECT BET AND WINNINGS]` button, PLAYER will receive their House Money Bet back plus their Winnings.  This doesn’t affect the Base Bet, so the right hand column displays “No Change”.
+
+If you press the `[PARLAY BET]` button, PLAYER will receive only their Winnings.  The House Money Bet gets `Parlayed` into the Base Bet, with the new bet amount shown in the right hand column.
+
+If you press the `[PARLAY WINNINGS]` button, PLAYER will receive only their House Money Bet back.  The Winnings get `Parlayed` into the Base Bet, with the new bet amount shown in the right hand column.
+
+If PLAYER presses the `[PARLAY ALL]` button, PLAYER will receive no money back at all.  The House Money Bet and winnings both get `Parlayed` into the Base Bet, with the new Base Bet amount shown in the right hand column.
+
+Pressing any `[Action]` button will exit the screen and resume the game.
+
+In the resulting “SIDE BET OUTCOME SCREEN", the House Money Winnings displayed will be the amount of money that you didn’t `Parlay` into the Base Bet.
+
+## Lucky Ladies
+
+This Side Bet is played with PLAYER’s hand, and also factors in whether DEALER has a `NATURAL` or not.
+
+You are betting on whether PLAYER’s hand will equal 20 total pts at the end of the round.
 
 Terms:
 Pair: Both cards are the same value.
@@ -200,35 +285,77 @@ Matched: Both cards are an exact match in suit and value..
 Suited: Both cards have the same suit.
 Ranked: Both cards have the same rank.
 
--Queen of Hearts Pair and Dealer Blackjack in Hearts Payout: 1000:1 (formerly jackpot 100)
-The PLAYER’s HAND includes 2 HEART QUEENs.  The Dealer has a NATURAL, with both cards having the HEARTS suit.
+|                  **Win Condition**                  | **Payout** |
+|:---------------------------------------------------:|:----------:|
+| Queen of Hearts Pair and Dealer Blackjack in Hearts |   1000:1   |
 
--Queen of Hearts Pair and Suited Dealer Blackjack Payout: 750:1 (formerly jackpot 25)
-The PLAYER’s HAND includes 2 HEART QUEENs.  The DEALER has a SUITED NATURAL.
+PLAYER’s [INITIAL HAND] includes 2 `QUEEN-HEARTS`.  DEALER has a `NATURAL`, with both cards having the HEARTS suit.
 
--Queen of Hearts Pair and Dealer Blackjack Payout: 500:1 (formerly jackpot 5)
-The PLAYER’s Hand includes 2 HEART QUEENs.  The DEALER has a NATURAL (that isn’t SUITED).
+| Queen of Hearts Pair and Suited Dealer Blackjack | 750:1 |
+|--------------------------------------------------|-------|
 
--Queen of  Hearts Pair Payout: 200:1
-The PLAYER’s HAND includes 2 HEART QUEENs.
+PLAYER's Initial Hand includes 2 `QUEEN-HEARTS`.  DEALER has a [SUITED] `Natural`.
 
--Queen Pair Payout: 25:1
-The PLAYER’s HAND includes 2 QUEENS
+| Queen of Hearts Pair and Dealer Blackjack | 500:1 |
+|-------------------------------------------|-------|
 
--Matched 20 Payout: 25:1
-The PLAYER has a MATCHED 20 pt HAND.
+PLAYER's Initial Hand includes 2 `QUEEN-HEARTS`.  DEALER has a `Natural` (that is not [SUITED])
 
--Suited 20 Payout: 10:1
-The PLAYER has a SUITED 20 pt HAND.
+| Queen of Hearts Pair | 200:1 |
+|----------------------|-------|
 
--Ranked 20 Payout: 9:1
-The PLAYER has a RANKED 20 pt HAND.
+PLAYER's Hand includes 2 `QUEEN-HEARTS`
 
--Any 20 Payout: 4:1
-The PLAYER has a 20 pt HAND that doesn’t fulfill any of the other higher payout conditions.
+| Queen Pair | 25:1 |
+|------------|------|
 
--Queen Hearts Payout: 2:1
-The PLAYER’s HAND includes a HEART QUEEN (hand doesn’t have to equal 20 pts)
+PLAYER's Hand includes 2 QUEENS
 
--Queen Payout: 1:1
-The PLAYER’s HAND includes a QUEEN (hand doesn’t have to equal 20 pts)
+| Matched 20 | 25:1 |
+|------------|------|
+
+PLAYER has a [MATCHED] 20 pt Hand.
+
+| Suited 20 | 10:1 |
+|-----------|------|
+
+PLAYER has a [SUITED] 20 pg Hand.
+
+| Ranked 20 | 9:1 |
+|-----------|-----|
+
+PLAYER has a [RANKED] 20 pt Hand.
+
+| Any 20 | 4:1 |
+|--------|-----|
+
+PLAYER has a 20 pt Hand that doesn't fulfill any of the other higher payout conditions.
+
+| Queen Hearts | 2:1 |
+|--------------|-----|
+
+PLAYER's Hand includes a `QUEEN-HEART` (hand doesn't have to equal 20 pts)
+
+| Queen | 1:1 |
+|-------|-----|
+
+PLAYER's Hand includes a QUEEN (hand doesn't have to equal 20 pts)
+
+## Extra Bet Menu
+
+<pic of screen>
+
+You can use this screen to place an [EXTRA BET] during the round itself.  Certain Side Bets will activate this screen.  It will display after you press the `[Check Side Bets]` button at the beginning of the round.  This screen is very similar in functionality to the “BASE BET MENU”.
+The "BANK FIELD" will show the current value of your [BANK].
+
+The "BASE BET FIELD" will show the value of your [BASE BET].
+
+If you're playing "Extra Bet Blackjack", the "FEE FIELD" will be displayed.  It will show you the current fee you will have to pay, once you place the [EXTRA BET].  See ["Extra Bet Blackjack"](#extra-bet-blackjack) for more info on this.
+
+You can use the `[Chip]` buttons to add money to the Extra Bet.  The “Current Bet Field” (large purple circle) will update to show your current bet amount.  The "BANK FIELD" and "FEE FIELD" will also update to reflect their current values.
+
+If you want to clear the bet, use the `[Clear Bet]` button to reset all values back to their starting values.
+
+When you’re ready to place the Extra Bet, use the `[Place Extra Bet]` button to confirm it.  This will exit the screen.
+
+If you don’t want to place an extra bet, press the `[Decline]` button to simply exit the screen.
