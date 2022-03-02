@@ -42,7 +42,7 @@ When PLAYER gets a `NATURAL`, they’ll receive a higher [PAYOUT] than normal.  
 
 The DEFAULT payout is `3:2`.  
 
-See ["NATURAL"](basic-rules.md#natural) and ["Payouts"](basic-rules.md#payouts)  in the Basic Rules section for more info.
+See ["Natural"](basic-rules.md#natural) and ["Payouts"](basic-rules.md#payouts)  in the Basic Rules section for more info.
 
 ### Dealer Stands On
 
@@ -50,9 +50,9 @@ DEALER has to `Stand` when their [HAND] point total reaches a certain amount (re
 
 By DEFAULT, the DEALER `STANDS on SOFT 17`.
 
-See the ["SOFT HANDS AND HARD HANDS"](basic-rules#soft-hands-and-hard-hands) and ["Dealer's Turn"](basic-rules#dealer39s-turn) sections of the Basic Rules page for more info.
+See the ["Soft Hands and Hard Hands"](basic-rules#soft-hands-and-hard-hands) and ["Dealer's Turn"](basic-rules#dealer39s-turn) sections of the Basic Rules page for more info.
 
-### Dealer Stands On
+### Deck Count
 
 Blackjack Trivia can be played with multiple 52 card decks shuffled together.  This setting determines how many decks the game will be played with.  You can play from 1 deck to 8 decks.  
 
@@ -60,7 +60,7 @@ The DEFAULT is `6 decks`.
 
 ### Disable Five Card Charlie
 
-By DEFAULT, if PLAYER or DEALER’s [HAND] reaches 5 cards without going over 21 pts, their Hand will be a `FIVE CARD CHARLIE` and they automatically win.  You can `Disable` this feature by checking this setting.  
+By DEFAULT, if PLAYER or DEALER’s [HAND] reaches 5 cards without going over 21 pts, their Hand will be a `FIVE CARD CHARLIE` and they automatically WIN.  You can `Disable` this feature by checking this setting.  
 
 When `Disabled`, a Hand can gain up to a maximum of 7 cards.  The Hand will still be considered a `CHARLIE` at those higher card counts.
 
@@ -102,15 +102,15 @@ When you `Enable` this setting, PLAYER will be able to `Double Down` a [SPLIT HA
 
 See ["Double Down"](basic-rules.md#double-down), ["Double Down After Split"](basic-rules.md#double-down-after-split) and ["Splitting Aces](basic-rules.md#splitting-aces) in the Basic Rules Section for more info on these topics.
 
-**NOTE**: Checking this setting will also check the [“Double Down After Split”](#double-down-after-split) and [“Splitting Aces”](#splitting-aces) settings.  Click the links for more info.
+**NOTE**: Checking this setting will also check the [“Double Down After Split”](#double-down-after-split) and [“Splitting Aces”](#splitting-aces-allowed) settings.  Click the links for more info.
 
 ### Draw Only 1 Card After Splitting Aces
 
 When you `Enable` this setting, after PLAYER `Splits` 2 ACES and each [SPLIT HAND] receives their 2nd card, the hands will both `Stand`.  PLAYER won’t be allowed to receive any additional cards for them.
 
-See [“Splitting Aces”](#splitting-aces) in the Basic Rules section for more info.
+See ["Splitting Aces](basic-rules.md#splitting-aces) in the Basic Rules section for more info.
 
-**NOTE**: Checking this setting will also check the [“Splitting Aces”](#splitting-aces) Setting.
+**NOTE**: Checking this setting will also check the [“Splitting Aces”](#splitting-aces-allowed) Setting.
 
 ### Resplitting Allowed
 
@@ -126,7 +126,7 @@ This setting will `Enable` PLAYER to `Resplit` a Split Hand that has 2 ACES.
 
 See ["Resplitting"](basic-rules.md#resplitting) and ["Splitting Aces"](basic-rules.md#splitting-aces) in the Basic Rules section for more info.
 
-**NOTE**: Checking this setting also checks the [“Resplitting Allowed”](#resplitting-allowed) and [“Splitting Aces”](#splitting-aces) setting.
+**NOTE**: Checking this setting also checks the [“Resplitting Allowed”](#resplitting-allowed) and [“Splitting Aces”](#splitting-aces-allowed) setting.
 
 ### Resplitting After Split Aces Allowed
 
@@ -134,7 +134,7 @@ This setting will `Enable` PLAYER to `Resplit`, even if the initial `Split` was 
 
 See ["Resplitting"](basic-rules.md#resplitting) and ["Splitting Aces"](basic-rules.md#splitting-aces) in the Basic Rules section for more info.
 
-**NOTE**: Checking this setting also checks the [“Resplitting Allowed”](#resplitting-allowed) and [“Splitting Aces”](#splitting-aces) setting.
+**NOTE**: Checking this setting also checks the [“Resplitting Allowed”](#resplitting-allowed) and [“Splitting Aces”](#splitting-aces-allowed) setting.
 
 ### Disable Surrender
 
@@ -152,7 +152,7 @@ See Early and Late Surrender in the ["Surrender"](basic-rules.md#surrender) sect
 
 ### Disable Insurance Side Bet
 
-By DEFAULT, the Insurance Side Bet will be offered when the conditions are met (DEALER has an ACE for their initial Face Up card).
+By DEFAULT, the Insurance Side Bet will be offered when the conditions are met (DEALER has an ACE for [UPCARD]).
 
 This setting will `Disable` the Insurance Bet.
 
@@ -160,7 +160,7 @@ See ["Insurance"](basic-rules.md#insurance) in the Basic Rules section for more 
 
 ### Disable Even Money Side Bet
 
-By DEFAULT, the Even Money Side Bet will be offered when the conditions are met (PLAYER has a `Natural` and DEALER has an ACE for their initial Face Up card).
+By DEFAULT, the Even Money Side Bet will be offered when the conditions are met (PLAYER has a `Natural` and DEALER has an ACE for their [UPCARD]).
 
 This setting will `Disable` the Even Money Bet.
 
