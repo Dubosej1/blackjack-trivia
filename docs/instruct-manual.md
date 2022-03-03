@@ -10,82 +10,82 @@ Before you start the game, you can change the game settings in the “OPTIONS ME
 
 ## Placing your bets
 
-#### Base Bet Menu
+### Base Bet Menu
 
 <pic of the Base Bet Menu>
 
 When you press the `[Start New Game]` button, the round begins and the “BASE BET MENU” appears on screen.  Here you can place a [BASE BET]. 
 
-##### Bank Field
+#### Bank Field
 
 The “BANK FIELD” shows how much money you currently have in your [BANK].
 
 See ["Betting: Base Bet"](basic-rules.md#base-bet) in the Basic Rules Page for more info on Base Bet and PLAYER's Bank. 
 
-##### Chip Buttons
+#### Chip Buttons
 
 <pic of Chip Buttons>
 
 Use the `[Chip]` buttons to add money to the Base Bet.  The “CURRENT BASE BET FIELD” will increase as you add chip amounts, and the “BANK FIELD” will decrease.
 
-##### Clear Bet Button
+#### Clear Bet Button
 
 Use the `[Clear Bet]` button to clear the Current Base Bet and reset all fields back to default.
 
-##### Side Bet Menu Button
+#### Side Bet Menu Button
 
 If you want to place any [SIDE BETS] for the current round, press the `[Side Bet Menu]` button to open the "SIDE BET MENU".  See the ["Side Bets"](side-bet-rules.md) section of the documentation for more info.
 
-##### Side Bets Placed Button
+#### Side Bets Placed Button
 
 After you have placed some Side Bets, you can press the `[Side Bets Placed]` button to open the “SIDE BETS PLACED SCREEN".  This screen lists all the Side Bets you placed and the amount of money you put on them.  The `[Side Bets Placed]` button itself will show the total money amount of all the Side Bets placed.
 
 >:warning: **WARNING**:  
 > If you have the “Side Bets” Option set to OFF, the [`Side Bet Menu]` and `[Side Bets Placed]` buttons won’t be displayed.  See the ["Side Bets"](options-menu.md#side-bets) section in the Options Menu documentation for more info.
 
-##### Deal Cards Button
+#### Deal Cards Button
 
 When you are done placing your Base Bet, press the `[Deal Cards]` button to close the menu and start the game.
 
-#### Side Bet Menu
+### Side Bet Menu
 
 <pic of the side bet menu>
 
 You can place any Side Bets from the “SIDE BET MENU”.
 
-##### Bank Field
+#### Bank Field
 
 Near the top of the menu is the “BANK FIELD” which shows your current Bank value (if you have a Current Base Bet from the “BASE BET MENU”, the “BANK FIELD” will show the updated value).
 
-##### Selecting Side Bets
+#### Selecting Side Bets
 
 All available Side Bets are listed in the middle of the menu.  Press a `Side Bet Field` in order to select it.  The `Side Bet’s field` will turn blue to indicate that it’s the currently selected Side Bet.
 
-##### Side Bet Rules Button
+#### Side Bet Rules Button
 
 After you select a Side Bet, you can press the `[Rules]` button at the top of the screen to read the rules for it.
 
-##### Side Bet Chip Buttons
+#### Side Bet Chip Buttons
 
 Use the `[Chip]` buttons to add money to that Side Bet.  The amount of money you add to the Side Bet will be listed in its `Side Bet Field`, in the purple circle.
 
-##### Activate Bet Button
+#### Activate Bet Button
 
 Some Side Bets, such as “Extra Bet Blackjack”, don’t require the `[Chip]` buttons.  Instead the `[Activate Bet]` button will be shown in their place.  Press the button to activate the Side Bet.  The word “Activated” will be shown in the `Side Bet Field's` amount area.
 
-##### Side Bets Total Field
+#### Side Bets Total Field
 
 You can select multiple side bets and add money to them, as long as you have the money in the bank for them.  The total amount of money for all Side Bets is shown in the purple circle at the top of the menu.
 
-##### Clear and Clear All Buttons
+#### Clear and Clear All Buttons
 
 If you want to clear an individual Side Bet, select it and press the `[Clear]` button.  In order to clear all Side Bets at once, press the `[Clear All Bets]` button.
 
-##### Placing the Side Bets
+#### Placing the Side Bets
 
 When you are done selecting Side Bets, press the `[Place Bets]` button to place the side bets and return to the “BASE BET MENU”.
 
-##### Back Button
+#### Back Button
 
 You can also return to the “BASE BET MENU” without placing Side Bets by pressing the `[Back]` button.
 
@@ -100,13 +100,13 @@ The "GAME FIELD" is where the main action of the game app will take place.  The 
 Let's take a closer look at all the different areas.
 
 
-#### Nav Area
+### Nav Area
 
 <display pic of the Nav Area>
 
 This is usually at the top of the screen.  It's an area that contains some of the game app's "SYSTEM BUTTONS". 
 
-##### End Game Button
+#### End Game Button
 
 <display pic of END GAME button>
 
@@ -116,29 +116,29 @@ The "BANK FIELD", "BET FIELD", "DEALER FIELD" and "PLAYER FIELD" will reset to t
 
 *“Game Ended”* will be displayed in the “GAME MESSAGE FIELD".  The `[Start New Game]` button will also be displayed in the “GAME MESSAGE FIELD".
 
-##### Options Button
+#### Options Button
 
 The '[Options]` button will open the "OPTIONS MENU", where you can change the various game settings.  The button will only appear when a round isn't being currently played.
 
 For more info, see the ["Options Menu"](options-menu.md) section of the documentation.
 
-##### Rules Button
+#### Rules Button
 
 The `[Rules]` button will open up the documentation for this game app.  You can learn about how to play the game and navigate the game app.
 
-#### Game Info Area
+### Game Info Area
 
 <display pic of game info area>
 
 This is usually near the top of the screen.  It displays general info about PLAYER.
 
-##### Bank Field
+#### Bank Field
 
 The "BANK FIELD" displays PLAYER's current [BANK] value.
 
 See ["Betting: Base Bet"](basic-rules.md#base-bet) in the Basic Rules Page for more info on PLAYER's Bank. 
 
-##### Bet Field
+#### Bet Field
 
 The "BET FIELD" displays PLAYER's current [BASE BET] value.  
 
@@ -146,25 +146,25 @@ If PLAYER `Doubles Down`, then the "DOUBLE DOWN MARKER" will be placed inside of
 
 See ["Betting: Base Bet"](basic-rules.md#base-bet) and ["Double Down"](basic-rules.md#double-down) sections in the Basic Rules Page for more info about those subjects.
 
-#### Dealer Field
+### Dealer Field
 
 <display pic of Dealer Field>
 
 "DEALER FIELD" is usually near the top of the screen.  It displays DEALER's current [HAND] and information about it.
 
-##### Dealer Card Area
+#### Dealer Card Area
 
 The "DEALER CARD AREA" displays the DEALER's current Hand.
 
-##### Dealer Hand Total Field
+#### Dealer Hand Total Field
 
 The "DEALER HAND TOTAL FIELD" displays the total points of DEALER's **VISIBLE** cards during the round.  Once DEALER's [HOLE CARD] is revealed, the display will update with the real total.
 
-##### Dealer Message Field
+#### Dealer Message Field
 
 The "DEALER MESSAGE FIELD" displays messages indicating the actions DEALER is currently taking.  It also displays any outcomes for DEALER's Hand.
 
-#### Game Message Field
+### Game Message Field
 
 <display pic of Game Message Field>
 
@@ -172,17 +172,17 @@ The "GAME MESSAGE FIELD" is usually near the center of the screen.  It displays 
 
 The `[Start New Game]`, `[Start New Round]` and `[Check Side Bets]` buttons will also be displayed here when they become active.
 
-#### Player Field
+### Player Field
 
 The "PLAYER FIELD" is usually near the bottom of the screen. It displays PLAYER's current Hand and information about it.
 
-##### Player Card Area
+#### Player Card Area
 
 The "PLAYER CARD AREA" displays the PLAYER's currently active Hand.  
 
 The label near the "PLAYER CARD AREA" will also change to indicate which PLAYER hand is currently active.  It can say either *"PLAYER"* (indicating PLAYER is playing a single Hand) or *"HAND #"* (indicating PLAYER is playing a Split Hand, where # is the number of active Split Hand).
 
-#####  Player Hand Total Field
+####  Player Hand Total Field
 
 The "PLAYER HAND TOTAL FIELD" displays the total points of PLAYER's currently active Hand.
 
@@ -190,11 +190,11 @@ If PLAYER has a [SOFT HAND], then the highest of the possible values will be dis
 
 See ["Soft Hands and Hard Hands"](basic-rules.md#soft-hands-and-hard-hands) in the Basic Rules page for more info.
 
-##### Player Message Field
+#### Player Message Field
 
 The "PLAYER MESSAGE FIELD" displays any outcomes for PLAYER's currently active HAND.
 
-#### Game Action Buttons Field
+### Game Action Buttons Field
 
 <display pic of game action buttons field>
 
@@ -204,19 +204,19 @@ The buttons will be highlighted depending on if they're currently active or disa
 
 For more info on these buttons, see their individual sections on this page.
 
-##### Surrender Button Field
+### Surrender Button Field
 
 The "SURRENDER BUTTON FIELD" is usually located somewhere near the "PLAYER FIELD" and "GAME ACTION BUTTON FIELD".  It displays the `Surrender` button.  The button will be highlighted depending on if its currently active or disabled.
 
 For more info about this button, see ["Surrender Button"](#surrender-button) on this page.
 
-#### Split Stages Field
+### Split Stages Field
 
 The "SPLIT STAGES FIELD" is usually located somewhere near the "PLAYER FIELD".  All currrently inactive [SPLIT HANDS] are displayed here, up to a total of 3.
 
 Each Split Hand is displayed in its own little box within the field.  Each box displays the SPLIT HAND’s Number, hand total and a message field to display any outcomes.  Pretty much the same info the "PLAYER FIELD" would show about the currently active Hand.
 
-##### Card Codes
+#### Card Codes
 
 The cards of a Split Hand are also displayed, but they're represented as [CODES] instead of cards, due to space limitations.  
 
@@ -252,7 +252,7 @@ This section will cover all of those various processes.
 
 After all of these various processes have been executed, then the round continues and it’ll be PLAYER’s Turn.
 
-#### Dealing the Cards
+### Dealing the Cards
 
 <pic of the active game field>
 
@@ -264,7 +264,7 @@ DEALER deals 2 cards to itself and PLAYER.  These [HANDS] will appear in the "DE
 
 See ["Dealing the Cards"](basic-rules.md#dealing-the-cards) section in the Basic Rules page for more info on this process.
 
-##### Checking the Side Bets
+### Checking the Side Bets
 
 <pic of the Check Side Bets Button>
 
@@ -276,7 +276,7 @@ At a minimum, the “SIDE BET OUTCOME SCREEN" will be displayed to show a list o
 
 See the ["Side Bet Outcome Screen"](#side-bet-outcome-screen) section in this page and ["Side Bets"](side-bet-rules.md) section in the documentation for more info.
 
-##### Decide Side Bets Screen
+### Decide Side Bets Screen
 
 The “DECIDE SIDE BETS SCREEN” will be displayed if the [INSURANCE] and [EVEN MONEY] Side Bets need to be offered to the Player.  
 
@@ -284,19 +284,19 @@ See ["Decide Side Bets Screen"](#decide-side-bets-screen) for more info on this 
 
 See the ["Insurance"](basic-rules.md#insurance) and ["Even Money"](basic-rules.md#even-money) sections in the Basic Rules page for more info about those Side Bets.
 
-##### Early Surrender Screen
+### Early Surrender Screen
 
 If [EARLY SURRENDER] has been selected in the Options Menu, then the “EARLY SURRENDER SCREEN" will be displayed at this time.  
 
 See ["Early Surrender Screen"](#early-surrender-screen) for more info.
 
-##### Player Natural
+### Player Natural
 
 If PLAYER has a `[NATURAL]`, then *“Player Natural”* is displayed in the “GAME MESSAGE FIELD"  and *“Blackjack!”* is displayed in the “PLAYER MESSAGE FIELD”.  Then the round ends immediately at this point.
 
 See ["Natural"](basic-rules.md#natural) in the Basic Rules page for more info about this event.
 
-##### Dealer Peek and Dealer Natural
+### Dealer Peek and Dealer Natural
 
 If DEALER's face up card is an ACE or [TEN-CARD], then DEALER will `[PEEK]` for a 'NATURAL'.  *“Dealer Peeks for Natural”* will be displayed in the “GAME MESSAGE FIELD".  
 
@@ -313,7 +313,7 @@ The “GAME MESSAGE FIELD" will display *“Player’s Turn”* and you can star
 
 The `[HIT]`, `[STAND]`, `[DOUBLE DOWN]`, `[SPLIT]` and `[SURRENDER]` buttons will become active, depending on if the action is available to PLAYER.
 
-#### Hit Button
+### Hit Button
 
 <display pic of HIT button>
 
@@ -331,7 +331,7 @@ Trivia Mode can be turned off in the Options Menu.  If Trivia Mode is off, then 
 
 See ["Trivia Mode Setting"](options-menu.md#trivia-mode) in the Options Menu section of the documentation for more info on this setting.
 
-#### Stand Button
+### Stand Button
 
 <display pic of STAND button>
 
@@ -345,7 +345,7 @@ If you're playing a single Hand, then your turn will end and it’ll be the DEAL
 
 If you're playing a [SPLIT HAND], then you'll start playing the next available Split Hand.  If there are no more available Split Hands, then your turn will end and it'll be DEALER's Turn.
 
-#### Double Down Button
+### Double Down Button
 
 <display pic of DOUBLE DOWN button>
 
@@ -368,7 +368,7 @@ Afterwards, your Hand will automatically `Stand`.  The same exact actions for pr
 >
 >See ["Double Down after Split"](options-menu.md#double-down-after-split) and ["Double Down After Split Aces"](options-menu.md#double-down-after-split-aces) sections in the Options Menu documentation for more info about these settings.
 
-##### Split button
+### Split button
 
 <display pic of SPLIT button>
 
@@ -397,7 +397,7 @@ See ["Resplitting"](basic-rules.md#resplitting) in the Basic Rules section for m
 >
 >See the ["Options Menu"](options-menu.md) section of the documemtation to learn about the various settings related to Split.
 
-##### Surrender Button
+### Surrender Button
 
 <display pic of SURRENDER button>
 
@@ -416,13 +416,13 @@ If you SURRENDER a split hand, then the round will continue as normal.  When the
 
 ## TRIVIA SECTION
 
-#### Overview
+### Overview
 
 Whenever PLAYER `HITS` or `DOUBLES DOWN`, they will have to answer a Trivia Question in order to complete the action.
 
 See ["Trivia Mode"](basic-rules.md#trivia-mode) in the Basic Rules Section for more about this mode.
 
-#### Select Trivia Difficulty Screen
+### Select Trivia Difficulty Screen
 
 When you first press the `[HIT]` or `[DOUBLE DOWN]` button, the "SELECT TRIVIA DIFFICULTY SCREEN" will be displayed.
 
@@ -432,11 +432,11 @@ You can select the difficulty level of the upcoming Trivia Question, by pressing
 
 There are different benefits for selecting the different difficulties.  See ["Trivia Credits"](basic-rules.md#trivia-credits) for more info.
 
-#### Trivia Question Screen
+### Trivia Question Screen
 
 After selecting the Trivia Difficulty, the “TRIVIA QUESTION SCREEN” will be displayed.  Here you'll see the Trivia Question you have to answer, along with any information about it.
 
-##### Trivia Info Fields
+#### Trivia Info Fields
 
 At the top of the screen, info about the Trivia Question will be displayed.
 
@@ -446,7 +446,7 @@ The “CATEGORY FIELD" displays the category of the Trivia Question.
 
 The “DIFFICULTY FIELD" displays the difficulty level of the Trivia Question.
 
-##### The Trivia Question
+#### The Trivia Question
 
 Here you'll see the Trivia Question, the possible answers for it, and the answer buttons.
 
@@ -456,7 +456,7 @@ The "ANSWER TABLE" will be displayed if the Trivia Question is Multiple Choice. 
 
 The `[Answer]` buttons will be displayed at the bottom of the screen.  If the Question is a Multiple Choice question, The `[A]`, `[B]`, `[C]`, `[D]` buttons will be displayed.  If the Question is a True/False question, then the `[True]`  and `[False]` buttons will be displayed instead.
 
-##### Correct Trivia Answer
+#### Correct Trivia Answer
 
 <display a correctly answered question>
 
@@ -470,7 +470,7 @@ When you select an incorrect answer, *“INCORRECT ANSWER”* will be displayed 
 
 A red marker will be displayed next to the “TRIVIA CREDITS SCREEN", showing that you lost 1 credit.
 
-##### Correct Answer Field
+#### Correct Answer Field
 
 Regardless of what answer you selected, the “CORRECT ANSWER FIELD" will be revealed at the very bottom of the screen, showing the Correct Answer.
 
@@ -510,7 +510,7 @@ If PLAYER has certain [SIDE BETS] active, then the “SIDE BET OUTCOME” screen
 
 See the ["Side Bet Outcome Screen"](#side-bet-outcome-screen) section of this page for a more in-depth look of this screen.
 
-#### Total Winnings
+### Total Winnings
 
 Finally the “TOTAL WINNINGS" screen will be displayed.  This screen simply shows the total amount of money you won in this round.  Pressing the `[Close]` button will close the screen.
 
