@@ -339,7 +339,7 @@ The "BASE BET FIELD" will show the value of your [BASE BET].
 
 If you're playing "Extra Bet Blackjack", the "FEE FIELD" will be displayed.  It will show you the current fee you will have to pay, once you place the [EXTRA BET].  See ["Extra Bet Blackjack"](#extra-bet-blackjack) for more info on this.
 
-You can use the `[Chip]` buttons to add money to the Extra Bet.  The “Current Bet Field” (large purple circle) will update to show your current bet amount.  The "BANK FIELD" and "FEE FIELD" will also update to reflect their current values.
+You can use the `[Chip]` buttons to add money to the Extra Bet.  The “CURRENT BET FIELD” (large purple circle) will update to show your current bet amount.  The "BANK FIELD" and "FEE FIELD" will also update to reflect their current values.
 
 If you want to clear the bet, use the `[Clear Bet]` button to reset all values back to their starting values.
 
