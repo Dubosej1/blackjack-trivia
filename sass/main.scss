@@ -447,6 +447,7 @@ body {
   display: inline-block;
 
   &-system {
+    color: black;
     &__new-game,
     &__check-side-bet-outcome {
       display: inline-block;
@@ -457,6 +458,12 @@ body {
     margin: 0% 1%;
 
     @include border-style($color-btn-system-border, 5px);
+
+    &__rules {
+      font-family: Arial;
+      text-decoration: none;
+      cursor: default;
+    }
   }
 
   &-action {

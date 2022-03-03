@@ -310,6 +310,7 @@ body {
   display: inline-block;
 }
 .btn-system {
+  color: black;
   min-width: 3rem;
   padding: 1rem 3rem;
   font-weight: 700;
@@ -325,6 +326,11 @@ body {
 }
 .btn-system__new-game, .btn-system__check-side-bet-outcome {
   display: inline-block;
+}
+.btn-system__rules {
+  font-family: Arial;
+  text-decoration: none;
+  cursor: default;
 }
 .btn-action {
   min-width: 3rem;
