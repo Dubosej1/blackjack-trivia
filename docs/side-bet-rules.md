@@ -10,7 +10,7 @@ Some Side Bets will have special functionality that will be displayed in their o
 
 >**NOTE**:
 >
->INSURANCE and EVEN MONEY are [CORE SIDE BETS] that are separate and won’t be covered in this section.  See ["Insurance"](options-menu.md#insurance) and ["Even Money"](options-menu.md#even-money) in the Basic Rules Section for more info on these bets.
+>INSURANCE and EVEN MONEY are [CORE SIDE BETS] that are separate and won’t be covered in this section.  See ["Insurance"](basic-rules.md#insurance) and ["Even Money"](basic-rules.md#even-money) in the Basic Rules Section for more info on these bets.
 
 >**NOTE**:
 >
@@ -57,14 +57,14 @@ You are betting on whether the TARGET HAND forms a [POKER HAND] when combined.
 
 |        **Win Condition**        |         **Payout**        |
 |:-------------------------------:|:-------------------------:|
-| Suited 3 of a Kind (QUEEN - ACE | 1000:1 (formerly Jackpot) |
+| Suited 3 of a Kind (QUEEN - ACE | 1000:1 |
 
-The TARGET HAND is a [SUITED] [3 OF A KIND], and the card [RANKS] are either a QUEEN, KING or ACE.
+The TARGET HAND is a [SUITED] [3 OF A KIND] and the card [RANKS] are either a QUEEN, KING or ACE.
 
 | Suited 3 of a Kind (2 - JACK) | 100:1 |
 |-------------------------------|-------|
 
-The TARGET HAND is a [SUITED] [3 OF A KIND], and the card Ranks are either a JACK or a lower rank.
+The TARGET HAND is a [SUITED] [3 OF A KIND] and the card Ranks are either a JACK or a lower rank.
 
 | 3 of a Kind | 33:1 |
 |-------------|------|
@@ -98,24 +98,15 @@ For the purposes of this Side Bet, a `NATURAL` also counts as an 11 pt hand, sin
 
 This Side Bet features a `Jackpot Ace`.
 
--The `Jackpot Ace` is an `ACE-SPADE` that is specially marked.  It’s only encountered 1 out of every 6 times an `ACE-SPADE` is drawn.  The `Jackpot Ace` is needed to reach the higher payouts.
+The `Jackpot Ace` is an `ACE-SPADE` that is specially marked.  It’s only encountered 1 out of every 6 times an `ACE-SPADE` is drawn.  The `Jackpot Ace` is needed to reach the higher payouts.
 
 ### Infinity Dice
 
 This Side Bet also features 3 `Infinity Dice`.
 
--The `Infinity Dice` are 3 six-sided dice that each have 5 blank sides and 1 side that features the infinity symbol.  When PLAYER rolls the dice and gets `Infinity` symbols, they can be used to receive higher payouts.
+The `Infinity Dice` are 3 six-sided dice that each have 5 blank sides and 1 side that features the infinity symbol.  When PLAYER rolls the dice and gets `Infinity` symbols, they can be used to receive higher payouts.
 
 When PLAYER wins this Side Bet with a [SUITED] 11 pt Hand (which will referred to as a "SUITED 11"), then the “PERFECT 11s DICE ROLL SCREEN" will appear during the start of the round.  PLAYER can use this screen to roll the `Infinity Dice`.  See below for more info on this screen.
-
-NOTE: Mystery Jackpot will be implemented later
-
-Terms:
--Jackpot Ace: A specially marked SPADE 6, used to reach higher payouts.
--Infinites: The number of infinity symbols the PLAYER rolls using the Infinity Dice.
--Suited: Both cards have the same suit.
--Colored: Both cards have the same color.
--Mixed: The 2 cards have different colors.
 
 ### Perfect 11s Payout Table
 
@@ -123,7 +114,7 @@ Terms:
 |:--------------------------:|:----------:|
 | Jackpot Ace and Spade King |   720:10   |
 
-PLAYER has a `NATURAL` that includes the `Jackpot Ace` and a `KING-SPADE
+PLAYER has a `NATURAL` that includes the `Jackpot Ace` and a `KING-SPADE`
 
 | Jackpot Ace and King | 131:10 |
 |----------------------|--------|
@@ -181,7 +172,7 @@ With the Side Bet activated, when PLAYER is dealt their Initial Hand and the fir
 
 ### Extra Bet Outcome
 
-You can use the "EXTRA BET MENU" to place the Extra Bet.  See ["Extra Bet Screen"](#extra-bet-screen) on this page for more info.  
+You can use the "EXTRA BET MENU" to place the Extra Bet.  See ["Extra Bet Screen"](#extra-bet-menu) on this page for more info.  
 
 If PLAYER WINS the round, then you'll receive a 2:1 [PAYOUT] on the Extra Bet, along with your normal [WINNINGS].
 
@@ -279,11 +270,7 @@ This Side Bet is played with PLAYER’s hand, and also factors in whether DEALER
 
 You are betting on whether PLAYER’s hand will equal 20 total pts at the end of the round.
 
-Terms:
-Pair: Both cards are the same value.
-Matched: Both cards are an exact match in suit and value..
-Suited: Both cards have the same suit.
-Ranked: Both cards have the same rank.
+### Lucky Ladies Payout Table
 
 |                  **Win Condition**                  | **Payout** |
 |:---------------------------------------------------:|:----------:|
