@@ -295,6 +295,7 @@ class SideBet extends Bet {
       beginningSideBetCheck,
       sequencePlacement,
       naturalEnd,
+      docLink,
     } = obj;
     super();
     this.name = name;
@@ -306,6 +307,7 @@ class SideBet extends Bet {
     this.beginningSideBetCheck = beginningSideBetCheck;
     this.sequencePlacement = sequencePlacement;
     this.naturalEnd = naturalEnd;
+    this.docLink = docLink;
   }
 
   //Manipulate Bet

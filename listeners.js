@@ -82,6 +82,7 @@ export function addNewRoundEventListeners() {
       clearAllBetsBtn: clearAllSideBetsBtnCallback,
       placeSideBetsBtn: placeSideBetsBtnCallback,
       activateSideBetBtn: activateSideBetBtnCallback,
+      rulesBtn: sideBetRulesBtnCallback,
       exitBtn: sideBetModalExitBtnCallback,
     };
 
@@ -497,6 +498,10 @@ function placeSideBetsBtnCallback(event) {
 
 function clearAllSideBetsBtnCallback(event) {
   controller.clearAllSideBets(event, globalState);
+}
+
+function sideBetRulesBtnCallback(event) {
+  view.sideBetModal.updateRulesBtnLink(globalState);
 }
 
 function sideBetModalExitBtnCallback(event) {

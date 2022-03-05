@@ -1,4 +1,5 @@
 import * as listeners from "./listeners.js";
+import * as sideBetObjsModule from "./side-bet-objs.js";
 
 /////////Game Field Objs/////////
 
@@ -597,6 +598,7 @@ export let sideBetModal = {
   activateSideBetBtn: document.querySelector(
     `.btn-side-bet-modal__activate-bet`
   ),
+  rulesBtn: document.querySelector(`.btn-side-bet-modal__rules`),
   exitBtn: document.querySelector(`.btn-side-bet-modal__exit`),
   enableChipBtn: enableChipBtn,
   disableChipBtn: disableChipBtn,
@@ -705,6 +707,16 @@ export let sideBetModal = {
         modalObj.toggleDisplayElementOn(modalObj.activateBetBtn, false);
       }
     }
+  },
+
+  updateRulesBtnLink(gameState) {
+    let sideBetKey = this.collectSideBet();
+
+    if (sideBetKey == `21Plus3`) sideBetKey = `twentyOnePlusThree`;
+
+    let link = sideBetObjsModule[sideBetKey].docLink;
+
+    window.open(link, `_blank`);
   },
 
   checkChipBtnsValid(value) {

@@ -7,6 +7,7 @@ export const evenMoney = {
   beginningSideBetCheck: false,
   sequencePlacement: `ending`,
   naturalEnd: true,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/basic-rules?id=even-money`,
   outcomeTable: {
     win: { payout: `2:1`, text: `Dealer has Blackjack` },
     lose: { payout: `0`, text: `No Dealer Blackjack` },
@@ -22,6 +23,7 @@ export const insurance = {
   beginningSideBetCheck: false,
   sequencePlacement: `ending`,
   naturalEnd: true,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/basic-rules?id=insurance`,
   outcomeTable: {
     win: { payout: `2:1`, text: `Dealer has Blackjack` },
     lose: { payout: `0`, text: `No Dealer Blackjack` },
@@ -37,6 +39,7 @@ export const perfectPair = {
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   naturalEnd: false,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/side-bet-rules?id=perfect-pair`,
   outcomeTable: {
     perfect_pair_2: { payout: `200:1`, text: `2 Perfect Pairs` },
     perfect_pair_1: { payout: `25:1`, text: `1 Perfect Pair` },
@@ -55,6 +58,7 @@ export const twentyOnePlusThree = {
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   naturalEnd: false,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/side-bet-rules?id=_21-3`,
   outcomeTable: {
     jackpot_3_kind: { payout: `jackpot`, text: `Suited 3 of a Kind (Q - A)` },
     suited_3_kind: { payout: `100:1`, text: `Suited 3 of a Kind (2 - Jack)` },
@@ -75,6 +79,7 @@ export const perfect11s = {
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   naturalEnd: true,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/side-bet-rules?id=perfect-11s`,
   outcomeTable: {
     jackpot_ace_king_spade: {
       payout: `720:10`,
@@ -105,6 +110,7 @@ export const extraBetBlackjack = {
   beginningSideBetCheck: true,
   sequencePlacement: `ending`,
   naturalEnd: false,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/side-bet-rules?id=extra-bet-blackjack`,
   outcomeTable: {
     win: { payout: `2:1`, text: `Player wins hand` },
     push: { payout: `1:1`, text: `Player pushes hand` },
@@ -121,6 +127,7 @@ export const houseMoney = {
   beginningSideBetCheck: true,
   sequencePlacement: `initial`,
   naturalEnd: false,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/side-bet-rules?id=house-money`,
   outcomeTable: {
     suited_ace_king: { payout: `9:1`, text: `Suited Ace and King` },
     straight_flush: { payout: `4:1`, text: `Straight Flush` },
@@ -139,6 +146,7 @@ export const luckyLadies = {
   beginningSideBetCheck: false,
   sequencePlacement: `ending`,
   naturalEnd: false,
+  docLink: `https://blackjack-trivia.netlify.app/docs/#/side-bet-rules?id=lucky-ladies`,
   outcomeTable: {
     jackpot_100: {
       payout: `jackpot100`,
