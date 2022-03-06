@@ -1,6 +1,9 @@
+["Documentation Home"](README.md) | ["Instruction Manual"](instruct-manual.md) | ["Side Bets"](side-bet-rules.md) | ["Options Menu"](options-menu.md) | ["Terms"](terms.md)
+
 # Game Instruction Manual
 
 ## Starting The Game
+***
 
 <pic of beginning screen>
 
@@ -9,6 +12,7 @@ When you first open the app, press the `[Start New Game]` button in the “GAME 
 Before you start the game, you can change the game settings in the “OPTIONS MENU” via the `[Options]` button at the top of the screen.
 
 ## Placing your bets
+***
 
 ### Base Bet Menu
 
@@ -90,6 +94,7 @@ When you are done selecting Side Bets, press the `[Place Bets]` button to place 
 You can also return to the “BASE BET MENU” without placing Side Bets by pressing the `[Back]` button.
 
 ## The Game Field
+***
 
 <pic of the desktop version of the Game Field>
 
@@ -245,6 +250,7 @@ Here are some examples of card codes:
 
 
 ## Starting the Round
+***
 
 After PLAYER bets, the round will begin.  A variety of different processes may occur before the action begins, with the main process being DEALER dealing the cards.
 
@@ -306,6 +312,7 @@ See ["Natural"](basic-rules.md#natural) in the Basic Rules page for more info ab
 
 
 ## Player’s Turn
+***
 
 After DEALER's deals the cards and all other processes have been handled, it'll be PLAYER's Turn.
 
@@ -414,7 +421,8 @@ If you SURRENDER a split hand, then the round will continue as normal.  When the
 >
 >See the ["Late Surrender"](options-menu.md) section in the Options Menu documention for more info about this setting.  
 
-## TRIVIA SECTION
+## Trivia Section
+***
 
 ### Overview
 
@@ -477,6 +485,7 @@ Regardless of what answer you selected, the “CORRECT ANSWER FIELD" will be rev
 After 5 seconds, the "TRIVIA QUESTION SCREEN" will close by itself and the round will continue.  If you answered the question correctly, DEALER will add a card to your HAND.  If you answered incorrectly,  your [HAND] will automatically `Stand`.
 
 ## Dealer’s Turn
+***
 
 <pic of the Dealer’s Turn>
 
@@ -493,6 +502,7 @@ When DEALER `Stands`, *“Stand”* will be displayed in the “DEALER MESSAGE F
 DEALER's Hand can [BUST] or have a `[CHARLIE]`.  When that happens, the condition will be displayed in the “DEALER MESSAGE FIELD” and the round ends.  See ["Bust"](basic-rules.md#bust) and ["Charlie"](basic-rules.md#charlie) in the Basic Rules section for more info.
 
 ## End of the Round
+***
 
 When PLAYER and DEALER's turns have ended, the round is over.  Then a series of processes occurs, to display the various outcomes of the round.
 
@@ -519,6 +529,7 @@ Also at the bottom of this screen is the `[Win Summary]` button, which will disp
 See the ["Win Summary Screen"](#win-summary-screen) section of this page for a more in-depth look at this screen.
 
 ## Starting the Next Round
+***
 
 After pressing the `[Close]` button on the “TOTAL WINNINGS SCREEN", you’ll be brought back to the “GAME FIELD".  
 
@@ -527,6 +538,7 @@ The `[Start New Round]` button will be displayed in the “GAME MESSAGE FIELD". 
 The `[Options]` button will also be displayed near the top of the screen, where you can change any game settings before starting the new round.
 
 ## Game Screens In-Depth
+***
 
 This section features a more in-depth look at the various screens displayed during the round.
 

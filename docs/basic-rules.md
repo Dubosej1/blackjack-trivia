@@ -1,11 +1,16 @@
+["Documentation Home"](README.md) | ["Instruction Manual"](instruct-manual.md) | ["Side Bets"](side-bet-rules.md) | ["Options Menu"](options-menu.md) | ["Terms"](terms.md)
+
 # Basic Blackjack Trivia Rules
 
 ## Legend
+***
+
 - Words that look like [THIS] are keywords important to the game and documentation.  At any time, you can go to the ["Terminology"](terms.md) page to see their definitions.  They only appear in [ ] in their first appearance in a subsection.
 
 - Words that look like `this` can be a variety of things.  They can be player actions, cards or player outcomes, depending on context.
 
 ## General Overview
+***
 
 Blackjack Trivia is a game app that combines the classic card game Blackjack with answering trivia questions.
 
@@ -20,10 +25,12 @@ The Player is able to place a bet on whether they can beat the Dealer’s hand t
 Throughout a round of Blackjack, the Player and the Dealer can be dealt additional cards.  In this game app, when the Player wants an additional card, they’ll have to successfully answer a trivia question.  The Player has a separate bank of Trivia Credits that they can win or lose, by correctly and incorrectly answering trivia credits respectively.  If the Player runs out of Trivia Credits, it’s also GAME OVER.
 
 ## The Player and The Dealer
+***
 
 Blackjack Trivia is a 1 player game.  You will be playing as the sole PLAYER in the game.  PLAYER will be playing against the DEALER, who is CPU controlled.  DEALER's job is to deal cards to itself and PLAYER throughout the course of the game.
 
 ## Betting
+***
 
 ### Base Bet
 
@@ -40,6 +47,7 @@ PLAYER has a [BANK] of money, that they can use to bet with.  PLAYER is free to 
 PLAYER is also able to place [SIDE BETS], bets that they can place in addition to the Base Bet.  Side Bets usually have their own sets of rules and conditions of winning, based on what happens during the round.  This topic is covered more in-depth in the [SIDE BETS](side-bet-rules.md) section of the documenation.
 
 ## Dealing the Cards
+***
 
 At the start of the game, DEALER will deal 2 cards to itself and PLAYER.  These cards are the [INITIAL HAND] for each cardplayer.
 
@@ -50,6 +58,7 @@ DEALER's face up card is known as their [UPCARD] and DEALER's face down card is 
 PLAYER and DEALER's cards, in general, are referred to as their [HAND].
 
 ## Card Point Values
+***
 
 Each card is assigned a point value, based on the [RANK] of the card.  The [SUITS] don't matter.
 
@@ -64,10 +73,12 @@ The point values are:
 10 pt value cards (10, JACK, QUEEN, KING) are referred to as [TEN-CARDS] collectively.
 
 ## Objective of the Game
+***
 
 The objective of the game is to have 21 total points in a [HAND], or as close to 21 pts as possible, while beating DEALER's Hand total.  You can't go over 21 pts.
 
 ## Flow of the Game
+***
 
 After all betting and card dealing are over, it'll be PLAYER's turn.  PLAYER has a variety of actions that they can take, in order to help their odds of winning the round and more money, or minimize their risk of losing money. 
 
@@ -80,6 +91,7 @@ If PLAYER has any [SIDE BETS], they are resolved at first opportunity.  See [SID
 Then the next round will begin, rinse and repeat.
 
 ## Hit
+***
 
 This is an action that is available to PLAYER throughout their turn.
 
@@ -92,6 +104,7 @@ In this game app, if PLAYER wants to `Hit`, then they'll have to successfully an
 DEALER is also able to `Hit` and that's covered in the [DEALER'S TURN](#dealer39s-turn) section of this page.
 
 ## Stand
+***
 
 This is an action that is available to PLAYER throughout their turn.
 
@@ -104,6 +117,7 @@ If PLAYER is playing a single hand and they `Stand`, then their turn ends and it
 DEALER is also able to `Stand` and that's covered in the [DEALER'S TURN](#dealer39s-turn) section of this page.
 
 ## Double Down
+***
 
 This is an action that is available to PLAYER **only** as the first action of playing a hand.
 
@@ -112,6 +126,7 @@ This is an action that is available to PLAYER **only** as the first action of pl
 **NOTE**: DEALER is unable to `Double Down`.
 
 ## Split
+***
 
 This is an action that is available to PLAYER **only** as the first action of playing a hand.
 
@@ -190,6 +205,7 @@ If Resplitting is allowed, PLAYER is allowed to `Resplit` up to a maximum total 
 
 
 ## Bust
+***
 
 Whenever a hand goes over 21 total pts, then that hand is a [BUST].
 
@@ -203,6 +219,7 @@ If a PLAYER's Split Hand `BUSTS`, it's an automatic LOSS for that hand.  However
 >When a Split Hand and DEALER's hand both `BUST`, then that Split Hand will still LOSE.
 
 ## Trivia Mode
+***
 
 In this game app, whenever PLAYER `Hits` or `Doubles Down`, they will be asked a Trivia Question.  
 
@@ -238,6 +255,7 @@ By default, Trivia Mode is active.  But this can be changed with the ["Trivia Mo
 If Trivia Mode is inactive, when PLAYER `Hits` or `Doubles Down`, they'll receive their card from DEALER like a regular game of Blackjack.
 
 ## Soft Hands and Hard Hands
+***
 
 If you recall, an ACE can either be worth 1 pt or 11 pts, depending on PLAYER's choice.
 
@@ -259,7 +277,7 @@ When referring to a Soft Hand, the term [SOFT ##] is used, where ## is the highe
 
 If a Hand doesn't have an ACE in it, it's considered to be a [HARD HAND], because there's only 1 possible total value.  Hard Hands have the same terminology as Soft Hands.  Example: HARD 7, HARD 20, etc.
 
-####Changing from Soft to Hard
+### Changing from Soft to Hard
 
 Let's say PLAYER or DEALER `Hits` and their Soft Hand goes over 21 pts only when ACE = 11 pts.  Then their Soft Hand changes into a Hard Hand.  This is because now there's only 1 possible total value, instead of 2.
 
@@ -274,6 +292,7 @@ If a hand includes multiple ACES, the hand will remain a Soft Hand as long as 1 
 | `ACE-CLUBS`, `10-DIAMONDS`            | **(SOFT 21)** | + `KING-CLUBS`   | **(HARD 21)**     |
 
 ## Dealer's Turn
+***
 
 After PLAYER's turn is over, it'll be DEALER's turn to try and reach a 21 pt Hand.
 
@@ -314,6 +333,7 @@ If DEALER `Stands on a Hard Hand`, that means that if DEALER reaches that exact 
 >>**DEALER `STANDS`**
 
 ## Payouts and Winnings
+***
 
 ### Winnings
 
@@ -372,6 +392,7 @@ Most of the time, the bet is also returned to PLAYER, in addition to the Winning
 >>````  
 
 ## Determining Bet Outcomes
+***
 
 ### Ending the Round
 
@@ -412,6 +433,7 @@ If PLAYER has [SPLIT HANDS], then each Split Hand receives separate Winnings bas
 | PLAYER Total Winnings: $200 |                  |              |            |
 
 ## Natural
+***
 
 ### Player Natural
 
@@ -437,6 +459,7 @@ The [PAYOUT] for a Player `NATURAL` is greater than a normal win.  By default, t
 The `NATURAL` Payout amount can be changed with the [“Blackjack Payout”](options-menu.md#blackjack-payout) setting via the Options Menu.  Click the link for more info.
 
 ## Surrender
+***
 
 This is an action that is available to PLAYER **only** as the first action of playing a hand.
 
@@ -458,6 +481,7 @@ By default, if DEALER's Upcard is either an ACE or TEN-CARD, then DEALER will fi
 An [EARLY SURRENDER] is when PLAYER can `Surrender` regardless if DEALER has a `NATURAL` or not.  If you want this option, you can choose the [“Early Surrender”](options-menu.md#early-and-late-surrender) setting in the Options Menu.  Click the link for more info.
 
 ## Charlie
+***
 
 If any Hand reaches a total of 5 or more cards without `BUSTING`, then that Hand is a `[CHARLIE]` and the round usually ends immediately.
 
@@ -473,6 +497,7 @@ By default, a `CHARLIE` is determined at 5 total cards in a Hand.  If [“Disabl
 
 
 ## Insurance
+***
 
 [INSURANCE] is a [SIDE BET] that PLAYER can make at the beginning of a round.  It's a [CORE SIDE BET] that is a part of the base Blackjack game.
 
@@ -497,6 +522,7 @@ If DEALER does NOT have a `NATURAL`, then PLAYER LOSES the Insurance Bet and the
 By default, the Insurance Side Bet is offered.  You can select [“Disable Insurance Bet”](options-menu.md#disable-insurance-side-bet) in the Options Menu to not have this bet offered.  Click the link for more info.
 
 ## Even Money
+***
 
 [EVEN MONEY] is a [SIDE BET] that PLAYER can make at the beginning of a round.  It's a [CORE SIDE BET] that is a part of the base Blackjack game.
 
@@ -521,6 +547,7 @@ If DEALER doesn’t have a `NATURAL`, then PLAYER LOSES the Even Money Bet.  How
 By default, the Even Money Side Bet is offered.  You can select [“Disable Even Money Side Bet”](options-menu.md#disable-even-money-side-bet) in the Options Menu to not have this bet offered.  Click the link for more info.
 
 ## Payouts at a glance
+***
 
 This is a quick look at all the various Payouts in the round:
 

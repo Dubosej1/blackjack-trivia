@@ -1,6 +1,9 @@
-# OPTIONS MENU SECTION
+["Documentation Home"](README.md) | ["Instruction Manual"](instruct-manual.md) | ["Side Bets"](side-bet-rules.md) | ["Options Menu"](options-menu.md) | ["Terms"](terms.md)
+
+# Options Menu Section
 
 ## Options Menu Actions
+***
 
 Pressing the `[Options]` button on the "GAME FIELD SCREEN", will bring you to the "OPTIONS MENU".  Here you can change a variety of settings for the game.  
 
@@ -11,6 +14,7 @@ If you want to `RESET` the settings back to their default values, press the `[Re
 If you want to exit the "OPTIONS MENU" without making any changes, press the `[Close]` button.
 
 ## Options Menu Settings
+***
 
 This section will cover all of the various settings in the "OPTIONS MENU".
 

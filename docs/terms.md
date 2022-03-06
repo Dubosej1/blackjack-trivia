@@ -1,3 +1,5 @@
+["Documentation Home"](README.md) | ["Instruction Manual"](instruct-manual.md) | ["Side Bets"](side-bet-rules.md) | ["Options Menu"](options-menu.md) | ["Terms"](terms.md)
+
 # Terminology
 
 ## Overview

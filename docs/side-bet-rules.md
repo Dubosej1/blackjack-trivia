@@ -1,6 +1,9 @@
+["Documentation Home"](README.md) | ["Instruction Manual"](instruct-manual.md) | ["Side Bets"](side-bet-rules.md) | ["Options Menu"](options-menu.md) | ["Terms"](terms.md)
+
 # SIDE BETS
 
 ## Overview
+***
 
 In this game app, you can place a number of [SIDE BETS] for each round, in addition to the [BASE BET].  These Side Bets have their own individual rules, conditions and win payouts.  They offer extra excitement to the game, so take advantage of them when possible.
 
@@ -17,6 +20,7 @@ Some Side Bets will have special functionality that will be displayed in their o
 >Side Bet rules have terms that are separate from the base game.  Words in [ ] are keywords and their definitions can be found in the ["Terms"](terms.md) section of the documentation.  
 
 ## Perfect Pair
+***
 
 This Side Bet is played with PLAYER and DEALER’s [INITIAL HAND].
 
@@ -47,6 +51,7 @@ PLAYER’s Initial Hand are a [RED/BLACK] PAIR.
 
 
 ## 21 + 3
+***
 
 This Side Bet is played with PLAYER’s [INITIAL HAND] and DEALER’s [UPCARD].  These 3 cards together will be referred to as the "TARGET HAND".
 
@@ -87,6 +92,7 @@ The TARGET HAND is a [STRAIGHT]
 The TARGET HAND is a [FLUSH]
 
 ## Perfect 11s
+***
 
 This Side Bet is played with the PLAYER’s [INITIAL HAND]
 
@@ -157,6 +163,7 @@ The 3 `Infinity Dice` will be displayed in the center of the screen and they wil
 After all of the dice have been stopped, the `[Next]` button will be displayed at the bottom of the screen.  Press the button to exit the screen.
 
 ## Extra Bet Blackjack
+***
 
 This Side Bet is an [EXTRA BET] that is placed when PLAYER’s first card is a [TEN-CARD].  
 
@@ -179,6 +186,7 @@ If PLAYER WINS the round, then you'll receive a 2:1 [PAYOUT] on the Extra Bet, a
 If PLAYER LOSES the round, then you'll receive no Winnings.
 
 ## House Money
+***
 
 This Side Bet is played with PLAYER's [INITIAL HAND], and also factors in whether DEALER has a `NATURAL` or not.
 
@@ -265,6 +273,7 @@ Pressing any `[Action]` button will exit the screen and resume the game.
 In the resulting “SIDE BET OUTCOME SCREEN", the House Money Winnings displayed will be the amount of money that you didn’t `Parlay` into the Base Bet.
 
 ## Lucky Ladies
+***
 
 This Side Bet is played with PLAYER’s hand, and also factors in whether DEALER has a `NATURAL` or not.
 
@@ -329,6 +338,7 @@ PLAYER's Hand includes a `QUEEN-HEART` (hand doesn't have to equal 20 pts)
 PLAYER's Hand includes a QUEEN (hand doesn't have to equal 20 pts)
 
 ## Extra Bet Menu
+***
 
 <pic of screen>
 
