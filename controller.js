@@ -815,17 +815,25 @@ export function nextPlayerAction(nextAction, gameState) {
     case `endRound`:
       gameState.updateNoticeText = `Round Ends...`;
       determineEndGameRoutineOrder(gameState);
-      break;
-    default:
-      let btnObj = {
+      gameState.toggleEnableActionBtns = {
         hit: false,
         stand: false,
         doubleDown: false,
         split: false,
         surrender: false,
       };
+      break;
+    default:
+      let btnObj = {
+        hit: true,
+        stand: true,
+        doubleDown: false,
+        split: false,
+        surrender: false,
+      };
 
       gameState.toggleEnableActionBtns = btnObj;
+
   }
 }
 
