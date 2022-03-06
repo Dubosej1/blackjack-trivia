@@ -159,7 +159,7 @@ class Hand {
 
     switch (this.roundOutcome) {
       case `win`:
-        winnings = bet * 2 + bet;
+        winnings = bet + bet;
         break;
       case `push`:
         winnings = bet;
